@@ -45,15 +45,25 @@ import {
 } from 'reducers/request/id-manager';
 import { chooseViewAction, closeViewAction } from 'actions/view-manager';
 
+type PostMessage = (msg: any) => void;
+type HandleMessage = (ev: MessageEvent) => void;
+
 export default class VsCodeProtocolHost implements INetConsoleHost {
     private currentMessageId = 0;
     private pending = new Map<number, { resolve: (v: any) => void, reject: (e: Error) => void }>();
     private pendingResolves = new Map<number, (response: INetConsoleResponse) => void>();
+    private postMessage: PostMessage;
+    private handleMessage: HandleMessage;
 
     constructor() {
-        window.addEventListener('message', ev => {
+        this.postMessage = msg => {
+            window.parent.postMessage(msg, '*');
+        };
+
+        this.handleMessage = ev => {
             this.onMessage(ev.data);
-        });
+        };
+        window.addEventListener('message', this.handleMessage);
 
         this.sendMessage({ type: 'CONSOLE_READY' });
     }
@@ -148,7 +158,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
      * @param message The message to send
      */
     protected sendMessage(message: FrontendMessage) {
-        window.parent.postMessage(message, '*');
+        this.postMessage(message);
     }
 
     private async onMessage(message: HostMessage) {
@@ -215,6 +225,17 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
     }
 
     protected onInitHost(message: IInitHostMessage) {
+        if (message.messagePort) {
+            window.removeEventListener('message', this.handleMessage);
+            message.messagePort.addEventListener('message', this.handleMessage);
+
+            const port = message.messagePort;
+            this.postMessage = msg => {
+                port.postMessage(msg);
+            };
+            port.start();
+        }
+
         let theme: THEME_TYPE = 'light';
         if (message.isHighContrast) {
             theme = 'high-contrast';
@@ -227,7 +248,6 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
     }
 
     protected onCssStyleUpdated(message: ICssStylesUpdatedMessage) {
-        // TODO: Need to make this NOT be VSCode
         let theme: THEME_TYPE = 'light';
         if (message.isHighContrast) {
             theme = 'high-contrast';

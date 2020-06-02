@@ -24,6 +24,7 @@ export interface IInitHostMessage extends IMessage<'INIT_HOST'> {
     isDark: boolean;
     isHighContrast: boolean;
     persistedState?: string;
+    messagePort?: MessagePort;
 }
 
 export interface ICssStylesUpdatedMessage extends IMessage<'CSS_STYLE_UPDATED'> {

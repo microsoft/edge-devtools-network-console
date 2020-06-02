@@ -135,6 +135,7 @@ Initializes the application according to the host settings.
     isDark: boolean; // Whether the host theme is a dark theme
     isHighContrast: boolean; // Whether the host theme is a high-contrast theme
     persistedState?: string;
+    messagePort?: MessagePort; // Allows the host to provide an alternative message port
 }
 ```
 
