@@ -9,7 +9,15 @@ import { Provider } from 'react-redux';
 import ModalManager from './ui/ModalManager';
 import ErrorBoundary from 'ui/ErrorBoundary';
 
+import { monaco } from '@monaco-editor/react';
+
 initializeIcons();
+monaco
+    .config({
+        paths: {
+            vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.19.3/min/vs',
+        },
+    });
 
 const App: React.FC = () => {
     return (

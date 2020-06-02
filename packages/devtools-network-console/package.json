@@ -12,7 +12,6 @@
     "glamor": "^2.20.40",
     "immutable": "^4.0.0-rc.12",
     "lodash-es": "^4.17.15",
-    "monaco-editor": "^0.19.3",
     "network-console-shared": "../network-console-shared",
     "office-ui-fabric-react": "^7.40.0",
     "react": "^16.9.0",
@@ -29,8 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build-for-edge": "npm run build && node ./scripts/rename-for-edge"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
