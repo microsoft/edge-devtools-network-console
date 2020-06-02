@@ -5,9 +5,6 @@
 
 trigger:
 - master
-  paths:
-    include: # Include!
-      - 'service-a/*' # or 'service-b/*'
 
 pool:
   vmImage: 'ubuntu-latest'
