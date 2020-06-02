@@ -1,0 +1,164 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { createTheme, loadTheme, IStyle } from 'office-ui-fabric-react';
+import { globalDispatch } from 'store';
+import { createFontStyle, REDUCED_FONT_SIZES } from './fonts';
+import { NarrowSpacing } from './spacing';
+
+/**
+ * Contains custom styles that should be applied to particular controls in certain environments.
+ */
+export interface IThemeOverride {
+    mainPivotButtons?: IStyle;
+    smallPivotButtons?: IStyle;
+    mainPivotRoot?: IStyle;
+    smallPivotRoot?: IStyle;
+}
+
+export let THEME_OVERRIDE: IThemeOverride = { };
+
+const DEVTOOLS_THEME_OVERRIDES: IThemeOverride = {
+    mainPivotButtons: {
+        height: '32px',
+        paddingLeft: '4px',
+        paddingRight: '4px',
+    },
+    smallPivotButtons: {
+        height: '24px',
+        paddingLeft: '2px',
+        paddingRight: '2px',
+    },
+    mainPivotRoot: {
+        paddingBottom: '5px',
+        paddingLeft: '8px',
+    },
+    smallPivotRoot: {
+        paddingBottom: '2px',
+        paddingLeft: '8px',
+    },
+};
+
+const DARK_THEME_PALETTE = {
+    black: "#ffffff",
+    neutralDark: "#ffffff",
+    neutralLight: "rgba(58, 131, 208, 0.7)",
+    neutralLighter: "#333333",
+    neutralPrimary: "#d4d4d4",
+    neutralSecondary: "rgba(204, 204, 204, 0.7)",
+    themeDark: "#ffffff",
+    themeDarkAlt: "#1177bb",
+    themeDarker: "#8db9e2",
+    themeLight: "#75beff",
+    themeLighter: "#1e1e1e",
+    themeLighterAlt: "#e1e4e8",
+    themePrimary: "rgb(80, 173, 235)",
+    themeSecondary: "#094771",
+    themeTertiary: "#75beff",
+    white: "#1e1e1e",
+};
+
+const LIGHT_THEME_PALETTE = {
+    black: "#000000",
+    neutralDark: "#8e979c",
+    neutralLight: "#e3e4e4",
+    neutralLighter: "#f2f4f5",
+    neutralPrimary: "#24292e",
+    neutralSecondary: "#717171",
+    themeDark: "#8e979c",
+    themeDarkAlt: "#0062a3",
+    themeDarker: "#1258a7",
+    themeLight: "#75beff",
+    themeLighter: "#e1e4e8",
+    themeLighterAlt: "#e1e4e8",
+    themePrimary: "#007acc",
+    themeSecondary: "#0074e8",
+    themeTertiary: "#75beff",
+    white: "#ffffff",
+};
+
+const HIGH_CONTRAST_THEME_PALETTE = {
+    themePrimary: '#6bbfff',
+    themeLighterAlt: '#04080a',
+    themeLighter: '#111f29',
+    themeLight: '#20394d',
+    themeTertiary: '#407399',
+    themeSecondary: '#5ea8e0',
+    themeDarkAlt: '#7ac5ff',
+    themeDark: '#8fceff',
+    themeDarker: '#acdbff',
+    neutralLighterAlt: '#0b0b0b',
+    neutralLighter: '#151515',
+    neutralLight: '#252525',
+    neutralQuaternaryAlt: '#2f2f2f',
+    neutralQuaternary: '#373737',
+    neutralTertiaryAlt: '#595959',
+    neutralTertiary: '#c8c8c8',
+    neutralSecondary: '#d0d0d0',
+    neutralPrimaryAlt: '#dadada',
+    neutralPrimary: '#ffffff',
+    neutralDark: '#f4f4f4',
+    black: '#f8f8f8',
+    white: '#000000',
+};
+
+const VSCODE_VARIABLES_PALETTE = {
+    themePrimary: 'var(--vscode-button-background)',
+    themeLighterAlt: 'var(--vscode-editorGroupHeader-tabsBorder)',
+    themeLighter: 'var(--vscode-breadcrumb-background)',
+    themeLight: 'var(--vscode-problemsInfoIcon-foreground)',
+    themeTertiary: 'var(--vscode-editorInfo-foreground)',
+    themeSecondary: 'var(--vscode-list-activeSelectionBackground)',
+    themeDarkAlt: 'var(--vscode-button-hoverBackground)',
+    themeDark: 'var(--vscode-activityBar-activeBorder)',
+    themeDarker: 'var(--vscode-gitDecoration-submoduleResourceForeground)',
+    neutralLighter: 'var(--vscode-activityBar-background)',
+    neutralLight: 'var(--vscode-activityBar-activeBackground)',
+    neutralSecondary: 'var(--vscode-descriptionForeground)',
+    neutralPrimary: 'var(--vscode-editor-foreground)',
+    neutralDark: 'var(--vscode-activityBar-foreground)',
+    black: 'var(--vscode-tab-activeForeground)',
+    white: 'var(--vscode-tab-activeBackground)',
+};
+
+export type THEME_TYPE = 'dark' | 'light' | 'high-contrast';
+
+export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYPE) {
+    document.documentElement.setAttribute('style', sourceCss);
+
+    let palette: any = VSCODE_VARIABLES_PALETTE;
+    if (!sourceCss) {
+        if (themeType === 'high-contrast') {
+            palette = HIGH_CONTRAST_THEME_PALETTE;
+        }
+        else if (themeType === 'dark') {
+            palette = DARK_THEME_PALETTE;
+        }
+        else {
+            palette = LIGHT_THEME_PALETTE;
+        }
+    }
+
+    const theme = createTheme({
+        palette,
+        fonts: createFontStyle(REDUCED_FONT_SIZES),
+        isInverted: themeType !== 'light',
+        spacing: NarrowSpacing,
+    });
+
+    loadTheme(theme);
+
+    document.body.setAttribute('style',`
+        --nc-theme-fore: ${palette.black};
+        --nc-theme-back: ${palette.white};
+        --nc-theme-disabled-text: ${palette.themeDarker};
+        --nc-theme-dividers: ${palette.themeTertiary};
+        background-color: ${themeType === 'light' ? 'white' : 'rgb(30,30,30)'};`
+    );
+    // TODO: Make this into an action.
+    globalDispatch({ type: 'SET_THEME_TYPE', themeType, });
+}
+
+export function enableDevtoolsThemeOverrides() {
+    THEME_OVERRIDE = DEVTOOLS_THEME_OVERRIDES;
+}

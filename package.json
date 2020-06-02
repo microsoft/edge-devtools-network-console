@@ -1,0 +1,24 @@
+{
+  "name": "edge-devtools-network-console",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/edge-devtools-network-console.git"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "version": "0.9.0",
+  "private": true,
+  "devDependencies": {
+    "recursive-copy": "^2.0.10",
+    "rimraf": "^3.0.2",
+    "simple-git": "^2.5.0"
+  },
+  "scripts": {
+    "clean": "node ./scripts/clean",
+    "install-children": "node ./scripts/npm-install-all-projects",
+    "build-locally": "node ./scripts/build-all",
+    "install-and-build": "node ./scripts/install-and-build",
+    "deploy": "node ./scripts/deploy",
+    "start": "node ./scripts/run-frontend"
+  }
+}

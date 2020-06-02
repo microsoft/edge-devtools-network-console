@@ -1,0 +1,4 @@
+dist/
+
+# The .cache folder is also very busy; ignore it
+node_modules/.cache/

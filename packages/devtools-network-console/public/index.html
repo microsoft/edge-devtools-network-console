@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Microsoft Edge DevTools Network Console</title>
+    <style type="text/css">
+html, body, #root, .App, .App > div {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  --nc-theme-fore: #000;
+  --nc-theme-back: #fff;
+  --nc-theme-disabled-text: #555;
+  --nc-theme-dividers: #ccc;
+
+  color: var(--nc-theme-fore);
+}
+
+.response-tabs div[role="tabpanel"],
+.full-height-pivot div[role="tabpanel"] {
+  flex-grow: 1;
+}
+
+.editor-container {
+  /* If too near 100%, scrollbars appear */
+  height: calc(100% - 5px);
+  overflow-y: hidden;
+}
+
+.json-preview > div[role="tabpanel"] {
+  flex-grow: unset !important;
+  height: calc(100% - 65px) !important;
+}
+
+.json-preview > div[role="tabpanel"] > .json-preview-container {
+  overflow-y: auto;
+  word-break: break-all;
+}
+
+div.react-json-view {
+  font-family: Consolas, 'Open Sans', 'Courier New', monospace !important;
+  font-size: 12px !important;
+}
+
+.ht100 {
+  height: 100%;
+}
+
+.flxcol {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.centered-pivot-headers > div > .ms-Pivot[role="tablist"] {
+  display: flex;
+  justify-content: center;
+}
+
+dl.response-stats {
+  display: flex;
+  font-size: 14px;
+  margin-block-start: 4px;
+  margin-block-end: 0;
+  margin-left: 7px;
+}
+
+dl.response-stats dt {
+  color: #555;
+}
+
+dl.response-stats dd {
+  margin-inline-start: 4px;
+  margin-inline-end: 2em;
+  color: green;
+}
+
+div.described-choices label {
+  font-size: 14px !important;
+}
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
