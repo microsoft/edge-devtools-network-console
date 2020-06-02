@@ -9,7 +9,7 @@ const stageFrontend = require('./tasks/stage-frontend-output');
 
 async function main() {
     await buildShared(/* devmode: */ false, /* runNpmInstall: */ true);
-    await buildFrontend(/* devmode: */ false, /* runNpmInstall: */ true);
+    await buildFrontend(/* runNpmInstall: */ true);
     await scaffoldDistPath();
     await stageShared();
     await stageFrontend();
