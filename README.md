@@ -34,7 +34,7 @@ include the tab frame and the tree lists presenting the API collections view.
 
 Host communication occurs over a `postMessage` message channel. For details about what a host needs
 to implement, please see the
-[Host protocol documentation](./packages/devtools-network-console/src/host/vscode-host-protocol.md).
+[Host protocol documentation](./packages/devtools-network-console/src/host/host-protocol.md).
 
 ## Developing
 
