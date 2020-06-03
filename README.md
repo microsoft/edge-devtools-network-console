@@ -6,6 +6,11 @@ As part of this effort, we want to meet our customers where they are. We know th
 going to be feature-complete with our initial pass; we want to have the flexibility to iterate rapidly,
 experiment in the open, and get great ideas for what will be going into Network Console in the future.
 
+This project is new, and while the first iteration is going to be rolling into Edge DevTools behind an experiment
+flag, we're not sure what the right long-term vision for it is; for example, will it be better to package
+it into a browser extension rather than a built-in tool? We're not sure yet; this is a relatively fresh canvas
+for us to start from. Please keep that in mind if you consider contributing.
+
 ## Structure of Network Console
 
 Network Console is constructed in a monorepo style. It presently has two packages:
