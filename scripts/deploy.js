@@ -3,6 +3,10 @@
 
 const deployToChromium = require('./tasks/deploy-to-chromium');
 
+/**
+ * This script scaffolds the dist/ output into a Chromium devtools-frontend repo. It is
+ * primarily a CLI frontend; for more information, see the deployToChromium task.
+ */
 async function main() {
     const indexOfDevtoolsSrcPathArg = process.argv.indexOf('--devtools_src_path');
     let devtoolsSrcPath = process.env['NETCONSOLE_DEVTOOLS_SRC_PATH'];

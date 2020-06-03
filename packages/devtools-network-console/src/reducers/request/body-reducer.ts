@@ -136,9 +136,9 @@ export default function reduceBody(action: BodyAction, collection: RequestsState
                     description,
                     isActive,
                     key: name,
-                    type: itemToModify!.type,
+                    type: itemToModify.type,
                     value,
-                    fileContents: itemToModify!.type,
+                    fileContents: itemToModify.type,
                 };
                 const result = {
                     ...state,
@@ -209,7 +209,7 @@ export default function reduceBody(action: BodyAction, collection: RequestsState
 
             const { fileName, inputType, fileContents } = action;
             const newItem: IFormDataParameter = {
-                ...itemToModify!,
+                ...itemToModify,
                 fileContents,
                 type: inputType,
                 value: fileName,

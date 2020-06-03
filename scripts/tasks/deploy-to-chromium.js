@@ -28,6 +28,8 @@ None.
 `;
 
 /**
+ * Deploys the updated Network Console binaries into a Chromium DevTools-Frontend repository
+ * under the src/front_end/third_party folder.
  *
  * @param {string} chromiumDevtoolsFrontendSrcPath The path to the devtools-frontend/src
  * path from your Chromium enlistment. Typically this is something like

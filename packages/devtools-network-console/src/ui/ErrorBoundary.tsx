@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { MessageBar, MessageBarType, Text } from 'office-ui-fabric-react';
+import { AppHost } from 'store/host';
 
 interface IProps {
     children: any;
@@ -36,11 +37,11 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
     }
 
     componentDidCatch(error: Error, errorInfo: any) {
-        window.parent.postMessage({
-            type: 'FRONTEND_ERROR',
+        AppHost.log({
+            kind: 'FRONTEND_ERROR',
             errorStack: error.stack,
             errorInfo,
-        }, '*');
+        });
     }
 
     render() {

@@ -26,25 +26,11 @@ export default class VsCodeApplicationHost extends VsCodeProtocolHost {
 
     private reloadGlobalState(_stateValue: string) {
         // TODO: Implement persistence / rehydrate
-
-        // const almostView = JSON.parse(stateValue);
-        // almostView.request = IMap(almostView.request);
-        // almostView.response = IMap(almostView.response);
-        // almostView.viewManager.openViews = ISet(almostView.viewManager.openViews);
-
-        // globalDispatch(globalInitializeAction(almostView));
+        // https://github.com/microsoft/edge-devtools-network-console/issues/4
     }
 
     private initializeStoreMonitoring() {
         const store = getStore();
-        // const onStoreChanged = debounce(() => {
-        //     const state = store.getState();
-        //     window.parent.postMessage({
-        //         type: 'VSCODE_HOST_SAVE_STATE',
-        //         state: JSON.stringify(state),
-        //     }, '*');
-        // }, 500);
-        // store.subscribe(onStoreChanged);
         let isDirty: boolean = false;
         store.subscribe(() => {
             const state = store.getState();

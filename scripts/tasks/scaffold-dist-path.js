@@ -16,6 +16,9 @@ async function makeManyDirs(dirs) {
     }
 }
 
+/**
+ * Ensures that the necessary output directories exist in /dist
+ */
 module.exports = async function scaffoldDistPath() {
     const networkConsoleRoot = path.join(__dirname, '..', '..');
     const targetOutputPath = path.join(networkConsoleRoot, 'dist');

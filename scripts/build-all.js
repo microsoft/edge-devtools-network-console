@@ -7,6 +7,9 @@ const scaffoldDistPath = require('./tasks/scaffold-dist-path');
 const stageShared = require('./tasks/stage-shared-component-to-dist');
 const stageFrontend = require('./tasks/stage-frontend-output');
 
+/**
+ * This script produces a full build, but does not do child-package `npm install`.
+ */
 async function main() {
     await buildShared();
     await buildFrontend();

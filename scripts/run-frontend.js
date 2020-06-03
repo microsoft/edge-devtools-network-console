@@ -4,6 +4,9 @@
 const path = require('path');
 const runProcess = require('./tasks/run-process');
 
+/**
+ * Runs the React dev environment for devtools-network-console.
+ */
 async function main() {
     const root = path.join(__dirname, '..');
     const frontendPath = path.join(root, 'packages', 'devtools-network-console');

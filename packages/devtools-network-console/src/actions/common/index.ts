@@ -4,6 +4,7 @@
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import { IView } from 'store';
 import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
+import { AppHost } from 'store/host';
 
 export interface IGlobalInitializeAction {
     type: 'GLOBAL_INITIALIZE_AND_RESET';
@@ -29,7 +30,7 @@ export function makeLoadDefaultRequestAction(): ILoadRequestAction {
 }
 
 export function loadRequestAction(requestId: string, request: INetConsoleRequestInternal): ILoadRequestAction {
-    window.parent.postMessage({ type: 'LOG', when: 'loadRequestAction', request }, '*');
+    AppHost.log({ when: 'loadRequestAction', request });
     return {
         type: 'LOAD_REQUEST',
         requestId: requestId,

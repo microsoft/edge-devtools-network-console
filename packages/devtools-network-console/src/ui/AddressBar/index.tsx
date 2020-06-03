@@ -77,7 +77,6 @@ export default function AddressBar(props: IAddressBarProps) {
                         e.stopPropagation();
                         e.preventDefault();
                     }}
-                    {...Styles.BUTTON_STYLE}
                     {...Styles.SAVE_BUTTON_STYLE}
                     />
                 {props.canSave && <Button
@@ -111,7 +110,6 @@ export default function AddressBar(props: IAddressBarProps) {
                             },
                         ],
                     }}
-                    {...Styles.BUTTON_STYLE}
                     {...Styles.SAVE_BUTTON_STYLE}
                     />}
             </div>

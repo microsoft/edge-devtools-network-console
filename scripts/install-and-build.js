@@ -7,6 +7,9 @@ const scaffoldDistPath = require('./tasks/scaffold-dist-path');
 const stageShared = require('./tasks/stage-shared-component-to-dist');
 const stageFrontend = require('./tasks/stage-frontend-output');
 
+/**
+ * This is a full build, including `npm install`, suitable for a CI environment.
+ */
 async function main() {
     await buildShared(/* devmode: */ false, /* runNpmInstall: */ true);
     await buildFrontend(/* runNpmInstall: */ true);

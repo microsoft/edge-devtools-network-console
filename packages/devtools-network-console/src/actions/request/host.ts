@@ -12,20 +12,13 @@ import { makeSelectCollectionForSaveAction } from 'actions/modal';
 export function saveRequestToHostAction(requestId: string, toCollectionId: string | null = null): ThunkAction<void, IView, void, AnyAction> {
     return async (dispatch, getState) => {
         const state = getState();
-        // TODO: get request by ID
         const request = state.request.get(requestId);
         if (!request) {
             throw new RangeError(`Invalid request ID "${requestId}".`);
         }
         if (request.isDirty || toCollectionId) {
             try {
-                let result;
-                if (toCollectionId) {
-                    result = await AppHost.saveRequest(request.current, requestId, toCollectionId);
-                }
-                else {
-                    result = await AppHost.saveRequest(request.current, requestId, '');
-                }
+                const result = await AppHost.saveRequest(request.current, requestId, toCollectionId || '');
                 dispatch(saveRequestAction(requestId, result.result, result.resultRequestId));
                 if (toCollectionId) {
                     dispatch(makeSelectCollectionForSaveAction(null, false));

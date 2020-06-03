@@ -16,6 +16,7 @@ import { strFromB64 } from 'utility/b64';
 import preview from './preview';
 import Stats from './Stats';
 import { THEME_TYPE, THEME_OVERRIDE } from 'themes/vscode-theme';
+import { AppHost } from 'store/host';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -187,14 +188,13 @@ function ErrorBelowApplication() {
 function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
     const response = state.response.get(ownProps.requestId);
     if (!response) {
-        window.parent.postMessage({
-            type: 'LOG',
+        AppHost.log({
             message: 'Invariant failure, no response for ID',
             where: 'ResponseViewer:mapStateToProps',
             state,
             ownProps,
             response,
-        }, '*');
+        });
         throw new Error('Invariant failed: Response not found for given request ID');
     }
 

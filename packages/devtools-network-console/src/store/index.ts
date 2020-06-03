@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Map as ImmMap } from 'immutable';
+import { Map as IMap } from 'immutable';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {
@@ -64,7 +64,7 @@ export interface IEnvironmentModalState {
     name: string;
     fileName: string;
     collectionName: string;
-    values: ImmMap<string, INetConsoleParameter>;
+    values: IMap<string, INetConsoleParameter>;
 }
 
 export interface IModalState {
@@ -90,7 +90,7 @@ export interface IActiveEnvironmentState {
 
 export interface IEnvironmentState {
     // requestId -> environment authorization state
-    authorization: ImmMap<string, IEnvironmentAuthorizationState>;
+    authorization: IMap<string, IEnvironmentAuthorizationState>;
     environment: IActiveEnvironmentState;
 }
 

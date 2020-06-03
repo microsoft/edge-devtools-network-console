@@ -10,6 +10,15 @@ const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 const copyFileAsync = util.promisify(fs.copyFile);
 
+/**
+ * Copies the output files from packages/devtools-network-console/build to the root/dist folder;
+ * it also renames the files to a more consistent naming scheme. By default, the scaffolded
+ * create-react-app build produces files such as:
+ * build/static/js/2.6b3b9e57.chunk.js. This file contains dependencies and the like. This file is
+ * renamed to deps.js, because the pattern of naming a file with a checksum is important on the
+ * public web, but not relevant for inclusion in DevTools. You can see how the name matches are
+ * renamed below in the `JS_FILES_TO_MATCH` map in the `findFilesToCopy` function.
+ */
 module.exports = async function stageFrontendOutput() {
     const networkConsoleRoot = path.join(__dirname, '..', '..');
     const buildOutputPath = path.join(networkConsoleRoot, 'packages', 'devtools-network-console', 'build');
@@ -50,7 +59,8 @@ async function findFilesToCopy(srcPath) {
 }
 
 /**
- *
+ * Replaces references from the "old" file names to the "new" file names, and writes
+ * the result HTML file to the output path.
  * @param {string} srcPath
  * @param {string} outputPath
  * @param {!Map<string, string>} renamedFiles
@@ -71,6 +81,8 @@ async function processIndexHtml(srcPath, outputPath, renamedFiles) {
 }
 
 /**
+ * Copies the renamed files from the source directory to the destination, performing
+ * the rename in doing so.
  *
  * @param {string} srcPath
  * @param {string} outputPath

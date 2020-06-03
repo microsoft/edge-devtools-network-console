@@ -155,7 +155,6 @@ export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYP
         --nc-theme-dividers: ${palette.themeTertiary};
         background-color: ${themeType === 'light' ? 'white' : 'rgb(30,30,30)'};`
     );
-    // TODO: Make this into an action.
     globalDispatch({ type: 'SET_THEME_TYPE', themeType, });
 }
 

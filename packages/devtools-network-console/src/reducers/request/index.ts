@@ -23,6 +23,7 @@ import reduceAuth from './auth-reducer';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import { NetworkConsoleAuthorizationScheme } from 'model/authorization';
 import reduceFetch from './fetch-reducer';
+import { AppHost } from 'store/host';
 
 export const DEFAULT_NET_CONSOLE_REQUEST: INetConsoleRequestInternal = {
     authorization: {
@@ -98,7 +99,7 @@ export default function reduceRequest(state: RequestsState = DEFAULT_REQUEST_MAP
             },
             isDirty: false,
         });
-        window.parent.postMessage({ type: 'LOG', when: 'LOAD_REQUEST', result }, '*');
+        AppHost.log({ when: 'LOAD_REQUEST', result });
     }
     else if (action.type === 'REQUEST_SAVE') {
         result = result.set(action.resultRequestId, {
@@ -111,12 +112,11 @@ export default function reduceRequest(state: RequestsState = DEFAULT_REQUEST_MAP
             isDirty: false,
         });
 
-        window.parent.postMessage({
-            type: 'LOG',
+        AppHost.log({
             message: 'reducers:request:REQUEST_SAVE',
             action,
             result,
-        }, '*');
+        });
     }
 
     return result;

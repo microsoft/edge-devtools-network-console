@@ -5,7 +5,9 @@ const cp = require('child_process');
 const stream = require('stream');
 
 /**
- *
+ * This task doesn't do anything intrinsically. Rather, it provides a central place in
+ * which a "run-process" task can be abstracted into a Promise and associate the process'
+ * output with a label.
  * @param {string} commandLine
  * @param {string} workingDirectory
  * @param {string=} stepName Prefix for transformed output

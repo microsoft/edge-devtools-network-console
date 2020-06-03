@@ -90,11 +90,14 @@ export default class WebApplicationHost implements INetConsoleHost {
     public mustAskToOpenLink = () => false;
 
     public markDirtyState(requestId: string, isDirty: boolean) {
-        window.parent.postMessage({
-            type: 'UPDATE_DIRTY_FLAG',
-            requestId,
-            isDirty,
-        }, '*');
+        // Not supported in WAH
+    }
+
+    public log(message: object) {
+        console.log({
+            type: 'LOG',
+            ...message,
+        });
     }
 }
 

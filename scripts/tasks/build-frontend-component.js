@@ -5,7 +5,11 @@ const path = require('path');
 const npmInstall = require('./npm-install');
 const runProcess = require('./run-process');
 
-module.exports = async function buildSharedComponent(runNpmInstall = false) {
+/**
+ * Builds the frontend component.
+ * @param {boolean=} runNpmInstall
+ */
+module.exports = async function buildFrontendComponent(runNpmInstall = false) {
     const packageName = 'devtools-network-console';
     const curPath = __dirname;
 

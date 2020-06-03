@@ -64,4 +64,6 @@ export interface INetConsoleHost {
      * In a host that controls the TDI, flags the current embedder as "dirty" (meaning that the document has a mismatched Committed vs Current state).
      */
     markDirtyState: (requestId: string, isDirty: boolean) => void;
+
+    log: (message: object) => void;
 }

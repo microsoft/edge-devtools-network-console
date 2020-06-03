@@ -118,7 +118,7 @@ Logs some message via the message port. No response is expected to this.
 ```ts
 {
     type: 'LOG';
-    [key: string | number]: any;
+    [key: string | number]: unknown;
 }
 ```
 

@@ -22,9 +22,6 @@ export const BUTTONS_CONTAINER_STYLE = css({
     flex: '0 0',
     display: 'flex',
 });
-export const BUTTON_STYLE = css({
-    // width: '50%',
-});
 
 export const VERB_DROPDOWN_CSS = {
     borderTopRightRadius: 0,

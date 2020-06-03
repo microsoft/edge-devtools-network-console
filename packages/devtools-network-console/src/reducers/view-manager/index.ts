@@ -3,6 +3,7 @@
 
 import { Set } from 'immutable';
 import { ViewManagerAction, isViewManagerAction } from 'actions/view-manager';
+import { AppHost } from 'store/host';
 
 export interface IViewManagerState {
     openViews: Set<string>;
@@ -64,11 +65,10 @@ export default function reduceViewManager(state = DEFAULT_VIEW_MANAGER_STATE, ac
                 return state;
             }
 
-            window.parent.postMessage({
-                type: 'LOG',
+            AppHost.log({
                 message: 'reducers:view-manager:REQUEST_SAVE',
                 action,
-            }, '*');
+            });
 
             return {
                 ...state,

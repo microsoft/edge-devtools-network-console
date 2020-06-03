@@ -3,6 +3,9 @@
 
 const npmInstall = require('./tasks/npm-install');
 
+/**
+ * Runs an `npm install` on all sub-projects under packages/
+ */
 async function main() {
     await Promise.all([
         npmInstall('network-console-shared'),

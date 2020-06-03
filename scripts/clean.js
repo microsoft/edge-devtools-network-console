@@ -3,6 +3,9 @@
 
 const cleanOutputDirectory = require('./tasks/clean-output-directory');
 
+/**
+ * This script simply deletes the dist/ folder.
+ */
 async function main() {
     await cleanOutputDirectory();
 }

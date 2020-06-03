@@ -7,6 +7,9 @@ const util = require('util');
 
 const rimrafAsync = util.promisify(rimraf);
 
+/**
+ * Removes the root dist/ folder.
+ */
 module.exports = async function cleanOutputDirectory() {
     const root = path.join(__dirname, '..', '..');
     const dist = path.join(root, 'dist');

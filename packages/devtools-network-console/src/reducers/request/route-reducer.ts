@@ -21,7 +21,7 @@ export default function reduceRoute(action: RouteAction, collection: RequestsSta
 
             const { description, value, isActive } = action;
             const newRoute: INetConsoleParameter = {
-                key: itemToModify!.key,
+                key: itemToModify.key,
                 value,
                 description,
                 isActive,

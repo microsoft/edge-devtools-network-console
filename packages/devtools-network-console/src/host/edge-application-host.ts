@@ -22,15 +22,20 @@ export default class EdgeApplicationHost extends VsCodeProtocolHost {
 
     private initializeStoreMonitoring() {
         const store = getStore();
-        let isDirty: boolean = false;
+        let isDirty = false;
         store.subscribe(() => {
             const state = store.getState();
-            const isNowDirty = !!((!!state.viewManager.currentView) &&
-                                 (state.request.get(state.viewManager.currentView)?.isDirty));
+            const hasCurrentView = !!state.viewManager.currentView;
+            let isNowDirty = false;
+            if (hasCurrentView) {
+                const currentRequest = state.request.get(state.viewManager.currentView!);
+                if (currentRequest && currentRequest.isDirty) {
+                    isNowDirty = true;
+                }
+            }
             if (isDirty !== isNowDirty && state.viewManager.currentView) {
                 isDirty = isNowDirty;
-                console.log(`Updating flag isDirty = ${isDirty}`);
-                this.markDirtyState(state.viewManager.currentView || '', isNowDirty);
+                this.markDirtyState(state.viewManager.currentView, isNowDirty);
             }
         });
     }

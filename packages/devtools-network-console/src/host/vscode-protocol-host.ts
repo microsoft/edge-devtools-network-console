@@ -85,7 +85,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
     }
 
     saveRequest(request: INetConsoleRequestInternal, requestId: string, toCollectionId: string) {
-        return new Promise<ISaveResult>(async (resolve, reject) => {
+        return new Promise<ISaveResult>((resolve, reject) => {
             const id = ++this.currentMessageId;
             this.pending.set(id, { resolve, reject });
 
@@ -321,6 +321,13 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             type: 'UPDATE_DIRTY_FLAG',
             requestId,
             isDirty,
+        });
+    }
+
+    public log(message: object) {
+        this.sendMessage({
+            type: 'LOG',
+            ...message,
         });
     }
 }

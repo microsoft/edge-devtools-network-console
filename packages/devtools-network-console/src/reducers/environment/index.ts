@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Map as ImmMap } from 'immutable';
+import { Map as IMap } from 'immutable';
 
 import { IEnvironmentState } from 'store';
 import { EnvironmentAction } from 'actions/environment';
+import { AppHost } from 'store/host';
 
 const DEFAULT_ENVIRONMENT: IEnvironmentState = {
-    authorization: ImmMap(),
+    authorization: IMap(),
     environment: {
         id: '',
         name: '',
@@ -35,7 +36,7 @@ export default function reduceEnvironment(state: IEnvironmentState = DEFAULT_ENV
             };
 
         case 'ENV_SET_VARIABLES':
-            window.parent.postMessage({type: 'LOG', msg: 'Handling ENV_SET_VARIABLES', action }, '*');
+            AppHost.log({ msg: 'Handling ENV_SET_VARIABLES', action });
             return {
                 ...state,
                 environment: {

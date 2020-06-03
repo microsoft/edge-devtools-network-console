@@ -41,26 +41,14 @@ export default function deconstruct(input: string): IDeconstructedUrl {
 }
 
 function parseQueryParameters(queryString: string): IHttpHeader[] {
+    const parsed = new URLSearchParams(queryString);
     const result: IHttpHeader[] = [];
 
-    const parts = queryString.split('&');
-    for (const part of parts) {
-        if (part.length === 0) {
-            continue;
-        }
-
-        const equalLocation = part.indexOf('=');
-        if (equalLocation === -1) {
-            result.push({
-                key: part,
-                value: '',
-            });
-        }
-        else {
-            const key = part.substring(0, equalLocation);
-            const value = part.substring(equalLocation + 1);
-            result.push({ key, value });
-        }
+    for (const [key, value] of parsed.entries()) {
+        result.push({
+            key,
+            value,
+        });
     }
 
     return result;
