@@ -1,7 +1,6 @@
 # Build output
 dist/
 build/
-build-browser/
 
 # Logs
 logs

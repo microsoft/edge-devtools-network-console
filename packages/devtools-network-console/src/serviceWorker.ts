@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// The code below is scaffolded by create-react-app by default. It is presently
+// not called while we resolve
+// https://github.com/microsoft/edge-devtools-network-console/issues/2
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 

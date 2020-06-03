@@ -22,7 +22,6 @@ export const ENABLED_COLUMN_STYLE = css({
 export const GRID_HEADER_STYLE = css({
     width: '100%',
     display: 'grid',
-    // gridTemplateColumns: '15px 1px calc(var(--grid-key-column-width, 35%) - 18px) 1px calc(var(--grid-value-column-width, 35%) - 18px) 1px calc(var(--grid-description-column-width, 30%) - 18px)',
     gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
     userSelect: 'none',
     textTransform: 'uppercase',

@@ -1,6 +1,6 @@
-# VSCode Host message definitions
+# Host message definitions
 
-This document contains a loose set of message definitions between the front-end and the VSCode host.
+This document contains a loose set of message definitions between the front-end and the host.
 This maps to the `vscode-host.ts` module.
 
 ## RPC Protocol

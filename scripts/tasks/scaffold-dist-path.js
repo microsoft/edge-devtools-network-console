@@ -23,7 +23,6 @@ module.exports = async function scaffoldDistPath() {
     await makeManyDirs([
         targetOutputPath,
         path.join(targetOutputPath, 'static'),
-        path.join(targetOutputPath, 'static', 'css'),
         path.join(targetOutputPath, 'static', 'js'),
     ]);
 };

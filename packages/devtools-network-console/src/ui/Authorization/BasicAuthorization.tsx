@@ -33,27 +33,28 @@ export default function BasicAuthorization(props: IBasicAuthorizationProps) {
                 styles={{root: { userSelect: 'none'}}}>
                 Environment variable substitutions are not shown here for privacy purposes.
             </MessageBar>
+            <TextField
+                onChange={e => {
+                    const value = (e.target as HTMLInputElement).value;
+                    dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
+                }}
+                label="User name"
+                value={props.username}
+                underlined
+                />
             <TextField onChange={e => {
-                            const value = (e.target as HTMLInputElement).value;
-                            dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
-                        }}
-                       label="User name"
-                       value={props.username}
-                       underlined
-                       />
-            <TextField onChange={e => {
-                            const value = (e.target as HTMLInputElement).value;
-                            dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
-
-                        }}
-                        label="Password"
-                       value={props.password}
-                       underlined
-                       type={props.showPassword ? 'text' : 'password'}
-                       />
+                    const value = (e.target as HTMLInputElement).value;
+                    dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
+                }}
+                label="Password"
+                value={props.password}
+                underlined
+                type={props.showPassword ? 'text' : 'password'}
+                />
             <Checkbox label="Show password" checked={props.showPassword} onChange={(_e, checked) => {
-                dispatch(makeSetBasicAuthAction(props.requestId, props.username, props.password, !!checked));
-            }} />
+                    dispatch(makeSetBasicAuthAction(props.requestId, props.username, props.password, !!checked));
+                }}
+                />
         </Stack>
-    )
+    );
 }

@@ -159,5 +159,5 @@ export default function CorsConfiguration(props: ICorsConfigurationProps) {
                 }}
                 />
         </div>
-    )
+    );
 }

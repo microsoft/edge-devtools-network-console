@@ -1,8 +1,8 @@
 # devtools-network-console
 
-The front-end component for the Network Console Extension for Visual Studio Code.
+The front-end component for the Network Console tool.
 
-This project is not managed independently from the vscode extension.
+See [the root readme](../../README.md) for more information about how this component is designed.
 
 ## Notices
 

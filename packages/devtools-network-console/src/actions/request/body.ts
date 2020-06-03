@@ -114,57 +114,6 @@ export function editBodyFormDataFileParams(requestId: string, id: string, fileNa
     };
 }
 
-// TODO: Remove
-// export function doEditBodyForDataFileParamsAction(
-//     requestId: string,
-//     id: string,
-//     fileName: string,
-//     fileContents: Base64String,
-//     inputType: 'text' | 'file'
-// ): ThunkAction<void, IView, void, AnyAction> {
-//     const bodySerializer: AsyncBodySerializer = calculateFormDataBody;
-//     const parametersGetter: ParametersGetter = getFormDataParams;
-//     return async (dispatch, getState) => {
-//         let unfulfilled = true;
-
-//         let triesRemaining = 5;
-//         const replacement: Partial<IFormDataParameter> = {
-//             value: fileName,
-//             type: inputType,
-//             fileContents,
-//         };
-
-//         do {
-//             const state = getState();
-//             const environment = !!state.environment.environment.id ? state.environment.environment.variables : [];
-//             const before = parametersGetter(requestId, state);
-//             const composed = before.slice();
-//             const indexToReplace = composed.findIndex(i => i.id === id);
-//             if (indexToReplace === -1 && triesRemaining === 0) {
-//                 return;
-//             }
-//             else if (indexToReplace === -1) {
-//                 triesRemaining--;
-//                 continue;
-//             }
-//             const itemToReplace = composed[indexToReplace];
-//             const finalReplacement = {
-//                 ...itemToReplace,
-//                 ...replacement,
-//             };
-//             composed.splice(indexToReplace, 1, finalReplacement);
-
-//             const body = await bodySerializer(composed, environment);
-//             const after = parametersGetter(requestId, getState());
-//             if (before === after) {
-//                 dispatch(makeEditBodyFormDataFileParams(requestId, id, fileName, fileContents, inputType, body));
-//                 unfulfilled = false;
-//             }
-
-//         } while (unfulfilled);
-//     };
-// }
-
 export function addBodyDataItemAction(requestId: string,
                                       bodyArea: BodyItemType,
                                       id: string,
@@ -185,41 +134,6 @@ export function addBodyDataItemAction(requestId: string,
     };
 }
 
-// export function addBodyItemAction(requestId: string,
-//                                   itemType: BodyItemType,
-//                                   id: string,
-//                                   name: string,
-//                                   value: string,
-//                                   description: string,
-//                                   isActive: boolean): ThunkAction<void, IView, void, AnyAction> {
-//     const bodySerializer: AsyncBodySerializer = itemType === 'form-data' ? calculateFormDataBody : calculateUrlEncodedDataBody;
-//     const parametersGetter: ParametersGetter = itemType === 'form-data' ? getFormDataParams : getUrlEncodedParams;
-//     return async (dispatch, getState) => {
-//         let unfulfilled = true;
-
-//         do {
-//             const state = getState();
-//             const environment = !!state.environment.environment.id ? state.environment.environment.variables : [];
-//             const before = parametersGetter(requestId, state);
-//             const composed = before.slice();
-//             composed.push({
-//                 id,
-//                 description,
-//                 isActive,
-//                 key: name,
-//                 value,
-//             });
-//             const body = await bodySerializer(composed, environment);
-//             const after = parametersGetter(requestId, getState());
-//             if (before === after) {
-//                 dispatch(addBodyDataItemAction(requestId, itemType, id, name, value, description, isActive, body));
-//                 unfulfilled = false;
-//             }
-
-//         } while (unfulfilled);
-//     };
-// }
-
 export function editBodyDataItemAction(requestId: string,
                                        bodyArea: BodyItemType,
                                        id: string,
@@ -239,56 +153,6 @@ export function editBodyDataItemAction(requestId: string,
     };
 }
 
-// export function editBodyItemAction(requestId: string,
-//                                    itemType: BodyItemType,
-//                                        id: string,
-//                                        name: string,
-//                                        value: string,
-//                                        description: string,
-//                                        isActive: boolean): ThunkAction<void, IView, void, AnyAction> {
-//     const bodySerializer: AsyncBodySerializer = itemType === 'form-data' ? calculateFormDataBody : calculateUrlEncodedDataBody;
-//     const parametersGetter: ParametersGetter = itemType === 'form-data' ? getFormDataParams : getUrlEncodedParams;
-
-//     return async (dispatch, getState) => {
-//         let unfulfilled = true;
-
-//         let triesRemaining = 5;
-//         const replacement = {
-//             id,
-//             description,
-//             isActive,
-//             key: name,
-//             value,
-//         };
-
-//         do {
-//             const state = getState();
-//             const environment = !!state.environment.environment.id ? state.environment.environment.variables : [];
-//             const before = parametersGetter(requestId, state);
-//             const composed = before.slice();
-//             const indexToReplace = composed.findIndex(i => i.id === id);
-//             if (indexToReplace === -1 && triesRemaining === 0) {
-//                 return;
-//             }
-//             else if (indexToReplace === -1) {
-//                 triesRemaining--;
-//                 continue;
-//             }
-//             composed.splice(indexToReplace, 1, replacement);
-
-//             const body = await bodySerializer(composed, environment);
-//             const after = parametersGetter(requestId, getState());
-//             if (before === after) {
-//                 dispatch(editBodyDataItemAction(requestId, itemType, id, name, value, description, isActive, body));
-//                 unfulfilled = false;
-//             }
-
-//         } while (unfulfilled);
-//     };
-// }
-
-// Dispatched by removeBodyItemAction
-
 export function removeBodyDataItemAction(requestId: string,
                                          bodyArea: BodyItemType,
                                          id: string): IRemoveBodyItemAction {
@@ -299,40 +163,6 @@ export function removeBodyDataItemAction(requestId: string,
         id,
     };
 }
-
-// export function removeBodyItemAction(requestId: string,
-//                                      itemType: BodyItemType,
-//                                      id: string): ThunkAction<void, IView, void, AnyAction> {
-//     const parametersGetter: ParametersGetter = itemType === 'form-data' ? getFormDataParams : getUrlEncodedParams;
-
-//     return async (dispatch, getState) => {
-//         let unfulfilled = true;
-
-//         let triesRemaining = 5;
-//         do {
-//             const state = getState();
-//             const environment = !!state.environment.environment.id ? state.environment.environment.variables : [];
-//             const before = parametersGetter(requestId, getState());
-//             const composed = before.slice();
-//             const indexToDelete = composed.findIndex(i => i.id === id);
-//             if (indexToDelete === -1 && triesRemaining === 0) {
-//                 return;
-//             }
-//             else if (indexToDelete === -1) {
-//                 triesRemaining--;
-//                 continue;
-//             }
-//             composed.splice(indexToDelete, 1);
-
-//             const after = parametersGetter(requestId, getState());
-//             if (before === after) {
-//                 dispatch(removeBodyDataItemAction(requestId, itemType, id, body));
-//                 unfulfilled = false;
-//             }
-
-//         } while (unfulfilled);
-//     };
-// }
 
 export function setBodyTypeAction(requestId: string, bodyType: BodyType): ISetBodyTypeAction {
     return {

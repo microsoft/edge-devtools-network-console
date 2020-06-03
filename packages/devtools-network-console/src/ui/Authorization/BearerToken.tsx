@@ -31,22 +31,23 @@ export default function BearerToken(props: IBearerTokenProps) {
                 styles={{root: { userSelect: 'none'}}}>
                 Environment variable substitutions are not shown here for privacy purposes.
             </MessageBar>
-            <TextField onChange={e => {
-                            const value = (e.target as HTMLInputElement).value;
-                            dispatch(makeSetBearerTokenAction(props.requestId, value));
-                        }}
-                       label="Token"
-                       value={props.token}
-                       styles={{
-                           field: {
-                               fontFamily: 'Consolas, monospace !important',
-                               fontSize: 'small'
-                           },
-                       }}
-                       underlined
-                       multiline
-                       autoAdjustHeight
-                       />
+            <TextField
+                onChange={e => {
+                    const value = (e.target as HTMLInputElement).value;
+                    dispatch(makeSetBearerTokenAction(props.requestId, value));
+                }}
+                label="Token"
+                value={props.token}
+                styles={{
+                    field: {
+                        fontFamily: 'Consolas, monospace !important',
+                        fontSize: 'small'
+                    },
+                }}
+                underlined
+                multiline
+                autoAdjustHeight
+                />
         </Stack>
-    )
+    );
 }

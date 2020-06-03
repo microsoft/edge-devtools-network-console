@@ -40,5 +40,5 @@ export default function DescribedChoiceGroup(props: IDescribedChoiceGroupProps) 
                 className="described-choices"
                 />
         </div>
-    )
+    );
 }

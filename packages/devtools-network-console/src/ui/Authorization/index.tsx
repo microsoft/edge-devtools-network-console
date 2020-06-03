@@ -32,8 +32,8 @@ export default function Authorization(props: IAuthorizationProps) {
     const dispatch = useDispatch();
 
     return (
-        <Pivot 
-            initialSelectedIndex={index} 
+        <Pivot
+            initialSelectedIndex={index}
             onLinkClick={(pivotItem) => {
                 if (pivotItem) {
                     // TODO: Improve this hack

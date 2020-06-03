@@ -122,14 +122,8 @@ export function makeChooseCollectionForSaveAction(collectionId: string): IChoose
 
 export function doSaveCollectionAuthorizationToHost(collectionId: string, authorization: INetConsoleAuthorization): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
-        try {
-            await AppHost.saveCollectionAuthorization(collectionId, authorization);
-            dispatch(makeDismissAuthorizationModalAction());
-        }
-        catch {
-            // TODO: Reconsider for webview
-            // Error is swallowed for now; VS Code presents the error
-        }
+        await AppHost.saveCollectionAuthorization(collectionId, authorization);
+        dispatch(makeDismissAuthorizationModalAction());
     }
 }
 

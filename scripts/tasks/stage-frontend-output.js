@@ -33,25 +33,9 @@ async function findFilesToCopy(srcPath) {
         [/^main\.[0-9a-f]{8}\.chunk\.js$/, 'main.js'],
         [/^runtime-main\.[0-9a-f]{8}\.js$/, 'runtime.js'],
     ];
-    const CSS_FILES_TO_MATCH = [
-        [/^main\.[0-9a-f]{8}\.chunk\.css$/, 'main.css'],
-    ];
     const result = new Map();
-
-    const srcCssPath = path.join(srcPath, 'static', 'css');
     const srcJsPath = path.join(srcPath, 'static', 'js');
-
-    const cssFiles = await readdirAsync(srcCssPath);
     const jsFiles = await readdirAsync(srcJsPath);
-
-    cssFiles.forEach(file => {
-        CSS_FILES_TO_MATCH.some(([matcher, renameTo]) => {
-            if (matcher.test(file)) {
-                result.set(file, renameTo);
-                return true;
-            }
-        });
-    });
 
     jsFiles.forEach(file => {
         JS_FILES_TO_MATCH.some(([matcher, renameTo]) => {
@@ -95,13 +79,7 @@ async function processIndexHtml(srcPath, outputPath, renamedFiles) {
 async function copyRenamedFiles(srcPath, outputPath, renamedFiles) {
     const srcs = renamedFiles.keys();
     for (const src of srcs) {
-        if (src.endsWith('.css')) {
-            const srcFilePath = path.join(srcPath, 'static', 'css', src);
-            const outFilePath = path.join(outputPath, 'static', 'css', renamedFiles.get(src));
-            console.log(`${srcFilePath} --> ${outFilePath}`);
-            await copyFileAsync(srcFilePath, outFilePath);
-        }
-        else if (src.endsWith('.js') || src.endsWith('.txt')) {
+        if (src.endsWith('.js') || src.endsWith('.txt')) {
             const srcFilePath = path.join(srcPath, 'static', 'js', src);
             const outFilePath = path.join(outputPath, 'static', 'js', renamedFiles.get(src));
             console.log(`${srcFilePath} --> ${outFilePath}`);

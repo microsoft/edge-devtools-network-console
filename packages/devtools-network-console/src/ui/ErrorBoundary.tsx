@@ -45,13 +45,12 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
 
     render() {
         if (this.state.hasError) {
-            // You can render any custom fallback UI
             return (
                 <div>
                     <MessageBar messageBarType={MessageBarType.error} isMultiline>
                         <Text variant="xLarge">Something went wrong.</Text>
                         <p>{this.state.errorMessage}</p>
-                        <p>You can close and re-open this tab to recover.</p>
+                        <p>You can close and re-open this tool to recover.</p>
                     </MessageBar>
                     <div style={{padding: '10px', overflow: 'auto'}}>
                         {this.state.isExpanded && (<pre>

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import React, { useRef, useState } from 'react';
-
 import * as Styles from './styles';
 
 export interface IGridHeaderProps {
@@ -33,7 +32,6 @@ export default function GridHeader(props: IGridHeaderProps) {
         }
 
         const totalWidth = containerRef.current.clientWidth;
-        // const delta = e.clientX - dragStart;
         const targetRef = isDragging === DraggingMode.DRAGGING_KEY_RESIZER ? keyResizeDraggerRef : valueResizeDraggerRef;
         const delta = position.clientX - (targetRef.current as HTMLDivElement).getBoundingClientRect().left;
 
@@ -161,5 +159,5 @@ export default function GridHeader(props: IGridHeaderProps) {
             </>
             }
         </div>
-    )
+    );
 }
