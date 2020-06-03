@@ -15,7 +15,7 @@ initializeIcons();
 monaco
     .config({
         paths: {
-            vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.19.3/min/vs',
+            vs: 'https://devtools.azureedge.net/monaco/v0.20.0/vs',
         },
     });
 
