@@ -12,6 +12,7 @@
     "glamor": "^2.20.40",
     "immutable": "^4.0.0-rc.12",
     "lodash-es": "^4.17.15",
+    "monaco-editor": "^0.20.0",
     "network-console-shared": "../network-console-shared",
     "office-ui-fabric-react": "^7.40.0",
     "react": "^16.9.0",

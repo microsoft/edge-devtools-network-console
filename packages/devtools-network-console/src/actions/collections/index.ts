@@ -10,12 +10,14 @@ export interface ISetCollectionTreeAction {
     rootCollections: ICollection[];
 }
 
-export type CollectionsAction =
-    ISetCollectionTreeAction
-    ;
+
 const KNOWN_COLLECTION_ACTIONS = new Set<string>([
     'COLLECTIONS_TREE_SET_ALL',
 ]);
+export type CollectionsAction =
+    ISetCollectionTreeAction
+    ;
+
 export function isCollectionAction(action: AnyAction): action is CollectionsAction {
     return KNOWN_COLLECTION_ACTIONS.has(action.type);
 }
