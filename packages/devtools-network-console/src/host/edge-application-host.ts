@@ -14,9 +14,10 @@ export default class EdgeApplicationHost extends VsCodeProtocolHost {
             /* canEditCORS: */ true,
             /* transparentAuthorization: */ true,
         ));
-        super.onInitHost(message);
 
         enableDevtoolsThemeOverrides();
+        super.onInitHost(message);
+
         this.initializeStoreMonitoring();
     }
 

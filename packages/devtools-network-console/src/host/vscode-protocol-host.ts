@@ -64,7 +64,6 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             this.onMessage(ev.data);
         };
         window.addEventListener('message', this.handleMessage);
-
         this.sendMessage({ type: 'CONSOLE_READY' });
     }
 
