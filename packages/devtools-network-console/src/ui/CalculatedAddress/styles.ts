@@ -5,7 +5,7 @@ import { css } from 'glamor';
 
 export const CALC_ADDRESS_DIV_STYLE = css({
     padding: '1px 10px',
-    color: 'var(--nc-theme-disabled-text)',
+    color: 'var(--nc-theme-fore)',
     fontSize: '12px',
     overflowX: 'auto',
     overflowY: 'hidden',

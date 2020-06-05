@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Pivot, PivotItem, DetailsList, IColumn, ProgressIndicator, SelectionMode, PivotLinkSize } from 'office-ui-fabric-react';
-import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
 import { INetConsoleResponseInternal } from 'model/NetConsoleRequest';
@@ -12,11 +11,12 @@ import * as Styles from './styles';
 import CommonStyles from 'ui/common-styles';
 import CookiesTable from './CookiesTable';
 import { IView } from 'store';
-import { strFromB64 } from 'utility/b64';
 import preview from './preview';
 import Stats from './Stats';
 import { THEME_TYPE, THEME_OVERRIDE } from 'themes/vscode-theme';
 import { AppHost } from 'store/host';
+import ResponseBody from './ResponseBody';
+import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -51,7 +51,6 @@ const HEADERS_COLUMNS: IColumn[] = [
 ];
 
 export function ResponseViewer(props: IResponseViewerProps) {
-    let text = '';
     let languageChoice = 'text';
     let contentType = '';
     if (props.response.status === 'COMPLETE' && props.response.response) {
@@ -78,15 +77,21 @@ export function ResponseViewer(props: IResponseViewerProps) {
                 case 'text/plain':
                     break;
                 default:
-                    if (contentTypeHeader.value.indexOf('text/html') > -1) {
+                    if (contentTypeHeader.value.indexOf('/json') > -1) {
+                        languageChoice = 'json';
+                    }
+                    else if (contentTypeHeader.value.indexOf('html') > -1) {
                         languageChoice = 'html';
+                    }
+                    else if (contentTypeHeader.value.indexOf('/javascript') > -1) {
+                        languageChoice = 'javascript';
+                    }
+                    else if (contentTypeHeader.value.indexOf('/typescript') > -1) {
+                        languageChoice = 'typescript';
                     }
                     break;
             }
         }
-
-        const serializedBody = props.response.response.body;
-        text = strFromB64(serializedBody.content);
     }
 
     if (props.response.status === 'PENDING') {
@@ -102,56 +107,61 @@ export function ResponseViewer(props: IResponseViewerProps) {
     const renderedPreview = preview(props.response.response.body.content, contentType, props.theme);
 
     return (
-        <div className="response-tabs" {...Styles.HEIGHT_100}>
+        <ContainerWithStatusBar>
+            <div className="response-tabs" {...Styles.HEIGHT_100}>
+                <Pivot
+                    {...Styles.RESPONSE_PIVOT_STYLE}
+                    className={renderedPreview && renderedPreview.parentClassName}
+                    styles={{
+                        root: THEME_OVERRIDE.mainPivotRoot,
+                        link: THEME_OVERRIDE.mainPivotButtons,
+                        linkIsSelected: THEME_OVERRIDE.mainPivotButtons,
+                    }}
+                    linkSize={PivotLinkSize.large}
+                    >
+                    {renderedPreview && <PivotItem headerText={renderedPreview.title} className={renderedPreview.className}>
+                        {renderedPreview.child}
+                    </PivotItem>}
+                    <PivotItem headerText="Body" className="editor-container">
+                        <ResponseBody
+                            languageChoice={languageChoice}
+                            requestId={props.requestId}
+                            theme={props.theme}
+                            serializedBody={props.response.response.body}
+                            size={props.response.response.size}
+                            />
+                    </PivotItem>
+                    <PivotItem headerText="Headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        <div {...CommonStyles.SCROLLABLE_STYLE}>
+                            <DetailsList
+                                items={props.response.response.headers}
+                                columns={HEADERS_COLUMNS}
+                                selectionMode={SelectionMode.none}
+                                compact={true}
+                                styles={{
+                                    contentWrapper: {
+                                        padding: '4px 0 4px 6px',
+                                    }
+                                }}
+                                />
+                        </div>
+                    </PivotItem>
+                    <PivotItem headerText="Cookies" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        <div {...CommonStyles.SCROLLABLE_STYLE}>
+                            <CookiesTable headers={props.response.response.headers} />
+                        </div>
+                    </PivotItem>
+                </Pivot>
+            </div>
+
             <Stats
                 duration={props.response.duration}
                 size={props.response.response.size}
                 statusCode={props.response.response.statusCode}
                 statusText={props.response.response.statusText}
+                requestId={props.requestId}
                 />
-            <Pivot
-                {...Styles.RESPONSE_PIVOT_STYLE}
-                className={renderedPreview && renderedPreview.parentClassName}
-                styles={{
-                    root: THEME_OVERRIDE.mainPivotRoot,
-                    link: THEME_OVERRIDE.mainPivotButtons,
-                    linkIsSelected: THEME_OVERRIDE.mainPivotButtons,
-                }}
-                linkSize={PivotLinkSize.large}
-                >
-                {renderedPreview && <PivotItem headerText={renderedPreview.title} className={renderedPreview.className}>
-                    {renderedPreview.child}
-                </PivotItem>}
-                <PivotItem headerText="Body" className="editor-container">
-                    <MonacoEditor
-                        language={languageChoice}
-                        theme={props.theme}
-                        options={{ readOnly: true, automaticLayout: true, wordWrap: 'on', }}
-                        value={text}
-                    />
-                </PivotItem>
-                <PivotItem headerText="Headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                    <div {...CommonStyles.SCROLLABLE_STYLE}>
-                        <DetailsList
-                            items={props.response.response.headers}
-                            columns={HEADERS_COLUMNS}
-                            selectionMode={SelectionMode.none}
-                            compact={true}
-                            styles={{
-                                contentWrapper: {
-                                    padding: '4px 0 4px 6px',
-                                }
-                            }}
-                            />
-                    </div>
-                </PivotItem>
-                <PivotItem headerText="Cookies" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                    <div {...CommonStyles.SCROLLABLE_STYLE}>
-                        <CookiesTable headers={props.response.response.headers} />
-                    </div>
-                </PivotItem>
-            </Pivot>
-        </div>
+        </ContainerWithStatusBar>
     );
 }
 

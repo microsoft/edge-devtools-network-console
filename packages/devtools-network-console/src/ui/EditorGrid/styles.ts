@@ -24,8 +24,8 @@ export const GRID_HEADER_STYLE = css({
     display: 'grid',
     gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
     userSelect: 'none',
-    textTransform: 'uppercase',
-    fontSize: '12px',
+    fontWeight: '600',
+    fontSize: '13px',
 });
 
 export const GRID_HEADER_CELL_STYLE = css({
@@ -33,7 +33,7 @@ export const GRID_HEADER_CELL_STYLE = css({
 });
 
 export const GRID_HEADER_DIVIDER_STYLE = css({
-    backgroundColor: 'var(--nc-theme-dividers)',
+    backgroundColor: 'transparent',
     cursor: 'col-resize',
 });
 
@@ -57,7 +57,7 @@ const GRID_CELL_BASE_STYLE = css({
 });
 
 const INTERIOR_GRID_CELL_STYLE = css(GRID_CELL_BASE_STYLE, {
-    borderRightWidth: '1px',
+    // borderRightWidth: '1px',
     borderTopWidth: '1px',
 });
 

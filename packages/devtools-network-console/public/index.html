@@ -98,18 +98,18 @@ dl.response-stats {
   margin-left: 7px;
 }
 
-dl.response-stats dt {
-  color: #555;
-}
-
 dl.response-stats dd {
   margin-inline-start: 4px;
   margin-inline-end: 2em;
-  color: green;
 }
 
 div.described-choices label {
   font-size: 14px !important;
+}
+
+/** Fabric TextField doesn't allow modifying placeholder styles */
+.request-title-editor > .ms-TextField-wrapper > .ms-TextField-fieldGroup > input.ms-TextField-field::placeholder {
+  font-size: 16px !important;
 }
     </style>
   </head>

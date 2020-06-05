@@ -5,27 +5,64 @@ import * as React from 'react';
 import { ms } from 'network-console-shared';
 
 import Size from 'ui/generic/Size';
+import { useDispatch } from 'react-redux';
+import { downloadResponse } from 'actions/combined';
+import { Text } from 'office-ui-fabric-react';
 
 export interface IStatsProps {
     statusCode: number;
     statusText: string;
     duration: ms;
     size: number;
+    requestId: string;
 }
 
 export default function Stats(props: IStatsProps) {
+    const dispatch = useDispatch();
     return (
-        <div>
-            <dl className="response-stats">
-                <dt>Status:</dt>
-                <dd>{props.statusCode} {props.statusText}</dd>
+        <dl className="response-stats">
+            <Definition
+                term="Status:"
+                value={`${props.statusCode} ${props.statusText}`}
+                />
+            <Definition
+                term="Time:"
+                value={`${props.duration}ms`}
+                />
+            <Definition
+                term="Size:"
+                value={<Size size={props.size} />}
+                />
+            <Definition
+                term="Download:"
+                value={(props.statusCode === 200 ? (
+                    <a href="#download"
+                        onClick={e => {
+                            e.preventDefault();
+                            dispatch(downloadResponse(props.requestId));
+                        }}
+                    >Click here</a>) : (
+                        <span>Not available</span>
+                    ))}
+                />
+        </dl>
+    );
+}
 
-                <dt>Time:</dt>
-                <dd>{props.duration}ms</dd>
+interface IDefinitionProps {
+    term: string;
+    value: React.ReactNode | string;
+}
 
-                <dt>Size:</dt>
-                <dd><Size size={props.size} /></dd>
-            </dl>
-        </div>
+function Definition({ term, value }: IDefinitionProps) {
+    return (
+        <>
+            <dt>
+                <Text variant="smallPlus">{term}</Text>
+            </dt>
+            <dd>
+                <Text variant="smallPlus">{value}</Text>
+            </dd>
+        </>
     );
 }

@@ -8,6 +8,7 @@ import {
     PivotItem,
     MessageBar,
     MessageBarType,
+    Link,
 } from 'office-ui-fabric-react';
 import { useDispatch, connect } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
@@ -145,7 +146,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                        not part of the standard and may result in undefined behavior. Consider
                                        choosing a verb such as POST or PUT for this endpoint.
                                        {knownVerb && <>(For more information,
-                                       see <a href={knownVerb.link}
+                                       see <Link href={knownVerb.link}
                                               target="_blank"
                                               rel="noopener noreferrer"
                                               onClick={e => {
@@ -157,7 +158,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                               }}
                                               >
                                            the relevant standards information
-                                       </a>.)</>}
+                                       </Link>.)</>}
                                    </MessageBar>}
             <Pivot
                 className="ht100 flxcol"

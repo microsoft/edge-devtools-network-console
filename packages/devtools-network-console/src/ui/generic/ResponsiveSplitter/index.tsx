@@ -76,7 +76,7 @@ export class ResizableSplitter extends React.Component<IResponsiveSplitterProps,
                 <div {...Styles.calculateResizingContainerStyle(this.state.draggingPane1Size)}>
                     <div {...Styles.SIDE_STYLE}>
                         <div style={SplitPaneStyle.resizingPanelStyle}>
-                            <div style={SplitPaneStyle.sizeOffsetStyle}>{Math.round(this.state.draggingPane1Size)}%</div>
+                            <div style={SplitPaneStyle.sizeOffsetStyle}></div>
                         </div>
                     </div>
                     <div {...Styles.MIDDLE_RESIZABLE_STYLE}>
@@ -84,7 +84,7 @@ export class ResizableSplitter extends React.Component<IResponsiveSplitterProps,
                     </div>
                     <div {...Styles.SIDE_STYLE}>
                         <div style={SplitPaneStyle.resizingPanelStyle}>
-                            <div style={SplitPaneStyle.sizeOffsetStyle}>{Math.round(100.0 - this.state.draggingPane1Size)}%</div>
+                            <div style={SplitPaneStyle.sizeOffsetStyle}></div>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import * as Styles from './styles';
 import { mergeString } from 'utility/environment-merge';
 import { substituteRouteParameters, concatenateQuery } from 'utility/http-compose';
+import { Text } from 'office-ui-fabric-react';
 
 export interface ICalculatedAddressProps {
     request: INetConsoleRequestInternal;
@@ -22,7 +23,10 @@ export default function CalculatedAddress(props: ICalculatedAddressProps) {
     }
     return (
         <div {...Styles.CALC_ADDRESS_DIV_STYLE}>
-            <span {...Styles.NOSELECT}>Computed URL: </span>{calculated}
+
+            <Text variant="smallPlus">
+                <span {...Styles.NOSELECT}>Computed URL: </span>{calculated}
+            </Text>
         </div>
     );
 }

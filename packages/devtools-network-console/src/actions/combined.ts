@@ -53,6 +53,21 @@ export function executeRequest(requestId: string, request: INetConsoleRequestInt
     }
 }
 
+export function downloadResponse(requestId: string): Thaction {
+    return async (_dispatch, getState) => {
+        const state = getState();
+        const request = state.request.get(requestId);
+        const response = state.response.get(requestId);
+
+        if (!request || !response || !response.response) {
+            throw new Error('No response data available.');
+        }
+
+        const buffer = binFromB64(response.response.body.content);
+        downloadFile(buffer, computeFilenameFromRequestAndResponse(request.current, response as INetConsoleResponse));
+    }
+}
+
 export function executeRequestWithId(requestId: string, isDownloadForResponse: boolean): Thaction {
     return async (dispatch, getState) => {
         const state = getState();

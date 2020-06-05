@@ -56,6 +56,7 @@ const DARK_THEME_PALETTE = {
     themeSecondary: "#094771",
     themeTertiary: "#75beff",
     white: "#1e1e1e",
+    splitterColor: '#4a4a4a',
 };
 
 const LIGHT_THEME_PALETTE = {
@@ -75,6 +76,7 @@ const LIGHT_THEME_PALETTE = {
     themeSecondary: "#0074e8",
     themeTertiary: "#75beff",
     white: "#ffffff",
+    splitterColor: '#e1e4e8',
 };
 
 const HIGH_CONTRAST_THEME_PALETTE = {
@@ -100,6 +102,7 @@ const HIGH_CONTRAST_THEME_PALETTE = {
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
     white: '#000000',
+    splitterColor: '#333333',
 };
 
 const VSCODE_VARIABLES_PALETTE = {
@@ -152,7 +155,7 @@ export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYP
         --nc-theme-fore: ${palette.black};
         --nc-theme-back: ${palette.white};
         --nc-theme-disabled-text: ${palette.themeDarker};
-        --nc-theme-dividers: ${palette.themeTertiary};
+        --nc-theme-dividers: ${palette.splitterColor};
         background-color: ${themeType === 'light' ? 'white' : 'rgb(30,30,30)'};`
     );
     globalDispatch({ type: 'SET_THEME_TYPE', themeType, });

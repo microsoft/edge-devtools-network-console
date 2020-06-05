@@ -12,10 +12,12 @@ export const ADDRESS_BAR_CONTAINER_STYLE = css({
 
 export const VERB_PICKER_CONTAINER_STYLE = css({
     flex: '25',
+    padding: '0 10px 0 0',
 });
 
 export const URL_CONTAINER_STYLE = css({
     flex: '75',
+    padding: '0 10px 0 0',
 });
 
 export const BUTTONS_CONTAINER_STYLE = css({
@@ -23,21 +25,6 @@ export const BUTTONS_CONTAINER_STYLE = css({
     display: 'flex',
 });
 
-export const VERB_DROPDOWN_CSS = {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-    borderRight: 'none',
-};
-
 export const ADDRESS_TEXT_CSS = {
     borderRadius: 0,
 };
-
-export const SEND_BUTTON_STYLE = css({
-    borderRadius: 0,
-});
-
-export const SAVE_BUTTON_STYLE = css({
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-});

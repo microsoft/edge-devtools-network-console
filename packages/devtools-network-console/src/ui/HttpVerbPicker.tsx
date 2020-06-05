@@ -5,7 +5,6 @@ import * as React from 'react';
 import { ComboBox, IComboBoxOption } from 'office-ui-fabric-react';
 import { HttpVerb } from 'network-console-shared';
 
-import * as Styles from './AddressBar/styles';
 import { IHttpVerbDef, KNOWN_HTTP_VERBS } from 'data';
 
 export interface IHttpVerbPickerProps {
@@ -36,9 +35,6 @@ export default function HttpVerbPicker(props: IHttpVerbPickerProps) {
             allowFreeform={true}
             onChange={(_e, option, _index, value) => props.onVerbPicked((option ? option.text : value) as HttpVerb)}
             openOnKeyboardFocus={true}
-            styles={{
-                root: Styles.VERB_DROPDOWN_CSS,
-            }}
             />
     );
 }

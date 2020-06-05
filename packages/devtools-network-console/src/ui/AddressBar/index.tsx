@@ -48,36 +48,19 @@ export default function AddressBar(props: IAddressBarProps) {
                     onBlur={(_e) => {
                         dispatch(setUrlAction(props.requestId, url));
                     }}
+                    autoFocus
                     value={url}
                     placeholder="Enter the URL to be requested here."
-                    styles={{
-                        fieldGroup: Styles.ADDRESS_TEXT_CSS,
-                    }}
                     />
             </div>
             <div {...Styles.BUTTONS_CONTAINER_STYLE}>
                 <PrimaryButton
                     text="Send"
-                    split
-                    menuProps={{
-                        items: [
-                            {
-                                key: 'sendAndDownload',
-                                text: 'Send and Download Result',
-                                iconProps: { iconName: 'download' },
-                                onClick: e => {
-                                    dispatch(executeRequestWithId(props.requestId, true));
-                                    e && e.stopPropagation() && e.preventDefault();
-                                },
-                            },
-                        ],
-                    }}
                     onClick={e => {
                         dispatch(executeRequestWithId(props.requestId, /* isDownload: */ false));
                         e.stopPropagation();
                         e.preventDefault();
                     }}
-                    {...Styles.SAVE_BUTTON_STYLE}
                     />
                 {props.canSave && <Button
                     text="Save"
@@ -110,7 +93,6 @@ export default function AddressBar(props: IAddressBarProps) {
                             },
                         ],
                     }}
-                    {...Styles.SAVE_BUTTON_STYLE}
                     />}
             </div>
         </div>
