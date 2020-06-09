@@ -24,7 +24,7 @@ export const DEFAULT_EMPTY_REQUEST_ID = 'DEFAULT_REQUEST';
 function makeLoadDefaultRequestAction(requestId = DEFAULT_EMPTY_REQUEST_ID): ILoadRequestAction {
     return {
         type: 'LOAD_REQUEST',
-        requestId: DEFAULT_EMPTY_REQUEST_ID,
+        requestId: requestId,
         request: {
             ...DEFAULT_NET_CONSOLE_REQUEST,
         },
