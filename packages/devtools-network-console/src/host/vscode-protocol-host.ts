@@ -323,6 +323,13 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         });
     }
 
+    public openUnattachedRequest(requestId: string) {
+        this.sendMessage({
+            type: 'OPEN_NEW_UNATTACHED_REQUEST',
+            requestId,
+        });
+    }
+
     public log(message: object) {
         this.sendMessage({
             type: 'LOG',

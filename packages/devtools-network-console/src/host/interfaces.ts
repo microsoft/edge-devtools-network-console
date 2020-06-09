@@ -65,5 +65,10 @@ export interface INetConsoleHost {
      */
     markDirtyState: (requestId: string, isDirty: boolean) => void;
 
+    /**
+     * Notifies the host that a new "tab" has opened.
+     */
+    openUnattachedRequest: (requestId: string) => void;
+
     log: (message: object) => void;
 }

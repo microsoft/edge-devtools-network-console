@@ -5,6 +5,8 @@ import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import { IView } from 'store';
 import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { AppHost } from 'store/host';
+import { ThunkAction } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
 export interface IGlobalInitializeAction {
     type: 'GLOBAL_INITIALIZE_AND_RESET';
@@ -19,13 +21,22 @@ export interface ILoadRequestAction {
 
 export const DEFAULT_EMPTY_REQUEST_ID = 'DEFAULT_REQUEST';
 
-export function makeLoadDefaultRequestAction(): ILoadRequestAction {
+function makeLoadDefaultRequestAction(requestId = DEFAULT_EMPTY_REQUEST_ID): ILoadRequestAction {
     return {
         type: 'LOAD_REQUEST',
         requestId: DEFAULT_EMPTY_REQUEST_ID,
         request: {
             ...DEFAULT_NET_CONSOLE_REQUEST,
         },
+    };
+}
+
+let nextRequestId = 1;
+export function loadDefaultRequest(): ThunkAction<void, IView, void, AnyAction> {
+    const id = `${DEFAULT_EMPTY_REQUEST_ID}_${nextRequestId++}`;
+    return async dispatch => {
+        AppHost.openUnattachedRequest(id);
+        dispatch(makeLoadDefaultRequestAction(id));
     };
 }
 

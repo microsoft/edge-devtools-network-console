@@ -41,12 +41,12 @@ const DEVTOOLS_THEME_OVERRIDES: IThemeOverride = {
 
 const DARK_THEME_PALETTE = {
     black: "#ffffff",
-    neutralDark: "#ffffff",
+    neutralDark: "#dddddd",
     neutralLight: "rgba(58, 131, 208, 0.7)",
     neutralLighter: "#333333",
     neutralPrimary: "#d4d4d4",
     neutralSecondary: "rgba(204, 204, 204, 0.7)",
-    themeDark: "#ffffff",
+    themeDark: "rgb(126 197 255)",
     themeDarkAlt: "#1177bb",
     themeDarker: "#8db9e2",
     themeLight: "#75beff",
