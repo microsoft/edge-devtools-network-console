@@ -9,7 +9,7 @@ import {
     MessageBar,
     MessageBarType,
     Link,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import { useDispatch, connect } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import { Map as ImmutableMap } from 'immutable';

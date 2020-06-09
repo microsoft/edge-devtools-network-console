@@ -7,7 +7,7 @@ import { ms } from 'network-console-shared';
 import Size from 'ui/generic/Size';
 import { useDispatch } from 'react-redux';
 import { downloadResponse } from 'actions/combined';
-import { Text, Link } from 'office-ui-fabric-react';
+import { Text, Link } from '@fluentui/react';
 
 export interface IStatsProps {
     statusCode: number;

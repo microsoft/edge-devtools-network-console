@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useDispatch } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 

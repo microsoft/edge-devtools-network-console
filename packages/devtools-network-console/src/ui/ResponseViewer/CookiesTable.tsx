@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { DetailsList, IColumn, SelectionMode } from 'office-ui-fabric-react';
+import { DetailsList, IColumn, SelectionMode } from '@fluentui/react';
 import { IHttpHeader } from 'network-console-shared';
 
 import BoolCheck from 'ui/generic/BoolCheck';

@@ -2,6 +2,7 @@
   "name": "network-console-frontend",
   "version": "0.9.0-preview",
   "dependencies": {
+    "@fluentui/react": "^7.118.1",
     "@microsoft/fast-components-react-msft": "^4.29.4",
     "@microsoft/fast-jss-manager-react": "^4.6.2",
     "@monaco-editor/react": "^3.0.1",
@@ -14,7 +15,6 @@
     "lodash-es": "^4.17.15",
     "monaco-editor": "^0.20.0",
     "network-console-shared": "../network-console-shared",
-    "office-ui-fabric-react": "^7.40.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-json-view": "^1.19.1",

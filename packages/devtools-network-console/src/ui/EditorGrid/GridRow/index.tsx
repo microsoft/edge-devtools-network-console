@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { Icon } from 'office-ui-fabric-react';
+import { IconButton } from '@fluentui/react';
 import { Base64String, INetConsoleParameter } from 'network-console-shared';
 
 import GridTextInput from './GridTextInput';
@@ -164,17 +164,16 @@ export default function GridRow(props: IGridRowProps) {
             </div>
             }
             <div {...Styles.DELETE_CELL_STYLE}>
-                <button
+                <IconButton
                     {...Styles.DELETE_BUTTON_STYLE}
                     onClick={_e => {
                         props.isDeleteAllowed && props.onDelete(props.id);
                     }}
+                    iconProps={{ iconName: 'Delete' }}
                     style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '' }}
                     aria-label="Delete row"
                     className="editor-row-delete-btn"
-                    >
-                    <Icon iconName="Delete" />
-                </button>
+                    />
             </div>
         </div>
     );

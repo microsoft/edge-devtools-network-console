@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Pivot, PivotItem, Stack, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, Stack, MessageBar, MessageBarType } from '@fluentui/react';
 import { INetConsoleAuthorization, NetworkConsoleAuthorizationScheme } from 'network-console-shared';
 
 import BasicAuthorization from './BasicAuthorization';

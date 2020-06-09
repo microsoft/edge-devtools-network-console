@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { INetConsoleParameter } from 'network-console-shared';
-import { Pivot, PivotItem, TextField, PivotLinkSize } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, TextField, PivotLinkSize } from '@fluentui/react';
 import { Map } from 'immutable';
 import { connect, useDispatch } from 'react-redux';
 import { StyleAttribute, css } from 'glamor';

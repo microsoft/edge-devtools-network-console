@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { PrimaryButton, TextField, Button } from 'office-ui-fabric-react';
+import { PrimaryButton, TextField, Button } from '@fluentui/react';
 import { useDispatch } from 'react-redux';
 import { HttpVerb } from 'network-console-shared';
 

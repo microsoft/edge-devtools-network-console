@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTheme, loadTheme, IStyle } from 'office-ui-fabric-react';
+import { createTheme, loadTheme, IStyle } from '@fluentui/react';
 import { globalDispatch } from 'store';
 import { createFontStyle, REDUCED_FONT_SIZES } from './fonts';
 import { NarrowSpacing } from './spacing';

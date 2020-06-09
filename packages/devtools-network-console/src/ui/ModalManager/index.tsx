@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { Modal, Stack, PrimaryButton, ActionButton, Breadcrumb, Text } from 'office-ui-fabric-react';
+import { Modal, Stack, PrimaryButton, ActionButton, Breadcrumb, Text } from '@fluentui/react';
 
 import { IModalState, IView, MODAL_AUTHORIZATION_REQUEST_ID } from 'store';
 import { makeDismissAuthorizationModalAction, doSaveCollectionAuthorizationToHost, makeSelectCollectionForSaveAction, makeRemoveEnvVarAction, makeAddEnvVarAction, makeEditEnvVarAction, makeDismissEditEnvironmentAction } from 'actions/modal';

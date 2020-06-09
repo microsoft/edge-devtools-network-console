@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { Base64String, binToB64 } from 'utility/b64';
 import Size from 'ui/generic/Size';
-import { ActionButton, Text } from 'office-ui-fabric-react';
+import { ActionButton, Text } from '@fluentui/react';
 
 interface IProps {
     fileName: string;

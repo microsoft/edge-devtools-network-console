@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { MessageBar, MessageBarType, Text, Link } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, Text, Link } from '@fluentui/react';
 import { AppHost } from 'store/host';
 
 interface IProps {

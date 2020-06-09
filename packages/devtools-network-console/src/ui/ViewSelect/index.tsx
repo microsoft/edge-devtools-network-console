@@ -8,7 +8,7 @@ import { Set } from 'immutable';
 import RequestView from 'ui/RequestView';
 import { IView } from 'store';
 import { RequestsState } from 'reducers/request';
-import { Stack, MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { Stack, MessageBar, MessageBarType, Link } from '@fluentui/react';
 import { loadDefaultRequest } from 'actions/common';
 
 export interface IConnectedProps {

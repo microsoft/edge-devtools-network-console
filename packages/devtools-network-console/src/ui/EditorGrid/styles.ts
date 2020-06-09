@@ -92,13 +92,15 @@ export const DESCRIPTION_CELL_STYLE = css(GRID_CELL_LAST_STYLE, {
 export const DELETE_CELL_STYLE = css(GRID_CELL_LAST_STYLE, {
     gridColumnStart: 8,
     gridColumnEnd: 9,
+    paddingLeft: 0,
 });
 
 export const DELETE_BUTTON_STYLE = css({
     border: 'none',
     background: 'transparent',
-    paddingTop: '3px',
-    marginTop: '5px',
+    paddingLeft: 0,
+    paddingRight: 0,
+    marginLeft: '-1px',
 });
 
 export const PREVIEW_TEXT_STYLE = css({

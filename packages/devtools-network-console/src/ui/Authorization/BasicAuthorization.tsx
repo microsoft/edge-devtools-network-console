@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, TextField, Checkbox, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { Stack, TextField, Checkbox, MessageBar, MessageBarType } from '@fluentui/react';
 import { makeSetBasicAuthAction } from 'actions/request/auth';
 
 export interface IBasicAuthorizationProps {

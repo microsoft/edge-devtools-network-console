@@ -4,7 +4,7 @@
 import * as React from 'react';
 
 import * as Styles from './styles';
-import { MessageBar } from 'office-ui-fabric-react';
+import { MessageBar } from '@fluentui/react';
 
 export default function NoBody() {
     return (

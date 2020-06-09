@@ -8,7 +8,7 @@ import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import * as Styles from './styles';
 import { mergeString } from 'utility/environment-merge';
 import { substituteRouteParameters, concatenateQuery } from 'utility/http-compose';
-import { Text } from 'office-ui-fabric-react';
+import { Text } from '@fluentui/react';
 
 export interface ICalculatedAddressProps {
     request: INetConsoleRequestInternal;

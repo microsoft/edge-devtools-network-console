@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { Stack, TextField, MessageBar, MessageBarType } from '@fluentui/react';
 import { makeSetBearerTokenAction } from 'actions/request/auth';
 
 export interface IBearerTokenProps {

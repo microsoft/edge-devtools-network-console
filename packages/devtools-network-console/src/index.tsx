@@ -3,7 +3,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { initializeIcons } from 'office-ui-fabric-react';
+import { initializeIcons } from '@fluentui/react';
 import { monaco } from '@monaco-editor/react';
 
 import App from './App';

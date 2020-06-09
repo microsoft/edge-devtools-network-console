@@ -49,7 +49,9 @@ function ImagePreview({ body, contentType }: { body: string, contentType: string
 
 function HtmlPreview({ body }: { body: string }) {
     const dataUrl = React.useMemo(() => {
-        return `data:text/html;base64,${body}`;
+        const blob = new Blob([atob(body)], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        return url;
     }, [body]);
     return (
         <iframe title="Sandboxed preview of the document which was received" sandbox="" src={dataUrl} style={{

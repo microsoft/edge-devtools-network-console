@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { ComboBox, IComboBoxOption } from 'office-ui-fabric-react';
+import { ComboBox, IComboBoxOption } from '@fluentui/react';
 import { HttpVerb } from 'network-console-shared';
 
 import { IHttpVerbDef, KNOWN_HTTP_VERBS } from 'data';

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Pivot, PivotItem, DetailsList, IColumn, ProgressIndicator, SelectionMode, PivotLinkSize } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, DetailsList, IColumn, ProgressIndicator, SelectionMode, PivotLinkSize } from '@fluentui/react';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
 import { INetConsoleResponseInternal } from 'model/NetConsoleRequest';

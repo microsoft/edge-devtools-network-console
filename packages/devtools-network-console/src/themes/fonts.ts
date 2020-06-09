@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IRawStyle, IFontWeight, DefaultFontStyles, IFontStyles, FontWeights } from 'office-ui-fabric-react';
+import { IRawStyle, IFontWeight, DefaultFontStyles, IFontStyles, FontWeights } from '@fluentui/react';
 
 function _createFont(size: string, weight: IFontWeight, fontFamily: string): IRawStyle {
     return {

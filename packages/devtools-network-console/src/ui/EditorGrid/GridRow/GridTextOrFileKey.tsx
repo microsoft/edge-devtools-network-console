@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { TextField, ITextFieldProps, Dropdown } from 'office-ui-fabric-react';
+import { TextField, ITextFieldProps, Dropdown } from '@fluentui/react';
 
 interface IProps extends ITextFieldProps {
     canSelectMode: boolean;

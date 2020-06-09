@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { TextField, ITextFieldProps } from 'office-ui-fabric-react';
+import { TextField, ITextFieldProps } from '@fluentui/react';
 
 import * as Styles from '../styles';
 
