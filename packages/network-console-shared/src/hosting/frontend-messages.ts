@@ -48,6 +48,10 @@ export interface IUpdateDirtyFlagMessage extends IMessage<'UPDATE_DIRTY_FLAG'> {
     isDirty: boolean;
 }
 
+export interface IOpenUnattachedRequestMessage extends IMessage<'OPEN_NEW_UNATTACHED_REQUEST'> {
+    requestId: string;
+}
+
 export type ILogMessage = IMessage<'LOG'> & {
     [s: string]: any;
 };
@@ -59,6 +63,7 @@ export type FrontendMessage =
     ISaveCollectionAuthorizationMessage |
     ISaveEnvironmentVariablesMessage |
     IOpenWebLinkMessage |
+    IOpenUnattachedRequestMessage |
     IUpdateDirtyFlagMessage |
     ILogMessage
     ;

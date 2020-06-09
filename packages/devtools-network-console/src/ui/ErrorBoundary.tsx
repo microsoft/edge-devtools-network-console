@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { MessageBar, MessageBarType, Text } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, Text, Link } from 'office-ui-fabric-react';
 import { AppHost } from 'store/host';
 
 interface IProps {
@@ -58,7 +58,7 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
                             {this.state.errorStack}
                         </pre>)}
                         {!this.state.isExpanded && (
-                            <a href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label="Expand the call stack to see error details">Error details</a>
+                            <Link href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label="Expand the call stack to see error details">Error details</Link>
                         )}
                     </div>
                 </div>

@@ -20,7 +20,7 @@ export default function BasicAuthorization(props: IBasicAuthorizationProps) {
     return (
         <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
             <MessageBar
-                messageBarType={MessageBarType.warning}
+                messageBarType={MessageBarType.severeWarning}
                 isMultiline={true}
                 messageBarIconProps={{ iconName: 'Warning' }}
                 styles={{ root: { userSelect: 'none' }}}>

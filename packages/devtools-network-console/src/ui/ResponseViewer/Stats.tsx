@@ -7,7 +7,7 @@ import { ms } from 'network-console-shared';
 import Size from 'ui/generic/Size';
 import { useDispatch } from 'react-redux';
 import { downloadResponse } from 'actions/combined';
-import { Text } from 'office-ui-fabric-react';
+import { Text, Link } from 'office-ui-fabric-react';
 
 export interface IStatsProps {
     statusCode: number;
@@ -36,12 +36,12 @@ export default function Stats(props: IStatsProps) {
             <Definition
                 term="Download:"
                 value={(props.statusCode === 200 ? (
-                    <a href="#download"
+                    <Link href="#download"
                         onClick={e => {
                             e.preventDefault();
                             dispatch(downloadResponse(props.requestId));
                         }}
-                    >Click here</a>) : (
+                    >Click here</Link>) : (
                         <span>Not available</span>
                     ))}
                 />

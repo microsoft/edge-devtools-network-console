@@ -32,7 +32,7 @@ export default function HttpVerbPicker(props: IHttpVerbPickerProps) {
             selectedKey={props.defaultVerb}
             autoComplete="on"
             placeholder="METHOD"
-            allowFreeform={true}
+            allowFreeform={false}
             onChange={(_e, option, _index, value) => props.onVerbPicked((option ? option.text : value) as HttpVerb)}
             openOnKeyboardFocus={true}
             />

@@ -97,6 +97,18 @@ and does not monitor for a result.
 }
 ```
 
+### `OPEN_NEW_UNATTACHED_REQUEST`
+
+Requests the host present a new tab and associates it to a particular ID. This is a fire-and-forget
+message insofar as it doesn't require a result or response, but the ID is stateful.
+
+```ts
+{
+    type: 'OPEN_NEW_UNATTACHED_REQUEST';
+    requestId: string;
+}
+```
+
 ### `UPDATE_DIRTY_FLAG`
 
 Notifies the host that the current Network Console window is dirty or clean so that the host
