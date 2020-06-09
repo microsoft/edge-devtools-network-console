@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { MessageBar, MessageBarType } from '@fluentui/react';
+import { Link, MessageBar, MessageBarType } from '@fluentui/react';
 import { useDispatch } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 
@@ -34,19 +34,19 @@ export default function ResponseBody(props: IResponseBodyProps) {
                     The response message body size exceeded 64KiB. To avoid potentially slowing down
                     (particularly if the content is binary), it isn't shown by default. If you want
                     to still see it,
-                    <a
+                    <Link
                         href="#show"
                         onClick={e => {
                             e.preventDefault();
                             setHiddenBody(false);
-                        }}>click here</a>.
+                        }}>click here</Link>.
                     Alternatively, you can simply
-                    <a
+                    <Link
                         href="#download"
                         onClick={e => {
                             e.preventDefault();
                             dispatch(downloadResponse(props.requestId));
-                        }}>download the response</a>.
+                        }}>download the response</Link>.
                 </MessageBar>
             </div>
         );
