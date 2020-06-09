@@ -12,7 +12,7 @@ initializeIcons();
 monaco
     .config({
         paths: {
-            vs: 'https://devtools.azureedge.net/monaco/v0.20.0/vs',
+            vs: 'https://devtools.azureedge.net/monaco/v0.19.3/vs',
         },
     });
 
