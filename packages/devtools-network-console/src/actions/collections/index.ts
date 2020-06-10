@@ -6,7 +6,6 @@ import { AnyAction } from 'redux';
 
 export interface ISetCollectionTreeAction {
     type: 'COLLECTIONS_TREE_SET_ALL';
-
     rootCollections: ICollection[];
 }
 
@@ -25,7 +24,6 @@ export function isCollectionAction(action: AnyAction): action is CollectionsActi
 export function makeSetCollectionTreeAction(rootCollections: ICollection[]): ISetCollectionTreeAction {
     return {
         type: 'COLLECTIONS_TREE_SET_ALL',
-
         rootCollections,
     };
 }

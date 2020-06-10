@@ -4,7 +4,6 @@
 export interface IAddQueryAction {
     type: 'REQUEST_QUERY_ADD';
     requestId: string;
-
     id: string;
     name: string;
     value: string;
@@ -15,7 +14,6 @@ export interface IAddQueryAction {
 export interface IEditQueryAction {
     type: 'REQUEST_QUERY_EDIT';
     requestId: string;
-
     id: string;
     newName: string;
     value: string;
@@ -26,7 +24,6 @@ export interface IEditQueryAction {
 export interface IRemoveQueryAction {
     type: 'REQUEST_QUERY_REMOVE';
     requestId: string;
-
     id: string;
 }
 
@@ -45,7 +42,6 @@ export function addQueryAction(requestId: string, id: string, name: string, valu
     return {
         type: 'REQUEST_QUERY_ADD',
         requestId,
-
         id,
         name,
         value,
@@ -58,7 +54,6 @@ export function editQueryAction(requestId: string, id: string, newName: string, 
     return {
         type: 'REQUEST_QUERY_EDIT',
         requestId,
-
         id,
         newName,
         value,
@@ -71,7 +66,6 @@ export function removeQueryAction(requestId: string, id: string): IRemoveQueryAc
     return {
         type: 'REQUEST_QUERY_REMOVE',
         requestId,
-
         id,
     };
 }

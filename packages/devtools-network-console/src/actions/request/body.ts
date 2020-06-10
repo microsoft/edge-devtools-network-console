@@ -6,14 +6,12 @@ import { Base64String } from 'network-console-shared';
 export interface ISetBodyRawTextAction {
     type: 'REQUEST_EDIT_BODY_TEXT';
     requestId: string;
-
     text: string | Base64String;
 }
 
 export interface ISetBodyRawTextTypeAction {
     type: 'REQUEST_SET_BODY_TEXT_TYPE';
     requestId: string;
-
     contentType: string;
 }
 
@@ -24,7 +22,6 @@ export interface IAddBodyItemAction {
     type: 'REQUEST_ADD_BODY_ITEM';
     requestId: string;
     bodyArea: BodyItemType;
-
     id: string;
     name: string;
     value: string;
@@ -34,7 +31,6 @@ export interface IAddBodyItemAction {
 
 export interface IEditFormDataFileParametersAction {
     type: 'REQUEST_EDIT_BODY_FORM_DATA_FILE';
-
     requestId: string;
     id: string;
     fileName: string;
@@ -46,7 +42,6 @@ export interface IEditBodyItemAction {
     type: 'REQUEST_EDIT_BODY_ITEM';
     requestId: string;
     bodyArea: BodyItemType;
-
     id: string;
     name: string;
     value: string;
@@ -64,7 +59,6 @@ export interface IRemoveBodyItemAction {
 export interface ISetBodyTypeAction {
     type: 'REQUEST_SET_BODY_TYPE';
     requestId: string;
-
     bodyType: BodyType;
 }
 

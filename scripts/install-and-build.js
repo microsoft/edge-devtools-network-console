@@ -20,10 +20,10 @@ async function main() {
 
 main()
     .then(() => {
-        console.log('NPM install on subprojects complete.');
+        console.log('NPM install and build on subprojects complete.');
     })
     .catch(e => {
-        console.error('NPM install on subprojects failed.');
+        console.error('NPM install and build on subprojects failed.');
         console.error(e);
         process.exit(1);
     });

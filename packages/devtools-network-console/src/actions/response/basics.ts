@@ -14,7 +14,6 @@ export interface IBeginRequestAction {
 export interface IEndRequestAction {
     type: 'RESPONSE_END_REQUEST';
     requestId: string;
-
     succeeded: boolean;
     status: ResponseStatus;
     response: IHttpResponse | null;

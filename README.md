@@ -1,15 +1,15 @@
 # Introduction
-Network Console (working title) is an experimental tool for Microsoft Edge DevTools component for making synthetic
+Network Console (working title) is an experimental component for Chromium-based DevTools for making synthetic
 network requests over HTTP. It can be used during the dev-test loop for web APIs.
 
 As part of this effort, we want to meet our customers where they are. We know that Network Console isn't
 going to be feature-complete with our initial pass; we want to have the flexibility to iterate rapidly,
 experiment in the open, and get great ideas for what will be going into Network Console in the future.
 
-This project is new, and while the first iteration is going to be rolling into Edge DevTools behind an experiment
-flag, we're not sure what the right long-term vision for it is; for example, will it be better to package
-it into a browser extension rather than a built-in tool? We're not sure yet; this is a relatively fresh canvas
-for us to start from. Please keep that in mind if you consider contributing.
+This project is new, and while the first iteration is going to be rolling into Microsoft Edge DevTools behind
+an experiment flag, we're not sure what the right long-term vision for it is; for example, will it be better to
+package it into a browser extension rather than a built-in tool? We're not sure yet; this is a relatively fresh
+canvas for us to start from. Please keep that in mind if you consider contributing.
 
 ## Structure of Network Console
 

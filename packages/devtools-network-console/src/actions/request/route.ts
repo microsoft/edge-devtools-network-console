@@ -4,7 +4,6 @@
 export interface IEditRouteAction {
     type: 'REQUEST_ROUTE_EDIT';
     requestId: string;
-
     id: string;
     value: string;
     description: string;
@@ -25,7 +24,6 @@ export function editRouteAction(requestId: string, id: string, value: string, de
     return {
         type: 'REQUEST_ROUTE_EDIT',
         requestId,
-
         id,
         value,
         description,

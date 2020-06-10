@@ -11,7 +11,6 @@ import { AppHost } from 'store/host';
 import { makeDismissEditEnvironmentAction } from 'actions/modal';
 export interface ISetEnvironmentAuthorizationAction {
     type: 'ENV_SET_AMBIENT_AUTHORIZATION';
-
     requestId: string;
     authorization: INetConsoleAuthorization | null;
     authorizationPath: string[];
@@ -19,7 +18,6 @@ export interface ISetEnvironmentAuthorizationAction {
 
 export interface ISetEnvironmentVariablesAction {
     type: 'ENV_SET_VARIABLES';
-
     id: string;
     name: string;
     variables: INetConsoleParameter[];
@@ -50,7 +48,6 @@ export function makeSetEnvironmentAuthorizationAction(requestId: string, authori
 
     return {
         type: 'ENV_SET_AMBIENT_AUTHORIZATION',
-
         requestId,
         authorization,
         authorizationPath,

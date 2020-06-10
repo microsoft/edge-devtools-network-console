@@ -6,7 +6,6 @@ import { ISetBodyRawTextTypeAction } from './body';
 export interface IAddHeaderAction {
     type: 'REQUEST_HEADER_ADD';
     requestId: string;
-
     id: string;
     name: string;
     value: string;
@@ -17,7 +16,6 @@ export interface IAddHeaderAction {
 export interface IEditHeaderAction {
     type: 'REQUEST_HEADER_EDIT';
     requestId: string;
-
     id: string;
     newName: string;
     value: string;
@@ -28,7 +26,6 @@ export interface IEditHeaderAction {
 export interface IRemoveHeaderAction {
     type: 'REQUEST_HEADER_REMOVE';
     requestId: string;
-
     id: string;
 }
 
@@ -62,7 +59,6 @@ export function editHeaderAction(requestId: string, id: string, newName: string,
     return {
         type: 'REQUEST_HEADER_EDIT',
         requestId,
-
         id,
         newName,
         value,
@@ -75,7 +71,6 @@ export function removeHeaderAction(requestId: string, id: string): IRemoveHeader
     return {
         type: 'REQUEST_HEADER_REMOVE',
         requestId,
-
         id,
     };
 }

@@ -6,14 +6,12 @@ import { NetworkConsoleAuthorizationScheme } from 'network-console-shared';
 export interface ISetAuthorizationSchemeAction {
     type: 'REQUEST_AUTH_SET_KIND';
     requestId: string;
-
     kind: NetworkConsoleAuthorizationScheme
 }
 
 export interface ISetBasicAuthAction {
     type: 'REQUEST_AUTH_BASIC_SET_VALUES';
     requestId: string;
-
     username: string;
     password: string;
     showPassword: boolean;
@@ -22,7 +20,6 @@ export interface ISetBasicAuthAction {
 export interface ISetBearerTokenAction {
     type: 'REQUEST_AUTH_TOKEN_SET_VALUES';
     requestId: string;
-
     token: string;
 }
 

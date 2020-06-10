@@ -3,7 +3,6 @@
 
 export interface ISetHostCapabilitiesAction {
     type: 'HOST_SET_CAPABILITIES';
-
     hasNativeTabs: boolean;
     canSave: boolean;
     canEditCORS: boolean;
@@ -12,7 +11,6 @@ export interface ISetHostCapabilitiesAction {
 
 export interface ISetHostOptionsAction {
     type: 'HOST_SET_OPTIONS';
-
     shouldShowDescription: boolean;
 }
 

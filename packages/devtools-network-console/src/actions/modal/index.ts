@@ -17,7 +17,6 @@ export interface ISelectCollectionForSaveAction {
 
 export interface IEditAuthorizationInModalAction {
     type: 'MODAL_AUTH_EDIT';
-
     collectionId: string;
     paths: string[];
     auth: INetConsoleAuthorization;
@@ -25,7 +24,6 @@ export interface IEditAuthorizationInModalAction {
 
 export interface IChooseCollectionForSaveAction {
     type: 'MODAL_CHOOSE_COLLECTION_FOR_SAVE';
-
     collectionId: string;
 }
 
@@ -48,7 +46,6 @@ export interface IDismissEditEnvironmentAction {
 
 export interface IAddEnvVarAction {
     type: 'MODAL_ENVIRONMENT_VALUE_ADD';
-
     id: string;
     name: string;
     value: string;
@@ -58,7 +55,6 @@ export interface IAddEnvVarAction {
 
 export interface IEditEnvVarAction {
     type: 'MODAL_ENVIRONMENT_VALUE_EDIT';
-
     id: string;
     newName: string;
     value: string;
@@ -68,7 +64,6 @@ export interface IEditEnvVarAction {
 
 export interface IRemoveEnvVarAction {
     type: 'MODAL_ENVIRONMENT_VALUE_REMOVE';
-
     id: string;
 }
 
@@ -92,7 +87,6 @@ export function makeEditAuthorizationInModalAction(
     ): IEditAuthorizationInModalAction {
     return {
         type: 'MODAL_AUTH_EDIT',
-
         collectionId,
         paths,
         auth,
