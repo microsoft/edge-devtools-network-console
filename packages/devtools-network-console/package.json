@@ -1,0 +1,61 @@
+{
+  "name": "network-console-frontend",
+  "version": "0.9.0-preview",
+  "dependencies": {
+    "@fluentui/react": "^7.118.1",
+    "@microsoft/fast-components-react-msft": "^4.29.4",
+    "@microsoft/fast-jss-manager-react": "^4.6.2",
+    "@monaco-editor/react": "^3.0.1",
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.5",
+    "debounce": "^1.2.0",
+    "dot-prop": "^5.2.0",
+    "glamor": "^2.20.40",
+    "immutable": "^4.0.0-rc.12",
+    "lodash-es": "^4.17.15",
+    "monaco-editor": "^0.19.3",
+    "network-console-shared": "../network-console-shared",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-json-view": "^1.19.1",
+    "react-redux": "^7.1.1",
+    "react-scripts": "^3.4.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "rfc4648": "^1.3.0",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/debounce": "^1.2.0",
+    "@types/form-urlencoded": "^2.0.1",
+    "@types/react": "^16.9.2",
+    "@types/react-data-grid": "^4.0.3",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.2",
+    "@types/redux": "^3.6.0",
+    "@types/utf8": "^2.1.6",
+    "rimraf": "^3.0.2"
+  },
+  "homepage": "./"
+}
