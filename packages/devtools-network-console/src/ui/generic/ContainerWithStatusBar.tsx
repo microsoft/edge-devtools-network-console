@@ -20,6 +20,7 @@ const MAIN_CONTENT_STYLE = css({
     order: 1,
     flexGrow: 1,
     flexShrink: 1,
+    overflow: 'hidden',
 });
 const STATUS_BAR_STYLE = css({
     order: 2,
