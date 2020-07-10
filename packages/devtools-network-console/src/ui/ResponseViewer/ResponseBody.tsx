@@ -33,20 +33,20 @@ export default function ResponseBody(props: IResponseBodyProps) {
                     styles={{ root: { userSelect: 'none' } }}>
                     The response message body size exceeded 64KiB. To avoid potentially slowing down
                     (particularly if the content is binary), it isn't shown by default. If you want
-                    to still see it,
-                    <Link
-                        href="#show"
-                        onClick={e => {
-                            e.preventDefault();
-                            setHiddenBody(false);
-                        }}>click here</Link>.
-                    Alternatively, you can simply
-                    <Link
-                        href="#download"
-                        onClick={e => {
-                            e.preventDefault();
-                            dispatch(downloadResponse(props.requestId));
-                        }}>download the response</Link>.
+                    to still see it, <Link
+                                        href="#show"
+                                        style={{paddingLeft: 0}}
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setHiddenBody(false);
+                                        }}>click here</Link>.
+                    Alternatively, you can simply <Link
+                                                    href="#download"
+                                                    style={{paddingLeft: 0}}
+                                                    onClick={e => {
+                                                        e.preventDefault();
+                                                        dispatch(downloadResponse(props.requestId));
+                                                    }}>download the response</Link>.
                 </MessageBar>
             </div>
         );

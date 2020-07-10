@@ -155,6 +155,18 @@ If `persistedState` is set, the frontend will attempt to rehydrate its state fro
 payload contained within that property. (This allows for hosts like VS Code to store state
 in the event of crashes or process suspension).
 
+### `INIT_NEW_EMPTY_REQUEST`
+
+Initializes a new empty request. This does not include any parameters nor have a response
+message defined; however, if a new empty request is successfully created, an
+`OPEN_NEW_UNATTACHED_REQUEST` message will be sent from the frontend to the host.
+
+```ts
+{
+    type: 'INIT_NEW_EMPTY_REQUEST';
+}
+```
+
 ### `CSS_STYLE_UPDATED`
 
 Updates the application styles.

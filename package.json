@@ -20,5 +20,6 @@
     "install-and-build": "node ./scripts/install-and-build",
     "deploy": "node ./scripts/deploy",
     "start": "node ./scripts/run-frontend"
-  }
+  },
+  "dependencies": {}
 }

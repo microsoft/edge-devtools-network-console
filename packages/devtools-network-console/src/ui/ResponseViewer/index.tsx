@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Pivot, PivotItem, DetailsList, IColumn, ProgressIndicator, SelectionMode, PivotLinkSize } from '@fluentui/react';
+import { ProgressIndicator } from '@fluentui/react';
+import { DataGrid, DataGridColumn, DataGridCellRenderConfig, Pivot } from '@microsoft/fast-components-react-msft';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
 import { INetConsoleResponseInternal } from 'model/NetConsoleRequest';
@@ -13,10 +14,12 @@ import CookiesTable from './CookiesTable';
 import { IView } from 'store';
 import preview from './preview';
 import Stats from './Stats';
-import { THEME_TYPE, THEME_OVERRIDE } from 'themes/vscode-theme';
+import { THEME_TYPE } from 'themes/vscode-theme';
 import { AppHost } from 'store/host';
 import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
+import { HideUnless } from 'ui/generic/HideIf';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -27,30 +30,61 @@ export interface IOwnProps {
 }
 export type IResponseViewerProps = IConnectedProps & IOwnProps;
 
-const HEADERS_COLUMNS: IColumn[] = [
+const headersColumns: DataGridColumn[] = [
     {
-        key: "key",
-        name: "Name",
-        fieldName: "key",
-        isSorted: false,
-        minWidth: 50,
-        maxWidth: 150,
-        onRender: (item, _index, _column) => {
+        columnDataKey: 'key',
+        title: 'Name',
+        columnWidth: '20%',
+        cell: (config: DataGridCellRenderConfig) => {
             return (
-                <CanonicalHeaderName header={item.key} />
+                <div className={config.classNames}>
+                    <CanonicalHeaderName header={(config.rowData as any)[config.columnDataKey]} />
+                </div>
             );
         },
     },
     {
-        key: "value",
-        name: "Value",
-        fieldName: "value",
-        isSorted: false,
-        minWidth: 50
+        columnDataKey: 'value',
+        title: 'Value',
+        columnWidth: '75%',
     },
 ];
 
+type ActivityState = 'preview' | 'body' | 'headers' | 'cookies';
+const PIVOT_DEFAULT_ITEMS = [{
+    tab: (cn: string) => <div className={cn}>Body</div>,
+    content: () => <></>,
+    id: 'body',
+}, {
+    tab: (cn: string) => <div className={cn}>Headers</div>,
+    content: () => <></>,
+    id: 'headers',
+}, {
+    tab: (cn: string) => <div className={cn}>Cookies</div>,
+    content: () => <></>,
+    id: 'cookies',
+}];
+const PIVOT_PREVIEW_ITEM = {
+    tab: (cn: string) => <div className={cn}>Preview</div>,
+    content: () => <></>,
+    id: 'preview',
+};
+
 export function ResponseViewer(props: IResponseViewerProps) {
+    // TODO: Promote to per-request state in the Store
+    const [currentTab, setCurrentTab] = React.useState<ActivityState>('body');
+    const headerData = React.useMemo(() => {
+        if (props.response.status === 'COMPLETE' && props.response.response) {
+            return props.response.response.headers.map((h, index) => {
+                const rowKey = `r${props.requestId}h${index}`;
+                return {
+                    ...h,
+                    rowKey,
+                };
+            });
+        }
+        return [];
+    }, [props.requestId, props.response.status, props.response.response]);
     let languageChoice = 'text';
     let contentType = '';
     if (props.response.status === 'COMPLETE' && props.response.response) {
@@ -83,7 +117,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     else if (contentTypeHeader.value.indexOf('html') > -1) {
                         languageChoice = 'html';
                     }
-                    else if (contentTypeHeader.value.indexOf('/javascript') > -1) {
+                    else if (contentTypeHeader.value.indexOf('/javascript') > -1 || contentTypeHeader.value.indexOf('/x-javascript') > -1) {
                         languageChoice = 'javascript';
                     }
                     else if (contentTypeHeader.value.indexOf('/typescript') > -1) {
@@ -105,53 +139,51 @@ export function ResponseViewer(props: IResponseViewerProps) {
     }
 
     const renderedPreview = preview(props.response.response.body.content, contentType, props.theme);
+    const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
+    if (!!renderedPreview) {
+        tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
+    }
 
     return (
         <ContainerWithStatusBar>
             <div className="response-tabs" {...Styles.HEIGHT_100}>
+                <DesignSystemProvider designSystem={{ density: 2}}>
                 <Pivot
-                    {...Styles.RESPONSE_PIVOT_STYLE}
-                    className={renderedPreview && renderedPreview.parentClassName}
-                    styles={{
-                        root: THEME_OVERRIDE.mainPivotRoot,
-                        link: THEME_OVERRIDE.mainPivotButtons,
-                        linkIsSelected: THEME_OVERRIDE.mainPivotButtons,
-                    }}
-                    linkSize={PivotLinkSize.large}
-                    >
-                    {renderedPreview && <PivotItem headerText={renderedPreview.title} className={renderedPreview.className}>
-                        {renderedPreview.child}
-                    </PivotItem>}
-                    <PivotItem headerText="Body" className="editor-container">
-                        <ResponseBody
-                            languageChoice={languageChoice}
-                            requestId={props.requestId}
-                            theme={props.theme}
-                            serializedBody={props.response.response.body}
-                            size={props.response.response.size}
+                    activeId={currentTab}
+                    items={tabsToDisplay}
+                    label="Choose views of the response data"
+                    onUpdate={activeTab => setCurrentTab(activeTab as ActivityState)}
+                    />
+                </DesignSystemProvider>
+                {!!renderedPreview && (
+                <HideUnless test={currentTab} match="preview" className={renderedPreview.className}>
+                    {renderedPreview.child}
+                </HideUnless>
+                )}
+                <HideUnless test={currentTab} match="body" className="editor-container">
+                    <ResponseBody
+                        languageChoice={languageChoice}
+                        requestId={props.requestId}
+                        theme={props.theme}
+                        serializedBody={props.response.response.body}
+                        size={props.response.response.size}
+                        />
+                </HideUnless>
+                <HideUnless test={currentTab} match="headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                    <div {...CommonStyles.SCROLLABLE_STYLE}>
+                        <DataGrid
+                            rows={headerData}
+                            columns={headersColumns}
+                            dataRowKey="rowKey"
+                            virtualize={false}
                             />
-                    </PivotItem>
-                    <PivotItem headerText="Headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                        <div {...CommonStyles.SCROLLABLE_STYLE}>
-                            <DetailsList
-                                items={props.response.response.headers}
-                                columns={HEADERS_COLUMNS}
-                                selectionMode={SelectionMode.none}
-                                compact={true}
-                                styles={{
-                                    contentWrapper: {
-                                        padding: '4px 0 4px 6px',
-                                    }
-                                }}
-                                />
-                        </div>
-                    </PivotItem>
-                    <PivotItem headerText="Cookies" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                        <div {...CommonStyles.SCROLLABLE_STYLE}>
-                            <CookiesTable headers={props.response.response.headers} />
-                        </div>
-                    </PivotItem>
-                </Pivot>
+                    </div>
+                </HideUnless>
+                <HideUnless test={currentTab} match="cookies" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                    <div {...CommonStyles.SCROLLABLE_STYLE}>
+                        <CookiesTable headers={props.response.response.headers} />
+                    </div>
+                </HideUnless>
             </div>
 
             <Stats
@@ -210,7 +242,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
 
     return {
         response: response,
-        theme: state.theme,
+        theme: state.theme.theme,
     };
 }
 

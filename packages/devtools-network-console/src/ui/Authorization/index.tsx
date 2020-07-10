@@ -3,14 +3,16 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Pivot, PivotItem, Stack, MessageBar, MessageBarType } from '@fluentui/react';
+import { Stack, MessageBar, MessageBarType } from '@fluentui/react';
 import { INetConsoleAuthorization, NetworkConsoleAuthorizationScheme } from 'network-console-shared';
 
 import BasicAuthorization from './BasicAuthorization';
 import BearerToken from './BearerToken';
 import { makeSetAuthorizationSchemeAction } from 'actions/request/auth';
 import { IEnvironmentAuthorizationState } from 'store';
-import { THEME_OVERRIDE } from 'themes/vscode-theme';
+import { Radio } from '@microsoft/fast-components-react-msft';
+import { HideUnless } from 'ui/generic/HideIf';
+import CommonStyles from '../common-styles';
 
 export interface IAuthorizationProps {
     requestId: string;
@@ -18,35 +20,53 @@ export interface IAuthorizationProps {
     environmentAuth?: IEnvironmentAuthorizationState;
 }
 
-const TYPE_TO_INDEX = new Map<NetworkConsoleAuthorizationScheme, number>([
-    ['inherit', 0],
-    ['none', 1],
-    ['token', 2],
-    ['basic', 3],
-]);
 export default function Authorization(props: IAuthorizationProps) {
     const token = props.authorization.token;
     const basic = props.authorization.basic;
-    let index = TYPE_TO_INDEX.get(props.authorization.type) || 0;
     const env = props.environmentAuth;
     const dispatch = useDispatch();
 
     return (
-        <Pivot
-            initialSelectedIndex={index}
-            onLinkClick={(pivotItem) => {
-                if (pivotItem) {
-                    // TODO: Improve this hack
-                    const key = ((pivotItem as any).key as string).substr(2) as NetworkConsoleAuthorizationScheme;
-                    dispatch(makeSetAuthorizationSchemeAction(props.requestId, key));
-                }
-            }}
-            styles={{
-                root: THEME_OVERRIDE.smallPivotRoot,
-                link: THEME_OVERRIDE.smallPivotButtons,
-                linkIsSelected: THEME_OVERRIDE.smallPivotButtons,
-            }}>
-            <PivotItem headerText="Inherited" key="inherit">
+        <>
+            <div {...CommonStyles.RBL_HORIZONTAL}>
+                <Radio
+                    inputId="authInherit"
+                    name="authType"
+                    value="inherit"
+                    checked={props.authorization.type === 'inherit'}
+                    title="Inherit"
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authInherit" className={cn}>Inherit</label>}
+                    onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'inherit'))}
+                    />
+                <Radio
+                    inputId="authNone"
+                    name="authType"
+                    value="none"
+                    checked={props.authorization.type === 'none'}
+                    title="None"
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authNone" className={cn}>None</label>}
+                    onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'none'))}
+                    />
+                <Radio
+                    inputId="authToken"
+                    name="authType"
+                    value="token"
+                    checked={props.authorization.type === 'token'}
+                    title="Bearer token"
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authToken" className={cn}>Bearer token</label>}
+                    onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'token'))}
+                    />
+                <Radio
+                    inputId="authBasic"
+                    name="authType"
+                    value="basic"
+                    checked={props.authorization.type === 'basic'}
+                    title="Basic"
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authBasic" className={cn}>Basic</label>}
+                    onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}
+                    />
+            </div>
+            <HideUnless test={props.authorization.type} match="inherit">
                 <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
                     <MessageBar
                         messageBarType={MessageBarType.info}
@@ -64,19 +84,19 @@ export default function Authorization(props: IAuthorizationProps) {
 
                     </MessageBar>
                 </Stack>
-            </PivotItem>
-            <PivotItem headerText="None" key="none">
+            </HideUnless>
+            <HideUnless test={props.authorization.type} match="none">
                 <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
                     <MessageBar messageBarType={MessageBarType.info} styles={{ root: { userSelect: 'none' }}}>This request does not use authorization.</MessageBar>
                 </Stack>
-            </PivotItem>
-            <PivotItem headerText="Bearer token" key="token">
+            </HideUnless>
+            <HideUnless test={props.authorization.type} match="token">
                 <BearerToken token={(token && token.token) || ''} requestId={props.requestId} />
-            </PivotItem>
-            <PivotItem headerText="Basic" key="basic">
+            </HideUnless>
+            <HideUnless test={props.authorization.type} match="basic">
                 <BasicAuthorization username={(basic && basic.username) || ''} password={(basic && basic.password) || ''} showPassword={(basic && basic.showPassword) || false} requestId={props.requestId} />
-            </PivotItem>
-        </Pivot>
+            </HideUnless>
+        </>
     );
 }
 

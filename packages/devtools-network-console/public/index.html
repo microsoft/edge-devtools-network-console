@@ -111,6 +111,12 @@ div.described-choices label {
 .request-title-editor > .ms-TextField-wrapper > .ms-TextField-fieldGroup > input.ms-TextField-field::placeholder {
   font-size: 16px !important;
 }
+
+/** https://github.com/microsoft/fast/issues/2235 */
+.content-type-select > div[role=listbox] {
+  position: relative;
+  z-index: 100;
+}
     </style>
   </head>
   <body>

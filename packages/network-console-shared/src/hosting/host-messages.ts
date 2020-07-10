@@ -27,6 +27,8 @@ export interface IInitHostMessage extends IMessage<'INIT_HOST'> {
     messagePort?: MessagePort;
 }
 
+export type IInitEmptyRequestMessage = IMessage<'INIT_NEW_EMPTY_REQUEST'>;
+
 export interface ICssStylesUpdatedMessage extends IMessage<'CSS_STYLE_UPDATED'> {
     cssVariables: string;
     isDark: boolean;
@@ -100,6 +102,7 @@ export type IClearEnvironmentMessage = IMessage<'CLEAR_ENVIRONMENT'>;
 
 export type HostMessage =
     IInitHostMessage |
+    IInitEmptyRequestMessage |
     ICssStylesUpdatedMessage |
     ISetPreferencesMessage |
     ILoadRequestMessage |

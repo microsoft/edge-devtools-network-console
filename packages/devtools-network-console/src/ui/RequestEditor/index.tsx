@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import { INetConsoleParameter } from 'network-console-shared';
-import { Pivot, PivotItem, TextField, PivotLinkSize } from '@fluentui/react';
+import { Pivot } from '@microsoft/fast-components-react-msft';
+import { TextField } from '@fluentui/react';
 import { Map } from 'immutable';
 import { connect, useDispatch } from 'react-redux';
 import { StyleAttribute, css } from 'glamor';
@@ -22,8 +23,9 @@ import { removeHeaderAction, addHeaderAction, editHeaderAction } from 'actions/r
 import RequestBody from '../RequestBody';
 import CorsConfiguration from './CorsConfiguration';
 import { ID_DIV_QUERY, ID_DIV_HEADER, ID_DIV_ROUTE } from 'reducers/request/id-manager';
-import { THEME_OVERRIDE } from 'themes/vscode-theme';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
+import { HideUnless } from 'ui/generic/HideIf';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 interface IOwnProps {
     requestId: string;
@@ -50,8 +52,38 @@ interface IConnectedProps {
 
 export type IRequestEditorProps = IOwnProps & IConnectedProps;
 
+type ActivityState = 'query' | 'cookies' | 'auth' | 'body' | 'route' | 'fetch';
+const PIVOT_DEFAULT_ITEMS = [{
+    tab: (cn: string) => <div className={cn}>Query</div>,
+    content: () => <></>,
+    id: 'query',
+}, {
+    tab: (cn: string) => <div className={cn}>Headers</div>,
+    content: () => <></>,
+    id: 'headers',
+}, {
+    tab: (cn: string) => <div className={cn}>Auth</div>,
+    content: () => <></>,
+    id: 'auth',
+}, {
+    tab: (cn: string) => <div className={cn}>Body</div>,
+    content: () => <></>,
+    id: 'body',
+}];
+const PIVOT_ROUTE_ITEM = {
+    tab: (cn: string) => <div className={cn}>Route</div>,
+    content: () => <></>,
+    id: 'route',
+};
+const PIVOT_CORS_ITEM = {
+    tab: (cn: string) => <div className={cn}>Fetch</div>,
+    content: () => <></>,
+    id: 'fetch',
+};
+
 export default function RequestEditor(props: IRequestEditorProps) {
     const dispatch = useDispatch();
+    const [currentTab, setCurrentTab] = React.useState<ActivityState>(props.request.routeParameters.count() > 0 ? 'route' : 'query');
 
     let bodyPivotStyle: StyleAttribute;
     let bodyStyle: StyleAttribute;
@@ -65,6 +97,14 @@ export default function RequestEditor(props: IRequestEditorProps) {
     else {
         bodyPivotStyle = CommonStyles.SCROLL_CONTAINER_STYLE;
         bodyStyle = CommonStyles.SCROLLABLE_STYLE;
+    }
+
+    const pivotTabs = PIVOT_DEFAULT_ITEMS.slice();
+    if (props.routeParameters.count() > 0) {
+        pivotTabs.unshift(PIVOT_ROUTE_ITEM);
+    }
+    if (props.canEditCORS) {
+        pivotTabs.push(PIVOT_CORS_ITEM);
     }
     return (
         <ContainerWithStatusBar>
@@ -96,17 +136,17 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         requestId={props.requestId}
                         />
                 </div>
-                <div className="ht100">
-                    <Pivot
-                        className="ht100 flxcol full-height-pivot"
-                        styles={{
-                            root: THEME_OVERRIDE.mainPivotRoot,
-                            linkIsSelected: THEME_OVERRIDE.mainPivotButtons,
-                            link: THEME_OVERRIDE.mainPivotButtons
-                        }}
-                        linkSize={PivotLinkSize.large}>
+                <div className="ht100 flxcol">
+                    <DesignSystemProvider designSystem={{ density: 2}}>
+                        <Pivot
+                            activeId={currentTab}
+                            label="Choose views of the request"
+                            onUpdate={activeTab => setCurrentTab(activeTab as ActivityState)}
+                            items={pivotTabs} />
+                    </DesignSystemProvider>
+                    <div style={{flexGrow: 1}}>
                         {(props.routeParameters.count() > 0 &&
-                        (<PivotItem headerText="Route">
+                        (<HideUnless test={currentTab} match="route">
                             <EditorGrid
                                 canHaveFiles={false}
                                 isDeleteAllowed={false}
@@ -122,9 +162,9 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                 previewEnvironmentMerge={true}
                                 environmentVariables={props.environment.variables}
                                 />
-                        </PivotItem>)
+                        </HideUnless>)
                         )}
-                        <PivotItem headerText="Query" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        <HideUnless test={currentTab} match="query" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
                                 <EditorGrid
                                     canHaveFiles={false}
@@ -148,8 +188,8 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     environmentVariables={props.environment.variables}
                                     />
                             </div>
-                        </PivotItem>
-                        <PivotItem headerText="Headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        </HideUnless>
+                        <HideUnless test={currentTab} match="headers" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
                                 <EditorGrid
                                     canHaveFiles={false}
@@ -173,18 +213,19 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     environmentVariables={props.environment.variables}
                                     />
                             </div>
-                        </PivotItem>
-                        <PivotItem headerText="Auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        </HideUnless>
+                        <HideUnless test={currentTab} match="auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
                                 <Authorization authorization={props.request.authorization} requestId={props.requestId} environmentAuth={props.environmentAuth} />
                             </div>
-                        </PivotItem>
-                        <PivotItem headerText="Body" {...bodyPivotStyle}>
+                        </HideUnless>
+                        <HideUnless test={currentTab} match="body" {...bodyPivotStyle}>
                             <div {...bodyStyle}>
                                 <RequestBody requestId={props.requestId} />
                             </div>
-                        </PivotItem>
-                        {props.canEditCORS && <PivotItem headerText="Fetch" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                        </HideUnless>
+                        {props.canEditCORS && (
+                        <HideUnless test={currentTab} match="fetch" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <CorsConfiguration
                                 requestId={props.requestId}
                                 selectedCorsMode={props.request.fetchParams?.corsMode || 'cors'}
@@ -192,8 +233,8 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                 selectedCredentialsMode={props.request.fetchParams?.credentialsMode || 'same-origin'}
                                 selectedRedirectMode={props.request.fetchParams?.redirectMode || 'follow'}
                                 />
-                        </PivotItem>}
-                    </Pivot>
+                        </HideUnless>)}
+                    </div>
                 </div>
             </div>
 

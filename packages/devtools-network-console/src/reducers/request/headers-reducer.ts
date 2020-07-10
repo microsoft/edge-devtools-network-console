@@ -82,7 +82,7 @@ export default function reduceRequestHeaders(action: HeaderAction, collection: R
         }
 
         case 'REQUEST_SET_BODY_TEXT_TYPE': {
-            const headerEntry = state.current.headers.findEntry((_v, key) => key.toLowerCase() === 'content-type');
+            const headerEntry = state.current.headers.findEntry(v => v.key.toLowerCase() === 'content-type');
             let headers = state.current.headers;
             if (!headerEntry) {
                 headers = headers.set(`${action.requestId}H${headers.size}`, {

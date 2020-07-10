@@ -29,7 +29,7 @@ import { INetConsoleHost, ISaveResult } from './interfaces';
 import { recalculateAndApplyTheme, THEME_TYPE } from 'themes/vscode-theme';
 import { globalDispatch } from 'store';
 import { setHostOptionsAction } from 'actions/host-capabilities';
-import { loadRequestAction } from 'actions/common';
+import { loadRequestAction, loadDefaultRequest } from 'actions/common';
 import { makeEditAuthorizationInModalAction, makeEditEnvironmentAction } from 'actions/modal';
 import { makeSetEnvironmentAuthorizationAction, makeClearEnvironmentVariablesAction, makeSetEnvironmentVariablesAction } from 'actions/environment';
 import { makeSetCollectionTreeAction } from 'actions/collections';
@@ -181,6 +181,10 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
                 this.onInitHost(message);
                 break;
 
+            case 'INIT_NEW_EMPTY_REQUEST':
+                this.onInitEmptyRequest();
+                break;
+
             case 'CSS_STYLE_UPDATED':
                 this.onCssStyleUpdated(message);
                 break;
@@ -244,6 +248,10 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         }
 
         recalculateAndApplyTheme(message.cssVariables, theme);
+    }
+
+    protected onInitEmptyRequest() {
+        globalDispatch(loadDefaultRequest());
     }
 
     protected onCssStyleUpdated(message: ICssStylesUpdatedMessage) {

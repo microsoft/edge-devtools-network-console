@@ -9,8 +9,8 @@ export interface IBoolCheckProps {
 
 export default function BoolCheck(props: IBoolCheckProps) {
     if (props.isChecked) {
-        return <span>✓</span>;
+        return <span aria-label="yes">✓</span>;
     }
 
-    return <span />;
+    return <span aria-label="no" />;
 }

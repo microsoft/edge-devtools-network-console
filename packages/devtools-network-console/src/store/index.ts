@@ -94,6 +94,11 @@ export interface IEnvironmentState {
     environment: IActiveEnvironmentState;
 }
 
+export interface IThemeInfo {
+    theme: THEME_TYPE;
+    fontPalette: 'normal' | 'small';
+}
+
 export interface IView {
     collections: ICollection[];
     request: RequestsState;
@@ -102,7 +107,7 @@ export interface IView {
     modals: IModalState;
     environment: IEnvironmentState;
 
-    theme: THEME_TYPE;
+    theme: IThemeInfo;
     hostCapabilities: IHostCapabilities;
 }
 
