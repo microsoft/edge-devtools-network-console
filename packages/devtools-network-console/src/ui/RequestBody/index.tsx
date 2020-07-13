@@ -107,7 +107,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                         messageBarType={MessageBarType.severeWarning}
                                         isMultiline
                                         messageBarIconProps={{ iconName: 'Warning' }}
-                                        styles={{root: { userSelect: 'none' }, text: { userSelect: 'none'}}}
+                                        styles={{root: { userSelect: 'none', overflowY: 'scroll' }, text: { userSelect: 'none'}}}
                                    >
                                        Sending a body entity as part of a {props.selectedVerb} request is
                                        not part of the standard and may result in undefined behavior. Consider
