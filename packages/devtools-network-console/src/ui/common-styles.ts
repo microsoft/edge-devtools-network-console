@@ -51,7 +51,7 @@ const CommonStyles = {
     RBL_HORIZ_LABEL: css({
         paddingRight: '15px',
         userSelect: 'none',
-    })
+    }),
 };
 
 export default CommonStyles;

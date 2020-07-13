@@ -40,4 +40,4 @@ export const BODY_SELECT_LABEL = CommonStyles.RBL_HORIZ_LABEL;
 
 export const GRID_CONTANER = css({
     paddingTop: '10px',
-})
+});
