@@ -10,6 +10,7 @@ import { THEME_TYPE } from 'themes/vscode-theme';
 import { downloadResponse } from 'actions/combined';
 import { ISerializableHttpBody } from 'network-console-shared';
 import { strFromB64 } from 'utility/b64';
+import * as Styles from './styles';
 
 interface IResponseBodyProps {
     languageChoice: string;
@@ -35,14 +36,14 @@ export default function ResponseBody(props: IResponseBodyProps) {
                     (particularly if the content is binary), it isn't shown by default. If you want
                     to still see it, <Link
                                         href="#show"
-                                        style={{paddingLeft: 0}}
+                                        {...Styles.LINK_NO_LEADING_STYLE}
                                         onClick={e => {
                                             e.preventDefault();
                                             setHiddenBody(false);
                                         }}>click here</Link>.
                     Alternatively, you can simply <Link
                                                     href="#download"
-                                                    style={{paddingLeft: 0}}
+                                                    {...Styles.LINK_NO_LEADING_STYLE}
                                                     onClick={e => {
                                                         e.preventDefault();
                                                         dispatch(downloadResponse(props.requestId));

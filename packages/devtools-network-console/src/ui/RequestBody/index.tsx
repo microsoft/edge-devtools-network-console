@@ -172,7 +172,13 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         <Select
                             placeholder="Content Type"
                             className="content-type-select"
-                            style={{width: '205px'}}
+                            jssStyleSheet={{
+                                select: {
+                                    width: '205px',
+                                    zIndex: '500',
+                                    position: 'relative',
+                                },
+                            }}
                             selectedItems={[props.rawTextBody.contentType]}
                             onMenuSelectionChange={items => {
                                 dispatch(setBodyTextTypeAction(props.requestId, items[0]?.id || 'text/plain'));

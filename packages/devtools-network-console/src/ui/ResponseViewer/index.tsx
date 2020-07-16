@@ -147,7 +147,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
     return (
         <ContainerWithStatusBar>
             <div className="response-tabs" {...Styles.HEIGHT_100}>
-                <DesignSystemProvider designSystem={{ density: 2}}>
+                <DesignSystemProvider designSystem={{ density: 2 }}>
                 <Pivot
                     activeId={currentTab}
                     items={tabsToDisplay}
