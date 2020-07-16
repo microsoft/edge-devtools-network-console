@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { DetailsList, IColumn, SelectionMode } from '@fluentui/react';
+import { DataGridHeaderRenderConfig } from '@microsoft/fast-components-react-base';
+import { DataGrid, DataGridColumn, DataGridCellRenderConfig } from '@microsoft/fast-components-react-msft';
 import { IHttpHeader } from 'network-console-shared';
 
 import BoolCheck from 'ui/generic/BoolCheck';
@@ -21,74 +22,69 @@ interface IParsedCookie {
     secure: boolean;
 }
 
-const columns: IColumn[] = [
+const dataCols: DataGridColumn[] = [
     {
-        key: 'name',
-        name: 'Name',
-        fieldName: 'name',
-        isSorted: false,
-        minWidth: 50,
-        maxWidth: 150,
-        isResizable: true,
+        columnDataKey: 'name',
+        title: 'Name',
+        columnWidth: '20%',
     },
     {
-        key: 'value',
-        name: 'Value',
-        fieldName: 'value',
-        isSorted: false,
-        minWidth: 50,
-        isResizable: true,
+        columnDataKey: 'value',
+        title: 'Value',
+        columnWidth: '20%',
     },
     {
-        key: 'domain',
-        name: 'Domain',
-        fieldName: 'domain',
-        isSorted: false,
-        minWidth: 50,
-        isResizable: true,
+        columnDataKey: 'domain',
+        title: 'Domain',
+        columnWidth: '14%',
     },
     {
-        key: 'path',
-        name: 'Path',
-        fieldName: 'path',
-        isSorted: false,
-        minWidth: 50,
-        isResizable: true,
+        columnDataKey: 'path',
+        title: 'Path',
+        columnWidth: '10%',
     },
     {
-        key: 'expires',
-        name: 'Expires',
-        fieldName: 'expires',
-        isSorted: false,
-        minWidth: 100,
-        maxWidth: 125,
-        isResizable: true,
+        columnDataKey: 'expires',
+        title: 'Expires',
+        columnWidth: '20%',
     },
     {
-        key: 'httpOnly',
-        name: 'HttpOnly',
-        fieldName: 'httpOnly',
-        isSorted: false,
-        minWidth: 25,
-        isResizable: true,
-        onRender: (item, _index, _column) => {
+        columnDataKey: 'httpOnly',
+        title: 'HttpOnly',
+        cell: (config: DataGridCellRenderConfig) => {
             return (
-                <BoolCheck isChecked={item.httpOnly} />
+                <div className={config.classNames} {...config.unhandledProps} data-cellid={config.columnDataKey} style={{textAlign: 'center'}}>
+                    <BoolCheck isChecked={(config.rowData as IParsedCookie).httpOnly} />
+                </div>
             );
         },
+        header: (config: DataGridHeaderRenderConfig) => {
+            return (
+                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '6 / auto', textAlign: 'center'}}>
+                    {config.title}
+                </div>
+            )
+        },
+        columnWidth: '8%',
     },
     {
-        key: 'secure',
-        name: 'Secure',
-        fieldName: 'secure',
-        isSorted: false,
-        minWidth: 25,
-        isResizable: true,
-        onRender: (item, _index, _column) => {
+        columnDataKey: 'secure',
+        title: 'Secure',
+        cell: (config: DataGridCellRenderConfig) => {
             return (
-                <BoolCheck isChecked={item.secure} />
+                <div className={config.classNames} {...config.unhandledProps} data-cellid={config.columnDataKey} style={{textAlign: 'center'}}>
+                    <BoolCheck isChecked={(config.rowData as IParsedCookie).secure} />
+                </div>
             );
         },
+        header: (config: DataGridHeaderRenderConfig) => {
+            return (
+                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '7 / auto', textAlign: 'center'}}>
+                    {config.title}
+                </div>
+            )
+        },
+        columnWidth: '8%',
     },
 ];
 
@@ -119,11 +115,11 @@ export default function CookiesTable(props: { headers: IHttpHeader[] }) {
     const cookieHeaders = props.headers.filter(h => h.key.toLowerCase() === 'set-cookie');
     const cookies = cookieHeaders.map(h => h.value).map(parseCookieHeader);
     return (
-        <DetailsList
-            compact={true}
-            items={cookies}
-            columns={columns}
-            selectionMode={SelectionMode.none}
+        <DataGrid
+            rows={cookies}
+            columns={dataCols}
+            dataRowKey="name"
+            virtualize={false}
             />
     );
 }

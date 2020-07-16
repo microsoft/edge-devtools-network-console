@@ -39,7 +39,7 @@ const DEVTOOLS_THEME_OVERRIDES: IThemeOverride = {
     },
 };
 
-const DARK_THEME_PALETTE = {
+export const DARK_THEME_PALETTE = {
     black: "#ffffff",
     neutralDark: "#dddddd",
     neutralLight: "rgba(58, 131, 208, 0.7)",
@@ -59,7 +59,7 @@ const DARK_THEME_PALETTE = {
     splitterColor: '#4a4a4a',
 };
 
-const LIGHT_THEME_PALETTE = {
+export const LIGHT_THEME_PALETTE = {
     black: "#000000",
     neutralDark: "#8e979c",
     neutralLight: "#e3e4e4",
@@ -79,7 +79,7 @@ const LIGHT_THEME_PALETTE = {
     splitterColor: '#e1e4e8',
 };
 
-const HIGH_CONTRAST_THEME_PALETTE = {
+export const HIGH_CONTRAST_THEME_PALETTE = {
     themePrimary: '#6bbfff',
     themeLighterAlt: '#04080a',
     themeLighter: '#111f29',

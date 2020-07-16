@@ -3,13 +3,11 @@
 
 import * as React from 'react';
 import {
-    CommandBar,
-    Pivot,
-    PivotItem,
     MessageBar,
     MessageBarType,
     Link,
 } from '@fluentui/react';
+import { Radio, Select, SelectOption } from '@microsoft/fast-components-react-msft';
 import { useDispatch, connect } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import { Map as ImmutableMap } from 'immutable';
@@ -22,7 +20,6 @@ import EditorGrid from 'ui/EditorGrid';
 import {
     editBodyTextAction,
     setBodyTypeAction,
-    BodyType,
     addBodyDataItemAction,
     editBodyDataItemAction,
     editBodyFormDataFileParams,
@@ -32,8 +29,9 @@ import {
 import { IView, IActiveEnvironmentState } from 'store';
 import { getKnownVerbDef } from 'data';
 import { AppHost } from 'store/host';
-import { THEME_TYPE, THEME_OVERRIDE } from 'themes/vscode-theme';
+import { THEME_TYPE } from 'themes/vscode-theme';
 import { ID_DIV_FORM_DATA, ID_DIV_FORM_URLENCODED } from 'reducers/request/id-manager';
+import { HideUnless } from 'ui/generic/HideIf';
 
 export interface IOwnProps {
     requestId: string;
@@ -57,44 +55,36 @@ interface IConnectedProps {
     environment: IActiveEnvironmentState;
 }
 export type IRequestBodyEditorProps = IOwnProps & IConnectedProps;
-const ROOT_CMD_BAR_ITEM = {
-    key: 'change-request-body-type',
-    text: '',
-    subMenuProps: {
-        items: [
-            {
-                key: 'text/plain',
-                text: 'Plain text (text/plain)',
-                iconProps: { iconName: 'TextDocument' },
-            },
-            {
-                key: 'application/json',
-                text: 'JSON (application/json)',
-                iconProps: { iconName: 'Script' },
-            },
-            {
-                key: 'text/xml',
-                text: 'XML (text/xml)',
-                iconProps: { iconName: 'ChevronLeftMed' },
-            },
-            {
-                key: 'application/xml',
-                text: 'XML (application/xml)',
-                iconProps: { iconName: 'ChevronRightMed' },
-            },
-            {
-                key: 'text/html',
-                text: 'HTML (text/html)',
-                iconProps: { iconName: 'FileHTML' },
-            },
-            {
-                key: 'application/javascript',
-                text: 'JavaScript (application/javascript)',
-                iconProps: { iconName: 'JavaScriptLanguage' },
-            },
-        ],
-    },
-};
+const BODY_CONTENT_TYPES = [{
+    key: 'text/plain',
+    text: 'Plain text (text/plain)',
+    iconProps: { iconName: 'TextDocument' },
+},
+{
+    key: 'application/json',
+    text: 'JSON (application/json)',
+    iconProps: { iconName: 'Script' },
+},
+{
+    key: 'text/xml',
+    text: 'XML (text/xml)',
+    iconProps: { iconName: 'ChevronLeftMed' },
+},
+{
+    key: 'application/xml',
+    text: 'XML (application/xml)',
+    iconProps: { iconName: 'ChevronRightMed' },
+},
+{
+    key: 'text/html',
+    text: 'HTML (text/html)',
+    iconProps: { iconName: 'FileHTML' },
+},
+{
+    key: 'application/javascript',
+    text: 'JavaScript (application/javascript)',
+    iconProps: { iconName: 'JavaScriptLanguage' },
+}];
 
 const KeyToMap = new Map<string, string>([
     ['text/plain', 'text'],
@@ -106,31 +96,8 @@ const KeyToMap = new Map<string, string>([
 ]);
 export function RequestBody(props: IRequestBodyEditorProps) {
     const dispatch = useDispatch();
-    const cmdBarItem = {
-        ...ROOT_CMD_BAR_ITEM,
-        text: `Content type: ${props.rawTextBody.contentType}`,
-        subMenuProps: {
-            ...ROOT_CMD_BAR_ITEM.subMenuProps,
-            items: ROOT_CMD_BAR_ITEM.subMenuProps.items.map((item) => {
-                return {
-                    ...item,
-                    onClick: () => {
-                        dispatch(setBodyTextTypeAction(props.requestId, item.key));
-                    },
-                };
-            }),
-        },
-    };
     const knownVerb = getKnownVerbDef(props.selectedVerb);
     const shouldIncludeBody = !knownVerb || knownVerb.canIncludeBody;
-    function calculateSelectedIndex(bodySelection: 'none' | 'form-data' | 'x-www-form-urlencoded' | 'raw'): number {
-        return {
-            none: 0,
-            'form-data': 1,
-            'x-www-form-urlencoded': 2,
-            raw: 3,
-        }[bodySelection];
-    }
 
     const style: StyleAttribute = props.bodySelection === 'raw' ? Styles.BODY_CONTAINER_STYLE : {};
 
@@ -140,7 +107,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                         messageBarType={MessageBarType.severeWarning}
                                         isMultiline
                                         messageBarIconProps={{ iconName: 'Warning' }}
-                                        styles={{root: { userSelect: 'none' }, text: { userSelect: 'none'}}}
+                                        styles={{root: { userSelect: 'none', overflowY: 'auto' }, text: { userSelect: 'none'}}}
                                    >
                                        Sending a body entity as part of a {props.selectedVerb} request is
                                        not part of the standard and may result in undefined behavior. Consider
@@ -156,30 +123,78 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                                       e.stopPropagation();
                                                   }
                                               }}
+                                              style={{paddingLeft: 0}}
                                               >
                                            the relevant standards information
                                        </Link>.)</>}
                                    </MessageBar>}
-            <Pivot
-                className="ht100 flxcol"
-                initialSelectedIndex={calculateSelectedIndex(props.bodySelection)}
-                onLinkClick={(pivotItem) => {
-                    if (pivotItem) {
-                        // TODO: Improve this hack
-                        const key = ((pivotItem as any).key as string).substr(2) as BodyType;
-                        dispatch(setBodyTypeAction(props.requestId, key));
-                    }
-                }}
-                styles={{
-                    root: THEME_OVERRIDE.smallPivotRoot,
-                    link: THEME_OVERRIDE.smallPivotButtons,
-                    linkContent: THEME_OVERRIDE.smallPivotButtons,
-                }}
-                >
-                <PivotItem headerText="No body" key="none">
+            <div className="ht100 flxcol">
+                <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}}>
+                    <Radio
+                        inputId="bodyNone"
+                        name="bodyType"
+                        value="none"
+                        checked={props.bodySelection === 'none'}
+                        title="None"
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyNone" className={cn}>None</label>}
+                        onChange={() => dispatch(setBodyTypeAction(props.requestId, 'none'))}
+                        />
+                    <Radio
+                        inputId="bodyFD"
+                        name="bodyType"
+                        value="form-data"
+                        checked={props.bodySelection === 'form-data'}
+                        title="form-data"
+                        label={cn => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyFD" className={cn}>form-data</label>}
+                        onChange={() => dispatch(setBodyTypeAction(props.requestId, 'form-data'))}
+                        />
+                    <Radio
+                        inputId="bodyXWFU"
+                        name="bodyType"
+                        value="x-www-form-urlencoded"
+                        checked={props.bodySelection === 'x-www-form-urlencoded'}
+                        title="x-www-form-urlencoded"
+                        label={cn => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyXWFU" className={cn}>x-www-form-urlencoded</label>}
+                        onChange={() => dispatch(setBodyTypeAction(props.requestId, 'x-www-form-urlencoded'))}
+                        />
+                    <Radio
+                        inputId="bodyRaw"
+                        name="bodyType"
+                        value="Raw text"
+                        checked={props.bodySelection === 'raw'}
+                        title="raw"
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}>Raw text</label>}
+                        onChange={() => dispatch(setBodyTypeAction(props.requestId, 'raw'))}
+                        />
+
+                    <HideUnless test={props.bodySelection} match="raw">
+                        {/* <CommandBar items={[cmdBarItem]} /> */}
+                        <Select
+                            placeholder="Content Type"
+                            className="content-type-select"
+                            jssStyleSheet={{
+                                select: {
+                                    width: '205px',
+                                    zIndex: '500',
+                                    position: 'relative',
+                                },
+                            }}
+                            selectedItems={[props.rawTextBody.contentType]}
+                            onMenuSelectionChange={items => {
+                                dispatch(setBodyTextTypeAction(props.requestId, items[0]?.id || 'text/plain'));
+                            }}>
+                            {BODY_CONTENT_TYPES.map(item => {
+                                return (
+                                    <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
+                                );
+                            })}
+                        </Select>
+                    </HideUnless>
+                </div>
+                <HideUnless test={props.bodySelection} match="none">
                     <NoBody />
-                </PivotItem>
-                <PivotItem headerText="form-data" key="form-data">
+                </HideUnless>
+                <HideUnless test={props.bodySelection} match="form-data" {...Styles.GRID_CONTANER}>
                     <EditorGrid
                         canHaveFiles={true}
                         updateRowFileInfo={(id, type, fileName, contents) => {
@@ -220,8 +235,8 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}
                         />
-                </PivotItem>
-                <PivotItem headerText="x-www-form-urlencoded" key="x-www-form-urlencoded">
+                </HideUnless>
+                <HideUnless test={props.bodySelection} match="x-www-form-urlencoded" {...Styles.GRID_CONTANER}>
                     <EditorGrid
                         canHaveFiles={false}
                         rows={props.xWwwFormUrlencoded}
@@ -259,11 +274,9 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}
                         />
-                </PivotItem>
-
-                <PivotItem headerText="Raw text" className="ht100" key="raw">
+                </HideUnless>
+                <HideUnless test={props.bodySelection} match="raw" className="ht100">
                     <div className="ht100 flxcol">
-                        <CommandBar items={[cmdBarItem]} />
                         <div style={{flexGrow: 1}}>
                             <MonacoEditor
                                 language={KeyToMap.get(props.rawTextBody.contentType)}
@@ -276,8 +289,8 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                 />
                         </div>
                     </div>
-                </PivotItem>
-            </Pivot>
+                </HideUnless>
+            </div>
         </div>
     )
 }
@@ -295,7 +308,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         selectedVerb: request.current.verb,
         xWwwFormUrlencoded: bc.xWwwFormUrlencoded,
 
-        theme: state.theme,
+        theme: state.theme.theme,
         options: {
             showDescriptionFields: state.hostCapabilities.shouldShowDescription,
         },

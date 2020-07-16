@@ -10,6 +10,7 @@ import { THEME_TYPE } from 'themes/vscode-theme';
 import { downloadResponse } from 'actions/combined';
 import { ISerializableHttpBody } from 'network-console-shared';
 import { strFromB64 } from 'utility/b64';
+import * as Styles from './styles';
 
 interface IResponseBodyProps {
     languageChoice: string;
@@ -33,20 +34,20 @@ export default function ResponseBody(props: IResponseBodyProps) {
                     styles={{ root: { userSelect: 'none' } }}>
                     The response message body size exceeded 64KiB. To avoid potentially slowing down
                     (particularly if the content is binary), it isn't shown by default. If you want
-                    to still see it,
-                    <Link
-                        href="#show"
-                        onClick={e => {
-                            e.preventDefault();
-                            setHiddenBody(false);
-                        }}>click here</Link>.
-                    Alternatively, you can simply
-                    <Link
-                        href="#download"
-                        onClick={e => {
-                            e.preventDefault();
-                            dispatch(downloadResponse(props.requestId));
-                        }}>download the response</Link>.
+                    to still see it, <Link
+                                        href="#show"
+                                        {...Styles.LINK_NO_LEADING_STYLE}
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setHiddenBody(false);
+                                        }}>click here</Link>.
+                    Alternatively, you can simply <Link
+                                                    href="#download"
+                                                    {...Styles.LINK_NO_LEADING_STYLE}
+                                                    onClick={e => {
+                                                        e.preventDefault();
+                                                        dispatch(downloadResponse(props.requestId));
+                                                    }}>download the response</Link>.
                 </MessageBar>
             </div>
         );

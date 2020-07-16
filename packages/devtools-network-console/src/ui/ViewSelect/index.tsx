@@ -31,8 +31,8 @@ export function ViewSelect(props: IViewSelectProps) {
                     <Link href="#create-request" aria-label="Create a request" onClick={e => {
                         e.preventDefault();
                         dispatch(loadDefaultRequest());
-                    }}>Create a request</Link> to use Network Console. See the "Network Console Collections"
-                    window in the bottom left corner of your Visual Studio Code's Explorer menu.
+                    }}>Create a request</Link> to use Network Console. Or, import or manage from
+                    the Collections panel to open existing request configurations.
                 </MessageBar>
             </Stack>
         );
