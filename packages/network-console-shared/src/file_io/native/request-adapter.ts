@@ -5,7 +5,7 @@ import {
     INetConsoleRequest,
 } from '../../net/net-console-http';
 import { ICollectionFormat, ICollectionAdapter, ICollectionItemAdapter } from '../interfaces';
-
+import { createAuthorizationProxy } from './authorization';
 import {
     INCNativeRequest,
 } from '../../collections/native/native-file-format';
@@ -49,8 +49,14 @@ function createRequestProxy(realObject: INetConsoleRequest, onDirty: () => void)
         'bodyComponents',
     ];
     return new Proxy(realObject, {
+        get(obj: INetConsoleRequest, prop: string | number | symbol) {
+            if (prop === 'authorization') {
+                const authorizationProp = Reflect.get(obj, prop);
+                return createAuthorizationProxy(authorizationProp, onDirty);
+            }
+            return Reflect.get(obj, prop);
+        },
         set(obj: INetConsoleRequest, prop: string | number | symbol, value: any) {
-            // These are non-complex objects
             if (ALLOWED_PROPERTIES.indexOf(prop as string) > -1) {
                 onDirty();
                 return Reflect.set(obj, prop, value);

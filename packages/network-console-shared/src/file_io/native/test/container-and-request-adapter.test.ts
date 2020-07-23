@@ -167,6 +167,61 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
             const result = await collection.stringify();
             expect(result).to.equal(expected);
         });
+
+        it('Modification of a request authorization marks the collection as dirty', async () => {
+            const expected = await getContentsAndFormat('src/file_io/native/test/cases/modified-request-authorization.nc.json');
+
+            // setup
+            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolder = testFolderEntry as ICollectionContainerAdapter;
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
+            const requestEntry = anotherSubfolder.getEntryById('starting-case.nc.json/2/0/1');
+            expect(requestEntry).to.not.be.null;
+            expect(requestEntry!.type).to.equal('item');
+            const requestItem = requestEntry as ICollectionItemAdapter;
+            expect(collection.isDirty).to.be.false;
+
+            debugger;
+            // test cases
+            const request = requestItem.request;
+            request.authorization.type = 'basic';
+            request.authorization.basic = {
+                username: 'user',
+                password: 'florbo',
+                showPassword: false,
+            };
+            expect(collection.isDirty).to.be.true;
+
+            // Finally, ensure that the collection contents are updated appropriately
+            await collection.commit();
+            const result = await collection.stringify();
+            expect(result).to.equal(expected);
+        });
+
+        it('Modification of a container authorization marks the collection as dirty', async () => {
+            const expected = await getContentsAndFormat('src/file_io/native/test/cases/modified-container-authorization.nc.json');
+
+            // setup
+            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolder = testFolderEntry as ICollectionContainerAdapter;
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
+            expect(collection.isDirty).to.be.false;
+
+            debugger;
+            // test cases
+            anotherSubfolder.authorization.type = 'token';
+            anotherSubfolder.authorization.token = {
+                token: 'This is a bearer token.'
+            };
+            expect(collection.isDirty).to.be.true;
+
+            // Finally, ensure that the collection contents are updated appropriately
+            await collection.commit();
+            const result = await collection.stringify();
+            expect(result).to.equal(expected);
+        });
     });
 
     describe('adjacent data are not modified when entries are modified', () => {

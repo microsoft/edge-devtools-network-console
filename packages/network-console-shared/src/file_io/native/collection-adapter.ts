@@ -14,6 +14,7 @@ import {
     ICollectionItemAdapter,
     ICollectionContainerAdapter,
 } from '../interfaces';
+import { createAuthorizationProxy } from './authorization';
 import { ContainerAdapter } from './container-adapter';
 import { RequestAdapter } from './request-adapter';
 
@@ -114,10 +115,12 @@ export class CollectionAdapter implements ICollectionAdapter {
     }
 
     get authorization() {
-        // TODO: Return Authorization proxy
-        return {
-            type: 'inherit' as NetworkConsoleAuthorizationScheme,
-        };
+        if (!this._current.auth) {
+            this._current.auth = {
+                type: 'inherit',
+            };
+        }
+        return createAuthorizationProxy(this._current.auth, () => { this._dirty = true; });
     }
 
     get childEntryIds() {
@@ -197,28 +200,3 @@ export class CollectionAdapter implements ICollectionAdapter {
         return this.fileContents;
     }
 }
-
-// export function cleanRequest(src: INetConsoleRequest): INetConsoleRequest {
-//     const { url, verb, name, description, authorization, headers, queryParameters, routeParameters, body, bodyComponents } = src;
-
-//     return {
-//         url,
-//         verb,
-//         name,
-//         description,
-//         authorization: cleanAuthorization(authorization),
-//         headers: headers.map(cleanParameter),
-//         queryParameters: queryParameters.map(cleanParameter),
-//         routeParameters: routeParameters.map(cleanParameter),
-//         bodyComponents: cleanBodyComponents(bodyComponents),
-//         body: cleanBody(body),
-//     };
-// }
-
-// export function cleanAuthorization(src: INetConsoleAuthorization): INetConsoleAuthorization {
-
-// }
-
-// export function cleanParameter(src: INetConsoleParameter): INetConsoleParameter {
-
-// }

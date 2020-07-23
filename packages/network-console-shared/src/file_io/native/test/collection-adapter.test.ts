@@ -37,7 +37,10 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
     }, {
         request: {
             authorization: {
-                type: 'inherit',
+                type: 'token',
+                token: {
+                    token: '1234abcd',
+                },
             },
             body: { content: '' },
             bodyComponents: {
@@ -63,6 +66,14 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
     }, {
         name: 'Test folder',
         entries: [],
+        auth: {
+            type: 'basic',
+            basic: {
+                username: 'user',
+                password: 'pass',
+                showPassword: false,
+            },
+        },
     }, {
         request: {
             authorization: {
@@ -160,7 +171,10 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
 
             await collection.appendItemEntry({
                 authorization: {
-                    type: 'inherit',
+                    type: 'token',
+                    token: {
+                        token: '1234abcd',
+                    },
                 },
                 body: { content: '' },
                 bodyComponents: {
@@ -184,7 +198,13 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
                 verb: 'GET',
             });
 
-            await collection.appendContainerEntry('Test folder');
+            const container = await collection.appendContainerEntry('Test folder');
+            container.authorization.type = 'basic';
+            container.authorization.basic = {
+                username: 'user',
+                password: 'pass',
+                showPassword: false,
+            };
 
             await collection.appendItemEntry({
                 authorization: {
@@ -268,6 +288,14 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
                 }, {
                     name: 'Test folder',
                     entries: [],
+                    auth: {
+                        type: 'basic',
+                        basic: {
+                            username: 'user',
+                            password: 'pass',
+                            showPassword: false,
+                        },
+                    },
                 }, {
                     request: {
                         authorization: {
@@ -345,6 +373,14 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
                 }, {
                     name: 'Test folder',
                     entries: [],
+                    auth: {
+                        type: 'basic',
+                        basic: {
+                            username: 'user',
+                            password: 'pass',
+                            showPassword: false,
+                        },
+                    },
                 }, {
                     request: {
                         authorization: {
@@ -418,6 +454,26 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
             let entry = collection.getEntryById('req_req_folder_req.nc.json/4');
             expect(entry).to.not.be.null;
             expect(entry!.type).to.equal('container');
+        });
+
+        it('is marked dirty after modifying the collection-level authorization', async () => {
+            const expected = JSON.stringify({
+                ...JSON.parse(REQ_REQ_FOLDER_REQ),
+                auth: {
+                    type: 'token',
+                    token: {
+                        token: 'abcd1234',
+                    },
+                },
+            }, null, 4);
+
+            collection.authorization.type = 'token';
+            collection.authorization.token = {
+                token: 'abcd1234',
+            };
+            expect(collection.isDirty).to.be.true;
+            await collection.commit();
+            expect(await collection.stringify()).to.equal(expected);
         });
     });
 });

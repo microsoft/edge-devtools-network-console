@@ -3,10 +3,8 @@
 
 import {
     INetConsoleRequest,
-    NetworkConsoleAuthorizationScheme,
 } from '../../net/net-console-http';
 import BidiMap from '../../util/bidi-map';
-
 import {
     ICollectionFormat,
     ICollectionAdapter,
@@ -15,6 +13,7 @@ import {
     ICollectionItemAdapter,
 } from '../interfaces';
 import { RequestAdapter } from './request-adapter';
+import { createAuthorizationProxy } from './authorization';
 
 import {
     NCChild,
@@ -53,10 +52,12 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
     }
 
     get authorization() {
-        // TODO: Return Authorization proxy
-        return {
-            type: 'inherit' as NetworkConsoleAuthorizationScheme,
-        };
+        if (!this.realObject.auth) {
+            this.realObject.auth = {
+                type: 'inherit',
+            };
+        }
+        return createAuthorizationProxy(this.realObject.auth, this.setDirty);
     }
 
     get childEntryIds() {
