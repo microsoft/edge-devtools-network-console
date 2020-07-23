@@ -5,7 +5,8 @@
 		"outDir": "dist",
 		"lib": [
 			"es6",
-			"DOM"
+			"DOM",
+			"ES2015.Proxy"
 		],
 		"esModuleInterop": true,
 		"sourceMap": true,

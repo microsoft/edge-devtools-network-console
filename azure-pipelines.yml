@@ -26,3 +26,7 @@ steps:
     npm ci
     npm run install-and-build
   displayName: 'npm install and build'
+
+- script: |
+    npm run run-tests:shared
+  displayName: 'Run tests'

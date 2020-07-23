@@ -11,14 +11,14 @@ import { INetConsoleAuthorization, INetConsoleRequest } from '../../net/net-cons
 import lazy, { Lazy } from '../../util/lazy';
 import { ICollectionEntryWriter, IHostFileSystem, ICollectionFolderWriter } from '../shared/writer';
 
-type NCChild = INCNativeFolder | INCNativeRequest;
-interface INCNativeFolder {
+export type NCChild = INCNativeFolder | INCNativeRequest;
+export interface INCNativeFolder {
     name: string;
     auth?: INetConsoleAuthorization;
     entries: NCChild[];
 }
 
-interface INCNativeRequest {
+export interface INCNativeRequest {
     auth?: INetConsoleAuthorization;
     request: INetConsoleRequest;
 }
@@ -26,7 +26,7 @@ interface INCNativeRequest {
 /**
  * Describes the root definition of a native Network Console (.ns.json) file.
  */
-interface INCNativeRoot extends INCNativeFolder {
+export interface INCNativeRoot extends INCNativeFolder {
     meta: {
         networkConsoleCollectionVersion: string;
     };

@@ -72,6 +72,15 @@ export {
 }
 from './hosting/host-messages';
 
+export {
+    ICollectionAdapter,
+    ICollectionContainerAdapter,
+    ICollectionEntryAdapter,
+    ICollectionFormat,
+    ICollectionItemAdapter,
+} from './file_io/interfaces';
+export { NetworkConsoleNativeFileFormat } from './file_io/native';
+
 export { Lazy, default as lazy } from './util/lazy';
 
 import { Postman21NativeReader as P21NativeReader } from './collections/postman/v2.1/postman-2.1-file-format';

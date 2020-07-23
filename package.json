@@ -19,6 +19,7 @@
     "build-locally": "node ./scripts/build-all",
     "install-and-build": "node ./scripts/install-and-build",
     "deploy": "node ./scripts/deploy",
-    "start": "node ./scripts/run-frontend"
+    "start": "node ./scripts/run-frontend",
+    "run-tests:shared": "node ./scripts/run-package-task -- --package-name network-console-shared --task-name test"
   }
 }
