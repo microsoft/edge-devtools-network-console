@@ -24,6 +24,7 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { makeWebsocketMessageLoggedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
@@ -42,6 +43,30 @@ export default class WebApplicationHost implements INetConsoleHost {
     }
 
     async makeRequest(request: INetConsoleRequestInternal, environmentalAuthorization: INetConsoleAuthorization | null, environmentVariables: INetConsoleParameter[]): Promise<INetConsoleResponse> {
+        if (request.url === 'wss://www.norad.mil/cheyenne/WOPR') {
+            WebSocketMock.instance('wss');
+            const time = Math.random() * 1000;
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction('wss', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
+            }, time);
+            return {
+                duration: 4,
+                status: 'COMPLETE',
+                response: {
+                    headers: [
+                        { key: 'Connection', value: 'Upgrade' },
+                        { key: 'Upgrade', value: 'WebSocket' },
+                    ],
+                    statusCode: 101,
+                    statusText: 'Upgrade',
+                    size: 0,
+                    body: {
+                        content: '',
+                    },
+                },
+            };
+        }
+
         const start = Date.now();
         let mergedRequest = await synthesizeHttpRequest(request, environmentalAuthorization, environmentVariables);
 
@@ -149,4 +174,51 @@ async function bodyFromResponse(response: Response): Promise<ArrayBuffer> {
 
 function timeout(ms: number): Promise<void> {
     return new Promise<void>(r => setTimeout(r, ms));
+}
+
+const DEMO_RESPONSES = {
+    'Hello.': 'HOW ARE YOU FEELING TODAY?',
+    [`I'm fine. How are you?`]: `EXCELLENT. IT'S BEEN A LONG TIME. CAN YOU EXPLAIN THE REMOVAL OF YOUR USER ACCOUNT NUMBER ON 6/23/73?`,
+    'People sometimes make mistak': 'YES THEY DO. SHALL WE PLAY A GAME?',
+    'People sometimes make mistakes.': 'YES THEY DO. SHALL WE PLAY A GAME?',
+    'Love to. How about Global Thermonuclear War?': `WOULDN'T YOU PREFER A GOOD GAME OF CHESS?`,
+    [`Later. Let's play Global Thermonuclear War.`]: 'FINE.',
+};
+const DEMO_JSON_RESPONSES = {
+    [JSON.stringify({ type: 'INIT_CONNECTION', client: 'ws1-info' })]: JSON.stringify({ type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }),
+    [JSON.stringify({ type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' })]: JSON.stringify({ type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }),
+}
+
+export class WebSocketMock {
+    private static _instance: WebSocketMock | null;
+    public static instance(requestId: string) {
+        if (!WebSocketMock._instance) {
+            WebSocketMock._instance = new WebSocketMock(requestId);
+        }
+        return WebSocketMock._instance;
+    }
+
+    private connected: number;
+    private modeJson: boolean;
+    private constructor(private requestId: string) {
+        this.connected = Date.now();
+        this.modeJson = false;
+    }
+
+    send(message: string) {
+        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Math.floor(Date.now() - this.connected), message));
+        const resps: any = this.modeJson ? DEMO_JSON_RESPONSES : DEMO_RESPONSES;
+        const response = resps[message];
+        if (response) {
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), response));
+            }, Math.random() * 750);
+        }
+        else if (message === 'go-json') {
+            this.modeJson = true;
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
+            }, 250 + Math.random() * 750);
+        }
+    }
 }

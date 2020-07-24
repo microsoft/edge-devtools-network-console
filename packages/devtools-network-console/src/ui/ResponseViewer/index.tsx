@@ -20,6 +20,7 @@ import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import WebSocketView from './WebSocket';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -68,6 +69,11 @@ const PIVOT_PREVIEW_ITEM = {
     tab: (cn: string) => <div className={cn}>Preview</div>,
     content: () => <></>,
     id: 'preview',
+};
+const WEBSOCKET_ITEM = {
+    tab: (cn: string) => <div className={cn}>WebSocket</div>,
+    content: () => <></>,
+    id: 'websocket',
 };
 
 export function ResponseViewer(props: IResponseViewerProps) {
@@ -144,6 +150,11 @@ export function ResponseViewer(props: IResponseViewerProps) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
     }
 
+    if (true || false) {
+        // TODO: Mock up the websocket connection
+        tabsToDisplay.push(WEBSOCKET_ITEM);
+    }
+
     return (
         <ContainerWithStatusBar>
             <div className="response-tabs" {...Styles.HEIGHT_100}>
@@ -183,6 +194,9 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     <div {...CommonStyles.SCROLLABLE_STYLE}>
                         <CookiesTable headers={props.response.response.headers} />
                     </div>
+                </HideUnless>
+                <HideUnless test={currentTab} match="websocket" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                    <WebSocketView requestId={props.requestId} />
                 </HideUnless>
             </div>
 

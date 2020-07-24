@@ -21,6 +21,7 @@ import reduceViewManager, { IViewManagerState } from 'reducers/view-manager';
 import reduceModals from 'reducers/modals';
 import reduceEnvironment from 'reducers/environment';
 import reduceCollections from 'reducers/collections';
+import reduceWebsocket, { WS_State } from 'reducers/websocket';
 import { ICollection } from 'model/collections';
 import { THEME_TYPE } from 'themes/vscode-theme';
 
@@ -109,6 +110,7 @@ export interface IView {
 
     theme: IThemeInfo;
     hostCapabilities: IHostCapabilities;
+    websocket: WS_State;
 }
 
 export interface ICollectionArea {
@@ -127,6 +129,7 @@ const reducers = combineReducers({
 
     theme: reduceTheme,
     hostCapabilities: reduceHostCaps,
+    websocket: reduceWebsocket,
 });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
