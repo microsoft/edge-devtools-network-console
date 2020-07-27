@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// tslint:disable:no-unused-expression
+
 import { ImportMock } from 'ts-mock-imports';
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
