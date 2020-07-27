@@ -49,4 +49,5 @@ export interface INetConsoleResponseInternal {
     started: ms;
     status: ResponseStatus;
     response: IHttpResponse | null;
+    isWebsocketUpgrade?: boolean;
 }

@@ -41,7 +41,7 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
                             {message}
                         </code>
                     ) : (
-                        <JsonView 
+                        <JsonView
                             src={message}
                             displayDataTypes={false}
                             enableClipboard={false}
@@ -59,7 +59,7 @@ var MESSAGE_STYLE_BASE = css({
     width: '90%',
     display: 'grid',
     gridTemplateColumns: '85px auto',
-    borderRadius: '20px',
+    borderRadius: '4px',
     padding: '15px',
     marginTop: '5px',
 });

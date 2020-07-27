@@ -51,7 +51,7 @@ const headersColumns: DataGridColumn[] = [
     },
 ];
 
-type ActivityState = 'preview' | 'body' | 'headers' | 'cookies';
+type ActivityState = 'preview' | 'body' | 'headers' | 'cookies' | 'websocket';
 const PIVOT_DEFAULT_ITEMS = [{
     tab: (cn: string) => <div className={cn}>Body</div>,
     content: () => <></>,
@@ -148,11 +148,14 @@ export function ResponseViewer(props: IResponseViewerProps) {
     const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
     if (!!renderedPreview) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
+    } else if(currentTab === "preview") {
+        setCurrentTab('body');
     }
 
-    if (true || false) {
-        // TODO: Mock up the websocket connection
+    if (props.response.isWebsocketUpgrade) {
         tabsToDisplay.push(WEBSOCKET_ITEM);
+    } else if (currentTab === "websocket") {
+        setCurrentTab('body');
     }
 
     return (
