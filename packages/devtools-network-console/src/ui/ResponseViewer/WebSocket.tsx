@@ -8,10 +8,11 @@ import CommonStyles from 'ui/common-styles';
 import WebSocketMessage from './WebSocketMessage';
 import { Select, SelectOption, Button, ButtonAppearance } from '@microsoft/fast-components-react-msft';
 import { editor, KeyCode } from 'monaco-editor';
-import { sendWsMessage } from 'actions/websocket';
-import { useDispatch, useSelector } from 'react-redux';
+import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
+import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
-import { WS_State } from 'reducers/websocket';
+import { IWebSocketConnection } from 'reducers/websocket';
+import { AppHost } from 'store/host';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
@@ -31,6 +32,11 @@ const MESSAGES_CONTAINER_STYLE = css({
     justifyContent: 'flex-end',
     height: 'calc(100% - 5px)',
     paddingBottom: '5px',
+});
+const DISCONNECTED_STYLE = css({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
 });
 const COMMAND_BAR_STYLE = css({
     display: 'flex',
@@ -73,17 +79,23 @@ const BODY_CONTENT_TYPES = [{
     text: 'JavaScript',
 }];
 
-export interface IWebSocketViewProps {
+export interface IOwnProps {
     requestId: string;
 }
 
-export default function WebSocketView(props: IWebSocketViewProps) {
+interface IConnectedProps {
+    connection: IWebSocketConnection;
+}
+export type IWebSocketViewProps = IConnectedProps & IOwnProps;
+
+export function WebSocketView(props: IWebSocketViewProps) {
     const [toSend, setToSend] = useState('');
     const [format, setFormat] = useState('text');
     const dispatch = useDispatch();
-    const messages = useSelector<IView, WS_State>(v => v.websocket);
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>();
- 
+    const messages = props.connection.messages;
+    const connected = props.connection.connected;
+
     function handleEditorDidMount(_: any, editor: editor.IStandaloneCodeEditor) {
         editorRef.current = editor;
         editor.onKeyDown(e => {
@@ -114,7 +126,9 @@ export default function WebSocketView(props: IWebSocketViewProps) {
                     </div>
                 </div>
             </div>
-            <div {...COMMAND_BAR_STYLE}>
+            {connected ?
+            (<>
+                <div {...COMMAND_BAR_STYLE}>
                 <Select
                     placeholder="Content Type"
                     jssStyleSheet={{
@@ -134,22 +148,59 @@ export default function WebSocketView(props: IWebSocketViewProps) {
                         );
                     })}
                 </Select>
-                <Button appearance={ButtonAppearance.primary}>Disconnect</Button>
-            </div>
-            <div className="ht100 flxcol">
-                <MonacoEditor
-                    language={format}
-                    theme="light"
-                    value={toSend}
-                    onChange={(_e, newValue) => {
-                        setToSend(newValue!);
-                    }}
-                    editorDidMount={handleEditorDidMount}
-                    options={{
-                        automaticLayout: true,
-                    }}
-                    />
-            </div>
+                <Button
+                    appearance={ButtonAppearance.primary}
+                    disabled={!connected}
+                    onClick={e => {
+                        dispatch(sendWsDisconnect(props.requestId));
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}>Disconnect</Button>
+                </div>
+                <div className="ht100 flxcol">
+                    <MonacoEditor
+                        language={format}
+                        theme="light"
+                        value={toSend}
+                        onChange={(_e, newValue) => {
+                            setToSend(newValue!);
+                        }}
+                        editorDidMount={handleEditorDidMount}
+                        options={{
+                            automaticLayout: true,
+                        }}
+                        />
+                </div>
+            </>): <NotConnected />}
         </div>
     );
 }
+
+function NotConnected() {
+    return (
+        <div {...DISCONNECTED_STYLE}>
+            Websocket disconnected! Resend the request to re-connect!
+        </div>
+    );
+}
+
+function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
+    const wsConnection = state.websocket.get(ownProps.requestId);
+    if (!wsConnection) {
+        AppHost.log({
+            message: 'Invariant failure, no WebSocketConnection for ID',
+            where: 'ConnectedWebSocketViewer:mapStateToProps',
+            state,
+            ownProps,
+            wsConnection,
+        });
+        throw new Error('Invariant failed: WebsocketConnection not found for given request ID');
+    }
+
+    return {
+        connection: wsConnection
+    };
+}
+
+export const ConnectedWebSocketViewer = connect(mapStateToProps)(WebSocketView);
+export default ConnectedWebSocketViewer;

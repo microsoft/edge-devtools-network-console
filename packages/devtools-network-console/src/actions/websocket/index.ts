@@ -24,6 +24,12 @@ export interface IWebsocketMessageLoggedAction {
     time: ms;
     content: string;
 }
+// TODO: add support for client vs server disconnect
+export interface IWebsocketDisconnectedAction {
+    type: 'REQUEST_WEBSOCKET_DISCONNECTED';
+
+    requestId: string;
+}
 
 export function makeSendWebsocketMessageAction(requestId: string, messageBody: string): ISendWebsocketMessageAction {
     return {
@@ -43,9 +49,22 @@ export function makeWebsocketMessageLoggedAction(requestId: string, direction: W
     };
 }
 
+export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDisconnectedAction {
+    return {
+        type: 'REQUEST_WEBSOCKET_DISCONNECTED',
+        requestId
+    }
+}
+
 export function sendWsMessage(requestId: string, messageBody: string): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
         dispatch(makeSendWebsocketMessageAction(requestId, messageBody));
         WebSocketMock.instance(requestId).send(messageBody);
+    };
+}
+
+export function sendWsDisconnect(requestId: string): ThunkAction<void, IView, void, AnyAction> {
+    return async dispatch => {
+        dispatch(makeWebSocketDisconnectedAction(requestId));
     };
 }

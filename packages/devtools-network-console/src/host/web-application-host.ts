@@ -47,7 +47,7 @@ export default class WebApplicationHost implements INetConsoleHost {
             WebSocketMock.instance('wss');
             const time = Math.random() * 1000;
             setTimeout(() => {
-                globalDispatch(makeWebsocketMessageLoggedAction('wss', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
+                globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
             }, time);
             return {
                 duration: 4,
@@ -192,7 +192,7 @@ const DEMO_JSON_RESPONSES = {
 export class WebSocketMock {
     private static _instance: WebSocketMock | null;
     public static instance(requestId: string) {
-        if (!WebSocketMock._instance) {
+        if (!WebSocketMock._instance || requestId !== WebSocketMock._instance.requestId) {
             WebSocketMock._instance = new WebSocketMock(requestId);
         }
         return WebSocketMock._instance;
