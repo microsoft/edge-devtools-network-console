@@ -20,7 +20,7 @@ import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
-import WebSocketView from './WebSocket';
+import ConnectedWebSocketViewer from './WebSocket';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -199,7 +199,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     </div>
                 </HideUnless>
                 <HideUnless test={currentTab} match="websocket" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                    <WebSocketView requestId={props.requestId} />
+                    <ConnectedWebSocketViewer requestId={props.requestId} />
                 </HideUnless>
             </div>
 
