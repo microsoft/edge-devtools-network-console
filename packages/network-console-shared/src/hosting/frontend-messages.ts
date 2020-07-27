@@ -3,6 +3,7 @@
 
 import { IHttpRequest } from '../net/http-base';
 import { INetConsoleRequest, INetConsoleAuthorization, INetConsoleParameter } from '../net/net-console-http';
+import { Base64String } from '../util/base64';
 
 interface IMessage<T extends string> {
     type: T;
@@ -52,6 +53,16 @@ export interface IOpenUnattachedRequestMessage extends IMessage<'OPEN_NEW_UNATTA
     requestId: string;
 }
 
+export interface IDisconnectWebSocketMessage extends IMessage<'DISCONNECT_WEBSOCKET'> {
+    requestId: string;
+}
+
+export interface ISendWebSocketMessage extends IMessage<'WEBSOCKET_SEND_MESSAGE'> {
+    requestId: string;
+    message: string | Base64String;
+    encoding: 'text' | 'base64';
+}
+
 export type ILogMessage = IMessage<'LOG'> & {
     [s: string]: any;
 };
@@ -65,5 +76,7 @@ export type FrontendMessage =
     IOpenWebLinkMessage |
     IOpenUnattachedRequestMessage |
     IUpdateDirtyFlagMessage |
-    ILogMessage
+    ILogMessage |
+    IDisconnectWebSocketMessage |
+    ISendWebSocketMessage
     ;

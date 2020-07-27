@@ -23,6 +23,8 @@ import {
     IUpdateEnvironmentMessage,
     ICloseViewMessage,
     IShowViewMessage,
+    IWebSocketDisconnectedMessage,
+    IWebSocketPacketMessage,
 } from 'network-console-shared/hosting/host-messages';
 
 import { INetConsoleHost, ISaveResult } from './interfaces';
@@ -315,6 +317,14 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         globalDispatch(closeViewAction(message.requestId));
     }
 
+    protected onWebSocketDisconnected(message: IWebSocketDisconnectedMessage) {
+        // TODO: Connect the host message to the global dispatcher
+    }
+
+    protected onWebSocketPacket(message: IWebSocketPacketMessage) {
+        // TODO: Connect the host message to the global dispatcher
+    }
+
     public mustAskToOpenLink = () => true;
     public openLink(url: string) {
         this.sendMessage({
@@ -342,6 +352,29 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         this.sendMessage({
             type: 'LOG',
             ...message,
+        });
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
+     */
+    disconnectWebsocket(requestId: string) {
+        this.sendMessage({
+            type: 'DISCONNECT_WEBSOCKET',
+            requestId,
+        });
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, sends a message. The default value of
+     * the `encoding` parameter is 'text'.
+     */
+    sendWebSocketMessage(requestId: string, message: string, encoding: 'text' | 'base64' = 'text') {
+        this.sendMessage({
+            type: 'WEBSOCKET_SEND_MESSAGE',
+            encoding,
+            message,
+            requestId,
         });
     }
 }

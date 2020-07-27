@@ -128,6 +128,21 @@ export default class WebApplicationHost implements INetConsoleHost {
             ...message,
         });
     }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
+     */
+    disconnectWebsocket(_requestId: string) {
+        // TODO: Do something here?
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, sends a message. The default value of
+     * the `encoding` parameter is 'text'.
+     */
+    sendWebSocketMessage(_requestId: string, _message: string, _encoding: 'text' | 'base64' = 'text') {
+        // TODO: Do something here?
+    }
 }
 
 function constructHeaders(request: IHttpRequest): Headers {
