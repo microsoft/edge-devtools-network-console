@@ -31,6 +31,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
     if (!action.requestId) {
         return collection;
     }
+    // TODO: make switch statement
     if (action.type === 'RESPONSE_END_REQUEST') {
         let isConnectedWebsocket = false;
         if (action.response?.statusCode === 101 && action.response?.headers) {
@@ -44,7 +45,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         if (!isConnectedWebsocket) {
             return collection;
         }
-        let reqId = action.requestId;
+        const reqId = action.requestId;
         let state = collection.get(reqId);
         if (!state) {
             state = DEFAULT_WS_CONNECTION;
@@ -56,7 +57,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         return collection.set(reqId, state);
     }
     if (action.type === 'REQUEST_WEBSOCKET_MESSAGE_LOGGED') {
-        let reqId = action.requestId;
+        const reqId = action.requestId;
         let state = collection.get(reqId);
         if (!state) {
             state = DEFAULT_WS_CONNECTION;

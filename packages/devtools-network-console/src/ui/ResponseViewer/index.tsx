@@ -20,7 +20,7 @@ import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
-import ConnectedWebSocketViewer from './WebSocket';
+import WebSocketView from './WebSocket';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -148,13 +148,17 @@ export function ResponseViewer(props: IResponseViewerProps) {
     const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
     if (!!renderedPreview) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
-    } else if(currentTab === "preview") {
+    } else if(currentTab === 'preview') {
+        // TODO: determine if necessary
+        // (this fixes bad webhost state if you send a different request that does not have a preview)
         setCurrentTab('body');
     }
 
     if (props.response.isWebsocketUpgrade) {
         tabsToDisplay.push(WEBSOCKET_ITEM);
-    } else if (currentTab === "websocket") {
+    } else if (currentTab === 'websocket') {
+        // TODO: determine if necessary
+        // (this fixes bad webhost state if you send a different request that does not have a websocket)
         setCurrentTab('body');
     }
 
@@ -199,7 +203,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     </div>
                 </HideUnless>
                 <HideUnless test={currentTab} match="websocket" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                    <ConnectedWebSocketViewer requestId={props.requestId} />
+                    <WebSocketView requestId={props.requestId} />
                 </HideUnless>
             </div>
 

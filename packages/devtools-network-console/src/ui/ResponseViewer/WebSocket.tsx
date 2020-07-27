@@ -127,7 +127,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                 </div>
             </div>
             {connected ?
-            (<div>
+            (<>
                 <div {...COMMAND_BAR_STYLE}>
                 <Select
                     placeholder="Content Type"
@@ -171,7 +171,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                         }}
                         />
                 </div>
-            </div>): <NotConnected />}
+            </>): <NotConnected />}
         </div>
     );
 }
