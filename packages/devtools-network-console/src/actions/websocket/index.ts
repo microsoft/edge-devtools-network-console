@@ -15,7 +15,7 @@ export interface ISendWebsocketMessageAction {
     messageBody: string;
 }
 
-export type WSMsgDirection = 'send' | 'recv';
+export type WSMsgDirection = 'send' | 'recv' | 'status';
 
 export interface IWebsocketMessageLoggedAction {
     type: 'REQUEST_WEBSOCKET_MESSAGE_LOGGED';
