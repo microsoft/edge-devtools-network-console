@@ -227,6 +227,14 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             case 'SHOW_OPEN_REQUEST':
                 this.onShowView(message);
                 break;
+
+            case 'WEBSOCKET_DISCONNECTED':
+                this.onWebSocketDisconnected(message);
+                break;
+
+            case 'WEBSOCKET_PACKET':
+                this.onWebSocketPacket(message);
+                break;
         }
     }
 
@@ -379,8 +387,6 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             message,
             requestId,
         });
-        // TODO: need to wait for the response so we can establish timing
-        globalDispatch(makeWebsocketMessageLoggedAction(requestId, 'send', 0, message));
     }
 }
 
