@@ -7,7 +7,7 @@ import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import CommonStyles from 'ui/common-styles';
 import WebSocketMessage from './WebSocketMessage';
 import { Select, SelectOption, Button, ButtonAppearance } from '@microsoft/fast-components-react-msft';
-import { editor, KeyCode } from 'monaco-editor';
+// import { editor, KeyCode } from 'monaco-editor';
 import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
@@ -88,6 +88,14 @@ interface IConnectedProps {
 }
 export type IWebSocketViewProps = IConnectedProps & IOwnProps;
 
+// The 'monaco-editor' package would be used for type checking, but it's not really
+// necessary, and if we actually import it, what ends up happening is that it blows up
+// the build output size. This declaration avoids it to avoid the following import:
+//     import { editor, KeyCode } from 'monaco-editor';
+declare namespace editor {
+    type IStandaloneCodeEditor = any;
+}
+
 export function WebSocketView(props: IWebSocketViewProps) {
     const [toSend, setToSend] = useState('');
     const [format, setFormat] = useState('text');
@@ -96,10 +104,10 @@ export function WebSocketView(props: IWebSocketViewProps) {
     const messages = props.connection.messages;
     const connected = props.connection.connected;
 
-    function handleEditorDidMount(_: any, editor: editor.IStandaloneCodeEditor) {
-        editorRef.current = editor;
-        editor.onKeyDown(e => {
-            if (e.keyCode === KeyCode.Enter && e.ctrlKey) {
+    function handleEditorDidMount(_: any, monacoInstance: editor.IStandaloneCodeEditor) {
+        editorRef.current = monacoInstance;
+        monacoInstance.onKeyDown((e: any) => {
+            if (e.keyCode === /* KeyCode.Enter */ 3 && e.ctrlKey) {
                 dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
                 setToSend('');
                 e.preventDefault();
