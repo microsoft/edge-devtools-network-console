@@ -114,7 +114,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
         div.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [hasScrolledUp, messages]);
 
-    if (!messages && !connected) {
+    if (!messages) {
         return (
             <div {...CONTAINER_VIEW}>
                 <h4>No WebSocket found for this request-response pair.</h4>
@@ -135,7 +135,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                     setHasScrolledUp(div.scrollTop + div.offsetHeight < (div.scrollHeight - 3));
                 }}>
                     <div {...MESSAGES_CONTAINER_STYLE}>
-                        {messages ? messages.toArray().map((m, i) => {
+                        {messages.toArray().map((m, i) => {
                             return (
                                 <WebSocketMessage
                                     key={i}
@@ -144,7 +144,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                                     message={m.content}
                                     />
                             );
-                        }) : <></>}
+                        })}
                     </div>
                 </div>
             </div>
