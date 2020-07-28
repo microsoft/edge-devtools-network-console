@@ -37,7 +37,7 @@ export default class WebApplicationHost implements INetConsoleHost {
             ));
             globalDispatch(setHostOptionsAction(true));
             globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST));
-            recalculateAndApplyTheme('', 'light');
+            recalculateAndApplyTheme('', 'dark');
         }, 1000);
         (window as any).__debug_WAH = this;
     }

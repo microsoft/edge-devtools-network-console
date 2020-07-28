@@ -11,6 +11,7 @@ import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
+import { THEME_TYPE } from 'themes/vscode-theme';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
@@ -30,6 +31,7 @@ const MESSAGES_CONTAINER_STYLE = css({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingBottom: '5px',
+    marginRight: '10px',
 });
 const DISCONNECTED_STYLE = css({
     display: 'flex',
@@ -65,6 +67,7 @@ const BODY_CONTENT_TYPES = [{
 
 export interface IOwnProps {
     requestId: string;
+    theme: THEME_TYPE;
 }
 
 interface IConnectedProps {
@@ -191,7 +194,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                 <div className="ht100 flxcol">
                     <MonacoEditor
                         language={format}
-                        theme="light"
+                        theme={props.theme}
                         value={toSend}
                         onChange={(_e, newValue) => {
                             setToSend(newValue!);
