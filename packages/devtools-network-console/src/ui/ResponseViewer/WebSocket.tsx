@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'glamor';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import CommonStyles from 'ui/common-styles';
@@ -15,6 +15,7 @@ import { IWebSocketConnection } from 'reducers/websocket';
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
     gridTemplateRows: '8fr 24px 2fr',
+    bottom: '35px',
 });
 const MESSAGES_OVERVIEW_STYLE = css(CommonStyles.SCROLL_CONTAINER_STYLE, {
     display: 'flex',
@@ -28,7 +29,6 @@ const MESSAGES_CONTAINER_STYLE = css({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    height: 'calc(100% - 5px)',
     paddingBottom: '5px',
 });
 const DISCONNECTED_STYLE = css({
@@ -41,20 +41,6 @@ const COMMAND_BAR_STYLE = css({
     flexDirection: 'row',
     justifyContent: 'center',
 });
-// const messages = [
-//     ['send', 4, { type: 'INIT_CONNECTION', client: 'ws1-info' }],
-//     ['recv', 27, { type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }],
-//     ['send', 4952, { type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' }],
-//     ['recv', 5005, { type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }],
-//     ['send', 4, { type: 'INIT_CONNECTION', client: 'ws1-info' }],
-//     ['recv', 27, { type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }],
-//     ['send', 4952, { type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' }],
-//     ['recv', 5005, { type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }],
-//     ['send', 4, { type: 'INIT_CONNECTION', client: 'ws1-info' }],
-//     ['recv', 27, { type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }],
-//     ['send', 4952, { type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' }],
-//     ['recv', 5005, { type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }],
-// ];
 
 const BODY_CONTENT_TYPES = [{
     key: 'text',
@@ -97,6 +83,8 @@ declare namespace editor {
 export function WebSocketView(props: IWebSocketViewProps) {
     const [toSend, setToSend] = useState('');
     const [format, setFormat] = useState('text');
+    const [hasScrolledUp, setHasScrolledUp] = useState(false);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>();
     const messages = props.connection?.messages;
@@ -114,6 +102,18 @@ export function WebSocketView(props: IWebSocketViewProps) {
         });
     }
 
+    useEffect(() => {
+        if (hasScrolledUp) {
+            return;
+        }
+        const div = scrollContainerRef.current;
+        if (!div || !div.lastElementChild) {
+            return;
+        }
+
+        div.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, [hasScrolledUp, messages]);
+
     if (!messages || !connected) {
         return (
             <div {...CONTAINER_VIEW}>
@@ -125,7 +125,15 @@ export function WebSocketView(props: IWebSocketViewProps) {
     return (
         <div {...CONTAINER_VIEW}>
             <div {...MESSAGES_OVERVIEW_STYLE}>
-                <div {...SCROLL_VERT}>
+                <div {...SCROLL_VERT} ref={scrollContainerRef} onScroll={e => {
+                    const div = scrollContainerRef.current;
+                    if (!div) {
+                        return;
+                    }
+
+                    // Allow for a padding of ~3 pixels to scroll down.
+                    setHasScrolledUp(div.scrollTop + div.offsetHeight < (div.scrollHeight - 3));
+                }}>
                     <div {...MESSAGES_CONTAINER_STYLE}>
                         {messages.toArray().map((m, i) => {
                             return (
