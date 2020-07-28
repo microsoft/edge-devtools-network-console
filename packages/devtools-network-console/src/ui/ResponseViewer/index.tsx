@@ -203,7 +203,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     </div>
                 </HideUnless>
                 <HideUnless test={currentTab} match="websocket" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
-                    <WebSocketView requestId={props.requestId} />
+                    <WebSocketView requestId={props.requestId} theme={props.theme}/>
                 </HideUnless>
             </div>
 

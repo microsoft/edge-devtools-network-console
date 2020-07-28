@@ -11,6 +11,7 @@ import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
+import { THEME_TYPE } from 'themes/vscode-theme';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
@@ -30,6 +31,7 @@ const MESSAGES_CONTAINER_STYLE = css({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingBottom: '5px',
+    marginRight: '10px',
 });
 const DISCONNECTED_STYLE = css({
     display: 'flex',
@@ -40,6 +42,9 @@ const COMMAND_BAR_STYLE = css({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+});
+const COMMAND_BAR_BUTTON_STYLE = css({
+    marginLeft: '5px'
 });
 
 const BODY_CONTENT_TYPES = [{
@@ -65,6 +70,7 @@ const BODY_CONTENT_TYPES = [{
 
 export interface IOwnProps {
     requestId: string;
+    theme: THEME_TYPE;
 }
 
 interface IConnectedProps {
@@ -151,47 +157,51 @@ export function WebSocketView(props: IWebSocketViewProps) {
             {connected ?
             (<>
                 <div {...COMMAND_BAR_STYLE}>
-                <Select
-                    placeholder="Content Type"
-                    jssStyleSheet={{
-                        select: {
-                            width: '205px',
-                            zIndex: '500',
-                            position: 'relative',
-                        },
-                    }}
-                    onMenuSelectionChange={items => {
-                        const item = items[0]!;
-                        setFormat(item.id);
-                    }}>
-                    {BODY_CONTENT_TYPES.map(item => {
-                        return (
-                            <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
-                        );
-                    })}
-                </Select>
-                <Button
-                    appearance={ButtonAppearance.primary}
-                    disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
-                    onClick={e => {
-                        dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
-                        setToSend('');
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }}>Send</Button>
-                <Button
-                    appearance={ButtonAppearance.outline}
-                    disabled={!connected}
-                    onClick={e => {
-                        dispatch(sendWsDisconnect(props.requestId));
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }}>Disconnect</Button>
+                    <Select
+                        placeholder="Content Type"
+                        jssStyleSheet={{
+                            select: {
+                                width: '300px',
+                                zIndex: '500',
+                                position: 'relative',
+                            },
+                        }}
+                        onMenuSelectionChange={items => {
+                            const item = items[0]!;
+                            setFormat(item.id);
+                        }}>
+                        {BODY_CONTENT_TYPES.map(item => {
+                            return (
+                                <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
+                            );
+                        })}
+                    </Select>
+                    <div {...COMMAND_BAR_BUTTON_STYLE}>
+                        <Button
+                            appearance={ButtonAppearance.primary}
+                            disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
+                            onClick={e => {
+                                dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
+                                setToSend('');
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}>Send</Button>
+                    </div>
+                    <div {...COMMAND_BAR_BUTTON_STYLE}>
+                        <Button
+                            appearance={ButtonAppearance.outline}
+                            disabled={!connected}
+                            onClick={e => {
+                                dispatch(sendWsDisconnect(props.requestId));
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}>Disconnect</Button>
+                    </div>
                 </div>
                 <div className="ht100 flxcol">
                     <MonacoEditor
                         language={format}
-                        theme="light"
+                        theme={props.theme}
                         value={toSend}
                         onChange={(_e, newValue) => {
                             setToSend(newValue!);

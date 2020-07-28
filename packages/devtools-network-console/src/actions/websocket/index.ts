@@ -5,7 +5,6 @@ import { ms } from 'network-console-shared';
 import { ThunkAction } from 'redux-thunk';
 import { IView } from 'store';
 import { AnyAction } from 'redux';
-import { WebSocketMock } from 'host/web-application-host';
 import { AppHost } from 'store/host';
 
 export interface ISendWebsocketMessageAction {
