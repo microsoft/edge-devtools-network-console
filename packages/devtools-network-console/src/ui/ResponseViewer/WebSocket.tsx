@@ -135,7 +135,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                     setHasScrolledUp(div.scrollTop + div.offsetHeight < (div.scrollHeight - 3));
                 }}>
                     <div {...MESSAGES_CONTAINER_STYLE}>
-                        {messages.toArray().map((m, i) => {
+                        {messages ? messages.toArray().map((m, i) => {
                             return (
                                 <WebSocketMessage
                                     key={i}
@@ -144,7 +144,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                                     message={m.content}
                                     />
                             );
-                        })}
+                        }) : <></>}
                     </div>
                 </div>
             </div>
