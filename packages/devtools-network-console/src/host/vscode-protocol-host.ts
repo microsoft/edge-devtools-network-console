@@ -46,6 +46,7 @@ import {
     ID_DIV_ROUTE,
 } from 'reducers/request/id-manager';
 import { chooseViewAction, closeViewAction } from 'actions/view-manager';
+import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
 
 type PostMessage = (msg: any) => void;
 type HandleMessage = (ev: MessageEvent) => void;
@@ -319,10 +320,12 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     protected onWebSocketDisconnected(message: IWebSocketDisconnectedMessage) {
         // TODO: Connect the host message to the global dispatcher
+        globalDispatch(makeWebSocketDisconnectedAction(message.requestId));
     }
 
     protected onWebSocketPacket(message: IWebSocketPacketMessage) {
-        // TODO: Connect the host message to the global dispatcher
+        // TODO: Establish timing
+        globalDispatch(makeWebsocketMessageLoggedAction(message.requestId, message.direction, 0, message.data));
     }
 
     public mustAskToOpenLink = () => true;
@@ -376,6 +379,8 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             message,
             requestId,
         });
+        // TODO: need to wait for the response so we can establish timing
+        globalDispatch(makeWebsocketMessageLoggedAction(requestId, 'send', 0, message));
     }
 }
 
