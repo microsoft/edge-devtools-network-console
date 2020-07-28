@@ -45,7 +45,7 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
             {!isStatus ? <div {...DESCRIPTOR_STYLE}>
                 <div {...ARROW_STYLE}>{arrow}</div>
                 <div {...TIMER_STYLE}>{props.time}ms</div>
-            </div> : <div></div>}
+            </div> : <></>}
             <div className="json-view-with-transparent-background">
                 {
                     (kind === 'text' ? (

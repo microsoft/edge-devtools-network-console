@@ -114,9 +114,11 @@ export function WebSocketView(props: IWebSocketViewProps) {
         div.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [hasScrolledUp, messages]);
 
-    if (!messages) {
+    if (!messages && !connected) {
         return (
-            <NotConnected />
+            <div {...CONTAINER_VIEW}>
+                <h4>No WebSocket found for this request-response pair.</h4>
+            </div>
         );
     }
 
