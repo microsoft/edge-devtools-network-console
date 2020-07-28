@@ -173,6 +173,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                     disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
                     onClick={e => {
                         dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
+                        setToSend('');
                         e.stopPropagation();
                         e.preventDefault();
                     }}>Send</Button>
