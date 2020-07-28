@@ -84,7 +84,7 @@ export interface IOwnProps {
 }
 
 interface IConnectedProps {
-    connection: IWebSocketConnection;
+    connection?: IWebSocketConnection;
 }
 export type IWebSocketViewProps = IConnectedProps & IOwnProps;
 
@@ -101,8 +101,8 @@ export function WebSocketView(props: IWebSocketViewProps) {
     const [format, setFormat] = useState('text');
     const dispatch = useDispatch();
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>();
-    const messages = props.connection.messages;
-    const connected = props.connection.connected;
+    const messages = props.connection?.messages;
+    const connected = props.connection?.connected;
 
     function handleEditorDidMount(_: any, monacoInstance: editor.IStandaloneCodeEditor) {
         editorRef.current = monacoInstance;
@@ -114,6 +114,14 @@ export function WebSocketView(props: IWebSocketViewProps) {
                 e.stopPropagation();
             }
         });
+    }
+
+    if (!messages || !connected) {
+        return (
+            <div {...CONTAINER_VIEW}>
+                <h4>No WebSocket found for this request-response pair.</h4>
+            </div>
+        );
     }
 
     return (
@@ -194,17 +202,6 @@ function NotConnected() {
 
 function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
     const wsConnection = state.websocket.get(ownProps.requestId);
-    if (!wsConnection) {
-        AppHost.log({
-            message: 'Invariant failure, no WebSocketConnection for ID',
-            where: 'ConnectedWebSocketViewer:mapStateToProps',
-            state,
-            ownProps,
-            wsConnection,
-        });
-        throw new Error('Invariant failed: WebsocketConnection not found for given request ID');
-    }
-
     return {
         connection: wsConnection
     };
