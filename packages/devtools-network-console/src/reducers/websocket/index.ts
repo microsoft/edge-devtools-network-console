@@ -86,6 +86,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         if (!state) {
             state = DEFAULT_WS_CONNECTION;
         }
+        // TODO: add disconnected reason/error to content
         state = {
             ...state,
             connected: false,
