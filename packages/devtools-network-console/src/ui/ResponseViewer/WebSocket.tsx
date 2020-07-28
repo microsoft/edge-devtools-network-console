@@ -7,12 +7,10 @@ import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import CommonStyles from 'ui/common-styles';
 import WebSocketMessage from './WebSocketMessage';
 import { Select, SelectOption, Button, ButtonAppearance } from '@microsoft/fast-components-react-msft';
-import { editor, KeyCode } from 'monaco-editor';
 import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
-import { AppHost } from 'store/host';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
@@ -84,28 +82,44 @@ export interface IOwnProps {
 }
 
 interface IConnectedProps {
-    connection: IWebSocketConnection;
+    connection?: IWebSocketConnection;
 }
 export type IWebSocketViewProps = IConnectedProps & IOwnProps;
+
+// The 'monaco-editor' package would be used for type checking, but it's not really
+// necessary, and if we actually import it, what ends up happening is that it blows up
+// the build output size. This declaration avoids it to avoid the following import:
+//     import { editor, KeyCode } from 'monaco-editor';
+declare namespace editor {
+    type IStandaloneCodeEditor = any;
+}
 
 export function WebSocketView(props: IWebSocketViewProps) {
     const [toSend, setToSend] = useState('');
     const [format, setFormat] = useState('text');
     const dispatch = useDispatch();
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>();
-    const messages = props.connection.messages;
-    const connected = props.connection.connected;
+    const messages = props.connection?.messages;
+    const connected = props.connection?.connected;
 
-    function handleEditorDidMount(_: any, editor: editor.IStandaloneCodeEditor) {
-        editorRef.current = editor;
-        editor.onKeyDown(e => {
-            if (e.keyCode === KeyCode.Enter && e.ctrlKey) {
+    function handleEditorDidMount(_: any, monacoInstance: editor.IStandaloneCodeEditor) {
+        editorRef.current = monacoInstance;
+        monacoInstance.onKeyDown((e: any) => {
+            if (e.keyCode === /* KeyCode.Enter */ 3 && e.ctrlKey) {
                 dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
                 setToSend('');
                 e.preventDefault();
                 e.stopPropagation();
             }
         });
+    }
+
+    if (!messages || !connected) {
+        return (
+            <div {...CONTAINER_VIEW}>
+                <h4>No WebSocket found for this request-response pair.</h4>
+            </div>
+        );
     }
 
     return (
@@ -186,17 +200,6 @@ function NotConnected() {
 
 function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
     const wsConnection = state.websocket.get(ownProps.requestId);
-    if (!wsConnection) {
-        AppHost.log({
-            message: 'Invariant failure, no WebSocketConnection for ID',
-            where: 'ConnectedWebSocketViewer:mapStateToProps',
-            state,
-            ownProps,
-            wsConnection,
-        });
-        throw new Error('Invariant failed: WebsocketConnection not found for given request ID');
-    }
-
     return {
         connection: wsConnection
     };
