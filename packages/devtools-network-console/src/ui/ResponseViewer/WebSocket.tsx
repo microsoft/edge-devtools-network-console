@@ -7,7 +7,6 @@ import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import CommonStyles from 'ui/common-styles';
 import WebSocketMessage from './WebSocketMessage';
 import { Select, SelectOption, Button, ButtonAppearance } from '@microsoft/fast-components-react-msft';
-// import { editor, KeyCode } from 'monaco-editor';
 import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
