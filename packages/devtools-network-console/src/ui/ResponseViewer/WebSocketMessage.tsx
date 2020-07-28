@@ -47,6 +47,9 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
                             enableClipboard={false}
                             iconStyle="triangle"
                             theme="shapeshifter:inverted"
+                            shouldCollapse={cfp => {
+                                return cfp.namespace.length > 1;
+                            }}
                             />
                     ))
                 }
