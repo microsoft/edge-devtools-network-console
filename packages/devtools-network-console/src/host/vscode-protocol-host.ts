@@ -333,7 +333,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     protected onWebSocketPacket(message: IWebSocketPacketMessage) {
         // TODO: Establish timing
-        globalDispatch(makeWebsocketMessageLoggedAction(message.requestId, message.direction, 0, message.data));
+        globalDispatch(makeWebsocketMessageLoggedAction(message.requestId, message.direction, message.timeFromConnection, message.data));
     }
 
     public mustAskToOpenLink = () => true;

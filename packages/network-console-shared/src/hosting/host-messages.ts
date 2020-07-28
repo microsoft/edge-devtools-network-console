@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { INetConsoleRequest, INetConsoleAuthorization, INetConsoleResponse, INetConsoleParameter } from '../net/net-console-http';
+import {
+    INetConsoleRequest,
+    INetConsoleAuthorization,
+    INetConsoleResponse,
+    INetConsoleParameter,
+    ms,
+} from '../net/net-console-http';
 import { Base64String } from '../util/base64';
 
 interface IMessage<T extends string> {
@@ -110,6 +116,7 @@ export interface IWebSocketPacketMessage extends IMessage<'WEBSOCKET_PACKET'> {
     data: string | Base64String;
     direction: 'send' | 'recv';
     encoding: 'text' | 'base64';
+    timeFromConnection: ms;
 }
 
 export type HostMessage =
