@@ -12,7 +12,6 @@ import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
-import { AppHost } from 'store/host';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
