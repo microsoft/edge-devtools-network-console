@@ -11,6 +11,8 @@ import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
 import { useDispatch, connect } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
+import { packMessage } from 'utility/msgpack';
+import tryMake from 'utility/try-make';
 
 const CONTAINER_VIEW = css(CommonStyles.FULL_SIZE_NOT_SCROLLABLE, {
     display: 'grid',
@@ -44,22 +46,32 @@ const COMMAND_BAR_STYLE = css({
 
 const BODY_CONTENT_TYPES = [{
     key: 'text',
+    format: 'text',
     text: 'Plain text',
 },
 {
     key: 'json',
+    format: 'json',
     text: 'JSON',
 },
 {
+    key: 'json-mp',
+    format: 'json',
+    text: 'JSON (MessagePack)',
+},
+{
     key: 'xml',
+    format: 'xml',
     text: 'XML',
 },
 {
     key: 'html',
+    format: 'html',
     text: 'HTML',
 },
 {
     key: 'javascript',
+    format: 'javascript',
     text: 'JavaScript',
 }];
 
@@ -90,12 +102,24 @@ export function WebSocketView(props: IWebSocketViewProps) {
     const messages = props.connection?.messages;
     const connected = props.connection?.connected;
 
+    function send() {
+        if (format === 'json-mp') {
+            const obj = tryMake(JSON.parse, editorRef.current!.getValue()) || editorRef.current!.getValue();
+            const encoded = packMessage(obj);
+            dispatch(sendWsMessage(props.requestId, encoded, 'base64'));
+            setToSend('');
+        }
+        else {
+            dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue(), 'text'));
+            setToSend('');
+        }
+    }
+
     function handleEditorDidMount(_: any, monacoInstance: editor.IStandaloneCodeEditor) {
         editorRef.current = monacoInstance;
         monacoInstance.onKeyDown((e: any) => {
             if (e.keyCode === /* KeyCode.Enter */ 3 && e.ctrlKey) {
-                dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
-                setToSend('');
+                send();
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -142,6 +166,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                                     dir={m.direction}
                                     time={m.time}
                                     message={m.content}
+                                    messageEncoding={m.encoding}
                                     />
                             );
                         })}
@@ -166,7 +191,13 @@ export function WebSocketView(props: IWebSocketViewProps) {
                     }}>
                     {BODY_CONTENT_TYPES.map(item => {
                         return (
-                            <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
+                            <SelectOption
+                                key={item.key}
+                                id={item.key}
+                                value={item.text}
+                                title={item.text}
+                                displayString={item.text}
+                                />
                         );
                     })}
                 </Select>
@@ -181,7 +212,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
                 </div>
                 <div className="ht100 flxcol">
                     <MonacoEditor
-                        language={format}
+                        language={BODY_CONTENT_TYPES.find(k => k.key === format)!.format}
                         theme="light"
                         value={toSend}
                         onChange={(_e, newValue) => {

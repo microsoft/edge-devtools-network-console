@@ -47,7 +47,7 @@ export default class WebApplicationHost implements INetConsoleHost {
             WebSocketMock.instance('wss');
             const time = Math.random() * 1000;
             setTimeout(() => {
-                globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
+                globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.', 'text'));
             }, time);
             return {
                 duration: 4,
@@ -140,8 +140,8 @@ export default class WebApplicationHost implements INetConsoleHost {
      * If a connection has been upgraded to a WebSocket, sends a message. The default value of
      * the `encoding` parameter is 'text'.
      */
-    sendWebSocketMessage(_requestId: string, _message: string, _encoding: 'text' | 'base64' = 'text') {
-        // TODO: Do something here?
+    sendWebSocketMessage(requestId: string, message: string, encoding: 'text' | 'base64' = 'text') {
+        WebSocketMock.instance(requestId).send(message, encoding);
     }
 }
 
@@ -220,19 +220,19 @@ export class WebSocketMock {
         this.modeJson = false;
     }
 
-    send(message: string) {
-        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Math.floor(Date.now() - this.connected), message));
+    send(message: string, encoding: 'text' | 'base64') {
+        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Math.floor(Date.now() - this.connected), message, encoding));
         const resps: any = this.modeJson ? DEMO_JSON_RESPONSES : DEMO_RESPONSES;
         const response = resps[message];
         if (response) {
             setTimeout(() => {
-                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), response));
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), response, 'text'));
             }, Math.random() * 750);
         }
         else if (message === 'go-json') {
             this.modeJson = true;
             setTimeout(() => {
-                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'}), 'text'));
             }, 250 + Math.random() * 750);
         }
     }

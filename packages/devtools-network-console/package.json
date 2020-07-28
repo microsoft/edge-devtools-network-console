@@ -14,6 +14,7 @@
     "glamor": "^2.20.40",
     "immutable": "^4.0.0-rc.12",
     "lodash-es": "^4.17.15",
+    "msgpack-lite": "^0.1.26",
     "network-console-shared": "../network-console-shared",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@types/debounce": "^1.2.0",
     "@types/form-urlencoded": "^2.0.1",
+    "@types/msgpack-lite": "^0.1.7",
     "@types/react": "^16.9.2",
     "@types/react-data-grid": "^4.0.3",
     "@types/react-dom": "^16.9.0",

@@ -10,6 +10,7 @@ export interface IWebsocketMessage {
     direction: WSMsgDirection;
     time: ms;
     content: string;
+    encoding: 'text' | 'base64';
 }
 
 export interface IWebSocketConnection {
@@ -62,13 +63,14 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         if (!state) {
             state = DEFAULT_WS_CONNECTION;
         }
-        const { direction, time, content } = action;
+        const { direction, time, content, encoding } = action;
         state = {
             ...state,
             messages: state.messages.add({
                 direction,
                 time,
                 content,
+                encoding,
             })
         };
         return collection.set(reqId, state);

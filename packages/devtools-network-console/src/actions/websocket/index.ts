@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ms } from 'network-console-shared';
+import { ms, Base64String } from 'network-console-shared';
 import { ThunkAction } from 'redux-thunk';
 import { IView } from 'store';
 import { AnyAction } from 'redux';
@@ -12,7 +12,8 @@ export interface ISendWebsocketMessageAction {
     type: 'REQUEST_WEBSOCKET_SEND_MESSAGE';
 
     requestId: string;
-    messageBody: string;
+    messageBody: string | Base64String;
+    encoding: 'text' | 'base64';
 }
 
 export type WSMsgDirection = 'send' | 'recv';
@@ -23,7 +24,8 @@ export interface IWebsocketMessageLoggedAction {
     requestId: string;
     direction: WSMsgDirection;
     time: ms;
-    content: string;
+    content: string | Base64String;
+    encoding: 'text' | 'base64';
 }
 // TODO: add support for client vs server disconnect
 export interface IWebsocketDisconnectedAction {
@@ -32,21 +34,23 @@ export interface IWebsocketDisconnectedAction {
     requestId: string;
 }
 
-export function makeSendWebsocketMessageAction(requestId: string, messageBody: string): ISendWebsocketMessageAction {
+export function makeSendWebsocketMessageAction(requestId: string, messageBody: string, encoding: 'text' | 'base64'): ISendWebsocketMessageAction {
     return {
         type: 'REQUEST_WEBSOCKET_SEND_MESSAGE',
         requestId,
         messageBody,
+        encoding,
     };
 }
 
-export function makeWebsocketMessageLoggedAction(requestId: string, direction: WSMsgDirection, time: ms, content: string): IWebsocketMessageLoggedAction {
+export function makeWebsocketMessageLoggedAction(requestId: string, direction: WSMsgDirection, time: ms, content: string, encoding: 'text' | 'base64'): IWebsocketMessageLoggedAction {
     return {
         type: 'REQUEST_WEBSOCKET_MESSAGE_LOGGED',
         requestId,
         direction,
         time,
         content,
+        encoding,
     };
 }
 
@@ -57,13 +61,10 @@ export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDi
     }
 }
 
-export function sendWsMessage(requestId: string, messageBody: string): ThunkAction<void, IView, void, AnyAction> {
+export function sendWsMessage(requestId: string, messageBody: string, encoding: 'text' | 'base64'): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
-        dispatch(makeSendWebsocketMessageAction(requestId, messageBody));
-        // WebSocketMock.instance(requestId).send(messageBody);
-
-        // TODO: Support base64?
-        AppHost.sendWebSocketMessage(requestId, messageBody, 'text');
+        dispatch(makeSendWebsocketMessageAction(requestId, messageBody, encoding));
+        AppHost.sendWebSocketMessage(requestId, messageBody, encoding);
     };
 }
 

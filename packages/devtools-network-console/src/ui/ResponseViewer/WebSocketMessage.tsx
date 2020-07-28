@@ -4,11 +4,14 @@
 import React, { useMemo } from 'react';
 import JsonView from 'react-json-view';
 import { css } from 'glamor';
+import tryMake from 'utility/try-make';
+import { unpackMessage } from 'utility/msgpack';
 
 interface WebSocketMessageProps {
     dir: 'send' | 'recv';
     time: number;
     message: any;
+    messageEncoding: 'text' | 'base64';
 }
 
 export default function WebSocketMessage(props: WebSocketMessageProps) {
@@ -20,13 +23,19 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
     }
 
     const [message, kind]: [any, 'obj' | 'text'] = useMemo(() => {
-        try {
-            return [JSON.parse(props.message), 'obj'];
+        let msg: [any, 'obj' | 'text'];
+        if (props.messageEncoding === 'base64') {
+            msg = tryMake(unpackMessage, props.message);
+            if (msg) {
+                return [msg, 'obj'];
+            }
         }
-        catch {
-            return [props.message, 'text'];
+        msg = tryMake(JSON.parse, props.message);
+        if (msg && typeof msg === 'object') {
+            return [msg, 'obj'];
         }
-    }, [props.message]);
+        return [props.message, 'text'];
+    }, [props.message, props.messageEncoding]);
 
     return (
         <div {...style}>
