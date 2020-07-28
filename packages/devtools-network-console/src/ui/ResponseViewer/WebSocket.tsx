@@ -43,6 +43,9 @@ const COMMAND_BAR_STYLE = css({
     flexDirection: 'row',
     justifyContent: 'center',
 });
+const COMMAND_BAR_BUTTON_STYLE = css({
+    marginLeft: '5px'
+});
 
 const BODY_CONTENT_TYPES = [{
     key: 'text',
@@ -154,42 +157,46 @@ export function WebSocketView(props: IWebSocketViewProps) {
             {connected ?
             (<>
                 <div {...COMMAND_BAR_STYLE}>
-                <Select
-                    placeholder="Content Type"
-                    jssStyleSheet={{
-                        select: {
-                            width: '205px',
-                            zIndex: '500',
-                            position: 'relative',
-                        },
-                    }}
-                    onMenuSelectionChange={items => {
-                        const item = items[0]!;
-                        setFormat(item.id);
-                    }}>
-                    {BODY_CONTENT_TYPES.map(item => {
-                        return (
-                            <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
-                        );
-                    })}
-                </Select>
-                <Button
-                    appearance={ButtonAppearance.primary}
-                    disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
-                    onClick={e => {
-                        dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
-                        setToSend('');
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }}>Send</Button>
-                <Button
-                    appearance={ButtonAppearance.outline}
-                    disabled={!connected}
-                    onClick={e => {
-                        dispatch(sendWsDisconnect(props.requestId));
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }}>Disconnect</Button>
+                    <Select
+                        placeholder="Content Type"
+                        jssStyleSheet={{
+                            select: {
+                                width: '300px',
+                                zIndex: '500',
+                                position: 'relative',
+                            },
+                        }}
+                        onMenuSelectionChange={items => {
+                            const item = items[0]!;
+                            setFormat(item.id);
+                        }}>
+                        {BODY_CONTENT_TYPES.map(item => {
+                            return (
+                                <SelectOption key={item.key} id={item.key} value={item.text} title={item.text} displayString={item.text} />
+                            );
+                        })}
+                    </Select>
+                    <div {...COMMAND_BAR_BUTTON_STYLE}>
+                        <Button
+                            appearance={ButtonAppearance.primary}
+                            disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
+                            onClick={e => {
+                                dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
+                                setToSend('');
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}>Send</Button>
+                    </div>
+                    <div {...COMMAND_BAR_BUTTON_STYLE}>
+                        <Button
+                            appearance={ButtonAppearance.outline}
+                            disabled={!connected}
+                            onClick={e => {
+                                dispatch(sendWsDisconnect(props.requestId));
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }}>Disconnect</Button>
+                    </div>
                 </div>
                 <div className="ht100 flxcol">
                     <MonacoEditor

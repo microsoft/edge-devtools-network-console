@@ -50,13 +50,15 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
                 <div {...ARROW_STYLE}>{arrow}</div>
                 {(props.time !== undefined) && <div {...TIMER_STYLE}>{props.time}ms</div>}
             </div>}
-            <div className="json-view-with-transparent-background">
-                {
-                    (kind === 'text' ? (
+            {
+                (kind === 'text' ? (
+                    <div className="json-view-with-transparent-background">
                         <code>
                             {message}
                         </code>
-                    ) : (
+                    </div>
+                ) : (
+                    <div>
                         <JsonView
                             src={message}
                             displayDataTypes={false}
@@ -66,10 +68,10 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
                             shouldCollapse={cfp => {
                                 return cfp.namespace.length > 1;
                             }}
-                            />
-                    ))
-                }
-            </div>
+                        />
+                    </div>)
+                )
+            }
         </div>
     );
 }
