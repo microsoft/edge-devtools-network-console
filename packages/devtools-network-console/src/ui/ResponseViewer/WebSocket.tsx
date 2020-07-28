@@ -114,11 +114,9 @@ export function WebSocketView(props: IWebSocketViewProps) {
         div.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [hasScrolledUp, messages]);
 
-    if (!messages || !connected) {
+    if (!messages) {
         return (
-            <div {...CONTAINER_VIEW}>
-                <h4>No WebSocket found for this request-response pair.</h4>
-            </div>
+            <NotConnected />
         );
     }
 
@@ -172,6 +170,14 @@ export function WebSocketView(props: IWebSocketViewProps) {
                 </Select>
                 <Button
                     appearance={ButtonAppearance.primary}
+                    disabled={!connected || !editorRef.current || editorRef.current!.getValue() === ''}
+                    onClick={e => {
+                        dispatch(sendWsMessage(props.requestId, editorRef.current!.getValue()));
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}>Send</Button>
+                <Button
+                    appearance={ButtonAppearance.outline}
                     disabled={!connected}
                     onClick={e => {
                         dispatch(sendWsDisconnect(props.requestId));
@@ -201,7 +207,7 @@ export function WebSocketView(props: IWebSocketViewProps) {
 function NotConnected() {
     return (
         <div {...DISCONNECTED_STYLE}>
-            Websocket disconnected! Resend the request to re-connect!
+            Websocket disconnected. Resend the request to re-connect.
         </div>
     );
 }

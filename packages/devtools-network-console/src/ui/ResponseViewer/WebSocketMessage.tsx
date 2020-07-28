@@ -6,17 +6,29 @@ import JsonView from 'react-json-view';
 import { css } from 'glamor';
 
 interface WebSocketMessageProps {
-    dir: 'send' | 'recv';
+    dir: 'send' | 'recv' | 'status';
     time: number;
     message: any;
 }
 
 export default function WebSocketMessage(props: WebSocketMessageProps) {
-    let arrow = <>&uarr;</>;
-    let style = MESSAGE_STYLE_SEND;
-    if (props.dir === 'recv') {
-        arrow = <>&darr;</>;
-        style = MESSAGE_STYLE_RECV;
+    let isStatus = false;
+    let arrow;
+    let style;
+    switch(props.dir) {
+        case 'recv':
+            arrow = <>&darr;</>;
+            style = MESSAGE_STYLE_RECV;
+            break;
+        case 'send':
+            arrow = <>&uarr;</>;
+            style = MESSAGE_STYLE_SEND;
+            break;
+        case 'status':
+        default:
+            style = MESSAGE_STYLE_STATUS;
+            isStatus = true;
+            break;
     }
 
     const [message, kind]: [any, 'obj' | 'text'] = useMemo(() => {
@@ -30,10 +42,10 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
 
     return (
         <div {...style}>
-            <div {...DESCRIPTOR_STYLE}>
+            {!isStatus ? <div {...DESCRIPTOR_STYLE}>
                 <div {...ARROW_STYLE}>{arrow}</div>
                 <div {...TIMER_STYLE}>{props.time}ms</div>
-            </div>
+            </div> : <div></div>}
             <div className="json-view-with-transparent-background">
                 {
                     (kind === 'text' ? (
@@ -72,6 +84,11 @@ var MESSAGE_STYLE_RECV = css(MESSAGE_STYLE_BASE, {
 var MESSAGE_STYLE_SEND = css(MESSAGE_STYLE_BASE, {
     alignSelf: 'flex-end',
     backgroundColor: '#ddf',
+});
+
+var MESSAGE_STYLE_STATUS = css(MESSAGE_STYLE_BASE, {
+    width: '95%',
+    backgroundColor: '#ddd',
 });
 
 var DESCRIPTOR_STYLE = css({

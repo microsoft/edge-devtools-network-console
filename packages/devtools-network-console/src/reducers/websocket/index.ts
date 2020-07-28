@@ -10,6 +10,8 @@ export interface IWebsocketMessage {
     direction: WSMsgDirection;
     time: ms;
     content: string;
+    reason?: string;
+    error?: string;
 }
 
 export interface IWebSocketConnection {
@@ -52,7 +54,12 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         }
         state = {
             ...state,
-            connected: true
+            connected: true,
+            messages: state.messages.add({
+                direction: 'status',
+                time: 0,
+                content: 'Connected'
+            })
         };
         return collection.set(reqId, state);
     }
@@ -81,7 +88,12 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         }
         state = {
             ...state,
-            connected: false
+            connected: false,
+            messages: state.messages.add({
+                direction: 'status',
+                time: 0,
+                content: 'Disconnected'
+            })
         };
         return collection.set(reqId, state);
     }

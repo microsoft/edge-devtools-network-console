@@ -15,7 +15,7 @@ export interface ISendWebsocketMessageAction {
     messageBody: string;
 }
 
-export type WSMsgDirection = 'send' | 'recv';
+export type WSMsgDirection = 'send' | 'recv' | 'status';
 
 export interface IWebsocketMessageLoggedAction {
     type: 'REQUEST_WEBSOCKET_MESSAGE_LOGGED';
@@ -60,16 +60,16 @@ export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDi
 export function sendWsMessage(requestId: string, messageBody: string): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
         dispatch(makeSendWebsocketMessageAction(requestId, messageBody));
-        // WebSocketMock.instance(requestId).send(messageBody);
+        WebSocketMock.instance(requestId).send(messageBody);
 
         // TODO: Support base64?
-        AppHost.sendWebSocketMessage(requestId, messageBody, 'text');
+        // AppHost.sendWebSocketMessage(requestId, messageBody, 'text');
     };
 }
 
 export function sendWsDisconnect(requestId: string): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
         dispatch(makeWebSocketDisconnectedAction(requestId));
-        AppHost.disconnectWebsocket(requestId);
+        // AppHost.disconnectWebsocket(requestId);
     };
 }
