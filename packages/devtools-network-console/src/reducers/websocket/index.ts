@@ -8,8 +8,8 @@ import { IEndRequestAction } from 'actions/response/basics';
 
 export interface IWebsocketMessage {
     direction: WSMsgDirection;
-    time: ms;
     content: string;
+    time?: ms;
     reason?: string;
     error?: string;
 }
@@ -57,8 +57,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
             connected: true,
             messages: state.messages.add({
                 direction: 'status',
-                time: 0,
-                content: 'Connected'
+                content: 'Connected',
             })
         };
         return collection.set(reqId, state);
@@ -92,8 +91,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
             connected: false,
             messages: state.messages.add({
                 direction: 'status',
-                time: 0,
-                content: 'Disconnected'
+                content: 'Disconnected',
             })
         };
         return collection.set(reqId, state);

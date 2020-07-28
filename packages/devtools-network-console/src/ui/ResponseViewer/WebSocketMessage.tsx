@@ -7,7 +7,7 @@ import { css } from 'glamor';
 
 interface WebSocketMessageProps {
     dir: 'send' | 'recv' | 'status';
-    time: number;
+    time?: number;
     message: any;
 }
 
@@ -42,10 +42,10 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
 
     return (
         <div {...style}>
-            {!isStatus ? <div {...DESCRIPTOR_STYLE}>
+            {!isStatus && <div {...DESCRIPTOR_STYLE}>
                 <div {...ARROW_STYLE}>{arrow}</div>
-                <div {...TIMER_STYLE}>{props.time}ms</div>
-            </div> : <></>}
+                {(props.time !== undefined) && <div {...TIMER_STYLE}>{props.time}ms</div>}
+            </div>}
             <div className="json-view-with-transparent-background">
                 {
                     (kind === 'text' ? (
