@@ -24,7 +24,8 @@ export function executeRequest(requestId: string, request: INetConsoleRequestInt
         dispatch(startRequestAction(requestId));
         dispatch(beginResponseAction(requestId));
         if (!request.url.startsWith('ws://') && !request.url.startsWith('wss://')) {
-            // dispatch(makeWebSocketDisconnectedAction(requestId));
+            // Clear websocket messages associated with request_id if
+            // request url is changed to no longer point to a websocket.
             dispatch(makeWebSocketClearMessagesAction(requestId));
         }
 

@@ -156,6 +156,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
     }
 
     if (props.showWSView) {
+        // TODO: determine if we can default to the WS tab the first time we connect to a WS
         tabsToDisplay.push(WEBSOCKET_ITEM);
     } else if (currentTab === 'websocket') {
         // TODO: determine if necessary
