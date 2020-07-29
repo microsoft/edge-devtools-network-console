@@ -9,6 +9,7 @@ import { IEndRequestAction } from 'actions/response/basics';
 export interface IWebsocketMessage {
     direction: WSMsgDirection;
     content: string;
+    entryNumber: number;
     time?: ms;
     reason?: string;
     error?: string;
