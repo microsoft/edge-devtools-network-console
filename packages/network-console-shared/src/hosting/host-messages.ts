@@ -113,6 +113,7 @@ export interface IWebSocketConnectedMessage extends IMessage<'WEBSOCKET_CONNECTE
 
 export interface IWebSocketDisconnectedMessage extends IMessage<'WEBSOCKET_DISCONNECTED'> {
     requestId: string;
+    reason?: string;
 }
 
 export interface IWebSocketPacketMessage extends IMessage<'WEBSOCKET_PACKET'> {

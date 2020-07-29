@@ -337,7 +337,7 @@ either because of a user request or an error.
 {
     type: 'WEBSOCKET_DISCONNECTED';
     requestId: string;
-    error?: string;
+    reason?: string;
 }
 ```
 
