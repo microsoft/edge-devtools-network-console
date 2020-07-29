@@ -31,7 +31,6 @@ export interface IWebsocketConnectedAction {
     requestId: string;
 }
 
-// TODO: add support for client vs server disconnect
 export interface IWebsocketDisconnectedAction {
     type: 'REQUEST_WEBSOCKET_DISCONNECTED';
 

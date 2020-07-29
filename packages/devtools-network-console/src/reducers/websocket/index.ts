@@ -33,71 +33,61 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
     if (!action.requestId) {
         return collection;
     }
-    // TODO: make switch statement
-    if (action.type === 'REQUEST_WEBSOCKET_CONNECTED') {
-        const reqId = action.requestId;
-        let state = collection.get(reqId);
-        if (!state) {
-            state = DEFAULT_WS_CONNECTION;
-        }
-        state = {
-            ...state,
-            connected: true,
-            messages: state.messages.add({
-                direction: 'status',
-                content: 'Connected',
-            })
-        };
-        return collection.set(reqId, state);
+    const reqId = action.requestId;
+    let state = collection.get(reqId);
+    switch (action.type) {
+        case 'REQUEST_WEBSOCKET_CONNECTED':
+            if (!state) {
+                state = DEFAULT_WS_CONNECTION;
+            }
+            state = {
+                ...state,
+                connected: true,
+                messages: state.messages.add({
+                    direction: 'status',
+                    content: 'Connected',
+                })
+            };
+            return collection.set(reqId, state);
+        case 'REQUEST_WEBSOCKET_MESSAGE_LOGGED':
+            if (!state) {
+                state = DEFAULT_WS_CONNECTION;
+            }
+            const { direction, time, content } = action;
+            state = {
+                ...state,
+                messages: state.messages.add({
+                    direction,
+                    time,
+                    content,
+                })
+            };
+            return collection.set(reqId, state);
+        case 'REQUEST_WEBSOCKET_DISCONNECTED':
+            if (!state) {
+                state = DEFAULT_WS_CONNECTION;
+            }
+            const disconnectMessage = action.reason ? `Disconnected: ${action.reason}` : 'Disconnected';
+            state = {
+                ...state,
+                connected: false,
+                messages: state.messages.add({
+                    direction: 'status',
+                    content: disconnectMessage,
+                })
+            };
+            return collection.set(reqId, state);
+        case 'REQUEST_WEBSOCKET_CLEAR_MESSAGES':
+            if (!state) {
+                return collection
+            }
+            state = {
+                ...state,
+                connected: false,
+                messages: OrderedSet(),
+            };
+            return collection.set(reqId, state);
+        default:
+            return collection;
     }
-    if (action.type === 'REQUEST_WEBSOCKET_MESSAGE_LOGGED') {
-        const reqId = action.requestId;
-        let state = collection.get(reqId);
-        if (!state) {
-            state = DEFAULT_WS_CONNECTION;
-        }
-        const { direction, time, content } = action;
-        state = {
-            ...state,
-            messages: state.messages.add({
-                direction,
-                time,
-                content,
-            })
-        };
-        return collection.set(reqId, state);
-    }
-    if (action.type === 'REQUEST_WEBSOCKET_DISCONNECTED') {
-        const reqId = action.requestId;
-        let state = collection.get(reqId);
-        if (!state) {
-            state = DEFAULT_WS_CONNECTION;
-        }
-        const content = action.reason ? `Disconnected: ${action.reason}` : 'Disconnected';
-        // TODO: add disconnected reason/error to content
-        state = {
-            ...state,
-            connected: false,
-            messages: state.messages.add({
-                direction: 'status',
-                content: content,
-            })
-        };
-        return collection.set(reqId, state);
-    }
-    if (action.type === 'REQUEST_WEBSOCKET_CLEAR_MESSAGES') {
-        const reqId = action.requestId;
-        let state = collection.get(reqId);
-        if (!state) {
-            return collection
-        }
-        state = {
-            ...state,
-            connected: false,
-            messages: OrderedSet(),
-        };
-        return collection.set(reqId, state);
-    }
-
-    return collection;
 }
