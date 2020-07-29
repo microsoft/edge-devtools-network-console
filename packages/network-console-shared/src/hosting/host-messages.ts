@@ -107,6 +107,10 @@ export interface IShowViewMessage extends IMessage<'SHOW_OPEN_REQUEST'> {
 
 export type IClearEnvironmentMessage = IMessage<'CLEAR_ENVIRONMENT'>;
 
+export interface IWebSocketConnectedMessage extends IMessage<'WEBSOCKET_CONNECTED'> {
+    requestId: string;
+}
+
 export interface IWebSocketDisconnectedMessage extends IMessage<'WEBSOCKET_DISCONNECTED'> {
     requestId: string;
 }

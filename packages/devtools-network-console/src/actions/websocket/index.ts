@@ -24,6 +24,13 @@ export interface IWebsocketMessageLoggedAction {
     time: ms;
     content: string;
 }
+
+export interface IWebsocketConnectedAction {
+    type: 'REQUEST_WEBSOCKET_CONNECTED';
+
+    requestId: string;
+}
+
 // TODO: add support for client vs server disconnect
 export interface IWebsocketDisconnectedAction {
     type: 'REQUEST_WEBSOCKET_DISCONNECTED';
@@ -48,6 +55,14 @@ export function makeWebsocketMessageLoggedAction(requestId: string, direction: W
         content,
     };
 }
+
+export function makeWebSocketConnectedAction(requestId: string): IWebsocketConnectedAction {
+    return {
+        type: 'REQUEST_WEBSOCKET_CONNECTED',
+        requestId
+    }
+}
+
 
 export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDisconnectedAction {
     return {

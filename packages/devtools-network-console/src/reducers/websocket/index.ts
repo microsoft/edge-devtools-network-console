@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { OrderedSet, Map } from 'immutable';
-import { IWebsocketMessageLoggedAction, WSMsgDirection, IWebsocketDisconnectedAction } from 'actions/websocket';
+import { IWebsocketMessageLoggedAction, WSMsgDirection, IWebsocketDisconnectedAction, IWebsocketConnectedAction } from 'actions/websocket';
 import { ms } from 'network-console-shared';
 import { IEndRequestAction } from 'actions/response/basics';
 
@@ -24,7 +24,7 @@ const DEFAULT_WS_CONNECTION: IWebSocketConnection = {
     messages: OrderedSet()
 };
 
-export type WebSocketAction = IWebsocketMessageLoggedAction | IEndRequestAction | IWebsocketDisconnectedAction;
+export type WebSocketAction = IWebsocketMessageLoggedAction | IWebsocketConnectedAction | IWebsocketDisconnectedAction;
 
 export type WS_State = Map<string, IWebSocketConnection>;
 const DEFAULT_WS_STATE: WS_State = Map();
@@ -34,19 +34,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         return collection;
     }
     // TODO: make switch statement
-    if (action.type === 'RESPONSE_END_REQUEST') {
-        let isConnectedWebsocket = false;
-        if (action.response?.statusCode === 101 && action.response?.headers) {
-            for (const header of action.response?.headers) {
-                if (header.key === "Upgrade" && header.value === "WebSocket"){
-                    isConnectedWebsocket = true;
-                    break;
-                }
-            }
-        }
-        if (!isConnectedWebsocket) {
-            return collection;
-        }
+    if (action.type === 'REQUEST_WEBSOCKET_CONNECTED') {
         const reqId = action.requestId;
         let state = collection.get(reqId);
         if (!state) {

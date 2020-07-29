@@ -24,6 +24,7 @@ import WebSocketView from './WebSocket';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
+    showWSView: boolean;
     theme: THEME_TYPE;
 }
 export interface IOwnProps {
@@ -154,7 +155,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
         setCurrentTab('body');
     }
 
-    if (props.response.isWebsocketUpgrade) {
+    if (props.showWSView) {
         tabsToDisplay.push(WEBSOCKET_ITEM);
     } else if (currentTab === 'websocket') {
         // TODO: determine if necessary
@@ -260,10 +261,12 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         });
         throw new Error('Invariant failed: Response not found for given request ID');
     }
-
+    const wsState = state.websocket.get(ownProps.requestId);
+    const showWSView = wsState ? wsState.messages.size > 0 : false
     return {
         response: response,
         theme: state.theme.theme,
+        showWSView,
     };
 }
 

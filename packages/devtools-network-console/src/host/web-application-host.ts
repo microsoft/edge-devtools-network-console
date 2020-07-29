@@ -24,7 +24,7 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
-import { makeWebsocketMessageLoggedAction } from 'actions/websocket';
+import { makeWebsocketMessageLoggedAction, makeWebSocketConnectedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
@@ -46,6 +46,9 @@ export default class WebApplicationHost implements INetConsoleHost {
         if (request.url === 'wss://www.norad.mil/cheyenne/WOPR') {
             WebSocketMock.instance('wss');
             const time = Math.random() * 1000;
+            setTimeout(() => {
+                globalDispatch(makeWebSocketConnectedAction('DEFAULT_REQUEST'));
+            }, Math.max(time, 0));
             setTimeout(() => {
                 globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
             }, time);
