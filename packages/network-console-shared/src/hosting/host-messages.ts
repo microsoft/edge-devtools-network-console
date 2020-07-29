@@ -137,6 +137,7 @@ export type HostMessage =
     IUpdateEnvironmentMessage |
     ICloseViewMessage |
     IShowViewMessage |
+    IWebSocketConnectedMessage |
     IWebSocketDisconnectedMessage |
     IWebSocketPacketMessage
     ;

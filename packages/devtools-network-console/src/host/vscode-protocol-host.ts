@@ -23,6 +23,7 @@ import {
     IUpdateEnvironmentMessage,
     ICloseViewMessage,
     IShowViewMessage,
+    IWebSocketConnectedMessage,
     IWebSocketDisconnectedMessage,
     IWebSocketPacketMessage,
 } from 'network-console-shared/hosting/host-messages';
@@ -46,7 +47,7 @@ import {
     ID_DIV_ROUTE,
 } from 'reducers/request/id-manager';
 import { chooseViewAction, closeViewAction } from 'actions/view-manager';
-import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
+import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction, makeWebSocketConnectedAction } from 'actions/websocket';
 
 type PostMessage = (msg: any) => void;
 type HandleMessage = (ev: MessageEvent) => void;
@@ -228,6 +229,10 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
                 this.onShowView(message);
                 break;
 
+            case 'WEBSOCKET_CONNECTED':
+                    this.onWebSocketConnected(message);
+                    break;
+
             case 'WEBSOCKET_DISCONNECTED':
                 this.onWebSocketDisconnected(message);
                 break;
@@ -324,6 +329,11 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     protected onCloseView(message: ICloseViewMessage) {
         globalDispatch(closeViewAction(message.requestId));
+    }
+
+    protected onWebSocketConnected(message: IWebSocketConnectedMessage) {
+        // TODO: Connect the host message to the global dispatcher
+        globalDispatch(makeWebSocketConnectedAction(message.requestId));
     }
 
     protected onWebSocketDisconnected(message: IWebSocketDisconnectedMessage) {
