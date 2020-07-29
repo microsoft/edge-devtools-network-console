@@ -316,6 +316,18 @@ Closes a view.
 }
 ```
 
+### `WEBSOCKET_CONNECTED`
+
+Notifies the frontend that a websocket associated with a particular request has been connected,
+either because of a user request or an error.
+
+```ts
+{
+    type: 'WEBSOCKET_CONNECTED';
+    requestId: string;
+}
+```
+
 ### `WEBSOCKET_DISCONNECTED`
 
 Notifies the frontend that a websocket associated with a particular request has been disconnected,
