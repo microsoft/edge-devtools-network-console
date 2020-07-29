@@ -8,7 +8,7 @@ import CommonStyles from 'ui/common-styles';
 import WebSocketMessage from './WebSocketMessage';
 import { Select, SelectOption, Button, ButtonAppearance } from '@microsoft/fast-components-react-msft';
 import { sendWsMessage, sendWsDisconnect } from 'actions/websocket';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IView } from 'store';
 import { IWebSocketConnection } from 'reducers/websocket';
 import { THEME_TYPE } from 'themes/vscode-theme';
@@ -73,10 +73,7 @@ export interface IOwnProps {
     theme: THEME_TYPE;
 }
 
-interface IConnectedProps {
-    connection?: IWebSocketConnection;
-}
-export type IWebSocketViewProps = IConnectedProps & IOwnProps;
+export type IWebSocketViewProps = IOwnProps;
 
 // The 'monaco-editor' package would be used for type checking, but it's not really
 // necessary, and if we actually import it, what ends up happening is that it blows up
@@ -86,15 +83,16 @@ declare namespace editor {
     type IStandaloneCodeEditor = any;
 }
 
-export function WebSocketView(props: IWebSocketViewProps) {
+export default function WebSocketView(props: IWebSocketViewProps) {
     const [toSend, setToSend] = useState('');
     const [format, setFormat] = useState('text');
     const [hasScrolledUp, setHasScrolledUp] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>();
-    const messages = props.connection?.messages;
-    const connected = props.connection?.connected;
+    const connection = useSelector<IView, IWebSocketConnection | undefined>(store => store.websocket.get(props.requestId));
+    const messages = connection?.messages;
+    const connected = connection?.connected;
 
     function handleEditorDidMount(_: any, monacoInstance: editor.IStandaloneCodeEditor) {
         editorRef.current = monacoInstance;
@@ -141,13 +139,12 @@ export function WebSocketView(props: IWebSocketViewProps) {
                     setHasScrolledUp(div.scrollTop + div.offsetHeight < (div.scrollHeight - 3));
                 }}>
                     <div {...MESSAGES_CONTAINER_STYLE}>
-                        {messages.toArray().map((m, i) => {
+                        {messages.map((m, i) => {
                             return (
                                 <WebSocketMessage
-                                    key={i}
-                                    dir={m.direction}
+                                    key={m.entryNumber}
                                     time={m.time}
-                                    message={m.content}
+                                    message={m}
                                     />
                             );
                         })}
@@ -224,13 +221,3 @@ function NotConnected() {
         </div>
     );
 }
-
-function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
-    const wsConnection = state.websocket.get(ownProps.requestId);
-    return {
-        connection: wsConnection
-    };
-}
-
-export const ConnectedWebSocketViewer = connect(mapStateToProps)(WebSocketView);
-export default ConnectedWebSocketViewer;

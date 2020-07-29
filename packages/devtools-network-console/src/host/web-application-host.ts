@@ -24,7 +24,7 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
-import { makeWebsocketMessageLoggedAction } from 'actions/websocket';
+import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
@@ -49,6 +49,26 @@ export default class WebApplicationHost implements INetConsoleHost {
             setTimeout(() => {
                 globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
             }, time);
+            return {
+                duration: 4,
+                status: 'COMPLETE',
+                response: {
+                    headers: [
+                        { key: 'Connection', value: 'Upgrade' },
+                        { key: 'Upgrade', value: 'WebSocket' },
+                    ],
+                    statusCode: 101,
+                    statusText: 'Upgrade',
+                    size: 0,
+                    body: {
+                        content: '',
+                    },
+                },
+            };
+        }
+        else if (request.url.startsWith('wss://')) {
+            const aws = ActualWS.instance('DEFAULT_REQUEST');
+            aws.connect(request.url);
             return {
                 duration: 4,
                 status: 'COMPLETE',
@@ -132,8 +152,8 @@ export default class WebApplicationHost implements INetConsoleHost {
     /**
      * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
      */
-    disconnectWebsocket(_requestId: string) {
-        // TODO: Do something here?
+    disconnectWebsocket(requestId: string) {
+        ActualWS.instance(requestId).disconnect();
     }
 
     /**
@@ -141,7 +161,8 @@ export default class WebApplicationHost implements INetConsoleHost {
      * the `encoding` parameter is 'text'.
      */
     sendWebSocketMessage(requestId: string, message: string, _encoding: 'text' | 'base64' = 'text') {
-        WebSocketMock.instance(requestId).send(message);
+        // WebSocketMock.instance(requestId).send(message);
+        ActualWS.instance(requestId).send(message);
     }
 }
 
@@ -235,5 +256,42 @@ export class WebSocketMock {
                 globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
             }, 250 + Math.random() * 750);
         }
+    }
+}
+
+class ActualWS {
+    private static _instance: ActualWS | null;
+    public static instance(requestId: string) {
+        if (!ActualWS._instance || requestId !== ActualWS._instance.requestId) {
+            ActualWS._instance = new ActualWS(requestId);
+        }
+        return ActualWS._instance;
+    }
+
+    private _ws: WebSocket | null = null;
+    private connected = 0;
+    private constructor(private requestId: string) {
+    }
+
+    connect(url: string) {
+        this._ws = new WebSocket(url);
+        this._ws.addEventListener('open', () => {
+            this.connected = Date.now();
+        });
+        this._ws.addEventListener('message', e => {
+            globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Date.now() - this.connected, e.data));
+        });
+        this._ws.addEventListener('close', () => {
+            globalDispatch(makeWebSocketDisconnectedAction(this.requestId));
+        });
+    }
+
+    send(message: string) {
+        this._ws?.send(message);
+        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Date.now() - this.connected, message));
+    }
+
+    disconnect() {
+        this._ws?.close();
     }
 }

@@ -9,6 +9,7 @@ import { IEndRequestAction } from 'actions/response/basics';
 export interface IWebsocketMessage {
     direction: WSMsgDirection;
     content: string;
+    entryNumber: number;
     time?: ms;
     reason?: string;
     error?: string;
@@ -58,6 +59,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
             messages: state.messages.add({
                 direction: 'status',
                 content: 'Connected',
+                entryNumber: state.messages.count(),
             })
         };
         return collection.set(reqId, state);
@@ -75,6 +77,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
                 direction,
                 time,
                 content,
+                entryNumber: state.messages.count(),
             })
         };
         return collection.set(reqId, state);
@@ -92,6 +95,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
             messages: state.messages.add({
                 direction: 'status',
                 content: 'Disconnected',
+                entryNumber: state.messages.count(),
             })
         };
         return collection.set(reqId, state);

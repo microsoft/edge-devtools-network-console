@@ -6,43 +6,46 @@ import JsonView from 'react-json-view';
 import { css } from 'glamor';
 import { useSelector } from 'react-redux';
 import { IView, IThemeInfo } from 'store';
+import { IWebsocketMessage } from 'reducers/websocket';
 
 interface WebSocketMessageProps {
-    dir: 'send' | 'recv' | 'status';
     time?: number;
-    message: any;
+    message: IWebsocketMessage;
 }
 
-export default function WebSocketMessage(props: WebSocketMessageProps) {
+export function WebSocketMessage(props: WebSocketMessageProps) {
     const themeType = useSelector<IView, IThemeInfo>(s => s.theme);
     const applyDark = themeType.theme === 'dark';
-    let isStatus = false;
-    let arrow;
-    let style;
-    switch(props.dir) {
-        case 'recv':
-            arrow = <>&darr;</>;
-            style = applyDark? MESSAGE_STYLE_RECV_DARK : MESSAGE_STYLE_RECV;
-            break;
-        case 'send':
-            arrow = <>&uarr;</>;
-            style = applyDark? MESSAGE_STYLE_SEND_DARK : MESSAGE_STYLE_SEND;
-            break;
-        case 'status':
-        default:
-            style = applyDark ? MESSAGE_STYLE_STATUS_DARK : MESSAGE_STYLE_STATUS;
-            isStatus = true;
-            break;
-    }
+    const [arrow, style, isStatus] = useMemo(() => {
+        let isStatus = false;
+        let arrow;
+        let style;
+        switch(props.message.direction) {
+            case 'recv':
+                arrow = <>&darr;</>;
+                style = applyDark? MESSAGE_STYLE_RECV_DARK : MESSAGE_STYLE_RECV;
+                break;
+            case 'send':
+                arrow = <>&uarr;</>;
+                style = applyDark? MESSAGE_STYLE_SEND_DARK : MESSAGE_STYLE_SEND;
+                break;
+            case 'status':
+            default:
+                style = applyDark ? MESSAGE_STYLE_STATUS_DARK : MESSAGE_STYLE_STATUS;
+                isStatus = true;
+                break;
+        }
+        return [arrow, style, isStatus];
+    }, [props.message, applyDark])
 
     const [message, kind]: [any, 'obj' | 'text'] = useMemo(() => {
         try {
-            return [JSON.parse(props.message), 'obj'];
+            return [JSON.parse(props.message.content), 'obj'];
         }
         catch {
-            return [props.message, 'text'];
+            return [props.message.content, 'text'];
         }
-    }, [props.message]);
+    }, [props.message.content]);
 
     return (
         <div {...style}>
@@ -75,6 +78,8 @@ export default function WebSocketMessage(props: WebSocketMessageProps) {
         </div>
     );
 }
+
+export default React.memo(WebSocketMessage);
 
 var MESSAGE_STYLE_BASE = css({
     minWidth: '15%',
