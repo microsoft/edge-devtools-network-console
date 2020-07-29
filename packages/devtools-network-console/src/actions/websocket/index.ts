@@ -36,6 +36,7 @@ export interface IWebsocketDisconnectedAction {
     type: 'REQUEST_WEBSOCKET_DISCONNECTED';
 
     requestId: string;
+    reason?: string;
 }
 
 export interface IWebsocketClearMessagesAction {
@@ -70,10 +71,11 @@ export function makeWebSocketConnectedAction(requestId: string): IWebsocketConne
 }
 
 
-export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDisconnectedAction {
+export function makeWebSocketDisconnectedAction(requestId: string, reason?: string): IWebsocketDisconnectedAction {
     return {
         type: 'REQUEST_WEBSOCKET_DISCONNECTED',
-        requestId
+        requestId,
+        reason
     }
 }
 
@@ -96,7 +98,7 @@ export function sendWsMessage(requestId: string, messageBody: string): ThunkActi
 
 export function sendWsDisconnect(requestId: string): ThunkAction<void, IView, void, AnyAction> {
     return async dispatch => {
-        dispatch(makeWebSocketDisconnectedAction(requestId));
+        dispatch(makeWebSocketDisconnectedAction(requestId, 'Client closed the connection.'));
         AppHost.disconnectWebsocket(requestId);
     };
 }

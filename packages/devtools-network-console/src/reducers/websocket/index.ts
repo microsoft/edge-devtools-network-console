@@ -73,13 +73,14 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         if (!state) {
             state = DEFAULT_WS_CONNECTION;
         }
+        const content = action.reason ? `Disconnected: ${action.reason}` : 'Disconnected';
         // TODO: add disconnected reason/error to content
         state = {
             ...state,
             connected: false,
             messages: state.messages.add({
                 direction: 'status',
-                content: 'Disconnected',
+                content: content,
             })
         };
         return collection.set(reqId, state);

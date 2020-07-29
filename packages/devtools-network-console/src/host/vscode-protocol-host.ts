@@ -338,7 +338,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     protected onWebSocketDisconnected(message: IWebSocketDisconnectedMessage) {
         // TODO: Connect the host message to the global dispatcher
-        globalDispatch(makeWebSocketDisconnectedAction(message.requestId));
+        globalDispatch(makeWebSocketDisconnectedAction(message.requestId, message.reason));
     }
 
     protected onWebSocketPacket(message: IWebSocketPacketMessage) {

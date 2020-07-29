@@ -24,7 +24,7 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
-import { makeWebsocketMessageLoggedAction, makeWebSocketConnectedAction } from 'actions/websocket';
+import { makeWebsocketMessageLoggedAction, makeWebSocketConnectedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
@@ -202,6 +202,9 @@ const DEMO_RESPONSES = {
     'Love to. How about Global Thermonuclear War?': `WOULDN'T YOU PREFER A GOOD GAME OF CHESS?`,
     [`Later. Let's play Global Thermonuclear War.`]: 'FINE.',
 };
+
+const DEMO_DISCONNECT_FROM_SERVER = 'server disconnect';
+
 const DEMO_JSON_RESPONSES = {
     [JSON.stringify({ type: 'INIT_CONNECTION', client: 'ws1-info' })]: JSON.stringify({ type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }),
     [JSON.stringify({ type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' })]: JSON.stringify({ type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }),
@@ -237,6 +240,8 @@ export class WebSocketMock {
             setTimeout(() => {
                 globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
             }, 250 + Math.random() * 750);
+        } else if (message === DEMO_DISCONNECT_FROM_SERVER) {
+            globalDispatch(makeWebSocketDisconnectedAction(this.requestId, 'Server closed the connection.'));
         }
     }
 }
