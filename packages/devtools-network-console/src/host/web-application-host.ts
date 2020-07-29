@@ -269,7 +269,7 @@ export class WebSocketMock {
     }
 
     disconnect() {
-        globalDispatch(makeWebSocketDisconnectedAction(this.requestId));
+        globalDispatch(makeWebSocketDisconnectedAction(this.requestId, "mock closed connection."));
     }
 }
 
@@ -295,8 +295,8 @@ class ActualWS {
         this._ws.addEventListener('message', e => {
             globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Date.now() - this.connected, e.data));
         });
-        this._ws.addEventListener('close', () => {
-            globalDispatch(makeWebSocketDisconnectedAction(this.requestId));
+        this._ws.addEventListener('close', e => {
+            globalDispatch(makeWebSocketDisconnectedAction(this.requestId, e.reason));
         });
     }
 

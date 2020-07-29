@@ -14,7 +14,7 @@ import { beginResponseAction, endResponseAction } from './response/basics';
 import downloadFile from 'utility/download';
 import { IView } from 'store';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
-import { makeWebSocketClearMessagesAction, makeWebSocketDisconnectedAction } from './websocket';
+import { makeWebSocketClearMessagesAction } from './websocket';
 
 type Thaction = ThunkAction<void, IView, void, any>;
 export function executeRequest(requestId: string, request: INetConsoleRequestInternal, isDownloadForResponse: boolean, environmentalAuthorization: INetConsoleAuthorization | null = null): Thaction {

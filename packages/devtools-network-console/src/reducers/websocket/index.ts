@@ -4,7 +4,6 @@
 import { OrderedSet, Map } from 'immutable';
 import { IWebsocketMessageLoggedAction, WSMsgDirection, IWebsocketDisconnectedAction, IWebsocketConnectedAction, IWebsocketClearMessagesAction } from 'actions/websocket';
 import { ms } from 'network-console-shared';
-import { IEndRequestAction } from 'actions/response/basics';
 
 export interface IWebsocketMessage {
     direction: WSMsgDirection;
@@ -47,6 +46,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
                 messages: state.messages.add({
                     direction: 'status',
                     content: 'Connected',
+                    entryNumber: state.messages.count(),
                 })
             };
             return collection.set(reqId, state);
@@ -61,6 +61,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
                     direction,
                     time,
                     content,
+                    entryNumber: state.messages.count(),
                 })
             };
             return collection.set(reqId, state);
@@ -75,6 +76,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
                 messages: state.messages.add({
                     direction: 'status',
                     content: disconnectMessage,
+                    entryNumber: state.messages.count(),
                 })
             };
             return collection.set(reqId, state);
