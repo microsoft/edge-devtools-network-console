@@ -48,7 +48,7 @@ export default class WebApplicationHost implements INetConsoleHost {
             const time = Math.random() * 1000;
             setTimeout(() => {
                 globalDispatch(makeWebSocketConnectedAction('DEFAULT_REQUEST'));
-            }, Math.max(time, 0));
+            }, Math.floor(time/2));
             setTimeout(() => {
                 globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
             }, time);
