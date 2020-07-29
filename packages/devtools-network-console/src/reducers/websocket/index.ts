@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { OrderedSet, Map } from 'immutable';
-import { IWebsocketMessageLoggedAction, WSMsgDirection, IWebsocketDisconnectedAction, IWebsocketConnectedAction } from 'actions/websocket';
+import { IWebsocketMessageLoggedAction, WSMsgDirection, IWebsocketDisconnectedAction, IWebsocketConnectedAction, IWebsocketClearMessagesAction } from 'actions/websocket';
 import { ms } from 'network-console-shared';
 import { IEndRequestAction } from 'actions/response/basics';
 
@@ -24,7 +24,7 @@ const DEFAULT_WS_CONNECTION: IWebSocketConnection = {
     messages: OrderedSet()
 };
 
-export type WebSocketAction = IWebsocketMessageLoggedAction | IWebsocketConnectedAction | IWebsocketDisconnectedAction;
+export type WebSocketAction = IWebsocketMessageLoggedAction | IWebsocketConnectedAction | IWebsocketDisconnectedAction | IWebsocketClearMessagesAction;
 
 export type WS_State = Map<string, IWebSocketConnection>;
 const DEFAULT_WS_STATE: WS_State = Map();
@@ -68,7 +68,7 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
         return collection.set(reqId, state);
     }
     if (action.type === 'REQUEST_WEBSOCKET_DISCONNECTED') {
-        let reqId = action.requestId;
+        const reqId = action.requestId;
         let state = collection.get(reqId);
         if (!state) {
             state = DEFAULT_WS_CONNECTION;
@@ -81,6 +81,19 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
                 direction: 'status',
                 content: 'Disconnected',
             })
+        };
+        return collection.set(reqId, state);
+    }
+    if (action.type === 'REQUEST_WEBSOCKET_CLEAR_MESSAGES') {
+        const reqId = action.requestId;
+        let state = collection.get(reqId);
+        if (!state) {
+            return collection
+        }
+        state = {
+            ...state,
+            connected: false,
+            messages: OrderedSet(),
         };
         return collection.set(reqId, state);
     }

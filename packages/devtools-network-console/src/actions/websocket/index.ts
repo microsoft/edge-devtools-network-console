@@ -38,6 +38,12 @@ export interface IWebsocketDisconnectedAction {
     requestId: string;
 }
 
+export interface IWebsocketClearMessagesAction {
+    type: 'REQUEST_WEBSOCKET_CLEAR_MESSAGES';
+
+    requestId: string;
+}
+
 export function makeSendWebsocketMessageAction(requestId: string, messageBody: string): ISendWebsocketMessageAction {
     return {
         type: 'REQUEST_WEBSOCKET_SEND_MESSAGE',
@@ -67,6 +73,13 @@ export function makeWebSocketConnectedAction(requestId: string): IWebsocketConne
 export function makeWebSocketDisconnectedAction(requestId: string): IWebsocketDisconnectedAction {
     return {
         type: 'REQUEST_WEBSOCKET_DISCONNECTED',
+        requestId
+    }
+}
+
+export function makeWebSocketClearMessagesAction(requestId: string): IWebsocketClearMessagesAction {
+    return {
+        type: 'REQUEST_WEBSOCKET_CLEAR_MESSAGES',
         requestId
     }
 }
