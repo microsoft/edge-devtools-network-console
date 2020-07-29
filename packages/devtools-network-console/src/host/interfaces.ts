@@ -71,4 +71,14 @@ export interface INetConsoleHost {
     openUnattachedRequest: (requestId: string) => void;
 
     log: (message: object) => void;
+
+    /**
+     * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
+     */
+    disconnectWebsocket: (requestId: string) => void;
+    /**
+     * If a connection has been upgraded to a WebSocket, sends a message. The default value of
+     * the `encoding` parameter is 'text'.
+     */
+    sendWebSocketMessage: (requestId: string, message: string, encoding?: 'text' | 'base64') => void;
 }

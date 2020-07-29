@@ -23,6 +23,9 @@ import {
     IUpdateEnvironmentMessage,
     ICloseViewMessage,
     IShowViewMessage,
+    IWebSocketConnectedMessage,
+    IWebSocketDisconnectedMessage,
+    IWebSocketPacketMessage,
 } from 'network-console-shared/hosting/host-messages';
 
 import { INetConsoleHost, ISaveResult } from './interfaces';
@@ -44,6 +47,7 @@ import {
     ID_DIV_ROUTE,
 } from 'reducers/request/id-manager';
 import { chooseViewAction, closeViewAction } from 'actions/view-manager';
+import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction, makeWebSocketConnectedAction } from 'actions/websocket';
 
 type PostMessage = (msg: any) => void;
 type HandleMessage = (ev: MessageEvent) => void;
@@ -224,6 +228,18 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             case 'SHOW_OPEN_REQUEST':
                 this.onShowView(message);
                 break;
+
+            case 'WEBSOCKET_CONNECTED':
+                    this.onWebSocketConnected(message);
+                    break;
+
+            case 'WEBSOCKET_DISCONNECTED':
+                this.onWebSocketDisconnected(message);
+                break;
+
+            case 'WEBSOCKET_PACKET':
+                this.onWebSocketPacket(message);
+                break;
         }
     }
 
@@ -315,6 +331,18 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         globalDispatch(closeViewAction(message.requestId));
     }
 
+    protected onWebSocketConnected(message: IWebSocketConnectedMessage) {
+        globalDispatch(makeWebSocketConnectedAction(message.requestId));
+    }
+
+    protected onWebSocketDisconnected(message: IWebSocketDisconnectedMessage) {
+        globalDispatch(makeWebSocketDisconnectedAction(message.requestId, message.reason));
+    }
+
+    protected onWebSocketPacket(message: IWebSocketPacketMessage) {
+        globalDispatch(makeWebsocketMessageLoggedAction(message.requestId, message.direction, message.timeFromConnection, message.data));
+    }
+
     public mustAskToOpenLink = () => true;
     public openLink(url: string) {
         this.sendMessage({
@@ -342,6 +370,29 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         this.sendMessage({
             type: 'LOG',
             ...message,
+        });
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
+     */
+    disconnectWebsocket(requestId: string) {
+        this.sendMessage({
+            type: 'DISCONNECT_WEBSOCKET',
+            requestId,
+        });
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, sends a message. The default value of
+     * the `encoding` parameter is 'text'.
+     */
+    sendWebSocketMessage(requestId: string, message: string, encoding: 'text' | 'base64' = 'text') {
+        this.sendMessage({
+            type: 'WEBSOCKET_SEND_MESSAGE',
+            encoding,
+            message,
+            requestId,
         });
     }
 }

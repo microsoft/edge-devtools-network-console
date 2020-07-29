@@ -20,9 +20,11 @@ import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import WebSocketView from './WebSocket';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
+    showWSView: boolean;
     theme: THEME_TYPE;
 }
 export interface IOwnProps {
@@ -50,7 +52,7 @@ const headersColumns: DataGridColumn[] = [
     },
 ];
 
-type ActivityState = 'preview' | 'body' | 'headers' | 'cookies';
+type ActivityState = 'preview' | 'body' | 'headers' | 'cookies' | 'websocket';
 const PIVOT_DEFAULT_ITEMS = [{
     tab: (cn: string) => <div className={cn}>Body</div>,
     content: () => <></>,
@@ -68,6 +70,11 @@ const PIVOT_PREVIEW_ITEM = {
     tab: (cn: string) => <div className={cn}>Preview</div>,
     content: () => <></>,
     id: 'preview',
+};
+const WEBSOCKET_ITEM = {
+    tab: (cn: string) => <div className={cn}>WebSocket</div>,
+    content: () => <></>,
+    id: 'websocket',
 };
 
 export function ResponseViewer(props: IResponseViewerProps) {
@@ -142,6 +149,19 @@ export function ResponseViewer(props: IResponseViewerProps) {
     const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
     if (!!renderedPreview) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
+    } else if(currentTab === 'preview') {
+        // TODO: determine if necessary
+        // (this fixes bad webhost state if you send a different request that does not have a preview)
+        setCurrentTab('body');
+    }
+
+    if (props.showWSView) {
+        // TODO: determine if we can default to the WS tab the first time we connect to a WS
+        tabsToDisplay.push(WEBSOCKET_ITEM);
+    } else if (currentTab === 'websocket') {
+        // TODO: determine if necessary
+        // (this fixes bad webhost state if you send a different request that does not have a websocket)
+        setCurrentTab('body');
     }
 
     return (
@@ -183,6 +203,9 @@ export function ResponseViewer(props: IResponseViewerProps) {
                     <div {...CommonStyles.SCROLLABLE_STYLE}>
                         <CookiesTable headers={props.response.response.headers} />
                     </div>
+                </HideUnless>
+                <HideUnless test={currentTab} match="websocket" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
+                    <WebSocketView requestId={props.requestId} theme={props.theme}/>
                 </HideUnless>
             </div>
 
@@ -239,10 +262,14 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         });
         throw new Error('Invariant failed: Response not found for given request ID');
     }
-
+    const wsState = state.websocket.get(ownProps.requestId);
+    // Show the Websocket view if there are message associated with this request, even if disconnected.
+    // This allows users to see previous messages and the disconnect status.
+    const showWSView = wsState ? wsState.messages.size > 0 : false
     return {
         response: response,
         theme: state.theme.theme,
+        showWSView,
     };
 }
 

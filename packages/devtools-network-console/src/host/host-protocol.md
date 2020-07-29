@@ -134,6 +134,29 @@ Logs some message via the message port. No response is expected to this.
 }
 ```
 
+### `DISCONNECT_WEBSOCKET`
+
+Disconnects a websocket for a given request.
+
+```ts
+{
+    type: 'DISCONNECT_WEBSOCKET';
+    requestId: string;
+}
+```
+
+### `WEBSOCKET_SEND_MESSAGE`
+
+Sends a message via a WebSocket.
+
+```ts
+{
+    type: 'WEBSOCKET_SEND_MESSAGE';
+    message: string | Base64String;
+    encoding: 'text' | 'base64';
+}
+```
+
 ## Host-to-Frontend
 
 ### `INIT_HOST`
@@ -290,5 +313,43 @@ Closes a view.
 {
     type: 'CLOSE_VIEW';
     requestId: string;
+}
+```
+
+### `WEBSOCKET_CONNECTED`
+
+Notifies the frontend that a websocket associated with a particular request has been connected,
+either because of a user request or an error.
+
+```ts
+{
+    type: 'WEBSOCKET_CONNECTED';
+    requestId: string;
+}
+```
+
+### `WEBSOCKET_DISCONNECTED`
+
+Notifies the frontend that a websocket associated with a particular request has been disconnected,
+either because of a user request or an error.
+
+```ts
+{
+    type: 'WEBSOCKET_DISCONNECTED';
+    requestId: string;
+    reason?: string;
+}
+```
+
+### `WEBSOCKET_PACKET`
+
+Notifies the frontend that a WebSocket packet has been observed.
+
+```ts
+{
+    type: 'WEBSOCKET_PACKET';
+    data: string | Base64String;
+    encoding: 'text' | 'base64';
+    direction: 'send' | 'recv';
 }
 ```

@@ -24,8 +24,11 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { makeWebsocketMessageLoggedAction, makeWebSocketConnectedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
+    private _wsMock: ActualWS | WebSocketMock | null = null;
+
     constructor() {
         setTimeout(() => {
             globalDispatch(setHostCapabilitiesAction(
@@ -36,12 +39,60 @@ export default class WebApplicationHost implements INetConsoleHost {
             ));
             globalDispatch(setHostOptionsAction(true));
             globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST));
-            recalculateAndApplyTheme('', 'light');
+            recalculateAndApplyTheme('', 'dark');
         }, 1000);
         (window as any).__debug_WAH = this;
     }
 
     async makeRequest(request: INetConsoleRequestInternal, environmentalAuthorization: INetConsoleAuthorization | null, environmentVariables: INetConsoleParameter[]): Promise<INetConsoleResponse> {
+        if (request.url === 'wss://www.norad.mil/cheyenne/WOPR') {
+            this._wsMock = WebSocketMock.instance('DEFAULT_REQUEST');
+            const time = Math.random() * 1000;
+            setTimeout(() => {
+                globalDispatch(makeWebSocketConnectedAction('DEFAULT_REQUEST'));
+            }, Math.floor(time/2));
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
+            }, time);
+            return {
+                duration: 4,
+                status: 'COMPLETE',
+                response: {
+                    headers: [
+                        { key: 'Connection', value: 'Upgrade' },
+                        { key: 'Upgrade', value: 'WebSocket' },
+                    ],
+                    statusCode: 101,
+                    statusText: 'Upgrade',
+                    size: 0,
+                    body: {
+                        content: '',
+                    },
+                },
+            };
+        }
+        else if (request.url.startsWith('wss://')) {
+            const aws = ActualWS.instance('DEFAULT_REQUEST');
+            this._wsMock = aws;
+            aws.connect(request.url);
+            return {
+                duration: 4,
+                status: 'COMPLETE',
+                response: {
+                    headers: [
+                        { key: 'Connection', value: 'Upgrade' },
+                        { key: 'Upgrade', value: 'WebSocket' },
+                    ],
+                    statusCode: 101,
+                    statusText: 'Upgrade',
+                    size: 0,
+                    body: {
+                        content: '',
+                    },
+                },
+            };
+        }
+
         const start = Date.now();
         let mergedRequest = await synthesizeHttpRequest(request, environmentalAuthorization, environmentVariables);
 
@@ -103,6 +154,21 @@ export default class WebApplicationHost implements INetConsoleHost {
             ...message,
         });
     }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
+     */
+    disconnectWebsocket(_requestId: string) {
+        this._wsMock?.disconnect();
+    }
+
+    /**
+     * If a connection has been upgraded to a WebSocket, sends a message. The default value of
+     * the `encoding` parameter is 'text'.
+     */
+    sendWebSocketMessage(_requestId: string, message: string, _encoding: 'text' | 'base64' = 'text') {
+        this._wsMock?.send(message);
+    }
 }
 
 function constructHeaders(request: IHttpRequest): Headers {
@@ -149,4 +215,97 @@ async function bodyFromResponse(response: Response): Promise<ArrayBuffer> {
 
 function timeout(ms: number): Promise<void> {
     return new Promise<void>(r => setTimeout(r, ms));
+}
+
+const DEMO_RESPONSES = {
+    'Hello.': 'HOW ARE YOU FEELING TODAY?',
+    [`I'm fine. How are you?`]: `EXCELLENT. IT'S BEEN A LONG TIME. CAN YOU EXPLAIN THE REMOVAL OF YOUR USER ACCOUNT NUMBER ON 6/23/73?`,
+    'People sometimes make mistak': 'YES THEY DO. SHALL WE PLAY A GAME?',
+    'People sometimes make mistakes.': 'YES THEY DO. SHALL WE PLAY A GAME?',
+    'Love to. How about Global Thermonuclear War?': `WOULDN'T YOU PREFER A GOOD GAME OF CHESS?`,
+    [`Later. Let's play Global Thermonuclear War.`]: 'FINE.',
+};
+
+const DEMO_DISCONNECT_FROM_SERVER = 'server disconnect';
+
+const DEMO_JSON_RESPONSES = {
+    [JSON.stringify({ type: 'INIT_CONNECTION', client: 'ws1-info' })]: JSON.stringify({ type: 'PROTOCOL_NEGOTIATION', capabilities: ['authentication', 'synchronization', 'push'] }),
+    [JSON.stringify({ type: 'AUTHENTICATE', id: 1, user: 'rob@contoso.com', token: 'adDSAFADSFssda=-1=9331hnhnsdjhjaf.1akjdlfjd' })]: JSON.stringify({ type: 'AUTHENTICATION_ERROR', id: 1, message: 'TOKEN_EXPIRED' }),
+}
+
+export class WebSocketMock {
+    private static _instance: WebSocketMock | null;
+    public static instance(requestId: string) {
+        if (!WebSocketMock._instance || requestId !== WebSocketMock._instance.requestId) {
+            WebSocketMock._instance = new WebSocketMock(requestId);
+        }
+        return WebSocketMock._instance;
+    }
+
+    private connected: number;
+    private modeJson: boolean;
+    private constructor(private requestId: string) {
+        this.connected = Date.now();
+        this.modeJson = false;
+    }
+
+    send(message: string) {
+        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Math.floor(Date.now() - this.connected), message));
+        const resps: any = this.modeJson ? DEMO_JSON_RESPONSES : DEMO_RESPONSES;
+        const response = resps[message];
+        if (response) {
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), response));
+            }, Math.random() * 750);
+        }
+        else if (message === 'go-json') {
+            this.modeJson = true;
+            setTimeout(() => {
+                globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
+            }, 250 + Math.random() * 750);
+        } else if (message === DEMO_DISCONNECT_FROM_SERVER) {
+            globalDispatch(makeWebSocketDisconnectedAction(this.requestId, 'Server closed the connection.'));
+        }
+    }
+
+    disconnect() {
+        globalDispatch(makeWebSocketDisconnectedAction(this.requestId, "mock closed connection."));
+    }
+}
+
+class ActualWS {
+    private static _instance: ActualWS | null;
+    public static instance(requestId: string) {
+        if (!ActualWS._instance || requestId !== ActualWS._instance.requestId) {
+            ActualWS._instance = new ActualWS(requestId);
+        }
+        return ActualWS._instance;
+    }
+
+    private _ws: WebSocket | null = null;
+    private connected = 0;
+    private constructor(private requestId: string) {
+    }
+
+    connect(url: string) {
+        this._ws = new WebSocket(url);
+        this._ws.addEventListener('open', () => {
+            this.connected = Date.now();
+        });
+        this._ws.addEventListener('message', e => {
+            globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Date.now() - this.connected, e.data));
+        });
+        this._ws.addEventListener('close', e => {
+            globalDispatch(makeWebSocketDisconnectedAction(this.requestId, e.reason));
+        });
+    }
+
+    send(message: string) {
+        this._ws?.send(message);
+        globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'send', Date.now() - this.connected, message));
+    }
+
+    disconnect() {
+        this._ws?.close();
+    }
 }

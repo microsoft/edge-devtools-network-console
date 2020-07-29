@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { INetConsoleRequest, INetConsoleAuthorization, INetConsoleResponse, INetConsoleParameter } from '../net/net-console-http';
+import {
+    INetConsoleRequest,
+    INetConsoleAuthorization,
+    INetConsoleResponse,
+    INetConsoleParameter,
+    ms,
+} from '../net/net-console-http';
+import { Base64String } from '../util/base64';
 
 interface IMessage<T extends string> {
     type: T;
@@ -100,6 +107,23 @@ export interface IShowViewMessage extends IMessage<'SHOW_OPEN_REQUEST'> {
 
 export type IClearEnvironmentMessage = IMessage<'CLEAR_ENVIRONMENT'>;
 
+export interface IWebSocketConnectedMessage extends IMessage<'WEBSOCKET_CONNECTED'> {
+    requestId: string;
+}
+
+export interface IWebSocketDisconnectedMessage extends IMessage<'WEBSOCKET_DISCONNECTED'> {
+    requestId: string;
+    reason?: string;
+}
+
+export interface IWebSocketPacketMessage extends IMessage<'WEBSOCKET_PACKET'> {
+    requestId: string;
+    data: string | Base64String;
+    direction: 'send' | 'recv';
+    encoding: 'text' | 'base64';
+    timeFromConnection: ms;
+}
+
 export type HostMessage =
     IInitHostMessage |
     IInitEmptyRequestMessage |
@@ -113,5 +137,8 @@ export type HostMessage =
     IEditEnvironmentMessage |
     IUpdateEnvironmentMessage |
     ICloseViewMessage |
-    IShowViewMessage
+    IShowViewMessage |
+    IWebSocketConnectedMessage |
+    IWebSocketDisconnectedMessage |
+    IWebSocketPacketMessage
     ;
