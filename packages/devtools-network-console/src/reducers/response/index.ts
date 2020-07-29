@@ -45,21 +45,11 @@ export default function reduceResponse(collection: ResponsesState = DEFAULT_RESP
             break;
 
         case 'RESPONSE_END_REQUEST':
-            let isWebsocketUpgrade = false;
-            if (action.response?.statusCode === 101 && action.response?.headers) {
-                for (const header of action.response?.headers) {
-                    if (header.key === "Upgrade" && header.value === "WebSocket"){
-                        isWebsocketUpgrade = true;
-                        break;
-                    }
-                }
-            }
             result = {
                 duration: Date.now() - state.started,
                 started: 0,
                 response: action.response,
                 status: action.status,
-                isWebsocketUpgrade
             };
             break;
 
