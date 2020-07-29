@@ -163,6 +163,9 @@ export default function WebSocketView(props: IWebSocketViewProps) {
                                 position: 'relative',
                             },
                         }}
+                        menuFlyoutConfig={{
+                            verticalAlwaysInView: true,
+                        }}
                         onMenuSelectionChange={items => {
                             const item = items[0]!;
                             setFormat(item.id);
