@@ -83,7 +83,6 @@ export default function reduceWebsocket(collection: WS_State = DEFAULT_WS_STATE,
             }
             state = {
                 ...state,
-                connected: false,
                 messages: OrderedSet(),
             };
             return collection.set(reqId, state);

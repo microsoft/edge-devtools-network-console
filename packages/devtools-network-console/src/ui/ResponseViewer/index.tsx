@@ -262,6 +262,8 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         throw new Error('Invariant failed: Response not found for given request ID');
     }
     const wsState = state.websocket.get(ownProps.requestId);
+    // Show the Websocket view if there are message associated with this request, even if disconnected.
+    // This allows users to see previous messages and the disconnect status.
     const showWSView = wsState ? wsState.messages.size > 0 : false
     return {
         response: response,
