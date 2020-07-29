@@ -27,6 +27,8 @@ import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import { makeWebsocketMessageLoggedAction, makeWebSocketDisconnectedAction } from 'actions/websocket';
 
 export default class WebApplicationHost implements INetConsoleHost {
+    private _wsMock: ActualWS | WebSocketMock | null = null;
+
     constructor() {
         setTimeout(() => {
             globalDispatch(setHostCapabilitiesAction(
@@ -44,7 +46,7 @@ export default class WebApplicationHost implements INetConsoleHost {
 
     async makeRequest(request: INetConsoleRequestInternal, environmentalAuthorization: INetConsoleAuthorization | null, environmentVariables: INetConsoleParameter[]): Promise<INetConsoleResponse> {
         if (request.url === 'wss://www.norad.mil/cheyenne/WOPR') {
-            WebSocketMock.instance('wss');
+            this._wsMock = WebSocketMock.instance('DEFAULT_REQUEST');
             const time = Math.random() * 1000;
             setTimeout(() => {
                 globalDispatch(makeWebsocketMessageLoggedAction('DEFAULT_REQUEST', 'recv', Math.floor(time), 'GREETINGS PROFESSOR FALKEN.'));
@@ -68,6 +70,7 @@ export default class WebApplicationHost implements INetConsoleHost {
         }
         else if (request.url.startsWith('wss://')) {
             const aws = ActualWS.instance('DEFAULT_REQUEST');
+            this._wsMock = aws;
             aws.connect(request.url);
             return {
                 duration: 4,
@@ -152,17 +155,16 @@ export default class WebApplicationHost implements INetConsoleHost {
     /**
      * If a connection has been upgraded to a WebSocket, allows it to be disconnected.
      */
-    disconnectWebsocket(requestId: string) {
-        ActualWS.instance(requestId).disconnect();
+    disconnectWebsocket(_requestId: string) {
+        this._wsMock?.disconnect();
     }
 
     /**
      * If a connection has been upgraded to a WebSocket, sends a message. The default value of
      * the `encoding` parameter is 'text'.
      */
-    sendWebSocketMessage(requestId: string, message: string, _encoding: 'text' | 'base64' = 'text') {
-        // WebSocketMock.instance(requestId).send(message);
-        ActualWS.instance(requestId).send(message);
+    sendWebSocketMessage(_requestId: string, message: string, _encoding: 'text' | 'base64' = 'text') {
+        this._wsMock?.send(message);
     }
 }
 
@@ -256,6 +258,10 @@ export class WebSocketMock {
                 globalDispatch(makeWebsocketMessageLoggedAction(this.requestId, 'recv', Math.floor(Date.now() - this.connected), JSON.stringify({ type: 'ACK', protocol: 'JSON', status: 'OK'})));
             }, 250 + Math.random() * 750);
         }
+    }
+
+    disconnect() {
+        globalDispatch(makeWebSocketDisconnectedAction(this.requestId));
     }
 }
 
