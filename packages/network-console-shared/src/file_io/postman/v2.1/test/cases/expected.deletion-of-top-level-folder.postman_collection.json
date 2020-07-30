@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "87f8ae26-7b67-436d-8650-2c72fe35daff",
+		"name": "Test collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "First request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						""
+					]
+				},
+				"description": "Request #1 is the first request."
+			},
+			"response": []
+		},
+		{
+			"name": "Second request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "1234abcd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "not-really-an-api-key",
+						"description": "The API key of the request.",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "Hello, world."
+				},
+				"url": {
+					"raw": "http://localhost:9999/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						""
+					]
+				},
+				"description": "Request #2 is the second request."
+			},
+			"response": []
+		},
+		{
+			"name": "Third request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/foo/:bar/:baz",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"foo",
+						":bar",
+						":baz"
+					],
+					"variable": [
+						{
+							"key": "bar",
+							"value": "key-of-life"
+						},
+						{
+							"key": "baz",
+							"value": "42"
+						}
+					]
+				},
+				"description": "Request #3 is the third request."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

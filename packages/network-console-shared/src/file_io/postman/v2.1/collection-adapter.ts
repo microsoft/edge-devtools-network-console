@@ -15,7 +15,7 @@ import {
 } from '../../../collections/postman/v2.1/schema-generated';
 import BidiMap from '../../../util/bidi-map';
 import { INetConsoleRequest } from '../../../net/net-console-http';
-import { createAuthorizationProxy } from './authorization';
+import { AuthorizationAdapter } from './authorization';
 
 import { RequestWrapper, mapNCToPostman } from './request';
 import { RequestAdapter } from './request-adapter';
@@ -105,12 +105,7 @@ export class CollectionAdapter implements ICollectionAdapter {
     }
 
     get authorization() {
-        if (!this._current.auth) {
-            this._current.auth = {
-                type: AuthType.Noauth,
-            };
-        }
-        return createAuthorizationProxy(this._current.auth, () => { this._dirty = true; });
+        return new AuthorizationAdapter(this._current, () => { this._dirty = true; });
     }
 
     get childEntryIds() {

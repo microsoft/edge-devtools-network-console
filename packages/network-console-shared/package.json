@@ -8,6 +8,7 @@
     "test": "node ./node_modules/mocha/lib/cli/cli.js -- src --config .mocharc.json",
     "test-with-coverage": "nyc mocha src --config .mocharc.json --parallel false",
     "test:watch": "node ./node_modules/mocha/lib/cli/cli.js -- src --config .mocharc.json --watch",
+    "test:debug": "node --inspect-brk ./node_modules/mocha/lib/cli/cli.js -- src --config .mocharc.json --parallel false",
     "build": "node ./node_modules/webpack-cli/bin/cli --mode development",
     "build:prod": "node ./node_modules/webpack-cli/bin/cli --mode production",
     "package": "node ./node_modules/webpack-cli/bin/cli --mode development --config webpack.config.embedded.js",

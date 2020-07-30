@@ -6,6 +6,7 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import 'mocha';
+import jsonCompare from '../../../../test-util/json-compare';
 
 chai.use(chaiAsPromised);
 
@@ -14,89 +15,85 @@ import {
     ICollectionContainerAdapter,
     ICollectionFormat,
     ICollectionItemAdapter,
-} from '../../interfaces';
+} from '../../../interfaces';
 import { CollectionFormat } from '../collection-format';
-import readCollection, { getContentsAndFormat } from '../../../test-util/read-collection';
+import readCollection, { getContents } from '../../../../test-util/read-collection';
 
-describe('network-console-shared/src/file_io/native/container-adapter and request-adapter', () => {
+describe('network-console-shared/src/file_io/postman/v2.1/container-adapter and request-adapter', () => {
     describe('Manipulates the collection correctly', () => {
         let format: ICollectionFormat;
         let collection: ICollectionAdapter;
 
         beforeEach(async () => {
-            (CollectionFormat as any)._nextNewCollectionId = 0;
             format = new CollectionFormat();
-            collection = await readCollection('src/file_io/native/test/cases/starting-case.nc.json', format);
+            collection = await readCollection('src/file_io/postman/v2.1/test/cases/starting-case.postman_collection.json', format);
         });
 
         it('Renames a sub-subfolder', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/container-rename-of-sub-subfolder.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.container-rename-of-sub-subfolder.postman_collection.json');
 
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2');
             expect(testFolderEntry).to.not.be.null;
             expect(testFolderEntry!.type).to.equal('container');
             const testFolder = testFolderEntry as ICollectionContainerAdapter;
-            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.postman_collection.json/2/0');
             expect(anotherSubfolderEntry).to.not.be.null;
             expect(anotherSubfolderEntry!.type).to.equal('container');
             const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
             anotherSubfolder.name = 'Renamed subfolder';
             expect(collection.isDirty).to.be.true;
             await collection.commit();
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('Deletion of a top-level folder deletes a lot', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/deletion-of-top-level-folder.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.deletion-of-top-level-folder.postman_collection.json');
 
-            await collection.deleteEntry('starting-case.nc.json/2');
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            await collection.deleteEntry('starting-case.postman_collection.json/2');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2');
             expect(testFolderEntry).to.be.null;
 
             expect(collection.isDirty).to.be.true;
             await collection.commit();
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
             expect(collection.childEntryIds).to.deep.equal([
-                'starting-case.nc.json/0',
-                'starting-case.nc.json/1',
-                'starting-case.nc.json/3',
+                'starting-case.postman_collection.json/0',
+                'starting-case.postman_collection.json/1',
+                'starting-case.postman_collection.json/3',
             ]);
         });
 
         it('Deletion of a subfolder works as expected', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/deletion-of-subfolder.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.deletion-of-subfolder.postman_collection.json');
 
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2') as ICollectionContainerAdapter;
-            const before = testFolderEntry.getEntryById('starting-case.nc.json/2/0');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2') as ICollectionContainerAdapter;
+            const before = testFolderEntry.getEntryById('starting-case.postman_collection.json/2/0');
             expect(before).to.not.be.null;
             expect(before!.type).to.equal('container');
 
-            await testFolderEntry.deleteEntry('starting-case.nc.json/2/0');
-            const after = testFolderEntry.getEntryById('starting-case.nc.json/2/0');
+            await testFolderEntry.deleteEntry('starting-case.postman_collection.json/2/0');
+            const after = testFolderEntry.getEntryById('starting-case.postman_collection.json/2/0');
             expect(after).to.be.null;
 
             expect(collection.isDirty).to.be.true;
             await collection.commit();
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
             expect(testFolderEntry.childEntryIds).to.deep.equal([
-                'starting-case.nc.json/2/1',
-                'starting-case.nc.json/2/2',
-                'starting-case.nc.json/2/3',
+                'starting-case.postman_collection.json/2/1',
+                'starting-case.postman_collection.json/2/2',
+                'starting-case.postman_collection.json/2/3',
             ]);
         });
 
         it('Modifications of a deep request are performed correctly', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/modifications-of-all-properties-of-a-request.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.modifications-of-all-properties-of-a-request.postman_collection.json');
 
             // setup
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2');
             const testFolder = testFolderEntry as ICollectionContainerAdapter;
-            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.postman_collection.json/2/0');
             const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
-            const requestEntry = anotherSubfolder.getEntryById('starting-case.nc.json/2/0/1');
+            const requestEntry = anotherSubfolder.getEntryById('starting-case.postman_collection.json/2/0/1');
             expect(requestEntry).to.not.be.null;
             expect(requestEntry!.type).to.equal('item');
             const requestItem = requestEntry as ICollectionItemAdapter;
@@ -164,19 +161,18 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
             await collection.commit();
 
             // Finally, ensure that the collection contents are updated appropriately
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('Modification of a request authorization marks the collection as dirty', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/modified-request-authorization.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.modified-request-authorization.postman_collection.json');
 
             // setup
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2');
             const testFolder = testFolderEntry as ICollectionContainerAdapter;
-            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.postman_collection.json/2/0');
             const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
-            const requestEntry = anotherSubfolder.getEntryById('starting-case.nc.json/2/0/1');
+            const requestEntry = anotherSubfolder.getEntryById('starting-case.postman_collection.json/2/0/1');
             expect(requestEntry).to.not.be.null;
             expect(requestEntry!.type).to.equal('item');
             const requestItem = requestEntry as ICollectionItemAdapter;
@@ -194,17 +190,16 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
 
             // Finally, ensure that the collection contents are updated appropriately
             await collection.commit();
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('Modification of a container authorization marks the collection as dirty', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/modified-container-authorization.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.modified-container-authorization.postman_collection.json');
 
             // setup
-            const testFolderEntry = collection.getEntryById('starting-case.nc.json/2');
+            const testFolderEntry = collection.getEntryById('starting-case.postman_collection.json/2');
             const testFolder = testFolderEntry as ICollectionContainerAdapter;
-            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.nc.json/2/0');
+            const anotherSubfolderEntry = testFolder.getEntryById('starting-case.postman_collection.json/2/0');
             const anotherSubfolder = anotherSubfolderEntry as ICollectionContainerAdapter;
             expect(collection.isDirty).to.be.false;
 
@@ -217,8 +212,7 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
 
             // Finally, ensure that the collection contents are updated appropriately
             await collection.commit();
-            const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
     });
 
@@ -227,41 +221,40 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
         let collection: ICollectionAdapter;
 
         beforeEach(async () => {
-            (CollectionFormat as any)._nextNewCollectionId = 0;
             format = new CollectionFormat();
-            collection = await readCollection('src/file_io/native/test/cases/starting-case-with-adjacent-data.nc.json', format);
+            collection = await readCollection('src/file_io/postman/v2.1/test/cases/starting-case-with-adjacent-data.postman_collection.json', format);
         });
 
         it('modifying a request entry does not delete adjacent data', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/adjacent-data-after-modifying-item.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.adjacent-data-after-modifying-item.postman_collection.json');
 
-            const requestItem = collection.getEntryById('starting-case-with-adjacent-data.nc.json/0') as ICollectionItemAdapter;
+            const requestItem = collection.getEntryById('starting-case-with-adjacent-data.postman_collection.json/1') as ICollectionItemAdapter;
             const request = requestItem.request;
             request.description = 'Edited first request';
             request.name = 'Updated request';
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('modifying a container entry does not delete adjacent data', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/adjacent-data-after-modifying-container.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.adjacent-data-after-modifying-container.postman_collection.json');
 
-            const container = collection.getEntryById('starting-case-with-adjacent-data.nc.json/2') as ICollectionContainerAdapter;
+            const container = collection.getEntryById('starting-case-with-adjacent-data.postman_collection.json/0') as ICollectionContainerAdapter;
             container.name = 'Test folder renamed';
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('clearing a container entry does not delete adjacent data', async () => {
-            const expected = await getContentsAndFormat('src/file_io/native/test/cases/adjacent-data-after-clearing-container.nc.json');
+            const expected = await getContents('src/file_io/postman/v2.1/test/cases/expected.adjacent-data-after-clearing-container.postman_collection.json');
 
-            const container = collection.getEntryById('starting-case-with-adjacent-data.nc.json/2') as ICollectionContainerAdapter;
+            const container = collection.getEntryById('starting-case-with-adjacent-data.postman_collection.json/0') as ICollectionContainerAdapter;
             const children = container.childEntryIds;
             while (children.length) {
                 await container.deleteEntry(children.shift()!);
             }
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
     });
 });

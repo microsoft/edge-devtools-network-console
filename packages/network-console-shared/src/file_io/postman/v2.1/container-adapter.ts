@@ -13,7 +13,7 @@ import {
     ICollectionItemAdapter,
 } from '../../interfaces';
 import { RequestAdapter } from './request-adapter';
-import { createAuthorizationProxy } from './authorization';
+import { AuthorizationAdapter } from './authorization';
 import { mapNCToPostman } from './request';
 
 import {
@@ -55,12 +55,7 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
     }
 
     get authorization() {
-        if (!this.realObject.auth) {
-            this.realObject.auth = {
-                type: AuthType.Noauth,
-            };
-        }
-        return createAuthorizationProxy(this.realObject.auth, this.setDirty);
+        return new AuthorizationAdapter(this.realObject, this.setDirty);
     }
 
     get childEntryIds() {

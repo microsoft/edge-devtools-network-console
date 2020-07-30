@@ -10,12 +10,19 @@ import 'mocha';
 import * as uuidv4Module from 'uuidv4';
 
 chai.use(chaiAsPromised);
-const uuidv4Mock = ImportMock.mockFunction(uuidv4Module, 'uuid');
-uuidv4Mock.returns('12345678-1234-2345-3456-1234567890ab');
 
 import { CollectionFormat } from '../collection-format';
 
 describe('network-console-shared/src/file_io/postman/v2.1/collection-format', () => {
+    before(() => {
+        const uuidv4Mock = ImportMock.mockFunction(uuidv4Module, 'uuid');
+        uuidv4Mock.returns('12345678-1234-2345-3456-1234567890ab');
+    });
+
+    after(() => {
+        ImportMock.restore();
+    });
+
     it('creates a default collection and serializes it correctly', async () => {
         const format = new CollectionFormat();
         const name = 'Empty test collection';

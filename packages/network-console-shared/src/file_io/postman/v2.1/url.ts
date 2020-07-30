@@ -15,10 +15,13 @@ export function constructURLObject(url: string, routeParams: INetConsoleParamete
     const parsedUrl = new URL(url);
     if (parsedUrl.protocol) {
         result.protocol = parsedUrl.protocol;
+        if (result.protocol.endsWith(':')) {
+            result.protocol = result.protocol.substr(0, result.protocol.length - 1);
+        }
     }
 
-    if (parsedUrl.host) {
-        result.host = [parsedUrl.host];
+    if (parsedUrl.hostname) {
+        result.host = [parsedUrl.hostname];
     }
 
     if (parsedUrl.port) {
@@ -39,10 +42,12 @@ export function constructURLObject(url: string, routeParams: INetConsoleParamete
     }
 
     if (queryParameters.length) {
-        result.raw += '?';
-        result.raw += queryParameters.map(q => {
+        const qs = queryParameters.filter(q => q.isActive).map(q => {
             return `${encodeURIComponent(q.key)}=${encodeURIComponent(q.value)}`;
         }).join('&');
+        if (qs) {
+            result.raw += '?' + qs;
+        }
         result.query = queryParameters.map(q => {
             return {
                 description: q.description,

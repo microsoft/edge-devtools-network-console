@@ -5,161 +5,236 @@ import {
     INetConsoleAuthorization,
     INetConsoleBasicAuthorization,
     INetConsoleBearerTokenAuthorization,
+    NetworkConsoleAuthorizationScheme,
 } from '../../../net/net-console-http';
-import { Auth, AuthType } from '../../../collections/postman/v2.1/schema-generated';
+import { Auth, AuthType, RequestObject, PostmanAuth } from '../../../collections/postman/v2.1/schema-generated';
 
-export function createAuthorizationProxy(realObject: Auth, onDirty: () => void): INetConsoleAuthorization {
-    const ALLOWED_PROPERTIES = [
-        'type',
-        'token',
-        'basic',
-    ];
+export class AuthorizationAdapter implements INetConsoleAuthorization {
 
-    return new Proxy<INetConsoleAuthorization>(realObject as any, {
-        // @ts-ignore Transforming basic Auth to INetConsoleAuthorization
-        get(obj: Auth, prop: string | number | symbol) {
-            if (ALLOWED_PROPERTIES.indexOf(prop as string) === -1) {
-                return undefined;
+    constructor(private request: RequestObject, private setDirty: () => void) {
+
+    }
+
+    get type() {
+        const postmanType = this.request.auth?.type;
+        switch (postmanType) {
+            case 'noauth':
+                return 'none';
+            case 'bearer':
+                return 'token';
+            case 'basic':
+                return 'basic';
+            default:
+                return 'inherit';
+        }
+    }
+
+    set type(value: NetworkConsoleAuthorizationScheme) {
+        let auth = this.request.auth;
+        if (!auth) {
+            auth = this.request.auth = { type: AuthType.Noauth, };
+        }
+        switch (value) {
+            case 'none':
+                auth.type = AuthType.Noauth;
+                break;
+            case 'token':
+                auth.type = AuthType.Bearer;
+                break;
+            case 'basic':
+                auth.type = AuthType.Basic;
+                break;
+            case 'inherit':
+                delete this.request.auth;
+                break;
+            default:
+                auth.type = AuthType.Noauth;
+                break;
+        }
+    }
+
+    get token() {
+        if (!this.request.auth?.bearer) {
+            return undefined;
+        }
+
+        return new BearerTokenAdapter(this.request, this.setDirty);
+    }
+
+    set token(value: INetConsoleBearerTokenAuthorization | undefined) {
+        if (!value) {
+            if (this.request.auth) {
+                delete this.request.auth.bearer;
+                return;
             }
+        }
 
-            switch (prop) {
-                case 'type': {
-                    const postmanType = obj.type;
-                    switch (postmanType) {
-                        case 'noauth':
-                            return 'none';
-                        case 'bearer':
-                            return 'token';
-                        case 'basic':
-                            return 'basic';
-                        default:
-                            return 'inherit';
-                    }
-                }
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Bearer, bearer: [] };
+        }
+        else if (!this.request.auth.bearer) {
+            this.request.auth.bearer = [];
+        }
 
-                case 'basic': {
-                    const basicItems = obj.basic || [];
-                    const result: INetConsoleBasicAuthorization = {
-                        username: '',
-                        password: '',
-                        showPassword: false,
-                    };
-                    basicItems.forEach(item => {
-                        switch (item.key) {
-                            case 'username':
-                                result.username = item.value;
-                                break;
-                            case 'password':
-                                result.password = item.value;
-                                break;
-                            case 'showPassword':
-                                result.showPassword = item.value;
-                                break;
-                        }
-                    });
-                    return result;
-                }
+        const adapter = this.token;
+        Object.assign(adapter, value);
+        this.setDirty();
+    }
 
-                case 'bearer': {
-                    const bearerItems = obj.bearer || [];
-                    const result: INetConsoleBearerTokenAuthorization = {
-                        token: '',
-                    };
-                    bearerItems.forEach(item => {
-                        switch (item.key) {
-                            case 'token':
-                                result.token = item.value;
-                                break;
-                        }
-                    });
-                    return result;
-                }
+    get basic() {
+        if (!this.request.auth?.basic) {
+            return undefined;
+        }
+
+        return new BasicAdapter(this.request, this.setDirty);
+    }
+
+    set basic(value: INetConsoleBasicAuthorization | undefined) {
+        if (!value) {
+            if (this.request.auth?.basic) {
+                delete this.request.auth.basic;
+                return;
             }
-        },
-        // @ts-ignore Transforming basic Auth to INetConsoleAuthorization
-        set(obj: Auth, prop: string | number | symbol, value: any) {
-            if (ALLOWED_PROPERTIES.indexOf(prop as string) > -1) {
-                onDirty();
-                switch (prop) {
-                    case 'type': {
-                        switch (value) {
-                            case 'none':
-                                obj.type = AuthType.Noauth;
-                                break;
-                            case 'token':
-                                obj.type = AuthType.Bearer;
-                                break;
-                            case 'basic':
-                                obj.type = AuthType.Basic;
-                                break;
-                            default:
-                                obj.type = AuthType.Noauth;
-                                break;
-                        }
+        }
 
-                        return true;
-                    }
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Basic, basic: [] };
+        }
+        else if (!this.request.auth.basic) {
+            this.request.auth.basic = [];
+        }
 
-                    case 'basic': {
-                        const val: INetConsoleBasicAuthorization | null = value;
-                        if (val) {
-                            obj.basic = [
-                                {
-                                    key: 'username',
-                                    value: val.username,
-                                    type: 'string',
-                                },
-                                {
-                                    key: 'password',
-                                    value: val.password,
-                                    type: 'string',
-                                },
-                                {
-                                    key: 'showPassword',
-                                    value: val.showPassword,
-                                    type: 'boolean',
-                                }
-                            ];
-                        }
-                        else {
-                            obj.basic = [];
-                        }
-
-                        return true;
-                    } // case setting basic authorization
-
-                    case 'token': {
-                        const val: INetConsoleBearerTokenAuthorization | null = value;
-                        if (val) {
-                            obj.bearer = [
-                                {
-                                    key: 'token',
-                                    value: val.token,
-                                    type: 'string',
-                                },
-                            ];
-                        }
-                        else {
-                            obj.bearer = [];
-                        }
-
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        },
-    });
+        const adapter = this.basic;
+        Object.assign(adapter, value);
+        this.setDirty();
+    }
 }
 
-export function mapNCAuthorizationToPostman(item: INetConsoleAuthorization): Auth {
-    const result: Auth = {
-        type: AuthType.Noauth,
-    };
+function getItemFrom(array: PostmanAuth[] | undefined, key: string): PostmanAuth | undefined {
+    if (!array) {
+        return undefined;
+    }
 
-    const proxy = createAuthorizationProxy(result, () => {});
-    Object.assign(proxy, result);
+    const found = array.find(i => i.key === key);
+    return found;
+}
 
-    return result;
+class BearerTokenAdapter implements INetConsoleBearerTokenAuthorization {
+    constructor(private request: RequestObject, private setDirty: () => void) {
+
+    }
+
+    get token() {
+        const item = getItemFrom(this.request.auth?.bearer, 'token');
+        return item?.value || '';
+    }
+
+    set token(value: string) {
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Bearer, };
+        }
+        if (!this.request.auth.bearer) {
+            this.request.auth.bearer = [];
+        }
+        const entry = getItemFrom(this.request.auth.bearer, 'token');
+        if (entry) {
+            entry.value = value;
+        }
+        else {
+            this.request.auth.bearer.push({
+                key: 'token',
+                type: 'string',
+                value,
+            });
+        }
+
+        this.setDirty();
+    }
+}
+
+class BasicAdapter implements INetConsoleBasicAuthorization {
+    constructor(private request: RequestObject, private setDirty: () => void) {
+
+    }
+
+    get username() {
+        const item = getItemFrom(this.request.auth?.basic, 'username');
+        return item?.value || '';
+    }
+
+    set username(value: string) {
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Basic, };
+        }
+        if (!this.request.auth.basic) {
+            this.request.auth.basic = [];
+        }
+        const entry = getItemFrom(this.request.auth.basic, 'username');
+        if (entry) {
+            entry.value = value;
+        }
+        else {
+            this.request.auth.basic.push({
+                key: 'username',
+                type: 'string',
+                value,
+            });
+        }
+
+        this.setDirty();
+    }
+
+    get password() {
+        const item = getItemFrom(this.request.auth?.basic, 'password');
+        return item?.value || '';
+    }
+
+    set password(value: string) {
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Basic, };
+        }
+        if (!this.request.auth.basic) {
+            this.request.auth.basic = [];
+        }
+        const entry = getItemFrom(this.request.auth.basic, 'password');
+        if (entry) {
+            entry.value = value;
+        }
+        else {
+            this.request.auth.basic.push({
+                key: 'password',
+                type: 'string',
+                value,
+            });
+        }
+
+        this.setDirty();
+    }
+
+    get showPassword() {
+        const item = getItemFrom(this.request.auth?.basic, 'showPassword');
+        return item?.value ?? false;
+    }
+
+    set showPassword(value: boolean) {
+        if (!this.request.auth) {
+            this.request.auth = { type: AuthType.Basic, };
+        }
+        if (!this.request.auth.basic) {
+            this.request.auth.basic = [];
+        }
+        const entry = getItemFrom(this.request.auth.basic, 'showPassword');
+        if (entry) {
+            entry.value = value;
+        }
+        else {
+            this.request.auth.basic.push({
+                key: 'showPassword',
+                type: 'boolean',
+                value,
+            });
+        }
+
+        this.setDirty();
+    }
 }

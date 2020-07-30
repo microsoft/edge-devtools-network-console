@@ -7,11 +7,10 @@ import { ImportMock } from 'ts-mock-imports';
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import 'mocha';
+import jsonCompare from '../../../../test-util/json-compare';
 import * as uuidv4Module from 'uuidv4';
 
 chai.use(chaiAsPromised);
-const uuidv4Mock = ImportMock.mockFunction(uuidv4Module, 'uuid');
-uuidv4Mock.returns('12345678-1234-2345-3456-1234567890ab');
 
 import { ICollectionAdapter, ICollectionFormat } from '../../../interfaces';
 import { CollectionFormat } from '../collection-format';
@@ -26,16 +25,18 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
     item: [{
         name: 'First request',
         request: {
-            body: {
-                type: 'nobody',
-            },
+            body: {},
             description: 'Request #1 is the first request.',
             method: 'GET',
+            header: [],
             url: {
                 protocol: 'http',
                 host: ['localhost'],
                 port: '9999',
                 raw: 'http://localhost:9999/',
+                path: [
+                    ""
+                ],
             },
         },
     }, {
@@ -43,20 +44,25 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
         request: {
             auth: {
                 type: 'bearer',
-                bearer: {
-                    token: '1234abcd',
-                },
+                bearer: [
+                    {
+                        key: "token",
+                        value: "1234abcd",
+                        type: "string"
+                    },
+                ],
             },
             body: {
-                type: 'raw',
+                mode: 'raw',
                 raw: 'Hello, world.',
             },
             description: 'Request #2 is the second request.',
-            headers: [
+            header: [
                 {
                     description: 'The API key of the request.',
                     key: 'X-ApiKey',
                     value: 'not-really-an-api-key',
+                    disabled: false,
                 },
             ],
             method: 'GET',
@@ -65,6 +71,9 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
                 host: ['localhost'],
                 port: '9999',
                 raw: 'http://localhost:9999/',
+                path: [
+                    ""
+                ],
             },
         },
     }, {
@@ -90,11 +99,10 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
     }, {
         name: 'Third request',
         request: {
-            body: {
-                type: 'nobody',
-            },
+            body: {},
             description: 'Request #3 is the third request.',
-            method: 'GET',
+            method: 'DELETE',
+            header: [],
             url: {
                 protocol: 'http',
                 host: ['localhost'],
@@ -105,24 +113,37 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
                 ],
                 port: '9999',
                 raw: 'http://localhost:9999/foo/:bar/:baz',
+                variable: [
+                    {
+                        description: '',
+                        key: 'bar',
+                        value: 'key-of-life',
+                        disabled: false,
+                        type: 'string',
+                    }, {
+                        description: '',
+                        key: 'baz',
+                        value: '42',
+                        disabled: false,
+                        type: 'string',
+                    },
+                ],
             },
-            variable: [
-                {
-                    description: '',
-                    key: ':bar',
-                    value: 'key-of-life',
-                }, {
-                    description: '',
-                    key: ':baz',
-                    value: '42',
-                },
-            ],
         },
     },
     ],
 }, null, 4);
 
 describe('network-console-shared/src/file_io/native/collection-adapter', () => {
+    before(() => {
+        const uuidv4Mock = ImportMock.mockFunction(uuidv4Module, 'uuid');
+        uuidv4Mock.returns('12345678-1234-2345-3456-1234567890ab');
+    });
+
+    after(() => {
+        ImportMock.restore();
+    });
+
     describe('Manipulation of an empty collection', () => {
         let collection: ICollectionAdapter;
 
@@ -146,7 +167,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
             expect(collection.isDirty).to.equal(true);
             await collection.commit();
             expect(collection.isDirty).to.equal(false);
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('adds a new collection folder to the root successfully', async () => {
@@ -169,7 +190,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
             expect(collection.isDirty).to.equal(true);
             await collection.commit();
             expect(collection.isDirty).to.equal(false);
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
 
         it('adds three new requests and a folder to the root successfully', async () => {
@@ -258,107 +279,125 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
 
             await collection.commit();
             expect(collection.isDirty).to.equal(false);
-            expect(await collection.stringify()).to.equal(expected);
-            // expect(collection.childEntryIds).to.deep.equal([
-            //     'nc-native-format-new-collection-0/0',
-            //     'nc-native-format-new-collection-0/1',
-            //     'nc-native-format-new-collection-0/2',
-            //     'nc-native-format-new-collection-0/3',
-            // ]);
-            // let entry = collection.getEntryById('nc-native-format-new-collection-0/0');
-            // expect(entry).to.not.be.null;
-            // expect(entry!.type).to.equal('item');
-            // expect(entry!.name).to.equal('First request');
-            // entry = collection.getEntryById('nc-native-format-new-collection-0/2');
-            // expect(entry).to.not.be.null;
-            // expect(entry!.type).to.equal('container');
+            jsonCompare(await collection.stringify(), expected);
+            expect(collection.childEntryIds).to.deep.equal([
+                'postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/0',
+                'postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/1',
+                'postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/2',
+                'postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/3',
+            ]);
+            let entry = collection.getEntryById('postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/0');
+            expect(entry).to.not.be.null;
+            expect(entry!.type).to.equal('item');
+            expect(entry!.name).to.equal('First request');
+            entry = collection.getEntryById('postman-format-new-collection-12345678-1234-2345-3456-1234567890ab/2');
+            expect(entry).to.not.be.null;
+            expect(entry!.type).to.equal('container');
         });
     });
 
-    describe.skip('Manipulates the collection correctly', () => {
+    describe('Manipulates the collection correctly', () => {
         let format: ICollectionFormat;
         let collection: ICollectionAdapter;
 
         beforeEach(async () => {
-            (CollectionFormat as any)._nextNewCollectionId = 0;
             format = new CollectionFormat();
-            collection = await format.parse('req_req_folder_req.nc.json', REQ_REQ_FOLDER_REQ);
+            collection = await format.parse('req_req_folder_req.postman_collection.json', REQ_REQ_FOLDER_REQ);
         });
 
         it('deletes the 2nd entry', async () => {
             const expected = JSON.stringify({
-                meta: {
-                    networkConsoleCollectionVersion: '0.9.2-preview',
+                info: {
+                    name: 'Test collection',
+                    schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+                    description: '',
+                    _postman_id: '12345678-1234-2345-3456-1234567890ab',
                 },
-                name: 'Test collection',
-                entries: [{
+                item: [{
+                    name: 'First request',
                     request: {
-                        authorization: {
-                            type: 'inherit',
-                        },
-                        body: { content: '' },
-                        bodyComponents: {
-                            bodySelection: 'none',
-                        },
+                        body: {},
                         description: 'Request #1 is the first request.',
-                        headers: [],
-                        name: 'First request',
-                        queryParameters: [],
-                        routeParameters: [],
-                        url: 'http://localhost:9999/',
-                        verb: 'GET',
-                    }
-                }, {
-                    name: 'Test folder',
-                    entries: [],
-                    auth: {
-                        type: 'basic',
-                        basic: {
-                            username: 'user',
-                            password: 'pass',
-                            showPassword: false,
+                        method: 'GET',
+                        header: [],
+                        url: {
+                            protocol: 'http',
+                            host: ['localhost'],
+                            port: '9999',
+                            raw: 'http://localhost:9999/',
+                            path: [
+                                ""
+                            ],
                         },
                     },
                 }, {
-                    request: {
-                        authorization: {
-                            type: 'inherit',
-                        },
-                        body: { content: '' },
-                        bodyComponents: {
-                            bodySelection: 'none',
-                        },
-                        description: 'Request #3 is the third request.',
-                        headers: [],
-                        name: 'Third request',
-                        queryParameters: [],
-                        routeParameters: [{
-                            description: '',
-                            isActive: true,
-                            key: 'bar',
-                            value: 'key-of-life',
+                    name: 'Test folder',
+                    auth: {
+                        type: 'basic',
+                        basic: [{
+                            key: 'username',
+                            value: 'user',
+                            type: 'string',
                         }, {
-                            description: '',
-                            isActive: true,
-                            key: 'baz',
-                            value: '42',
-                        }],
-                        url: 'http://localhost:9999/foo/:bar/:baz',
-                        verb: 'DELETE',
-                    }
-                }],
+                            key: 'password',
+                            value: 'pass',
+                            type: 'string',
+                        }, {
+                            key: 'showPassword',
+                            value: false,
+                            type: 'boolean',
+                        },
+                        ],
+                    },
+                    item: [],
+                }, {
+                    name: 'Third request',
+                    request: {
+                        body: {},
+                        description: 'Request #3 is the third request.',
+                        method: 'DELETE',
+                        header: [],
+                        url: {
+                            protocol: 'http',
+                            host: ['localhost'],
+                            path: [
+                                'foo',
+                                ':bar',
+                                ':baz',
+                            ],
+                            port: '9999',
+                            raw: 'http://localhost:9999/foo/:bar/:baz',
+                            variable: [
+                                {
+                                    description: '',
+                                    key: 'bar',
+                                    value: 'key-of-life',
+                                    disabled: false,
+                                    type: 'string',
+                                }, {
+                                    description: '',
+                                    key: 'baz',
+                                    value: '42',
+                                    disabled: false,
+                                    type: 'string',
+                                },
+                            ],
+                        },
+                    },
+                },
+                ],
             }, null, 4);
 
-            await collection.deleteEntry('req_req_folder_req.nc.json/1');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/1');
             expect(collection.isDirty).to.be.true;
             await collection.commit();
             expect(collection.childEntryIds).to.deep.equal([
-                'req_req_folder_req.nc.json/0',
-                'req_req_folder_req.nc.json/2',
-                'req_req_folder_req.nc.json/3',
+                'req_req_folder_req.postman_collection.json/0',
+                'req_req_folder_req.postman_collection.json/2',
+                'req_req_folder_req.postman_collection.json/3',
             ]);
-            expect(await collection.stringify()).to.equal(expected);
-            let entry = collection.getEntryById('req_req_folder_req.nc.json/2');
+            jsonCompare(await collection.stringify(), expected);
+            let entry = collection.getEntryById('req_req_folder_req.postman_collection.json/2');
             expect(entry).to.not.be.null;
             expect(entry!.type).to.equal('container');
         });
@@ -372,109 +411,130 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
 
         it('appends correctly after deletion', async () => {
             const expected = JSON.stringify({
-                meta: {
-                    networkConsoleCollectionVersion: '0.9.2-preview',
+                info: {
+                    name: 'Test collection',
+                    schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+                    description: '',
+                    _postman_id: '12345678-1234-2345-3456-1234567890ab',
                 },
-                name: 'Test collection',
-                entries: [{
+                item: [{
+                    name: 'First request',
                     request: {
-                        authorization: {
-                            type: 'inherit',
-                        },
-                        body: { content: '' },
-                        bodyComponents: {
-                            bodySelection: 'none',
-                        },
+                        body: {},
                         description: 'Request #1 is the first request.',
-                        headers: [],
-                        name: 'First request',
-                        queryParameters: [],
-                        routeParameters: [],
-                        url: 'http://localhost:9999/',
-                        verb: 'GET',
-                    }
-                }, {
-                    name: 'Test folder',
-                    entries: [],
-                    auth: {
-                        type: 'basic',
-                        basic: {
-                            username: 'user',
-                            password: 'pass',
-                            showPassword: false,
+                        method: 'GET',
+                        header: [],
+                        url: {
+                            protocol: 'http',
+                            host: ['localhost'],
+                            port: '9999',
+                            raw: 'http://localhost:9999/',
+                            path: [
+                                ""
+                            ],
                         },
                     },
                 }, {
-                    request: {
-                        authorization: {
-                            type: 'inherit',
-                        },
-                        body: { content: '' },
-                        bodyComponents: {
-                            bodySelection: 'none',
-                        },
-                        description: 'Request #3 is the third request.',
-                        headers: [],
-                        name: 'Third request',
-                        queryParameters: [],
-                        routeParameters: [{
-                            description: '',
-                            isActive: true,
-                            key: 'bar',
-                            value: 'key-of-life',
+                    name: 'Test folder',
+                    auth: {
+                        type: 'basic',
+                        basic: [{
+                            key: 'username',
+                            value: 'user',
+                            type: 'string',
                         }, {
-                            description: '',
-                            isActive: true,
-                            key: 'baz',
-                            value: '42',
-                        }],
-                        url: 'http://localhost:9999/foo/:bar/:baz',
-                        verb: 'DELETE',
-                    }
+                            key: 'password',
+                            value: 'pass',
+                            type: 'string',
+                        }, {
+                            key: 'showPassword',
+                            value: false,
+                            type: 'boolean',
+                        },
+                        ],
+                    },
+                    item: [],
+                }, {
+                    name: 'Third request',
+                    request: {
+                        body: {},
+                        description: 'Request #3 is the third request.',
+                        method: 'DELETE',
+                        header: [],
+                        url: {
+                            protocol: 'http',
+                            host: ['localhost'],
+                            path: [
+                                'foo',
+                                ':bar',
+                                ':baz',
+                            ],
+                            port: '9999',
+                            raw: 'http://localhost:9999/foo/:bar/:baz',
+                            variable: [
+                                {
+                                    description: '',
+                                    key: 'bar',
+                                    value: 'key-of-life',
+                                    disabled: false,
+                                    type: 'string',
+                                }, {
+                                    description: '',
+                                    key: 'baz',
+                                    value: '42',
+                                    disabled: false,
+                                    type: 'string',
+                                },
+                            ],
+                        },
+                    },
                 }, {
                     name: 'The last container',
-                    entries: [],
-                }],
+                    item: [],
+                }
+                ],
             }, null, 4);
 
-            await collection.deleteEntry('req_req_folder_req.nc.json/1');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/1');
             await collection.appendContainerEntry('The last container');
             expect(collection.childEntryIds).to.deep.equal([
-                'req_req_folder_req.nc.json/0',
-                'req_req_folder_req.nc.json/2',
-                'req_req_folder_req.nc.json/3',
-                'req_req_folder_req.nc.json/4',
+                'req_req_folder_req.postman_collection.json/0',
+                'req_req_folder_req.postman_collection.json/2',
+                'req_req_folder_req.postman_collection.json/3',
+                'req_req_folder_req.postman_collection.json/4',
             ]);
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
-            let entry = collection.getEntryById('req_req_folder_req.nc.json/4');
+            jsonCompare(await collection.stringify(), expected);
+            let entry = collection.getEntryById('req_req_folder_req.postman_collection.json/4');
             expect(entry).to.not.be.null;
             expect(entry!.type).to.equal('container');
         });
 
         it('appends correctly after deleting all of the top-level items', async () => {
             const expected = JSON.stringify({
-                meta: {
-                    networkConsoleCollectionVersion: '0.9.2-preview',
+                info: {
+                    name: 'Test collection',
+                    schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+                    description: '',
+                    _postman_id: '12345678-1234-2345-3456-1234567890ab',
                 },
-                name: 'Test collection',
-                entries: [{
+                item: [{
                     name: 'The last container',
-                    entries: [],
+                    item: [],
                 }],
             }, null, 4);
 
-            await collection.deleteEntry('req_req_folder_req.nc.json/1');
-            await collection.deleteEntry('req_req_folder_req.nc.json/3');
-            await collection.deleteEntry('req_req_folder_req.nc.json/2');
-            await collection.deleteEntry('req_req_folder_req.nc.json/0');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/1');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/3');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/2');
+            await collection.deleteEntry('req_req_folder_req.postman_collection.json/0');
             await collection.appendContainerEntry('The last container');
             expect(collection.childEntryIds).to.deep.equal([
-                'req_req_folder_req.nc.json/4',
+                'req_req_folder_req.postman_collection.json/4',
             ]);
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
-            let entry = collection.getEntryById('req_req_folder_req.nc.json/4');
+            jsonCompare(await collection.stringify(), expected);
+            let entry = collection.getEntryById('req_req_folder_req.postman_collection.json/4');
             expect(entry).to.not.be.null;
             expect(entry!.type).to.equal('container');
         });
@@ -483,10 +543,12 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
             const expected = JSON.stringify({
                 ...JSON.parse(REQ_REQ_FOLDER_REQ),
                 auth: {
-                    type: 'token',
-                    token: {
-                        token: 'abcd1234',
-                    },
+                    type: 'bearer',
+                    bearer: [{
+                        key: 'token',
+                        value: 'abcd1234',
+                        type: 'string',
+                    }],
                 },
             }, null, 4);
 
@@ -496,7 +558,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
             };
             expect(collection.isDirty).to.be.true;
             await collection.commit();
-            expect(await collection.stringify()).to.equal(expected);
+            jsonCompare(await collection.stringify(), expected);
         });
     });
 });

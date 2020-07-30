@@ -16,7 +16,7 @@ import {
 import { constructURLObject, formatURLObjectWithoutVariables } from './url';
 
 import { BodyAdapter } from './body';
-import { createAuthorizationProxy } from './authorization';
+import { AuthorizationAdapter } from './authorization';
 
 export class RequestWrapper implements INetConsoleRequest {
     private _request: RequestObject;
@@ -37,7 +37,12 @@ export class RequestWrapper implements INetConsoleRequest {
     }
 
     set url(value: string) {
-        this._request.url = constructURLObject(value, this.routeParameters, this.queryParameters);
+        if (!value) {
+            this._request.url = { };
+        }
+        else {
+            this._request.url = constructURLObject(value, this.routeParameters, this.queryParameters);
+        }
         this.setDirty();
     }
 
@@ -60,7 +65,7 @@ export class RequestWrapper implements INetConsoleRequest {
     }
 
     get description(): string {
-        return !!this.realObject.description ? String(this.realObject.description) : '';
+        return !!this._request.description ? String(this._request.description) : '';
     }
 
     get body() {
@@ -74,17 +79,12 @@ export class RequestWrapper implements INetConsoleRequest {
     }
 
     set description(value: string) {
-        this.realObject.description = value;
+        this._request.description = value;
         this.setDirty();
     }
 
     get authorization(): INetConsoleAuthorization {
-        if (!this._request.auth) {
-            this._request.auth = {
-                type: 'inherit',
-            } as any;
-        }
-        return createAuthorizationProxy(this._request.auth!, this.setDirty);
+        return new AuthorizationAdapter(this._request, this.setDirty);
     }
 
     set authorization(value: INetConsoleAuthorization) {
@@ -203,7 +203,7 @@ export class RequestWrapper implements INetConsoleRequest {
 }
 
 export function mapNCToPostman(item: INetConsoleRequest): Items {
-    const result: Items = { };
+    const result: Items = { request: { } };
 
     const wrapper = new RequestWrapper(result, () => {});
     Object.assign(wrapper, item);
