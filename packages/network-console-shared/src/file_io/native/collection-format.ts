@@ -7,6 +7,8 @@ import { CollectionAdapter } from './collection-adapter';
 
 export class CollectionFormat implements ICollectionFormat {
     public readonly formatId = 'nc-native';
+    public readonly canWrite = true;
+
     private static _nextNewCollectionId = 0;
 
     constructor() {}

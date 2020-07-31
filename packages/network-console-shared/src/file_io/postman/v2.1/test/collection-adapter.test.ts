@@ -134,7 +134,7 @@ const REQ_REQ_FOLDER_REQ = JSON.stringify({
     ],
 }, null, 4);
 
-describe('network-console-shared/src/file_io/native/collection-adapter', () => {
+describe('network-console-shared/src/file_io/postman/v2.1/collection-adapter', () => {
     before(() => {
         const uuidv4Mock = ImportMock.mockFunction(uuidv4Module, 'uuid');
         uuidv4Mock.returns('12345678-1234-2345-3456-1234567890ab');

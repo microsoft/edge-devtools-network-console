@@ -3,7 +3,6 @@
 
 import {
     INetConsoleRequest,
-    NetworkConsoleAuthorizationScheme,
 } from '../../net/net-console-http';
 import BidiMap from '../../util/bidi-map';
 
