@@ -6,6 +6,7 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import 'mocha';
+import jsonCompare from '../../../test-util/json-compare';
 
 chai.use(chaiAsPromised);
 
@@ -195,7 +196,7 @@ describe('network-console-shared/src/file_io/native/container-adapter and reques
             // Finally, ensure that the collection contents are updated appropriately
             await collection.commit();
             const result = await collection.stringify();
-            expect(result).to.equal(expected);
+            jsonCompare(result, expected);
         });
 
         it('Modification of a container authorization marks the collection as dirty', async () => {

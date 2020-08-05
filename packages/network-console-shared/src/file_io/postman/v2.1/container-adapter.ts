@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+    INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../../net/net-console-http';
 import BidiMap from '../../../util/bidi-map';
@@ -12,6 +13,7 @@ import {
     ICollectionEntryAdapter,
     ICollectionItemAdapter,
 } from '../../interfaces';
+import { migrateAuthorization } from '../../convert';
 import { RequestAdapter } from './request-adapter';
 import { AuthorizationAdapter } from './authorization';
 import { mapNCToPostman } from './request';
@@ -58,6 +60,17 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
         return new AuthorizationAdapter(this.realObject, this.setDirty);
     }
 
+    set authorization(value: INetConsoleAuthorization) {
+        if (value.type === 'inherit') {
+            delete this.realObject.auth;
+        }
+        else {
+            const adapter = this.authorization;
+            migrateAuthorization(adapter, value);
+        }
+        this.setDirty();
+    }
+
     get childEntryIds() {
         return Array.from(this._keyToIndex.keys());
     }
@@ -94,10 +107,7 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
     }
 
     async appendItemEntry(request: INetConsoleRequest): Promise<ICollectionItemAdapter> {
-        const item: Postman21Entry = {
-            request: mapNCToPostman(request),
-            name: request.name,
-        };
+        const item = mapNCToPostman(request);
         const index = this.realObject.item!.length;
         this.realObject.item!.push(item);
         const id = `${this.id}/${this._nextKey++}`;

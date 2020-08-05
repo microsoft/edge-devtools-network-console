@@ -26,7 +26,8 @@ export class BodyAdapter implements INetConsoleBodyComponents {
         }
 
         const adapter = this.rawTextBody;
-        Object.assign(adapter, value);
+        adapter!.contentType = value.contentType;
+        adapter!.text = value.text;
         this.setDirty();
     }
 

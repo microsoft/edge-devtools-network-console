@@ -51,7 +51,7 @@ export interface ICollectionAdapter {
     /**
      * Gets a reference to an object that implements INetConsoleAuthorization.
      */
-    readonly authorization: INetConsoleAuthorization;
+    authorization: INetConsoleAuthorization;
     /**
      * Gets a list of IDs representing the direct descendants of this collection, that is,
      * top-level
@@ -77,7 +77,7 @@ export interface ICollectionEntryAdapter {
 export interface ICollectionContainerAdapter extends ICollectionEntryAdapter {
     type: 'container';
 
-    readonly authorization: INetConsoleAuthorization;
+    authorization: INetConsoleAuthorization;
     readonly childEntryIds: string[];
     getEntryById(id: string): ICollectionEntryAdapter | null;
 

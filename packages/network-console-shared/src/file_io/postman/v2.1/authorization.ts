@@ -65,8 +65,8 @@ export class AuthorizationAdapter implements INetConsoleAuthorization {
         if (!value) {
             if (this.request.auth) {
                 delete this.request.auth.bearer;
-                return;
             }
+            return;
         }
 
         if (!this.request.auth) {
@@ -76,8 +76,8 @@ export class AuthorizationAdapter implements INetConsoleAuthorization {
             this.request.auth.bearer = [];
         }
 
-        const adapter = this.token;
-        Object.assign(adapter, value);
+        const adapter = this.token!;
+        adapter.token = value?.token;
         this.setDirty();
     }
 
@@ -93,8 +93,8 @@ export class AuthorizationAdapter implements INetConsoleAuthorization {
         if (!value) {
             if (this.request.auth?.basic) {
                 delete this.request.auth.basic;
-                return;
             }
+            return;
         }
 
         if (!this.request.auth) {
@@ -104,8 +104,10 @@ export class AuthorizationAdapter implements INetConsoleAuthorization {
             this.request.auth.basic = [];
         }
 
-        const adapter = this.basic;
-        Object.assign(adapter, value);
+        const adapter = this.basic!;
+        adapter.username = value.username;
+        adapter.password = value.password;
+        adapter.showPassword = value.showPassword;
         this.setDirty();
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+    INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../net/net-console-http';
 import BidiMap from '../../util/bidi-map';
@@ -13,7 +14,8 @@ import {
     ICollectionItemAdapter,
     ICollectionContainerAdapter,
 } from '../interfaces';
-import { createAuthorizationProxy } from './authorization';
+import { migrateAuthorization } from '../convert';
+import { ContainerAuthorizationAdapter } from './authorization';
 import { ContainerAdapter } from './container-adapter';
 import { RequestAdapter } from './request-adapter';
 
@@ -119,7 +121,16 @@ export class CollectionAdapter implements ICollectionAdapter {
                 type: 'inherit',
             };
         }
-        return createAuthorizationProxy(this._current.auth, () => { this._dirty = true; });
+        return new ContainerAuthorizationAdapter(this._current, () => { this._dirty = true; });
+    }
+
+    set authorization(value: INetConsoleAuthorization) {
+        if (!this._current.auth) {
+            this._current.auth = {
+                type: 'inherit',
+            };
+        }
+        migrateAuthorization(this._current.auth, value);
     }
 
     get childEntryIds() {

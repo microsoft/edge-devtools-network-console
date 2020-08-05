@@ -8,16 +8,16 @@ import {
     ICollectionItemAdapter,
     ICollectionContainerAdapter,
 } from '../../interfaces';
+import { migrateAuthorization } from '../../convert';
 import {
     Postman21Schema,
-    AuthType,
     Items as Postman21Entry,
 } from '../../../collections/postman/v2.1/schema-generated';
 import BidiMap from '../../../util/bidi-map';
-import { INetConsoleRequest } from '../../../net/net-console-http';
+import { INetConsoleAuthorization, INetConsoleRequest } from '../../../net/net-console-http';
 import { AuthorizationAdapter } from './authorization';
 
-import { RequestWrapper, mapNCToPostman } from './request';
+import { mapNCToPostman } from './request';
 import { RequestAdapter } from './request-adapter';
 import { ContainerAdapter } from './container-adapter';
 
@@ -106,6 +106,13 @@ export class CollectionAdapter implements ICollectionAdapter {
 
     get authorization() {
         return new AuthorizationAdapter(this._current, () => { this._dirty = true; });
+    }
+
+    set authorization(value: INetConsoleAuthorization) {
+        delete this._current.auth;
+        const adapter = this.authorization;
+        migrateAuthorization(adapter, value);
+        this._dirty = true;
     }
 
     get childEntryIds() {

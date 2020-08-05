@@ -1,0 +1,366 @@
+{
+    "info": {
+        "name": "Sample test case",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "",
+        "_postman_id": "12345678-1234-2345-3456-1234567890ab"
+    },
+    "item": [
+        {
+            "request": {
+                "body": {},
+                "description": "Request #1 is the first request.",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:9999/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9999",
+                    "path": [
+                        ""
+                    ]
+                },
+                "method": "GET"
+            },
+            "name": "First request"
+        },
+        {
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "type": "string",
+                            "value": "1234abcd"
+                        }
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "Hello, world."
+                },
+                "header": [
+                    {
+                        "key": "X-ApiKey",
+                        "value": "not-really-an-api-key",
+                        "description": "The API key of the request.",
+                        "disabled": false
+                    }
+                ],
+                "description": "Request #2 is the second request.",
+                "url": {
+                    "raw": "http://localhost:9999/",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9999",
+                    "path": [
+                        ""
+                    ]
+                },
+                "method": "GET"
+            },
+            "name": "Second request"
+        },
+        {
+            "name": "Test folder",
+            "item": [
+                {
+                    "name": "Another subfolder",
+                    "item": [
+                        {
+                            "request": {
+                                "body": {},
+                                "description": "Request #3 is the third request.",
+                                "header": [],
+                                "url": {
+                                    "raw": "http://localhost:9999/foo/:bar/:baz",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "9999",
+                                    "path": [
+                                        "foo",
+                                        ":bar",
+                                        ":baz"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "description": "",
+                                            "key": "bar",
+                                            "disabled": false,
+                                            "value": "key-of-life",
+                                            "type": "string"
+                                        },
+                                        {
+                                            "description": "",
+                                            "key": "baz",
+                                            "disabled": false,
+                                            "value": "42",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE"
+                            },
+                            "name": "Third request"
+                        },
+                        {
+                            "request": {
+                                "body": {},
+                                "description": "Request #3 is the third request.",
+                                "header": [],
+                                "url": {
+                                    "raw": "http://localhost:9999/foo/:bar/:baz",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "9999",
+                                    "path": [
+                                        "foo",
+                                        ":bar",
+                                        ":baz"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "description": "",
+                                            "key": "bar",
+                                            "disabled": false,
+                                            "value": "key-of-life",
+                                            "type": "string"
+                                        },
+                                        {
+                                            "description": "",
+                                            "key": "baz",
+                                            "disabled": false,
+                                            "value": "42",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE"
+                            },
+                            "name": "Third request"
+                        },
+                        {
+                            "request": {
+                                "body": {},
+                                "description": "Request #3 is the third request.",
+                                "header": [],
+                                "url": {
+                                    "raw": "http://localhost:9999/foo/:bar/:baz",
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "9999",
+                                    "path": [
+                                        "foo",
+                                        ":bar",
+                                        ":baz"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "description": "",
+                                            "key": "bar",
+                                            "disabled": false,
+                                            "value": "key-of-life",
+                                            "type": "string"
+                                        },
+                                        {
+                                            "description": "",
+                                            "key": "baz",
+                                            "disabled": false,
+                                            "value": "42",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE"
+                            },
+                            "name": "Third request"
+                        }
+                    ]
+                },
+                {
+                    "request": {
+                        "body": {},
+                        "description": "Request #3 is the third request.",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:9999/foo/:bar/:baz",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "9999",
+                            "path": [
+                                "foo",
+                                ":bar",
+                                ":baz"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "",
+                                    "key": "bar",
+                                    "disabled": false,
+                                    "value": "key-of-life",
+                                    "type": "string"
+                                },
+                                {
+                                    "description": "",
+                                    "key": "baz",
+                                    "disabled": false,
+                                    "value": "42",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "Third request"
+                },
+                {
+                    "request": {
+                        "body": {},
+                        "description": "Request #3 is the third request.",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:9999/foo/:bar/:baz",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "9999",
+                            "path": [
+                                "foo",
+                                ":bar",
+                                ":baz"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "",
+                                    "key": "bar",
+                                    "disabled": false,
+                                    "value": "key-of-life",
+                                    "type": "string"
+                                },
+                                {
+                                    "description": "",
+                                    "key": "baz",
+                                    "disabled": false,
+                                    "value": "42",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "Third request"
+                },
+                {
+                    "request": {
+                        "body": {},
+                        "description": "Request #3 is the third request.",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:9999/foo/:bar/:baz",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "9999",
+                            "path": [
+                                "foo",
+                                ":bar",
+                                ":baz"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "",
+                                    "key": "bar",
+                                    "disabled": false,
+                                    "value": "key-of-life",
+                                    "type": "string"
+                                },
+                                {
+                                    "description": "",
+                                    "key": "baz",
+                                    "disabled": false,
+                                    "value": "42",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "Third request"
+                }
+            ],
+            "auth": {
+                "type": "basic",
+                "basic": [
+                    {
+                        "key": "username",
+                        "type": "string",
+                        "value": "user"
+                    },
+                    {
+                        "key": "password",
+                        "type": "string",
+                        "value": "pass"
+                    },
+                    {
+                        "key": "showPassword",
+                        "type": "boolean",
+                        "value": false
+                    }
+                ]
+            }
+        },
+        {
+            "request": {
+                "body": {},
+                "description": "Request #3 is the third request.",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:9999/foo/:bar/:baz",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9999",
+                    "path": [
+                        "foo",
+                        ":bar",
+                        ":baz"
+                    ],
+                    "variable": [
+                        {
+                            "description": "",
+                            "key": "bar",
+                            "disabled": false,
+                            "value": "key-of-life",
+                            "type": "string"
+                        },
+                        {
+                            "description": "",
+                            "key": "baz",
+                            "disabled": false,
+                            "value": "42",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "DELETE"
+            },
+            "name": "Third request"
+        }
+    ]
+}

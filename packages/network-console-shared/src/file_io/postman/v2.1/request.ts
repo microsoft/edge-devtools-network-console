@@ -8,6 +8,7 @@ import {
     INetConsoleParameter,
     INetConsoleBodyComponents,
 } from '../../../net/net-console-http';
+import { migrateAuthorization } from '../../convert';
 import {
     RequestObject,
     Items,
@@ -91,8 +92,11 @@ export class RequestWrapper implements INetConsoleRequest {
         if (value.type === 'inherit') {
             delete this._request.auth;
         }
+        else {
+            migrateAuthorization(this.authorization, value);
+        }
 
-        Object.assign(this.authorization, value);
+        this.setDirty();
     }
 
     get headers(): INetConsoleParameter[] {
@@ -196,8 +200,13 @@ export class RequestWrapper implements INetConsoleRequest {
     }
 
     set bodyComponents(value: INetConsoleBodyComponents) {
-        var adapter = this.bodyComponents;
-        Object.assign(adapter, value);
+        const adapter = this.bodyComponents;
+        adapter.bodySelection = value.bodySelection;
+        adapter.formData = value.formData?.slice();
+        adapter.rawTextBody = value.rawTextBody ? {
+            ...value.rawTextBody,
+        } : undefined;
+        adapter.xWwwFormUrlencoded = value.xWwwFormUrlencoded?.slice();
         this.setDirty();
     }
 }
@@ -206,7 +215,15 @@ export function mapNCToPostman(item: INetConsoleRequest): Items {
     const result: Items = { request: { } };
 
     const wrapper = new RequestWrapper(result, () => {});
-    Object.assign(wrapper, item);
+    wrapper.authorization = item.authorization;
+    wrapper.bodyComponents = item.bodyComponents;
+    wrapper.description = item.description;
+    wrapper.headers = item.headers.slice();
+    wrapper.name = item.name;
+    wrapper.queryParameters = item.queryParameters.slice();
+    wrapper.routeParameters = item.routeParameters.slice();
+    wrapper.url = item.url;
+    wrapper.verb = item.verb;
 
     return result;
 }

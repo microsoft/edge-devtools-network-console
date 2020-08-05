@@ -7,7 +7,7 @@ import { Postman21Schema } from '../../../collections/postman/v2.1/schema-genera
 import { CollectionAdapter } from './collection-adapter';
 
 export class CollectionFormat implements ICollectionFormat {
-    public readonly formatId = 'nc-native';
+    public readonly formatId = 'postman-v2.1';
     public readonly canWrite = true;
     constructor() {}
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+    INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../net/net-console-http';
 import BidiMap from '../../util/bidi-map';
@@ -12,8 +13,9 @@ import {
     ICollectionEntryAdapter,
     ICollectionItemAdapter,
 } from '../interfaces';
+import { migrateAuthorization } from '../convert';
 import { RequestAdapter } from './request-adapter';
-import { createAuthorizationProxy } from './authorization';
+import { ContainerAuthorizationAdapter } from './authorization';
 
 import {
     NCChild,
@@ -57,7 +59,16 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
                 type: 'inherit',
             };
         }
-        return createAuthorizationProxy(this.realObject.auth, this.setDirty);
+        return new ContainerAuthorizationAdapter(this.realObject, this.setDirty);
+    }
+
+    set authorization(value: INetConsoleAuthorization) {
+        if (!this.realObject.auth) {
+            this.realObject.auth = {
+                type: 'inherit',
+            };
+        }
+        migrateAuthorization(this.realObject.auth, value);
     }
 
     get childEntryIds() {
