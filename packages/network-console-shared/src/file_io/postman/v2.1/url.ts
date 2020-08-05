@@ -12,6 +12,7 @@ export function constructURLObject(url: string, routeParams: INetConsoleParamete
         raw: url,
     };
 
+    // TODO: Handle case where native URL parser doesn't work.
     const parsedUrl = new URL(url);
     if (parsedUrl.protocol) {
         result.protocol = parsedUrl.protocol;
