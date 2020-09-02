@@ -70,16 +70,11 @@ describe('file_io/convert.ts', () => {
         jsonCompare(await result.stringify(), expected);
     });
 
-    /**
-     * This doesn't work presently because we need to implement {{baseUri}} or variable substitution and
-     * expansion within the Postman URI parser.
-     */
-    it.skip('Successfully converts OpenAPI v2 to Postman v2.1.', async () => {
+    it('Successfully converts OpenAPI v2 to Postman v2.1.', async () => {
         const src = await loadKnownGoodOpenAPIV2Format();
         const result = await convertFormats(src, formats['postman-v2.1']);
 
         const expected = await getContents('src/file_io/test/cases/expected.petstore-swagger-io.postman_collection.json');
-        // fs.writeFileSync('src/file_io/test/cases/expected.petstore-swagger-io.postman_collection.json', await result.stringify(), { encoding: 'utf8' });
         jsonCompare(await result.stringify(), expected);
     });
 });

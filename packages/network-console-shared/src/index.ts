@@ -81,6 +81,11 @@ export {
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
+import CollectionFormats from './file_io';
+export namespace FileFormats {
+    export const Collections = CollectionFormats;
+}
+
 export { Lazy, default as lazy } from './util/lazy';
 
 import { Postman21NativeReader as P21NativeReader } from './collections/postman/v2.1/postman-2.1-file-format';

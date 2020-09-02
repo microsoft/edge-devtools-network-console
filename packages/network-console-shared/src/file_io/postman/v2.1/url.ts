@@ -12,66 +12,156 @@ export function constructURLObject(url: string, routeParams: INetConsoleParamete
         raw: url,
     };
 
-    // TODO: Handle case where native URL parser doesn't work.
-    const parsedUrl = new URL(url);
-    if (parsedUrl.protocol) {
-        result.protocol = parsedUrl.protocol;
-        if (result.protocol.endsWith(':')) {
-            result.protocol = result.protocol.substr(0, result.protocol.length - 1);
-        }
-    }
+    if (!tryParseInto(result, url, routeParams, queryParameters)) {
+        let protocol: string | undefined;
+        let host: string | undefined;
+        let port: string | undefined;
+        let paths: string | undefined;
 
-    if (parsedUrl.hostname) {
-        result.host = [parsedUrl.hostname];
-    }
-
-    if (parsedUrl.port) {
-        result.port = parsedUrl.port;
-    }
-
-    if (parsedUrl.pathname) {
-        let path = parsedUrl.pathname;
-        if (path.charAt(0) === '/') {
-            path = path.substr(1);
+        const indexOfSchemeSeparator = url.indexOf('://');
+        let indexOfHost = 0;
+        if (indexOfSchemeSeparator > -1) {
+            protocol = url.substr(0, indexOfSchemeSeparator);
+            indexOfHost = indexOfSchemeSeparator + '://'.length;
         }
 
-        result.path = path.split('/');
-    }
-
-    if (parsedUrl.hash) {
-        result.hash = parsedUrl.hash;
-    }
-
-    if (queryParameters.length) {
-        const qs = queryParameters.filter(q => q.isActive).map(q => {
-            return `${encodeURIComponent(q.key)}=${encodeURIComponent(q.value)}`;
-        }).join('&');
-        if (qs) {
-            result.raw += '?' + qs;
+        const firstPathIndex = url.indexOf('/', indexOfHost);
+        if (firstPathIndex === -1) {
+            host = url.substring(indexOfHost);
         }
-        result.query = queryParameters.map(q => {
-            return {
-                description: q.description,
-                disabled: !q.isActive,
-                key: q.key,
-                value: q.value,
-            };
-        });
-    }
+        else {
+            host = url.substring(indexOfHost, firstPathIndex);
+        }
 
-    if (routeParams.length) {
-        result.variable = routeParams.map(r => {
-            return {
-                description: r.description,
-                key: r.key,
-                disabled: !r.isActive,
-                value: r.value,
-                type: VariableType.String,
-            };
-        });
+        const indexOfHostPortSeparator = host.indexOf(':');
+        if (indexOfHostPortSeparator > -1) {
+            host = host.substring(0, indexOfHostPortSeparator);
+            port = host.substring(indexOfHostPortSeparator + 1);
+        }
+
+        if (firstPathIndex > -1) {
+            paths = url.substring(firstPathIndex + 1);
+        }
+
+        if (protocol) {
+            result.protocol = protocol;
+        }
+        if (host) {
+            result.host = host.split('.');
+        }
+        if (port) {
+            result.port = port;
+        }
+        if (paths) {
+            result.path = paths.split('/');
+        }
+
+        if (queryParameters.length) {
+            const qs = queryParameters.filter(q => q.isActive).map(q => {
+                return `${encodeURIComponent(q.key)}=${encodeURIComponent(q.value)}`;
+            }).join('&');
+            if (qs) {
+                result.raw += '?' + qs;
+            }
+            result.query = queryParameters.map(q => {
+                return {
+                    description: q.description,
+                    disabled: !q.isActive,
+                    key: q.key,
+                    value: q.value,
+                };
+            });
+        }
+
+        if (routeParams.length) {
+            result.variable = routeParams.map(r => {
+                return {
+                    description: r.description,
+                    key: r.key,
+                    disabled: !r.isActive,
+                    value: r.value,
+                    type: VariableType.String,
+                };
+            });
+        }
     }
 
     return result;
+}
+
+/**
+ * Attempts to parse the incoming URL into a URLObject, using the built-in `URL` class. Returns success or failure.
+ *
+ * @param result
+ * @param url
+ * @param routeParams
+ * @param queryParameters
+ * @return {boolean} Success or failure of the parsing.
+ */
+function tryParseInto(result: URLObject, url: string, routeParams: INetConsoleParameter[], queryParameters: INetConsoleParameter[]): boolean {
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.protocol) {
+            result.protocol = parsedUrl.protocol;
+            if (result.protocol.endsWith(':')) {
+                result.protocol = result.protocol.substr(0, result.protocol.length - 1);
+            }
+        }
+
+        if (parsedUrl.hostname) {
+            result.host = parsedUrl.hostname.split('.');
+        }
+
+        if (parsedUrl.port) {
+            result.port = parsedUrl.port;
+        }
+
+        if (parsedUrl.pathname) {
+            let path = parsedUrl.pathname;
+            if (path.charAt(0) === '/') {
+                path = path.substr(1);
+            }
+
+            result.path = path.split('/');
+        }
+
+        if (parsedUrl.hash) {
+            result.hash = parsedUrl.hash;
+        }
+
+        if (queryParameters.length) {
+            const qs = queryParameters.filter(q => q.isActive).map(q => {
+                return `${encodeURIComponent(q.key)}=${encodeURIComponent(q.value)}`;
+            }).join('&');
+            if (qs) {
+                result.raw += '?' + qs;
+            }
+            result.query = queryParameters.map(q => {
+                return {
+                    description: q.description,
+                    disabled: !q.isActive,
+                    key: q.key,
+                    value: q.value,
+                };
+            });
+        }
+
+        if (routeParams.length) {
+            result.variable = routeParams.map(r => {
+                return {
+                    description: r.description,
+                    key: r.key,
+                    disabled: !r.isActive,
+                    value: r.value,
+                    type: VariableType.String,
+                };
+            });
+        }
+        return true;
+    }
+    catch (_err) {
+        return false;
+    }
 }
 
 export function formatURLObjectWithoutVariables(url: URLObject) {

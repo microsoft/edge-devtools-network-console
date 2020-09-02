@@ -1,0 +1,651 @@
+{
+    "info": {
+        "name": "Swagger Petstore",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "",
+        "_postman_id": "12345678-1234-2345-3456-1234567890ab"
+    },
+    "item": [
+        {
+            "name": "pet",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet"
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "addPet"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet"
+                            ]
+                        },
+                        "method": "PUT"
+                    },
+                    "name": "updatePet"
+                }
+            ]
+        },
+        {
+            "name": "findByStatus",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/findByStatus?status=",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                "findByStatus"
+                            ],
+                            "query": [
+                                {
+                                    "description": "Status values that need to be considered for filter",
+                                    "disabled": false,
+                                    "key": "status",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "findPetsByStatus"
+                }
+            ]
+        },
+        {
+            "name": "findByTags",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/findByTags?tags=",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                "findByTags"
+                            ],
+                            "query": [
+                                {
+                                    "description": "Tags to filter by",
+                                    "disabled": false,
+                                    "key": "tags",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "findPetsByTags"
+                }
+            ]
+        },
+        {
+            "name": "{petId}",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/:petId",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                ":petId"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "Pet id to delete",
+                                    "key": "petId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "deletePet"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/:petId",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                ":petId"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "ID of pet to return",
+                                    "key": "petId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "getPetById"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/:petId",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                ":petId"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "ID of pet that needs to be updated",
+                                    "key": "petId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "updatePetWithForm"
+                }
+            ]
+        },
+        {
+            "name": "uploadImage",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/pet/:petId/uploadImage",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "pet",
+                                ":petId",
+                                "uploadImage"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "ID of pet to update",
+                                    "key": "petId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "uploadFile"
+                }
+            ]
+        },
+        {
+            "name": "inventory",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/store/inventory",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "store",
+                                "inventory"
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "getInventory"
+                }
+            ]
+        },
+        {
+            "name": "order",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/store/order",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "store",
+                                "order"
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "placeOrder"
+                }
+            ]
+        },
+        {
+            "name": "{orderId}",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/store/order/:orderId",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "store",
+                                "order",
+                                ":orderId"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "ID of the order that needs to be deleted",
+                                    "key": "orderId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "deleteOrder"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/store/order/:orderId",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "store",
+                                "order",
+                                ":orderId"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "ID of pet that needs to be fetched",
+                                    "key": "orderId",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "getOrderById"
+                }
+            ]
+        },
+        {
+            "name": "user",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user"
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "createUser"
+                }
+            ]
+        },
+        {
+            "name": "createWithArray",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/createWithArray",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                "createWithArray"
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "createUsersWithArrayInput"
+                }
+            ]
+        },
+        {
+            "name": "createWithList",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/createWithList",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                "createWithList"
+                            ]
+                        },
+                        "method": "POST"
+                    },
+                    "name": "createUsersWithListInput"
+                }
+            ]
+        },
+        {
+            "name": "login",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/login?username=&password=",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                "login"
+                            ],
+                            "query": [
+                                {
+                                    "description": "The user name for login",
+                                    "disabled": false,
+                                    "key": "username",
+                                    "value": ""
+                                },
+                                {
+                                    "description": "The password for login in clear text",
+                                    "disabled": false,
+                                    "key": "password",
+                                    "value": ""
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "loginUser"
+                }
+            ]
+        },
+        {
+            "name": "logout",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/logout",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                "logout"
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "logoutUser"
+                }
+            ]
+        },
+        {
+            "name": "{username}",
+            "item": [
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/:username",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                ":username"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "The name that needs to be deleted",
+                                    "key": "username",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE"
+                    },
+                    "name": "deleteUser"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/:username",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                ":username"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "The name that needs to be fetched. Use user1 for testing. ",
+                                    "key": "username",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET"
+                    },
+                    "name": "getUserByName"
+                },
+                {
+                    "request": {
+                        "body": {
+                            "formdata": [],
+                            "raw": "",
+                            "urlencoded": []
+                        },
+                        "header": [],
+                        "description": "",
+                        "url": {
+                            "raw": "{{baseUri}}/user/:username",
+                            "host": [
+                                "{{baseUri}}"
+                            ],
+                            "path": [
+                                "user",
+                                ":username"
+                            ],
+                            "variable": [
+                                {
+                                    "description": "name that need to be updated",
+                                    "key": "username",
+                                    "disabled": false,
+                                    "value": "",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT"
+                    },
+                    "name": "updateUser"
+                }
+            ]
+        }
+    ]
+}
