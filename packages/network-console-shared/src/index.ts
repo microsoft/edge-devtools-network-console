@@ -81,11 +81,12 @@ export {
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
-import CollectionFormats from './file_io';
 import { ICollectionFormat } from './file_io/interfaces';
 export { serializeRequest } from './file_io/serialize';
+import CollectionFormats, { environmentFormats } from './file_io';
 export namespace FileFormats {
     export const Collections = CollectionFormats;
+    export const Environments = environmentFormats;
 }
 
 export { Lazy, default as lazy } from './util/lazy';

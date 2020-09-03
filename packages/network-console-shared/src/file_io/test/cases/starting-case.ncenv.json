@@ -1,0 +1,17 @@
+{
+    "meta": {
+        "networkConsoleEnvironmentVersion": "0.9.2-preview"
+    },
+    "name": "Starting Environment case",
+    "environments": [
+        {
+            "name": "Default",
+            "variables": [{
+                "description": "The root component of the URI",
+                "isActive": true,
+                "key": "baseUri",
+                "value": "https://www.contoso.com/"
+            }]
+        }
+    ]
+}

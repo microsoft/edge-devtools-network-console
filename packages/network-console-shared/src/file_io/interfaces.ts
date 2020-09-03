@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { INetConsoleAuthorization, INetConsoleRequest } from '../net/net-console-http';
+import {
+    INetConsoleAuthorization,
+    INetConsoleRequest,
+    INetConsoleParameter,
+} from '../net/net-console-http';
 
 /**
  * This interface describes a supported format for interacting with a Collection.
@@ -111,4 +115,63 @@ export interface ICollectionItemAdapter extends ICollectionEntryAdapter {
     type: 'item';
 
     readonly request: INetConsoleRequest;
+}
+
+export interface IEnvironmentFormat {
+    /**
+     * Gets an internal ID for the format.
+     */
+    readonly formatId: string;
+    /**
+     * Gets whether this format, or any of the objects it produces, are writable.
+     * If not, attempting to write to any of them will raise an exception.
+     */
+    readonly canWrite: boolean;
+
+    /**
+     * Creates a new, empty environment container in this format. If `canWrite` is false,
+     * this method may throw an error.
+     *
+     * @param name Environment container name
+     */
+    createEnvironmentContainer(name: string): Promise<IEnvironmentContainerAdapter>;
+    /**
+     * Parses text contents of a file. If errors are detected, this function may
+     * raise an error; however, that is not guaranteed for all contents.
+     *
+     * @param id A unique ID of this collection.
+     * @param contents The file contents.
+     */
+    parse(id: string, contents: string): Promise<IEnvironmentContainerAdapter>;
+    /**
+     * Tries to parse text contents of a file. If it fails, will return `null`.
+     *
+     * @param id A unique ID of this collection.
+     * @param contents The file contents.
+     */
+    tryParse(id: string, contents: string): Promise<IEnvironmentContainerAdapter | null>;
+}
+
+export interface IEnvironmentContainerAdapter {
+    readonly format: IEnvironmentFormat;
+    readonly id: string;
+    readonly isDirty: boolean;
+    readonly canContainMultipleEnvironments: boolean;
+
+    name: string;
+
+    readonly childIds: string[];
+    getEnvironmentById(id: string): IEnvironmentAdapter | null;
+
+    appendEnvironment(name: string): Promise<IEnvironmentAdapter>;
+    deleteEnvironment(id: string): Promise<void>;
+
+    stringify(): Promise<string>;
+    commit(): Promise<void>;
+}
+
+export interface IEnvironmentAdapter {
+    name: string;
+
+    variables: INetConsoleParameter[];
 }

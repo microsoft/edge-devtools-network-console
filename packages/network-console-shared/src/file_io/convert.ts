@@ -7,6 +7,8 @@ import {
     ICollectionAdapter,
     ICollectionContainerAdapter,
     ICollectionItemAdapter,
+    IEnvironmentContainerAdapter,
+    IEnvironmentFormat,
 } from './interfaces';
 
 export async function convertFormats(source: ICollectionAdapter, target: ICollectionFormat): Promise<ICollectionAdapter> {
@@ -62,4 +64,42 @@ export function migrateAuthorization(target: INetConsoleAuthorization, source: I
             token: source.token.token,
         };
     }
+}
+
+export async function convertEnvironment(source: IEnvironmentContainerAdapter, target: IEnvironmentFormat, ...environmentIds: string[]): Promise<IEnvironmentContainerAdapter> {
+    if (!target.canWrite) {
+        throw new RangeError('Destination format is not writable');
+    }
+
+    const targetEnvironmentContainer = await target.createEnvironmentContainer(source.name);
+    debugger;
+    const copyingMultipleEnvironments = (environmentIds.length > 1) ||
+        (environmentIds.length === 0 && source.childIds.length > 1);
+    if (copyingMultipleEnvironments && !targetEnvironmentContainer.canContainMultipleEnvironments) {
+        throw new RangeError('Destination format does not support multiple environments per file.');
+    }
+
+    const srcIds = environmentIds.length === 0 ? source.childIds : environmentIds;
+    if (targetEnvironmentContainer.canContainMultipleEnvironments) {
+        for (const id of srcIds) {
+            const env = source.getEnvironmentById(id);
+            if (!env) {
+                throw new RangeError(`Source environment with ID "${id}" was not found.`);
+            }
+            const dest = await targetEnvironmentContainer.appendEnvironment(env.name);
+            dest.variables = env.variables;
+        }
+    }
+    else {
+        const src = source.getEnvironmentById(srcIds[0]);
+        if (!src) {
+            throw new RangeError(`Source environment with ID "${srcIds[0]}" was not found.`);
+        }
+        const dest = targetEnvironmentContainer.getEnvironmentById(targetEnvironmentContainer.childIds[0])!;
+        dest.name = src.name;
+        dest.variables = src.variables;
+    }
+
+    await targetEnvironmentContainer.commit();
+    return targetEnvironmentContainer;
 }
