@@ -1,0 +1,314 @@
+{
+    "meta": {
+        "networkConsoleCollectionVersion": "0.9.2-preview"
+    },
+    "name": "Test collection",
+    "entries": [
+        {
+            "request": {
+                "authorization": {
+                    "type": "inherit"
+                },
+                "body": {
+                    "content": ""
+                },
+                "bodyComponents": {
+                    "bodySelection": "none"
+                },
+                "description": "Request #1 is the first request.",
+                "headers": [],
+                "name": "First request",
+                "queryParameters": [],
+                "routeParameters": [],
+                "url": "http://localhost:9999/",
+                "verb": "GET"
+            }
+        },
+        {
+            "request": {
+                "authorization": {
+                    "type": "token",
+                    "token": {
+                        "token": "1234abcd"
+                    }
+                },
+                "body": {
+                    "content": ""
+                },
+                "bodyComponents": {
+                    "bodySelection": "raw",
+                    "rawTextBody": {
+                        "contentType": "",
+                        "text": "Hello, world."
+                    }
+                },
+                "description": "Request #2 is the second request.",
+                "headers": [
+                    {
+                        "description": "The API key of the request.",
+                        "isActive": true,
+                        "key": "X-ApiKey",
+                        "value": "not-really-an-api-key"
+                    }
+                ],
+                "name": "Second request",
+                "queryParameters": [],
+                "routeParameters": [],
+                "url": "http://localhost:9999/",
+                "verb": "GET"
+            }
+        },
+        {
+            "name": "Test folder",
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "user",
+                    "password": "pass",
+                    "showPassword": false
+                }
+            },
+            "entries": [
+                {
+                    "name": "Another subfolder",
+                    "auth": {
+                        "type": "inherit"
+                    },
+                    "entries": [
+                        {
+                            "request": {
+                                "authorization": {
+                                    "type": "inherit"
+                                },
+                                "body": {
+                                    "content": ""
+                                },
+                                "bodyComponents": {
+                                    "bodySelection": "none"
+                                },
+                                "description": "Request #3 is the third request.",
+                                "headers": [],
+                                "name": "Third request",
+                                "queryParameters": [],
+                                "routeParameters": [
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "bar",
+                                        "value": "key-of-life"
+                                    },
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "baz",
+                                        "value": "42"
+                                    }
+                                ],
+                                "url": "http://localhost:9999/foo/:bar/:baz",
+                                "verb": "DELETE"
+                            }
+                        },
+                        {
+                            "request": {
+                                "authorization": {
+                                    "type": "inherit"
+                                },
+                                "body": {
+                                    "content": ""
+                                },
+                                "bodyComponents": {
+                                    "bodySelection": "none"
+                                },
+                                "description": "Request #3 is the third request.",
+                                "headers": [],
+                                "name": "Third request",
+                                "queryParameters": [],
+                                "routeParameters": [
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "bar",
+                                        "value": "key-of-life"
+                                    },
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "baz",
+                                        "value": "42"
+                                    }
+                                ],
+                                "url": "http://localhost:9999/foo/:bar/:baz",
+                                "verb": "DELETE"
+                            }
+                        },
+                        {
+                            "request": {
+                                "authorization": {
+                                    "type": "inherit"
+                                },
+                                "body": {
+                                    "content": ""
+                                },
+                                "bodyComponents": {
+                                    "bodySelection": "none"
+                                },
+                                "description": "Request #3 is the third request.",
+                                "headers": [],
+                                "name": "Third request",
+                                "queryParameters": [],
+                                "routeParameters": [
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "bar",
+                                        "value": "key-of-life"
+                                    },
+                                    {
+                                        "description": "",
+                                        "isActive": true,
+                                        "key": "baz",
+                                        "value": "42"
+                                    }
+                                ],
+                                "url": "http://localhost:9999/foo/:bar/:baz",
+                                "verb": "DELETE"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "request": {
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "body": {
+                            "content": ""
+                        },
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "description": "Request #3 is the third request.",
+                        "headers": [],
+                        "name": "Third request",
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "bar",
+                                "value": "key-of-life"
+                            },
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "baz",
+                                "value": "42"
+                            }
+                        ],
+                        "url": "http://localhost:9999/foo/:bar/:baz",
+                        "verb": "DELETE"
+                    }
+                },
+                {
+                    "request": {
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "body": {
+                            "content": ""
+                        },
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "description": "Request #3 is the third request.",
+                        "headers": [],
+                        "name": "Third request",
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "bar",
+                                "value": "key-of-life"
+                            },
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "baz",
+                                "value": "42"
+                            }
+                        ],
+                        "url": "http://localhost:9999/foo/:bar/:baz",
+                        "verb": "DELETE"
+                    }
+                },
+                {
+                    "request": {
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "body": {
+                            "content": ""
+                        },
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "description": "Request #3 is the third request.",
+                        "headers": [],
+                        "name": "Third request",
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "bar",
+                                "value": "key-of-life"
+                            },
+                            {
+                                "description": "",
+                                "isActive": true,
+                                "key": "baz",
+                                "value": "42"
+                            }
+                        ],
+                        "url": "http://localhost:9999/foo/:bar/:baz",
+                        "verb": "DELETE"
+                    }
+                }
+            ]
+        },
+        {
+            "request": {
+                "authorization": {
+                    "type": "inherit"
+                },
+                "body": {
+                    "content": ""
+                },
+                "bodyComponents": {
+                    "bodySelection": "none"
+                },
+                "description": "Request #3 is the third request.",
+                "headers": [],
+                "name": "Third request",
+                "queryParameters": [],
+                "routeParameters": [
+                    {
+                        "description": "",
+                        "isActive": true,
+                        "key": "bar",
+                        "value": "key-of-life"
+                    },
+                    {
+                        "description": "",
+                        "isActive": true,
+                        "key": "baz",
+                        "value": "42"
+                    }
+                ],
+                "url": "http://localhost:9999/foo/:bar/:baz",
+                "verb": "DELETE"
+            }
+        }
+    ]
+}

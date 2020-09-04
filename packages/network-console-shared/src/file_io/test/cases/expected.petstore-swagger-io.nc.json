@@ -15,13 +15,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -41,13 +35,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -82,13 +70,7 @@
                         ],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -123,13 +105,7 @@
                         ],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -164,13 +140,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -197,13 +167,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -230,13 +194,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/x-www-form-urlencoded",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -271,13 +229,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "multipart/form-data",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -305,13 +257,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -339,13 +285,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -380,13 +320,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -413,13 +347,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -447,13 +375,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -481,13 +403,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -515,13 +431,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -562,13 +472,7 @@
                         ],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -596,13 +500,7 @@
                         "queryParameters": [],
                         "routeParameters": [],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -637,13 +535,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -670,13 +562,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"
@@ -703,13 +589,7 @@
                             }
                         ],
                         "bodyComponents": {
-                            "bodySelection": "none",
-                            "formData": [],
-                            "rawTextBody": {
-                                "contentType": "application/json",
-                                "text": ""
-                            },
-                            "xWwwFormUrlencoded": []
+                            "bodySelection": "none"
                         },
                         "authorization": {
                             "type": "inherit"

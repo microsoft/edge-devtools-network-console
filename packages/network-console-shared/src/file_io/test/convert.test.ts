@@ -60,7 +60,10 @@ describe('file_io/convert.ts', () => {
 
         it('Successfully converts Postman v2.1 to NC Native.', async () => {
             const src = await loadKnownGoodPostman2_1Format();
-            await convertFormats(src, formats['nc-native']);
+            const result = await convertFormats(src, formats['nc-native']);
+
+            const expected = await getContents('src/file_io/test/cases/expected.converted-from-postman-v2.1.nc.json');
+            jsonCompare(await result.stringify(), expected);
         });
 
         it('Successfully converts OpenAPI v2 to NC Native.', async () => {

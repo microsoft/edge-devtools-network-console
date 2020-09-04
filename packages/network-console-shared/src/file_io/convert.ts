@@ -10,6 +10,7 @@ import {
     IEnvironmentContainerAdapter,
     IEnvironmentFormat,
 } from './interfaces';
+import { serializeRequest, serializeAuthorization } from './serialize';
 
 export async function convertFormats(source: ICollectionAdapter, target: ICollectionFormat): Promise<ICollectionAdapter> {
     if (!target.canWrite) {
@@ -46,8 +47,9 @@ async function convertContainer(source: ICollectionAdapter | ICollectionContaine
 }
 
 async function convertRequest(source: ICollectionItemAdapter, targetContainer: ICollectionAdapter | ICollectionContainerAdapter): Promise<void> {
-    const result = await targetContainer.appendItemEntry(source.request);
-    result.request.authorization = source.request.authorization;
+    const request = serializeRequest(source.request);
+    const resultRequest = await targetContainer.appendItemEntry(request);
+    resultRequest.request.authorization = request.authorization;
 }
 
 export function migrateAuthorization(target: INetConsoleAuthorization, source: INetConsoleAuthorization) {
