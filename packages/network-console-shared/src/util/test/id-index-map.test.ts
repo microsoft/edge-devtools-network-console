@@ -6,6 +6,7 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import 'mocha';
+import { stub } from 'sinon';
 
 chai.use(chaiAsPromised);
 
@@ -37,7 +38,24 @@ describe('src/util/id-index-map', () => {
             'a/b/2',
         ]);
 
+        expect(map.getByKey('a/b/0')).to.equal(0);
+        expect(map.getByValue(2)).to.equal('a/b/2');
+
         expect(Array.from(map.values())).to.deep.equal([0, 1, 2]);
+    });
+
+    it('forEach calls back with correct values', async () => {
+        const map = new IdIndexMap();
+        map.set('a/b/0', 0);
+        map.set('a/b/1', 1);
+
+        const cb = stub();
+        map.forEach(cb);
+
+        expect(cb.callCount).to.equal(2);
+        expect(cb.lastCall.args[0]).to.equal(1);
+        expect(cb.lastCall.args[1]).to.equal('a/b/1');
+        expect(cb.lastCall.args[2]).to.equal(map);
     });
 
     it('add/clear() results in an empty map.', async () => {
