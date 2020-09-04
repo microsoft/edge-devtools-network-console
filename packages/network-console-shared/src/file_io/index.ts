@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ICollectionFormat } from './interfaces';
+import { ICollectionFormat, IEnvironmentFormat } from './interfaces';
+
 import { CollectionFormat as NativeCollectionFormat } from './native/collection-format';
 import { CollectionFormat as PostmanV2Point1CollectionFormat } from './postman/v2.1/collection-format';
 import { CollectionFormat as OpenAPICollectionFormat } from './openapi/collection-format';
@@ -18,7 +19,7 @@ const formats = {
 export default formats;
 
 export const environmentFormats = {
-    'nc-native-env': new NativeEnvironmentFormat(),
-    'postman-v2.1-env': new PostmanEnvironmentFormat(),
-    'openapi-env': new OpenAPIEnvironmentFormat(),
+    'nc-native-env': (new NativeEnvironmentFormat()) as IEnvironmentFormat,
+    'postman-v2.1-env': (new PostmanEnvironmentFormat()) as IEnvironmentFormat,
+    'openapi-env': (new OpenAPIEnvironmentFormat()) as IEnvironmentFormat,
 };

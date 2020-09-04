@@ -78,12 +78,16 @@ export {
     ICollectionEntryAdapter,
     ICollectionFormat,
     ICollectionItemAdapter,
+    IEnvironmentAdapter,
+    IEnvironmentContainerAdapter,
+    IEnvironmentFormat,
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
 import { ICollectionFormat } from './file_io/interfaces';
 export { serializeRequest } from './file_io/serialize';
 import CollectionFormats, { environmentFormats } from './file_io';
+import { ICollectionFormat, IEnvironmentFormat } from './file_io/interfaces';
 export namespace FileFormats {
     export const Collections = CollectionFormats;
     export const Environments = environmentFormats;

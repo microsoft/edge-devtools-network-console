@@ -72,7 +72,6 @@ export async function convertEnvironment(source: IEnvironmentContainerAdapter, t
     }
 
     const targetEnvironmentContainer = await target.createEnvironmentContainer(source.name);
-    debugger;
     const copyingMultipleEnvironments = (environmentIds.length > 1) ||
         (environmentIds.length === 0 && source.childIds.length > 1);
     if (copyingMultipleEnvironments && !targetEnvironmentContainer.canContainMultipleEnvironments) {
