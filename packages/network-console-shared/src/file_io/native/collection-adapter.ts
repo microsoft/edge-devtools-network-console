@@ -5,7 +5,7 @@ import {
     INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../net/net-console-http';
-import BidiMap from '../../util/bidi-map';
+import IdIndexMap from '../../util/id-index-map';
 
 import {
     ICollectionFormat,
@@ -26,7 +26,7 @@ import {
     INCNativeRequest,
 } from '../../collections/native/native-file-format';
 
-type ValidityCheckResult = {
+type ParseResult = {
     valid: true;
     parsed: INCNativeRoot;
 } | {
@@ -37,7 +37,7 @@ type ValidityCheckResult = {
 export class CollectionAdapter implements ICollectionAdapter {
     private _dirty: boolean;
     private _current: INCNativeRoot;
-    private _keyToIndex: BidiMap<string, number>;
+    private _keyToIndex: IdIndexMap;
     private _nextKey: number;
 
     constructor(
@@ -45,14 +45,14 @@ export class CollectionAdapter implements ICollectionAdapter {
         public readonly id: string,
         private fileContents: string,
     ) {
-        const root = CollectionAdapter.isValidFile(fileContents);
+        const root = CollectionAdapter.checkAndParse(fileContents);
         if (!root.valid) {
             throw new RangeError('Invalid file or error parsing: ' + root.error);
         }
 
         this._current = root.parsed;
         this._dirty = false;
-        this._keyToIndex = new BidiMap();
+        this._keyToIndex = new IdIndexMap();
         this._nextKey = 0;
 
         for (let index = 0; index < this._current.entries.length; index++) {
@@ -61,7 +61,7 @@ export class CollectionAdapter implements ICollectionAdapter {
         }
     }
 
-    static isValidFile(fileContents: string): ValidityCheckResult {
+    static checkAndParse(fileContents: string): ParseResult {
         try {
             const parsed = JSON.parse(fileContents) as Partial<INCNativeRoot>;
             if (!('meta' in parsed)) {
@@ -189,16 +189,6 @@ export class CollectionAdapter implements ICollectionAdapter {
         this._keyToIndex.deleteByKey(id);
         this._current.entries.splice(index, 1);
         this._dirty = true;
-
-        // Move all values up by one
-        const valuesList = Array.from(this._keyToIndex.values()).filter(v => v > index);
-        valuesList.sort();
-        // This will never error because it's traversed from least to greatest.
-        for (const oldIndex of valuesList) {
-            const key = this._keyToIndex.getByValue(oldIndex)!;
-            this._keyToIndex.deleteByKey(key);
-            this._keyToIndex.set(key, oldIndex - 1);
-        }
     }
 
     async commit() {

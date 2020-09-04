@@ -82,6 +82,8 @@ export {
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
 import CollectionFormats from './file_io';
+import { ICollectionFormat } from './file_io/interfaces';
+export { serializeRequest } from './file_io/serialize';
 export namespace FileFormats {
     export const Collections = CollectionFormats;
 }

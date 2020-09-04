@@ -7,6 +7,26 @@ import {
 } from '../../../collections/postman/v2.1/schema-generated';
 import { INetConsoleParameter } from '../../../net/net-console-http';
 
+/**
+ * Constructs a Postman v2.1-schema-compatible "URLObject", given the Network Console parameters.
+ *
+ * In the Network Console data format, the URL is stored separately from the query parameters;
+ * i.e., https://contoso.com/?search=bar would store as https://contoso.com/ with an array
+ * containing a single Query parameter. Route parameters are inferred but stored as part of
+ * the *request* object itself, whereas in Postman these are stored as part of the URLObject.
+ *
+ * In addition, the Query parameters are stored as part of the "raw" URL in Postman, which isn't
+ * a thing in the Network Console data interchange format.
+ *
+ * Finally, in order to accommodate the way that Postman composes its URLObject, we first try to
+ * use the `URL` API. However, this API doesn't always work because of particular features we
+ * and they support (notably things like leading variables, such as in the example url of
+ * `{{uriroot}}foo/bar/baz`), which would fail standard URL parsing via the API.
+ *
+ * @param url The URL from the `INetConsoleRequest`
+ * @param routeParams The route parameters
+ * @param queryParameters The query parameters
+ */
 export function constructURLObject(url: string, routeParams: INetConsoleParameter[], queryParameters: INetConsoleParameter[]) {
     const result: URLObject = {
         raw: url,
@@ -164,6 +184,13 @@ function tryParseInto(result: URLObject, url: string, routeParams: INetConsolePa
     }
 }
 
+/**
+ * Produces a string containing the URL represented by a Postman 2.1-schema-compatible
+ * URLObject. Favors the URLObject's `raw` property if available, but if not, constructs
+ * the URL from its components. It does not perform any variable substitutions.
+ *
+ * @param url The Postman URLObject
+ */
 export function formatURLObjectWithoutVariables(url: URLObject) {
     const { hash, host, path, port, protocol, query, raw } = url;
     if (raw) {

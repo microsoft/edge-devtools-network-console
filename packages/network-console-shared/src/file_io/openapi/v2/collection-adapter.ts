@@ -7,7 +7,7 @@ import {
     INetConsoleRequest,
     INetConsoleAuthorization,
 } from '../../../net/net-console-http';
-import BidiMap from '../../../util/bidi-map';
+import IdIndexMap from '../../../util/id-index-map';
 
 import {
     ICollectionFormat,
@@ -22,7 +22,7 @@ import { RequestAdapter } from './request-adapter';
 import { convertSecurityToNC } from './authorization-adapter';
 
 export class CollectionAdapter implements ICollectionAdapter {
-    private _keyToIndex: BidiMap<string, number>;
+    private _keyToIndex: IdIndexMap;
     public readonly isDirty = false;
     private readonly immediateChildren: ICollectionEntryAdapter[];
 
@@ -32,7 +32,7 @@ export class CollectionAdapter implements ICollectionAdapter {
         private readonly document: OpenAPIV2.Document,
     ) {
         this.immediateChildren = [];
-        this._keyToIndex = new BidiMap();
+        this._keyToIndex = new IdIndexMap();
 
         const paths = Object.keys(document.paths);
         paths.sort();

@@ -15,7 +15,12 @@ chai.use(chaiAsPromised);
 import { ICollectionAdapter, ICollectionFormat } from '../../../interfaces';
 import { CollectionFormat } from '../collection-format';
 
-const REQ_REQ_FOLDER_REQ = JSON.stringify({
+/**
+ * Contains a simple testing Postman 2.1-schema-compatible collection string,
+ * containing a request, a request, a folder, and a request at the top level.
+ * The folder is empty.
+ */
+const TEST_DATA = JSON.stringify({
     info: {
         name: 'Test collection',
         schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
@@ -194,7 +199,7 @@ describe('network-console-shared/src/file_io/postman/v2.1/collection-adapter', (
         });
 
         it('adds three new requests and a folder to the root successfully', async () => {
-            const expected = REQ_REQ_FOLDER_REQ;
+            const expected = TEST_DATA;
 
             await collection.appendItemEntry({
                 authorization: {
@@ -302,7 +307,7 @@ describe('network-console-shared/src/file_io/postman/v2.1/collection-adapter', (
 
         beforeEach(async () => {
             format = new CollectionFormat();
-            collection = await format.parse('req_req_folder_req.postman_collection.json', REQ_REQ_FOLDER_REQ);
+            collection = await format.parse('req_req_folder_req.postman_collection.json', TEST_DATA);
         });
 
         it('deletes the 2nd entry', async () => {
@@ -541,7 +546,7 @@ describe('network-console-shared/src/file_io/postman/v2.1/collection-adapter', (
 
         it('is marked dirty after modifying the collection-level authorization', async () => {
             const expected = JSON.stringify({
-                ...JSON.parse(REQ_REQ_FOLDER_REQ),
+                ...JSON.parse(TEST_DATA),
                 auth: {
                     type: 'bearer',
                     bearer: [{

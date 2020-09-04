@@ -3,6 +3,11 @@
 
 import { INetConsoleAuthorization, INetConsoleRequest } from '../net/net-console-http';
 
+/**
+ * This interface describes a supported format for interacting with a Collection.
+ * Collections are the component that contain a hierarchical arrangement of saved
+ * request configurations.
+ */
 export interface ICollectionFormat {
     /**
      * Gets an internal ID for the format.
@@ -38,6 +43,10 @@ export interface ICollectionFormat {
     tryParse(id: string, contents: string): Promise<ICollectionAdapter | null>;
 }
 
+/**
+ * This interface describes the root of a given Collection; that is to say, it
+ * is approximately equivalent to an actual Collection file.
+ */
 export interface ICollectionAdapter {
     readonly format: ICollectionFormat;
     readonly id: string;
@@ -67,6 +76,9 @@ export interface ICollectionAdapter {
     commit(): Promise<void>;
 }
 
+/**
+ * This is the base interface for records within a Collection.
+ */
 export interface ICollectionEntryAdapter {
     name: string;
     collection: ICollectionAdapter;
@@ -74,6 +86,11 @@ export interface ICollectionEntryAdapter {
     id: string;
 }
 
+/**
+ * This is the interface that represents a conceptual "folder" within the hierarchy
+ * of a Collection. A Collection Container might define a folder-level authorization
+ * scheme. They can contain other containers, or items.
+ */
 export interface ICollectionContainerAdapter extends ICollectionEntryAdapter {
     type: 'container';
 
@@ -86,6 +103,10 @@ export interface ICollectionContainerAdapter extends ICollectionEntryAdapter {
     deleteEntry(id: string): Promise<void>;
 }
 
+/**
+ * This is the interface that represents a conceptual "request" within the
+ * hierarchy of a Collection.
+ */
 export interface ICollectionItemAdapter extends ICollectionEntryAdapter {
     type: 'item';
 

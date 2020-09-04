@@ -12,7 +12,11 @@ chai.use(chaiAsPromised);
 import { ICollectionAdapter, ICollectionFormat } from '../../interfaces';
 import { CollectionFormat } from '../collection-format';
 
-const REQ_REQ_FOLDER_REQ = JSON.stringify({
+/**
+ * Contains a simple testing collection string, containing a request, a
+ * request, a folder, and a request at the top level.The folder is empty.
+ */
+const TEST_DATA = JSON.stringify({
     meta: {
         networkConsoleCollectionVersion: '0.9.2-preview',
     },
@@ -150,7 +154,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         });
 
         it('adds three new requests and a folder to the root successfully', async () => {
-            const expected = REQ_REQ_FOLDER_REQ;
+            const expected = TEST_DATA;
 
             await collection.appendItemEntry({
                 authorization: {
@@ -259,7 +263,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         beforeEach(async () => {
             (CollectionFormat as any)._nextNewCollectionId = 0;
             format = new CollectionFormat();
-            collection = await format.parse('req_req_folder_req.nc.json', REQ_REQ_FOLDER_REQ);
+            collection = await format.parse('req_req_folder_req.nc.json', TEST_DATA);
         });
 
         it('deletes the 2nd entry', async () => {
@@ -458,7 +462,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
 
         it('is marked dirty after modifying the collection-level authorization', async () => {
             const expected = JSON.stringify({
-                ...JSON.parse(REQ_REQ_FOLDER_REQ),
+                ...JSON.parse(TEST_DATA),
                 auth: {
                     type: 'token',
                     token: {

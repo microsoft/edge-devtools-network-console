@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export default class BidiMap<TKey, TValue> {
-    private _keyToValue: Map<TKey, TValue>;
-    private _valueToKey: Map<TValue, TKey>;
+    protected _keyToValue: Map<TKey, TValue>;
+    protected _valueToKey: Map<TValue, TKey>;
 
     constructor() {
         this._keyToValue = new Map();

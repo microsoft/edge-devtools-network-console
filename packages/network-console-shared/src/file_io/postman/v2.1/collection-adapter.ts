@@ -13,7 +13,7 @@ import {
     Postman21Schema,
     Items as Postman21Entry,
 } from '../../../collections/postman/v2.1/schema-generated';
-import BidiMap from '../../../util/bidi-map';
+import IdIndexMap from '../../../util/id-index-map';
 import { INetConsoleAuthorization, INetConsoleRequest } from '../../../net/net-console-http';
 import { AuthorizationAdapter } from './authorization';
 
@@ -21,7 +21,7 @@ import { mapNCToPostman } from './request';
 import { RequestAdapter } from './request-adapter';
 import { ContainerAdapter } from './container-adapter';
 
-type ValidityCheckResult = {
+type ParseResult = {
     valid: true;
     parsed: Postman21Schema;
 } | {
@@ -32,7 +32,7 @@ type ValidityCheckResult = {
 export class CollectionAdapter implements ICollectionAdapter {
     private _dirty: boolean;
     private _current: Postman21Schema;
-    private _keyToIndex: BidiMap<string, number>;
+    private _keyToIndex: IdIndexMap;
     private _nextKey: number;
 
     constructor(
@@ -40,14 +40,14 @@ export class CollectionAdapter implements ICollectionAdapter {
         public readonly id: string,
         private fileContents: string,
     ) {
-        const root = CollectionAdapter.isValidFile(fileContents);
+        const root = CollectionAdapter.checkAndParse(fileContents);
         if (!root.valid) {
             throw new RangeError('Invalid file or error parsing: ' + root.error);
         }
 
         this._current = root.parsed;
         this._dirty = false;
-        this._keyToIndex = new BidiMap();
+        this._keyToIndex = new IdIndexMap();
         this._nextKey = 0;
 
         for (let index = 0; index < this._current.item.length; index++) {
@@ -56,7 +56,7 @@ export class CollectionAdapter implements ICollectionAdapter {
         }
     }
 
-    static isValidFile(fileContents: string): ValidityCheckResult {
+    static checkAndParse(fileContents: string): ParseResult {
         try {
             const parsed = JSON.parse(fileContents) as Partial<Postman21Schema>;
             if (!('info' in parsed)) {
@@ -169,16 +169,6 @@ export class CollectionAdapter implements ICollectionAdapter {
         this._keyToIndex.deleteByKey(id);
         this._current.item.splice(index, 1);
         this._dirty = true;
-
-        // Move all values up by one
-        const valuesList = Array.from(this._keyToIndex.values()).filter(v => v > index);
-        valuesList.sort();
-        // This will never error because it's traversed from least to greatest.
-        for (const oldIndex of valuesList) {
-            const key = this._keyToIndex.getByValue(oldIndex)!;
-            this._keyToIndex.deleteByKey(key);
-            this._keyToIndex.set(key, oldIndex - 1);
-        }
     }
 
     async commit() {

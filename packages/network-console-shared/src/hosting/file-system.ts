@@ -4,6 +4,9 @@
 import { EventEmitter } from 'events';
 import StrictEventEmitter from 'strict-event-emitter-types';
 
+/**
+ * @deprecated This is not used; use file_io module instead.
+ */
 interface Events {
     onFilesListChanged: void;
     onFileChanged: (path: string) => void;
@@ -12,6 +15,8 @@ interface Events {
 export type NCHostFileSystemEvents = StrictEventEmitter<EventEmitter, Events>;
 
 /**
+ * @deprecated This is not used; use file_io module instead.
+ *
  * The contract that should be implemented by the file system host.
  */
 export interface INCHostFileSystem extends NCHostFileSystemEvents {

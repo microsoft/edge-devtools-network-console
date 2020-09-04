@@ -5,7 +5,7 @@ import {
     INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../net/net-console-http';
-import BidiMap from '../../util/bidi-map';
+import IdIndexMap from '../../util/id-index-map';
 import {
     ICollectionFormat,
     ICollectionAdapter,
@@ -25,7 +25,7 @@ import {
 
 export class ContainerAdapter implements ICollectionContainerAdapter {
     public readonly type = 'container';
-    private _keyToIndex: BidiMap<string, number>;
+    private _keyToIndex: IdIndexMap;
     private _nextKey: number;
 
     constructor(
@@ -35,7 +35,7 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
         private readonly realObject: INCNativeFolder,
         private setDirty: () => void,
     ) {
-        this._keyToIndex = new BidiMap();
+        this._keyToIndex = new IdIndexMap();
         this._nextKey = 0;
 
         for (let index = 0; index < this.realObject.entries.length; index++) {
@@ -127,15 +127,5 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
         this._keyToIndex.deleteByKey(id);
         this.realObject.entries.splice(index, 1);
         this.setDirty();
-
-        // Move all values up by one
-        const valuesList = Array.from(this._keyToIndex.values()).filter(v => v > index);
-        valuesList.sort();
-        // This will never error because it's traversed from least to greatest.
-        for (const oldIndex of valuesList) {
-            const key = this._keyToIndex.getByValue(oldIndex)!;
-            this._keyToIndex.deleteByKey(key);
-            this._keyToIndex.set(key, oldIndex - 1);
-        }
     }
 }

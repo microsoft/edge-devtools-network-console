@@ -7,7 +7,7 @@ import {
     INetConsoleAuthorization,
     INetConsoleRequest,
 } from '../../../net/net-console-http';
-import BidiMap from '../../../util/bidi-map';
+import IdIndexMap from '../../../util/id-index-map';
 import {
     ICollectionFormat,
     ICollectionAdapter,
@@ -19,7 +19,7 @@ import {
 export class ContainerAdapter implements ICollectionContainerAdapter {
     public readonly type = 'container';
     private readonly pathName: string;
-    private readonly _keyToIndex: BidiMap<string, number>;
+    private readonly _keyToIndex: IdIndexMap;
 
     constructor(
         public readonly format: ICollectionFormat,
@@ -31,7 +31,7 @@ export class ContainerAdapter implements ICollectionContainerAdapter {
     ) {
         const pathParts = fullPath.split('/');
         this.pathName = pathParts[pathParts.length - 1];
-        this._keyToIndex = new BidiMap();
+        this._keyToIndex = new IdIndexMap();
         this.immediateChildren.forEach((child, index) => {
             this._keyToIndex.set(child.id, index);
         });
