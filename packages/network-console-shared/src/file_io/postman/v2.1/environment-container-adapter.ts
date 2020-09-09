@@ -11,7 +11,7 @@ import {
 } from './environment-format';
 import { INetConsoleParameter } from '../../../net/net-console-http';
 
-type ValidityCheckResult = {
+type ParseResult = {
     valid: true;
     parsed: IPostmanEnvironmentFile;
 } | {
@@ -30,7 +30,7 @@ export class EnvironmentContainerAdapter implements IEnvironmentContainerAdapter
         public readonly id: string,
         private fileContents: string,
     ) {
-        const root = EnvironmentContainerAdapter.isValidFile(fileContents);
+        const root = EnvironmentContainerAdapter.checkAndParse(fileContents);
         if (!root.valid) {
             throw new RangeError('Invalid file or error parsing: ' + root.error);
         }
@@ -40,7 +40,7 @@ export class EnvironmentContainerAdapter implements IEnvironmentContainerAdapter
         this._childKey = `${id}/0`;
     }
 
-    static isValidFile(fileContents: string): ValidityCheckResult {
+    static checkAndParse(fileContents: string): ParseResult {
         try {
             const parsed = JSON.parse(fileContents) as Partial<IPostmanEnvironmentFile>;
             if (!('id' in parsed)) {

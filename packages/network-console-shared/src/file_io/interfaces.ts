@@ -117,6 +117,10 @@ export interface ICollectionItemAdapter extends ICollectionEntryAdapter {
     readonly request: INetConsoleRequest;
 }
 
+/**
+ * Represents a file format for Environments, which are collections of variables
+ * which can be substituted into requests.
+ */
 export interface IEnvironmentFormat {
     /**
      * Gets an internal ID for the format.
@@ -152,26 +156,106 @@ export interface IEnvironmentFormat {
     tryParse(id: string, contents: string): Promise<IEnvironmentContainerAdapter | null>;
 }
 
+/**
+ * This interface represents the root of a given set of Environments; that is,
+ * it represents a top-level file. Environments are a little less uniform than
+ * Collections in that they don't ever have a full hierarchical structure, and
+ * some implementations (notably Postman) don't support multiple environments
+ * per file.
+ */
 export interface IEnvironmentContainerAdapter {
+    /**
+     * Gets a reference to the format this container was loaded from.
+     */
     readonly format: IEnvironmentFormat;
+    /**
+     * A unique ID for this environment container. It might not be the same
+     * from session to session.
+     */
     readonly id: string;
+    /**
+     * Whether this environment container presently has changes that haven't yet
+     * been committed.
+     */
     readonly isDirty: boolean;
+    /**
+     * Whether this environment container supports multiple environments.
+     */
     readonly canContainMultipleEnvironments: boolean;
 
+    /**
+     * The name of this environment (intended to be human-readable).
+     */
     name: string;
 
+    /**
+     * Gets an array of child IDs. These IDs may change across sessions.
+     */
     readonly childIds: string[];
+    /**
+     * Gets an environment from this container by its id.
+     * @param id The ID to request
+     */
     getEnvironmentById(id: string): IEnvironmentAdapter | null;
 
+    /**
+     * Creates an Environment within this container. By default, it will have
+     * no variables defined.
+     *
+     * This function may throw a {ReferenceError} if the container's
+     * {canContainMultipleEnvironments} is {false}.
+     *
+     * @param name The name of the new environment to create.
+     */
     appendEnvironment(name: string): Promise<IEnvironmentAdapter>;
+    /**
+     * Deletes an environment.
+     *
+     * This function may throw a {ReferenceError} if the container's
+     * {canContainMultipleEnvironments} is {false}.
+     *
+     * @param id The ID of the environment to delete.
+     */
     deleteEnvironment(id: string): Promise<void>;
 
+    /**
+     * Returns a JSON representation of the most recently committed
+     * version of the Environment container.
+     */
     stringify(): Promise<string>;
+    /**
+     * Updates the internal serialized state of the Environment
+     * Container to be consistent with any created or changed environments.
+     */
     commit(): Promise<void>;
 }
 
+/**
+ * Represents an individual collection of environment variables, collectively
+ * called an "environment".
+ */
 export interface IEnvironmentAdapter {
+    /**
+     * The name of the environment.
+     */
     name: string;
 
+    /**
+     * The variables set in the environment.
+     *
+     * Readers and writers should not change individual parameters, but must assign
+     * this property as a group for it to take effect. Similarly, updating individual
+     * properties of individual variables may not be noticed. That is, the proper
+     * usage is:
+     *
+     *     env.variables = someUpdatedVariables;
+     *
+     * The following will not work as expected:
+     *
+     *     // THESE ARE BAD!
+     *     env.variables[0] = theUpdatedParameter;
+     *     env.variables[0].key = 'baseUri';
+     *
+     */
     variables: INetConsoleParameter[];
 }
