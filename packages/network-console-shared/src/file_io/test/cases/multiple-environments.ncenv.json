@@ -1,0 +1,26 @@
+{
+    "meta": {
+        "networkConsoleEnvironmentVersion": "0.9.2-preview"
+    },
+    "name": "Multiple Environments case",
+    "environments": [
+        {
+            "name": "Default",
+            "variables": [{
+                "description": "The root component of the URI",
+                "isActive": true,
+                "key": "baseUri",
+                "value": "https://www.contoso.com/"
+            }]
+        },
+        {
+            "name": "Localhost",
+            "variables": [{
+                "description": "The root component of the URI",
+                "isActive": true,
+                "key": "baseUri",
+                "value": "http://localhost:8888/"
+            }]
+        }
+    ]
+}

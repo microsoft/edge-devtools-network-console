@@ -78,14 +78,27 @@ export {
     ICollectionEntryAdapter,
     ICollectionFormat,
     ICollectionItemAdapter,
+    IEnvironmentAdapter,
+    IEnvironmentContainerAdapter,
+    IEnvironmentFormat,
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
-import CollectionFormats from './file_io';
-import { ICollectionFormat } from './file_io/interfaces';
 export { serializeRequest } from './file_io/serialize';
+import CollectionFormats, { environmentFormats } from './file_io';
+
+// When the TypeScript compiler emits the properties of FileFormats.Collections, if these
+// interfaces are not imported, it emits a `typeof import("...")` type declaration for
+// those properties. These types need to be imported here so that the TypeScript compiler
+// can name them when the output .d.ts file is generated.
+import { ICollectionFormat, IEnvironmentFormat } from './file_io/interfaces';
+import { convertFormats, convertEnvironment } from './file_io/convert';
 export namespace FileFormats {
     export const Collections = CollectionFormats;
+    export const Environments = environmentFormats;
+
+    export const convertCollectionFormat = convertFormats;
+    export const convertEnvironmentFormat = convertEnvironment;
 }
 
 export { Lazy, default as lazy } from './util/lazy';

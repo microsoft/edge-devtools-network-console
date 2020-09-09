@@ -92,7 +92,7 @@ export function serializeBodyComponents(src: INetConsoleBodyComponents): INetCon
         bodySelection,
     };
 
-    if (src.rawTextBody) {
+    if (src.rawTextBody && src.rawTextBody.text !== '') {
         const { contentType, text } = src.rawTextBody;
         result.rawTextBody = {
             contentType,
@@ -100,11 +100,11 @@ export function serializeBodyComponents(src: INetConsoleBodyComponents): INetCon
         };
     }
 
-    if (src.xWwwFormUrlencoded) {
+    if (src.xWwwFormUrlencoded && src.xWwwFormUrlencoded.length) {
         result.xWwwFormUrlencoded = src.xWwwFormUrlencoded.map(serializeParameter);
     }
 
-    if (src.formData) {
+    if (src.formData && src.formData.length) {
         result.formData = src.formData.map(serializeFormParameter);
     }
 

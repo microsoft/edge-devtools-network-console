@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corp.
 // Licensed under the MIT License.
 
+import deprecated from '../../util/deprecate';
+
 interface INCEnvironmentFolder {
     readonly name: string;
     readonly environments: INCEnvironment[];
@@ -56,6 +58,8 @@ export function serializeNativeEnvironment(
     settings: INetConsoleParameter[],
     addTabs = false,
 ): string {
+    deprecated('serializeNativeEnvironment');
+
     const collection: INCEnvironmentFolder = {
         name: collectionName,
         meta: {

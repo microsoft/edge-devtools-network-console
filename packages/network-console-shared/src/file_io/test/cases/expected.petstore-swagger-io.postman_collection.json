@@ -11,11 +11,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -33,11 +29,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -60,11 +52,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -96,11 +84,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -132,11 +116,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -164,11 +144,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -196,11 +172,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -233,11 +205,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -271,11 +239,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -299,11 +263,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -327,11 +287,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -360,11 +316,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -398,11 +350,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -425,11 +373,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -453,11 +397,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -481,11 +421,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -523,11 +459,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -551,11 +483,7 @@
             "item": [
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -583,11 +511,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
@@ -615,11 +539,7 @@
                 },
                 {
                     "request": {
-                        "body": {
-                            "formdata": [],
-                            "raw": "",
-                            "urlencoded": []
-                        },
+                        "body": {},
                         "header": [],
                         "description": "",
                         "url": {
