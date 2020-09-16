@@ -84,7 +84,10 @@ export {
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
-export { serializeRequest } from './file_io/serialize';
+export { 
+    serializeRequest,
+    serializeAuthorization,
+} from './file_io/serialize';
 import CollectionFormats, { environmentFormats } from './file_io';
 
 // When the TypeScript compiler emits the properties of FileFormats.Collections, if these

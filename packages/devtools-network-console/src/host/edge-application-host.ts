@@ -10,7 +10,7 @@ export default class EdgeApplicationHost extends VsCodeProtocolHost {
     protected onInitHost(message: any) {
         globalDispatch(setHostCapabilitiesAction(
             /* hasNativeTabs: */ false,
-            /* canSave: */ false,
+            /* canSave: */ true,
             /* canEditCORS: */ true,
             /* transparentAuthorization: */ true,
         ));

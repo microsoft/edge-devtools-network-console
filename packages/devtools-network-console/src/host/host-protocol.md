@@ -227,7 +227,13 @@ allowing a user to choose where to "Save As".
 ```ts
 {
     type: 'UPDATE_COLLECTIONS_TREE';
-    collections: ICollectionFolder[];
+    collections: IHostCollection[];
+}
+
+interface IHostCollection {
+    id: string;
+    name: string;
+    children: IHostCollection[];
 }
 ```
 
