@@ -17,6 +17,7 @@ export interface ILoadRequestAction {
     type: 'LOAD_REQUEST';
     requestId: string;
     request: INetConsoleRequestInternal;
+    requiresSaveAs: boolean;
 }
 
 export const DEFAULT_EMPTY_REQUEST_ID = 'DEFAULT_REQUEST';
@@ -28,6 +29,7 @@ function makeLoadDefaultRequestAction(requestId = DEFAULT_EMPTY_REQUEST_ID): ILo
         request: {
             ...DEFAULT_NET_CONSOLE_REQUEST,
         },
+        requiresSaveAs: true,
     };
 }
 
@@ -40,12 +42,13 @@ export function loadDefaultRequest(): ThunkAction<void, IView, void, AnyAction> 
     };
 }
 
-export function loadRequestAction(requestId: string, request: INetConsoleRequestInternal): ILoadRequestAction {
+export function loadRequestAction(requestId: string, request: INetConsoleRequestInternal, requiresSaveAs = false): ILoadRequestAction {
     AppHost.log({ when: 'loadRequestAction', request });
     return {
         type: 'LOAD_REQUEST',
         requestId: requestId,
         request,
+        requiresSaveAs,
     };
 }
 

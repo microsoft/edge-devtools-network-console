@@ -8,6 +8,7 @@ import { IView } from 'store';
 import { AppHost } from 'store/host';
 import { saveRequestAction, saveRequestFailedAction } from './basics';
 import { makeSelectCollectionForSaveAction } from 'actions/modal';
+import { deserializeFromHost } from 'host/vscode-protocol-host';
 
 export function saveRequestToHostAction(requestId: string, toCollectionId: string | null = null): ThunkAction<void, IView, void, AnyAction> {
     return async (dispatch, getState) => {
@@ -19,7 +20,8 @@ export function saveRequestToHostAction(requestId: string, toCollectionId: strin
         if (request.isDirty || toCollectionId) {
             try {
                 const result = await AppHost.saveRequest(request.current, requestId, toCollectionId || '');
-                dispatch(saveRequestAction(requestId, result.result, result.resultRequestId));
+                const deserialized = deserializeFromHost(result.resultRequestId, result.resultRequest);
+                dispatch(saveRequestAction(requestId, deserialized, result.resultRequestId));
                 if (toCollectionId) {
                     dispatch(makeSelectCollectionForSaveAction(null, false));
                 }

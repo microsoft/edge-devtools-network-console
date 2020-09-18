@@ -42,6 +42,7 @@ export interface ISetPreferencesMessage extends IMessage<'SET_PREFERENCES'> {
 interface ILoadRequestMessageBase extends IMessage<'LOAD_REQUEST'> {
     request: INetConsoleRequest;
     requestId: string;
+    requiresSaveAs: boolean;
 
     environmentAuth?: INetConsoleAuthorization;
     environmentAuthPath?: string[];

@@ -236,6 +236,12 @@ export interface IEnvironmentContainerAdapter {
  */
 export interface IEnvironmentAdapter {
     /**
+     * A unique ID for this environment. It might not be the same
+     * from session to session.
+     */
+    readonly id: string;
+
+    /**
      * The name of the environment.
      */
     name: string;

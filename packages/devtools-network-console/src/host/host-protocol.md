@@ -198,10 +198,14 @@ Loads a request from a collection.
 {
     type: 'LOAD_REQUEST';
     request: INetConsoleRequest;
+    requiresSaveAs: boolean;
     environmentAuth?: INetConsoleAuthorization;
     environmentAuthPath?: string[];
 }
 ```
+
+`requiresSaveAs` dictates whether the request may not be saved directly, but needs a `toCollectionId` 
+property to be included with the `SAVE_REQUEST` message.
 
 `environmentAuth` and `environmentAuthPath` are optional parameters, but if one is included, both
 must be included. This enables the frontend to view and modify the environment authorization. The

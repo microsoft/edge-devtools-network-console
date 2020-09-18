@@ -12,12 +12,12 @@ import { setVerbAction, setUrlAction } from 'actions/request/basics';
 import { saveRequestToHostAction } from 'actions/request/host';
 import { executeRequestWithId } from 'actions/combined';
 import { makeSelectCollectionForSaveAction } from 'actions/modal';
-import { DEFAULT_EMPTY_REQUEST_ID } from 'actions/common';
 
 export interface IAddressBarProps {
     requestId: string;
     url: string;
     verb: HttpVerb;
+    requiresSaveAs: boolean;
 
     canSave: boolean;
     isRequestDirty: boolean;
@@ -61,9 +61,9 @@ export default function AddressBar(props: IAddressBarProps) {
                     />
                 {props.canSave && <Button
                     text="Save"
-                    primaryDisabled={!props.isRequestDirty && props.requestId !== DEFAULT_EMPTY_REQUEST_ID}
+                    primaryDisabled={!props.isRequestDirty && !props.requiresSaveAs}
                     onClick={e => {
-                        if (props.requestId === DEFAULT_EMPTY_REQUEST_ID || e.ctrlKey) {
+                        if (props.requiresSaveAs || e.ctrlKey) {
                             let parentRequest: string | null = null;
                             const lastSlash = props.requestId.lastIndexOf('/');
                             if (lastSlash > -1) {

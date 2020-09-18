@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Map as IMap } from 'immutable';
+import { Map as IMap, Set as ISet } from 'immutable';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {
@@ -21,6 +21,7 @@ import reduceViewManager, { IViewManagerState } from 'reducers/view-manager';
 import reduceModals from 'reducers/modals';
 import reduceEnvironment from 'reducers/environment';
 import reduceCollections from 'reducers/collections';
+import reduceSaveAsRequests from 'reducers/saveAsRequests';
 import { ICollection } from 'model/collections';
 import { THEME_TYPE } from 'themes/vscode-theme';
 
@@ -109,6 +110,7 @@ export interface IView {
 
     theme: IThemeInfo;
     hostCapabilities: IHostCapabilities;
+    saveAsRequests: ISet<string>,
 }
 
 export interface ICollectionArea {
@@ -127,6 +129,7 @@ const reducers = combineReducers({
 
     theme: reduceTheme,
     hostCapabilities: reduceHostCaps,
+    saveAsRequests: reduceSaveAsRequests,
 });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));

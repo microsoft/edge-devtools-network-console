@@ -11,6 +11,7 @@ import {
     INetConsoleParameter,
     INetConsoleResponse,
     binFromB64,
+    INetConsoleRequest,
 } from 'network-console-shared';
 
 import { INetConsoleHost, ISaveResult } from './interfaces';
@@ -35,7 +36,7 @@ export default class WebApplicationHost implements INetConsoleHost {
                 /* transparentAuthorization: */ true,
             ));
             globalDispatch(setHostOptionsAction(true));
-            globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST));
+            globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
         }, 1000);
         (window as any).__debug_WAH = this;
@@ -68,14 +69,14 @@ export default class WebApplicationHost implements INetConsoleHost {
     async saveRequest(request: INetConsoleRequestInternal): Promise<ISaveResult> {
         // TODO: Investigate supporting save in web application host
         return {
-            result: request,
+            resultRequest: formatRequestForSave(request),
             resultRequestId: 'DEFAULT_REQUEST',
         };
     }
 
     public _debug_manualLoad(requestBody: string) {
         const deserialized = deserializeFromHost('DEFAULT_REQUEST', JSON.parse(requestBody));
-        globalDispatch(loadRequestAction('DEFAULT_REQUEST', deserialized));
+        globalDispatch(loadRequestAction('DEFAULT_REQUEST', deserialized, /* requiresSaveAs: */ true));
     }
 
     async saveCollectionAuthorization(_collectionId: string, _authorization: INetConsoleAuthorization): Promise<void> {
@@ -149,4 +150,30 @@ async function bodyFromResponse(response: Response): Promise<ArrayBuffer> {
 
 function timeout(ms: number): Promise<void> {
     return new Promise<void>(r => setTimeout(r, ms));
+}
+
+function formatRequestForSave(request: INetConsoleRequestInternal): INetConsoleRequest {
+    return {
+        authorization: request.authorization,
+        body: {
+            content: '',
+        },
+        bodyComponents: {
+            bodySelection: request.bodyComponents.bodySelection,
+            formData: request.bodyComponents.formData.valueSeq().toArray(),
+            rawTextBody: {
+                contentType: request.bodyComponents.rawTextBody.contentType || '',
+                text: request.bodyComponents.rawTextBody.text,
+            },
+            xWwwFormUrlencoded: request.bodyComponents.xWwwFormUrlencoded.valueSeq().toArray(),
+        },
+        description: request.description,
+        headers: request.headers.valueSeq().toArray(),
+        name: request.name,
+        queryParameters: request.queryParameters.valueSeq().toArray(),
+        routeParameters: request.routeParameters.valueSeq().toArray(),
+        url: request.url,
+        verb: request.verb,
+        fetchParams: request.fetchParams,
+    };
 }

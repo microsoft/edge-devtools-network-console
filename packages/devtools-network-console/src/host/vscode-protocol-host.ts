@@ -268,7 +268,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     protected async onLoadRequest(message: ILoadRequestMessage) {
         const deserialized = deserializeFromHost(message.requestId, message.request);
-        globalDispatch(loadRequestAction(message.requestId, deserialized));
+        globalDispatch(loadRequestAction(message.requestId, deserialized, message.requiresSaveAs));
 
         const environmentAuth: INetConsoleAuthorization | null = message.environmentAuth || null;
         if (environmentAuth) {

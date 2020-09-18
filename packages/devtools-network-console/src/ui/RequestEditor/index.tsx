@@ -35,6 +35,7 @@ interface IConnectedProps {
     canSave: boolean;
     canEditCORS: boolean;
     isRequestDirty: boolean;
+    requiresSaveAs: boolean;
 
     request: INetConsoleRequestInternal;
 
@@ -131,6 +132,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                     <AddressBar
                         isRequestDirty={props.isRequestDirty}
                         canSave={props.canSave}
+                        requiresSaveAs={props.requiresSaveAs}
                         url={props.request.url}
                         verb={props.request.verb}
                         requestId={props.requestId}
@@ -254,6 +256,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         canEditCORS: state.hostCapabilities.canEditCORS,
         isRequestDirty: request.isDirty,
 
+        requiresSaveAs: state.saveAsRequests.has(ownProps.requestId),
         headers: request.current.headers,
         queryParameters: request.current.queryParameters,
         routeParameters: request.current.routeParameters,
