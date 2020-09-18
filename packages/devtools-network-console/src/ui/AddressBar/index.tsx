@@ -12,12 +12,12 @@ import { setVerbAction, setUrlAction } from 'actions/request/basics';
 import { saveRequestToHostAction } from 'actions/request/host';
 import { executeRequestWithId } from 'actions/combined';
 import { makeSelectCollectionForSaveAction } from 'actions/modal';
-import { DEFAULT_EMPTY_REQUEST_ID } from 'actions/common';
 
 export interface IAddressBarProps {
     requestId: string;
     url: string;
     verb: HttpVerb;
+    requiresSaveAs: boolean;
 
     canSave: boolean;
     isRequestDirty: boolean;
@@ -25,10 +25,6 @@ export interface IAddressBarProps {
 
 export default function AddressBar(props: IAddressBarProps) {
     const dispatch = useDispatch();
-    const [url, setUrl] = React.useState('');
-    React.useEffect(() => {
-        setUrl(props.url);
-    }, [props.url]);
 
     return (
         <div {...Styles.ADDRESS_BAR_CONTAINER_STYLE}>
@@ -43,13 +39,14 @@ export default function AddressBar(props: IAddressBarProps) {
             <div {...Styles.URL_CONTAINER_STYLE}>
                 <TextField
                     onChange={(_e, newValue) => {
-                        setUrl(newValue || '');
-                    }}
-                    onBlur={(_e) => {
+                        const url = newValue || '';
                         dispatch(setUrlAction(props.requestId, url));
                     }}
+                    onBlur={(_e) => {
+                        
+                    }}
                     autoFocus
-                    value={url}
+                    value={props.url}
                     placeholder="Enter the URL to be requested here."
                     />
             </div>
@@ -64,34 +61,21 @@ export default function AddressBar(props: IAddressBarProps) {
                     />
                 {props.canSave && <Button
                     text="Save"
-                    primaryDisabled={!props.isRequestDirty && props.requestId !== DEFAULT_EMPTY_REQUEST_ID}
+                    primaryDisabled={!props.isRequestDirty && !props.requiresSaveAs}
                     onClick={e => {
-                        if (props.requestId === DEFAULT_EMPTY_REQUEST_ID) {
-                            dispatch(makeSelectCollectionForSaveAction(null, true));
+                        if (props.requiresSaveAs || e.ctrlKey) {
+                            let parentRequest: string | null = null;
+                            const lastSlash = props.requestId.lastIndexOf('/');
+                            if (lastSlash > -1) {
+                                parentRequest = props.requestId.substr(0, lastSlash);
+                            }
+                            dispatch(makeSelectCollectionForSaveAction(parentRequest, true));
                         }
                         else {
                             dispatch(saveRequestToHostAction(props.requestId));
                         }
                         e.stopPropagation();
                         e.preventDefault();
-                    }}
-                    split
-                    menuProps={{
-                        items: [
-                            {
-                                key: 'saveToFolder',
-                                text: 'Save into another folder',
-                                iconProps: { iconName: 'save' },
-                                onClick: e => {
-                                    let parentRequest: string | null = null;
-                                    const lastSlash = props.requestId.lastIndexOf('/');
-                                    if (lastSlash > -1) {
-                                        parentRequest = props.requestId.substr(0, lastSlash);
-                                    }
-                                    dispatch(makeSelectCollectionForSaveAction(parentRequest, true));
-                                },
-                            },
-                        ],
                     }}
                     />}
             </div>

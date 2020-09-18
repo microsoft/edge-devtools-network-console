@@ -1,0 +1,129 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+    INetConsoleAuthorization,
+    INetConsoleRequest,
+} from '../../../net/net-console-http';
+import IdIndexMap from '../../../util/id-index-map';
+import {
+    ICollectionFormat,
+    ICollectionAdapter,
+    ICollectionContainerAdapter,
+    ICollectionEntryAdapter,
+    ICollectionItemAdapter,
+} from '../../interfaces';
+import { migrateAuthorization } from '../../convert';
+import { RequestAdapter } from './request-adapter';
+import { AuthorizationAdapter } from './authorization';
+import { mapNCToPostman } from './request';
+
+import {
+    Items as Postman21Entry,
+    AuthType,
+} from '../../../collections/postman/v2.1/schema-generated';
+
+export class ContainerAdapter implements ICollectionContainerAdapter {
+    public readonly type = 'container';
+    private _keyToIndex: IdIndexMap;
+    private _nextKey: number;
+
+    constructor(
+        public readonly format: ICollectionFormat,
+        public readonly collection: ICollectionAdapter,
+        public readonly id: string,
+        private readonly realObject: Postman21Entry,
+        private setDirty: () => void,
+    ) {
+        if (!Array.isArray(this.realObject.item)) {
+            throw new RangeError('Attempted to instantiate a Postman v2.1 ContainerAdapter against an "Items" that lacked an "item" property (or it was not an array).');
+        }
+        this._keyToIndex = new IdIndexMap();
+        this._nextKey = 0;
+
+        for (let index = 0; index < this.realObject.item!.length; index++) {
+            const entryId = `${id}/${this._nextKey++}`;
+            this._keyToIndex.set(entryId, index);
+        }
+    }
+
+    get name() {
+        return this.realObject.name || '<unnamed folder>';
+    }
+
+    set name(value: string) {
+        this.realObject.name = value;
+        this.setDirty();
+    }
+
+    get authorization() {
+        return new AuthorizationAdapter(this.realObject, this.setDirty);
+    }
+
+    set authorization(value: INetConsoleAuthorization) {
+        if (value.type === 'inherit') {
+            delete this.realObject.auth;
+        }
+        else {
+            const adapter = this.authorization;
+            migrateAuthorization(adapter, value);
+        }
+        this.setDirty();
+    }
+
+    get childEntryIds() {
+        return Array.from(this._keyToIndex.keys());
+    }
+
+    getEntryById(id: string): ICollectionEntryAdapter | null {
+        const index = this._keyToIndex.getByKey(id);
+        if (typeof index !== 'number') {
+            return null;
+        }
+
+        const entry = this.realObject.item![index] as Postman21Entry;
+        if ('request' in entry) {
+            return new RequestAdapter(this.format, this.collection, id, entry, this.setDirty);
+        }
+        else if ('item' in entry && Array.isArray(entry.item)) {
+            return new ContainerAdapter(this.format, this.collection, id, entry, this.setDirty);
+        }
+
+        throw new Error(`Parser error: Child with id "${id}" was not a valid request or collection folder.`);
+    }
+
+    async appendContainerEntry(name: string) {
+        const folder: Postman21Entry = {
+            name,
+            item: [],
+        };
+        const index = this.realObject.item!.length;
+        this.realObject.item!.push(folder);
+        const id = `${this.id}/${this._nextKey++}`;
+        this._keyToIndex.set(id, index);
+        this.setDirty();
+
+        return new ContainerAdapter(this.format, this.collection, id, folder, this.setDirty);
+    }
+
+    async appendItemEntry(request: INetConsoleRequest): Promise<ICollectionItemAdapter> {
+        const item = mapNCToPostman(request);
+        const index = this.realObject.item!.length;
+        this.realObject.item!.push(item);
+        const id = `${this.id}/${this._nextKey++}`;
+        this._keyToIndex.set(id, index);
+        this.setDirty();
+
+        return new RequestAdapter(this.format, this.collection, id, item, this.setDirty);
+    }
+
+    async deleteEntry(id: string) {
+        const index = this._keyToIndex.getByKey(id);
+        if (typeof index !== 'number') {
+            throw new RangeError(`ID "${id}" not found in this container.`);
+        }
+        this._keyToIndex.deleteByKey(id);
+        this.realObject.item!.splice(index, 1);
+        this.setDirty();
+    }
+}

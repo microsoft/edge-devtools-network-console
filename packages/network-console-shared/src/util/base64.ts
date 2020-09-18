@@ -2,7 +2,6 @@
 // Licensed under the MIT License
 
 import { base64 } from 'rfc4648';
-
 export type Base64String = string & { __isB64String?: void; };
 
 export function toB64(source: string): Base64String {

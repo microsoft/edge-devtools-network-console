@@ -36,11 +36,11 @@ export type NetworkConsoleAuthorizationScheme =
     'token'
     ;
 
-interface INetConsoleBearerTokenAuthorization {
+export interface INetConsoleBearerTokenAuthorization {
     token: string;
 }
 
-interface INetConsoleBasicAuthorization extends IBasicAuthorization {
+export interface INetConsoleBasicAuthorization extends IBasicAuthorization {
     showPassword: boolean;
 }
 
@@ -52,6 +52,39 @@ export interface INetConsoleAuthorization extends IHttpAuthorization {
 }
 
 export type BodyFormat = 'none' | 'form-data' | 'x-www-form-urlencoded' | 'raw';
+
+export interface INetConsoleRawBody {
+    text: string;
+    /**
+     * Contains the UI-selected content type of the text (for the default mode of
+     * syntax highlighting).
+     */
+    contentType: string;
+}
+
+export interface INetConsoleBodyComponents {
+    /**
+     * "Raw text" is typically for some content that the user has entered manually into
+     * the text editor (for example, for JSON, plain text, or CSV). This content is *not*
+     * encoded into Base64 since the content is typically considered to have been entered
+     * as plain text.
+     */
+    rawTextBody?: INetConsoleRawBody;
+    /**
+     * Contains key-value pairs of form data. Because form data parameters do contain the
+     * contents of files, the host can decide whether to persist the file contents into the
+     * save file.
+     */
+    formData?: IFormDataParameter[];
+    /**
+     * Contains key-value pairs of x-www-form-urlencoded data.
+     */
+    xWwwFormUrlencoded?: INetConsoleParameter[];
+    /**
+     * The discriminator for which mode the request uses to compose the body.
+     */
+    bodySelection: BodyFormat;
+}
 
 /**
  * This is the main item that is presented to users and is put into native files.
@@ -105,36 +138,7 @@ export interface INetConsoleRequest extends IHttpRequest {
      * to "form-data" mode); but only the value indicated by the `bodySelection` discriminator
      * will be used to compose the final request.
      */
-    bodyComponents: {
-        /**
-         * "Raw text" is typically for some content that the user has entered manually into
-         * the text editor (for example, for JSON, plain text, or CSV). This content is *not*
-         * encoded into Base64 since the content is typically considered to have been entered
-         * as plain text.
-         */
-        rawTextBody?: {
-            text: string;
-            /**
-             * Contains the UI-selected content type of the text (for the default mode of
-             * syntax highlighting).
-             */
-            contentType: string;
-        };
-        /**
-         * Contains key-value pairs of form data. Because form data parameters do contain the
-         * contents of files, the host can decide whether to persist the file contents into the
-         * save file.
-         */
-        formData?: IFormDataParameter[];
-        /**
-         * Contains key-value pairs of x-www-form-urlencoded data.
-         */
-        xWwwFormUrlencoded?: INetConsoleParameter[];
-        /**
-         * The discriminator for which mode the request uses to compose the body.
-         */
-        bodySelection: BodyFormat;
-    };
+    bodyComponents: INetConsoleBodyComponents;
 }
 
 /**

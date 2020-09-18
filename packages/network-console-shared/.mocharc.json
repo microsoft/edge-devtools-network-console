@@ -1,0 +1,16 @@
+{
+    "reporter": "spec",
+    "slow": 75,
+    "timeout": 2000,
+    "ui": "bdd",
+    "parallel": true,
+    "extension": ["ts"],
+    "watch-files": ["src/**/*.ts", "src/**/*.nc.json"],
+    "require": [
+        "ts-node/register",
+        "source-map-support/register"
+    ],
+    "full-trace": true,
+    "recursive": true,
+    "async-only": true
+}

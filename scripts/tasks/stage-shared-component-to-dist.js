@@ -10,6 +10,9 @@ const COPYRIGHT_HEADER = `/**
  */
 `;
 
+const NCS_REFERENCE_HEADER = `/// <reference path="./network-console-shared.d.ts" />
+`;
+
 /**
  * Copies the output files from network-console-shared's local build output folder
  * to the output folder for the top-level project.
@@ -34,7 +37,7 @@ module.exports = async function stageSharedBuildOutputToDistFolder() {
     await copyAndUpdateFile(
         path.join(ncsBuildOutputPath, 'index.d.ts'),
         path.join(targetOutputPath, 'index.d.ts'),
-        COPYRIGHT_HEADER,
+        COPYRIGHT_HEADER + NCS_REFERENCE_HEADER,
         /* suffix: */ 'export as namespace NCShared;\n',
         /* replacements: */ [{
             from: / from \'\.\//g,

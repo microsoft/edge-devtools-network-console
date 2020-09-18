@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "75d055fd-2dc6-48c2-9031-7bdeded4844b",
+		"name": "Starting case w/ adjacent data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test folder",
+			"item": [],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "pass",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "user",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cf3bceac-7ab5-4113-a2ea-4776e00f8c9b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.get(\"variable_key\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "488baf78-af0e-42c3-8aa0-4a26fbaae996",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "First request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ea8429ce-0e4c-4d14-a8e9-c60c046b34b7",
+						"exec": [
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f0b027a-38d5-4859-b23d-2e270c076bb0",
+						"exec": [
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						""
+					]
+				},
+				"description": "Request #1 is the first request."
+			},
+			"response": []
+		},
+		{
+			"name": "Second request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "1234abcd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "not-really-an-api-key",
+						"description": "The API key of the request.",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "Hello, world."
+				},
+				"url": {
+					"raw": "http://localhost:9999/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						""
+					]
+				},
+				"description": "Request #2 is the second request."
+			},
+			"response": []
+		},
+		{
+			"name": "Third request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/foo/:bar/:baz",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"foo",
+						":bar",
+						":baz"
+					],
+					"variable": [
+						{
+							"key": "bar",
+							"value": "key-of-life"
+						},
+						{
+							"key": "baz",
+							"value": "42"
+						}
+					]
+				},
+				"description": "Request #3 is the third request."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -5,6 +5,7 @@ import { INetConsoleAuthorization, INetConsoleRequest } from '../../net/net-cons
 import { NCNativeReader } from '../native/native-file-format';
 import { Postman21NativeReader } from '../postman/v2.1/postman-2.1-file-format';
 import SwaggerFileFormatReader from '../openapi/openapi-file-format';
+import deprecated from '../../util/deprecate';
 
 export interface ICollectionsReader {
     readCollection(fileContents: string): Promise<ICollectionRootReader>;
@@ -48,6 +49,8 @@ export interface ICollectionEntryReader extends ICollectionItemBase {
 }
 
 export async function tryReadCollection(sourceUrl: string, collectionText: string): Promise<ICollectionRootReader | null> {
+    deprecated('Collections.tryReadCollectionAsync', 'FileFormats.CollectionFormat');
+
     try {
         // First, attempt to examine whether it's a known JSON format.
 

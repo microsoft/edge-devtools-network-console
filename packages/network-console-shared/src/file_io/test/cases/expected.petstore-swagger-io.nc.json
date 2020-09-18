@@ -1,0 +1,610 @@
+{
+    "meta": {
+        "networkConsoleCollectionVersion": "0.10.0-preview"
+    },
+    "name": "Swagger Petstore",
+    "entries": [
+        {
+            "name": "pet",
+            "entries": [
+                {
+                    "request": {
+                        "name": "addPet",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "updatePet",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet",
+                        "verb": "PUT",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "findByStatus",
+            "entries": [
+                {
+                    "request": {
+                        "name": "findPetsByStatus",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [
+                            {
+                                "key": "status",
+                                "isActive": true,
+                                "value": "",
+                                "description": "Status values that need to be considered for filter"
+                            }
+                        ],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/findByStatus",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "findByTags",
+            "entries": [
+                {
+                    "request": {
+                        "name": "findPetsByTags",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [
+                            {
+                                "key": "tags",
+                                "isActive": true,
+                                "value": "",
+                                "description": "Tags to filter by"
+                            }
+                        ],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/findByTags",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "{petId}",
+            "entries": [
+                {
+                    "request": {
+                        "name": "deletePet",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "petId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "Pet id to delete"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/:petId",
+                        "verb": "DELETE",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "getPetById",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "petId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "ID of pet to return"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/:petId",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "updatePetWithForm",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "petId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "ID of pet that needs to be updated"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/:petId",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "uploadImage",
+            "entries": [
+                {
+                    "request": {
+                        "name": "uploadFile",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "petId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "ID of pet to update"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/pet/:petId/uploadImage",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "inventory",
+            "entries": [
+                {
+                    "request": {
+                        "name": "getInventory",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/store/inventory",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "order",
+            "entries": [
+                {
+                    "request": {
+                        "name": "placeOrder",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/store/order",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "{orderId}",
+            "entries": [
+                {
+                    "request": {
+                        "name": "deleteOrder",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "orderId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "ID of the order that needs to be deleted"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/store/order/:orderId",
+                        "verb": "DELETE",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "getOrderById",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "orderId",
+                                "isActive": true,
+                                "value": "",
+                                "description": "ID of pet that needs to be fetched"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/store/order/:orderId",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "user",
+            "entries": [
+                {
+                    "request": {
+                        "name": "createUser",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "createWithArray",
+            "entries": [
+                {
+                    "request": {
+                        "name": "createUsersWithArrayInput",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/createWithArray",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "createWithList",
+            "entries": [
+                {
+                    "request": {
+                        "name": "createUsersWithListInput",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/createWithList",
+                        "verb": "POST",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "login",
+            "entries": [
+                {
+                    "request": {
+                        "name": "loginUser",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [
+                            {
+                                "key": "username",
+                                "isActive": true,
+                                "value": "",
+                                "description": "The user name for login"
+                            },
+                            {
+                                "key": "password",
+                                "isActive": true,
+                                "value": "",
+                                "description": "The password for login in clear text"
+                            }
+                        ],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/login",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "logout",
+            "entries": [
+                {
+                    "request": {
+                        "name": "logoutUser",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/logout",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        },
+        {
+            "name": "{username}",
+            "entries": [
+                {
+                    "request": {
+                        "name": "deleteUser",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "username",
+                                "isActive": true,
+                                "value": "",
+                                "description": "The name that needs to be deleted"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/:username",
+                        "verb": "DELETE",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "getUserByName",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "username",
+                                "isActive": true,
+                                "value": "",
+                                "description": "The name that needs to be fetched. Use user1 for testing. "
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/:username",
+                        "verb": "GET",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                },
+                {
+                    "request": {
+                        "name": "updateUser",
+                        "description": "",
+                        "headers": [],
+                        "queryParameters": [],
+                        "routeParameters": [
+                            {
+                                "key": "username",
+                                "isActive": true,
+                                "value": "",
+                                "description": "name that need to be updated"
+                            }
+                        ],
+                        "bodyComponents": {
+                            "bodySelection": "none"
+                        },
+                        "authorization": {
+                            "type": "inherit"
+                        },
+                        "url": "{{baseUri}}/user/:username",
+                        "verb": "PUT",
+                        "body": {
+                            "content": ""
+                        }
+                    }
+                }
+            ],
+            "auth": {
+                "type": "inherit"
+            }
+        }
+    ]
+}

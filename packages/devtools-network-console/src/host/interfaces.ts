@@ -5,12 +5,13 @@ import {
     INetConsoleAuthorization,
     INetConsoleParameter,
     INetConsoleResponse,
+    INetConsoleRequest,
 } from 'network-console-shared';
 
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 
 export interface ISaveResult {
-    result: INetConsoleRequestInternal;
+    resultRequest: INetConsoleRequest;
     resultRequestId: string;
 }
 

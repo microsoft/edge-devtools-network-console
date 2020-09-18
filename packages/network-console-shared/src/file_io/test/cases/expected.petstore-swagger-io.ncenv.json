@@ -1,0 +1,26 @@
+{
+    "meta": {
+        "networkConsoleEnvironmentVersion": "0.10.0-preview"
+    },
+    "name": "Swagger Petstore (OpenAPI)",
+    "environments": [
+        {
+            "name": "https",
+            "variables": [{
+                "description": "Auto-generated from the OpenAPI document to access the root of the API service",
+                "isActive": true,
+                "key": "baseUri",
+                "value": "https://petstore.swagger.io/v2"
+            }]
+        },
+        {
+            "name": "http",
+            "variables": [{
+                "description": "Auto-generated from the OpenAPI document to access the root of the API service",
+                "isActive": true,
+                "key": "baseUri",
+                "value": "http://petstore.swagger.io/v2"
+            }]
+        }
+    ]
+}

@@ -3,6 +3,7 @@
 
 import { INetConsoleParameter } from '../net/net-console-http';
 import { NCNativeEnvironmentReader } from './native/native-env-format';
+import deprecated from '../util/deprecate';
 
 export type EnvironmentItemType = 'root' | 'environment';
 
@@ -19,6 +20,7 @@ export interface IEnvironment {
 }
 
 export async function tryReadEnvironment(sourceUrl: string, collectionText: string): Promise<IEnvironmentRoot | null> {
+    deprecated('Environments.tryReadEnvironmentAsync');
     try {
         const jsonObj = JSON.parse(collectionText);
 
