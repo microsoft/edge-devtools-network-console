@@ -5,7 +5,7 @@ Network Console hosts and clients. Because this is a shared component,
 version changes might be breaking. This changelog will attempt to
 document when breaking changes occur.
 
-## v0.9.2
+## v0.10.0-preview
 
 This change introduces a new File I/O module. This module is intended
 to support both reading and writing of supported file formats. This is

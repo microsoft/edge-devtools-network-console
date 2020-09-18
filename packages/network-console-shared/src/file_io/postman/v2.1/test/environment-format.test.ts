@@ -33,7 +33,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
             values: [],
             _postman_variable_scope: 'environment',
 	        _postman_exported_at: new Date().toISOString(),
-	        _postman_exported_using: 'edge-devtools-network-console/0.9.2-preview'
+	        _postman_exported_using: 'edge-devtools-network-console/0.10.0-preview'
         };
 
         const collection = await format.createEnvironmentContainer(name);

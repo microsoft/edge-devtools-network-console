@@ -32,7 +32,7 @@ export class EnvironmentFormat implements IEnvironmentFormat {
     async createEnvironmentContainer(name: string): Promise<IEnvironmentContainerAdapter> {
         const DEFAULT_ENVIRONMENT: INCNativeEnvironmentFile = {
             meta: {
-                networkConsoleEnvironmentVersion: '0.9.2-preview',
+                networkConsoleEnvironmentVersion: '0.10.0-preview',
             },
             name,
             environments: [],

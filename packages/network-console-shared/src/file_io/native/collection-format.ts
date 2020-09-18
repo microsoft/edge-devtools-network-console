@@ -16,7 +16,7 @@ export class CollectionFormat implements ICollectionFormat {
     async createCollection(name: string): Promise<ICollectionAdapter> {
         const DEFAULT_COLLECTION: INCNativeRoot = {
             meta: {
-                networkConsoleCollectionVersion: '0.9.2-preview',
+                networkConsoleCollectionVersion: '0.10.0-preview',
             },
             name,
             entries: [],

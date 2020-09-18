@@ -1,6 +1,6 @@
 {
   "name": "network-console-frontend",
-  "version": "0.9.1-preview",
+  "version": "0.10.0-preview",
   "dependencies": {
     "@fluentui/react": "^7.118.1",
     "@microsoft/fast-components-react-base": "^4.26.4",

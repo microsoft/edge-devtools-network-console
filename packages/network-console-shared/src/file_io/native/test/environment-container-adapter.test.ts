@@ -26,7 +26,7 @@ describe('network-console-shared/src/file_io/native/environment-container-adapte
         it('renames the environment container correctly', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleEnvironmentVersion: '0.9.2-preview',
+                    networkConsoleEnvironmentVersion: '0.10.0-preview',
                 },
                 name: 'Renamed environment container',
                 environments: [],
@@ -42,7 +42,7 @@ describe('network-console-shared/src/file_io/native/environment-container-adapte
         it('adds a new environment to the container correctly', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleEnvironmentVersion: '0.9.2-preview',
+                    networkConsoleEnvironmentVersion: '0.10.0-preview',
                 },
                 name: 'Test container',
                 environments: [{
@@ -59,7 +59,7 @@ describe('network-console-shared/src/file_io/native/environment-container-adapte
         it('adds a new environment and variables to the container correctly', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleEnvironmentVersion: '0.9.2-preview',
+                    networkConsoleEnvironmentVersion: '0.10.0-preview',
                 },
                 name: 'Test container',
                 environments: [{

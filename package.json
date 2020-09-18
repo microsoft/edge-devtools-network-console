@@ -6,7 +6,7 @@
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "version": "0.9.2-preview",
+  "version": "0.10.0-preview",
   "private": true,
   "devDependencies": {
     "recursive-copy": "^2.0.10",
