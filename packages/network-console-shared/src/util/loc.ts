@@ -11,7 +11,7 @@ export type GetMessageOptions = {
     substitutions?: string | string[];
 }
 
-export function getMessage(key: string, path: string, options?: GetMessageOptions): string {
+export function getMessage(key: string, path: string, options?: GetMessageOptions): string | undefined {
     // TODO
-    return '[LOC] ' + key;
+    return undefined;
 }

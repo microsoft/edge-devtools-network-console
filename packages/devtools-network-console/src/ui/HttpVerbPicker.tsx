@@ -2,39 +2,56 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { ComboBox, IComboBoxOption } from '@fluentui/react';
-import { HttpVerb } from 'network-console-shared';
+import { Select, SelectOption } from '@microsoft/fast-components-react-msft';
+import { HttpVerb, i18n } from 'network-console-shared';
 
-import { IHttpVerbDef, KNOWN_HTTP_VERBS } from 'data';
+import { KNOWN_HTTP_VERBS } from 'data';
+import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 export interface IHttpVerbPickerProps {
     defaultVerb: HttpVerb;
     onVerbPicked: (verb: HttpVerb) => void;
 }
 
-function verbDefinitionToOption(verb: IHttpVerbDef): IComboBoxOption {
-    return {
-        key: verb.name,
-        text: verb.name,
-        ariaLabel: verb.description,
-        data: verb,
-        title: verb.description,
-    };
-}
-const HTTP_VERB_OPTIONS: IComboBoxOption[] =
-    KNOWN_HTTP_VERBS.map(verbDefinitionToOption);
-
-export default function HttpVerbPicker(props: IHttpVerbPickerProps) {
-
+function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
     return (
-        <ComboBox
-            options={HTTP_VERB_OPTIONS}
-            selectedKey={props.defaultVerb}
-            autoComplete="on"
-            placeholder="METHOD"
-            allowFreeform={false}
-            onChange={(_e, option, _index, value) => props.onVerbPicked((option ? option.text : value) as HttpVerb)}
-            openOnKeyboardFocus={true}
-            />
+        <Select
+            title={i18n.getMessage('HttpVerbPicker.title', '', { language: props.locale })}
+            onValueChange={(newValue, _selectedItems) => {
+                props.onVerbPicked(newValue as HttpVerb);
+            }}
+            multiselectable={false}
+            defaultSelection={[props.defaultVerb]}
+            menuFlyoutConfig={{
+
+            }}
+            jssStyleSheet={{
+                select: {
+                    width: '205px',
+                    zIndex: '500',
+                    position: 'relative',
+                },
+            }}
+            >
+            {KNOWN_HTTP_VERBS.map(verb => {
+                return (
+                    <SelectOption
+                        id={verb.name}
+                        value={verb.name}
+                        translate="no"
+                    >
+                        {verb.name}
+                    </SelectOption>
+                );
+            })}
+        </Select>
+    );
+}
+
+export default function LocalizedHttpVerbPicker(props: IHttpVerbPickerProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => <HttpVerbPicker {...props} locale={locale} />}
+        </LocalizationConsumer>
     );
 }

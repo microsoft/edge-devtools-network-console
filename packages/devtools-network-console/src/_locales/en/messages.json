@@ -1,0 +1,36 @@
+{
+    "ErrorBoundary.reopen": {
+        "message": "You can close and re-open this tool to recover.",
+        "description": "Guidance text to recover from an error"
+    },
+    "ErrorBoundary.title": {
+        "message": "Something went wrong.",
+        "description": "Title text when an unhandled error occurs"
+    },
+    "ErrorBoundary.showMoreLabel": {
+        "message": "Error details",
+        "description": "Label for link that displays the call stack"
+    },
+    "ErrorBoundary.showMoreAriaLabel": {
+        "message": "Expand the call stack to see error details",
+        "description": "Accessible label for link that displays the call stack"
+    },
+
+    "HttpVerbPicker.title": {
+        "message": "Choose an HTTP Method or Verb",
+        "description": "Title of dropdown for selecting an HTTP verb"
+    },
+
+    "ViewSelect.create": {
+        "message": "Create a request",
+        "description": "Action title to create a new default request"
+    },
+    "ViewSelect.import": {
+        "message": "Import a collection",
+        "description": "Action title to import a collection"
+    },
+    "ViewSelect.learnMore": {
+        "message": "Learn more about Network Console",
+        "description": "Link text to learn more about Network Console"
+    }
+}

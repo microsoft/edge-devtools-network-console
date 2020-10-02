@@ -11,12 +11,15 @@ import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { createColorPalette, DesignSystem, DesignSystemDefaults } from '@microsoft/fast-components-styles-msft';
 import { parseColor } from '@microsoft/fast-colors';
 import { DARK_THEME_PALETTE, HIGH_CONTRAST_THEME_PALETTE, LIGHT_THEME_PALETTE } from './themes/vscode-theme';
+import { LocalizationProvider } from 'utility/loc-context';
 
 const App: React.FC = () => {
     return (
         <div className="App">
             <Provider store={store}>
-                <StyledApp />
+                <LocalizationProvider value="en-US">
+                    <StyledApp />
+                </LocalizationProvider>
             </Provider>
         </div>
     );

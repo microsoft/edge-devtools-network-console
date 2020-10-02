@@ -8,8 +8,11 @@ import { Set } from 'immutable';
 import RequestView from 'ui/RequestView';
 import { IView } from 'store';
 import { RequestsState } from 'reducers/request';
-import { Stack, MessageBar, MessageBarType, Link } from '@fluentui/react';
+import { Stack } from '@fluentui/react';
+import { StealthButton } from '@microsoft/fast-components-react-msft';
 import { loadDefaultRequest } from 'actions/common';
+import LocText from 'ui/LocText';
+import { AppHost } from 'store/host';
 
 export interface IConnectedProps {
     requests: RequestsState;
@@ -24,16 +27,28 @@ export function ViewSelect(props: IViewSelectProps) {
     if (props.openViews.size === 0 || !props.currentView) {
         return (
             <Stack>
-                <MessageBar
-                    messageBarType={MessageBarType.info}
-                >
-                    Open or
-                    <Link href="#create-request" aria-label="Create a request" onClick={e => {
-                        e.preventDefault();
+                <StealthButton
+                    onClick={e => {
                         dispatch(loadDefaultRequest());
-                    }}>Create a request</Link> to use Network Console. Or, import or manage from
-                    the Collections panel to open existing request configurations.
-                </MessageBar>
+                    }}
+                >
+                    <LocText textKey='ViewSelect.create' />
+                </StealthButton>
+                <StealthButton
+                    onClick={_e => {
+                        // TODO: Send message to host to prompt for importing a collection
+                        console.log('TODO: Implement');
+                    }}
+                    >
+                    <LocText textKey="ViewSelect.import" />
+                </StealthButton>
+                <StealthButton
+                    onClick={() => {
+                        AppHost.openLink && AppHost.openLink('https://www.github.com/microsoft/edge-devtools-network-console');
+                    }}
+                    >
+                    <LocText textKey="ViewSelect.learnMore" />
+                </StealthButton>
             </Stack>
         );
     }

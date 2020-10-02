@@ -4,6 +4,8 @@
 import * as React from 'react';
 import { MessageBar, MessageBarType, Text, Link } from '@fluentui/react';
 import { AppHost } from 'store/host';
+import LocText from './LocText';
+import { i18n } from 'network-console-shared';
 
 interface IProps {
     children: any;
@@ -49,16 +51,18 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
             return (
                 <div>
                     <MessageBar messageBarType={MessageBarType.error} isMultiline>
-                        <Text variant="xLarge">Something went wrong.</Text>
+                        <Text variant="xLarge"><LocText textKey="ErrorBoundary.title" /></Text>
                         <p>{this.state.errorMessage}</p>
-                        <p>You can close and re-open this tool to recover.</p>
+                        <p><LocText textKey="ErrorBoundary.reopen" /></p>
                     </MessageBar>
                     <div style={{padding: '10px', overflow: 'auto'}}>
                         {this.state.isExpanded && (<pre>
                             {this.state.errorStack}
                         </pre>)}
                         {!this.state.isExpanded && (
-                            <Link href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label="Expand the call stack to see error details">Error details</Link>
+                            <Link href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label={i18n.getMessage('ErrorBoundary.showMoreAriaLabel', '')}>
+                                <LocText textKey="ErrorBoundary.showMoreLabel" />
+                            </Link>
                         )}
                     </div>
                 </div>
