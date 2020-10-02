@@ -9,7 +9,7 @@ import {
 import {
     INCNativeEnvironment,
     INCNativeEnvironmentFile,
-} from './environment-format';
+} from './format';
 import { EnvironmentAdapter } from './environment-adapter';
 import IdIndexMap from '../../util/id-index-map';
 

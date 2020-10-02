@@ -12,7 +12,7 @@ import { migrateAuthorization } from '../../convert';
 import {
     Postman21Schema,
     Items as Postman21Entry,
-} from '../../../collections/postman/v2.1/schema-generated';
+} from './format/schema-generated';
 import IdIndexMap from '../../../util/id-index-map';
 import { INetConsoleAuthorization, INetConsoleRequest } from '../../../net/net-console-http';
 import { AuthorizationAdapter } from './authorization';

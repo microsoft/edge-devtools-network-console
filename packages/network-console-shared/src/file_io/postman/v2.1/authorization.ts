@@ -7,7 +7,7 @@ import {
     INetConsoleBearerTokenAuthorization,
     NetworkConsoleAuthorizationScheme,
 } from '../../../net/net-console-http';
-import { Auth, AuthType, RequestObject, PostmanAuth } from '../../../collections/postman/v2.1/schema-generated';
+import { Auth, AuthType, RequestObject, PostmanAuth } from './format/schema-generated';
 
 export class AuthorizationAdapter implements INetConsoleAuthorization {
 

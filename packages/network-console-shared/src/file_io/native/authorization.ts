@@ -8,7 +8,7 @@ import {
     INetConsoleRequest,
     NetworkConsoleAuthorizationScheme,
 } from '../../net/net-console-http';
-import { INCNativeRequest, INCNativeFolder } from '../../collections/native/native-file-format';
+import { INCNativeRequest, INCNativeFolder } from './format';
 
 export class RequestAuthorizationAdapter implements INetConsoleAuthorization {
 

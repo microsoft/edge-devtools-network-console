@@ -24,7 +24,7 @@ import {
     NCChild,
     INCNativeFolder,
     INCNativeRequest,
-} from '../../collections/native/native-file-format';
+} from './format';
 
 type ParseResult = {
     valid: true;

@@ -6,20 +6,7 @@ import {
     IEnvironmentContainerAdapter,
 } from '../interfaces';
 import { EnvironmentContainerAdapter } from './environment-container-adapter';
-import { INetConsoleParameter } from '../../net/net-console-http';
-
-export interface INCNativeEnvironmentFile {
-    meta: {
-        networkConsoleEnvironmentVersion: string;
-    };
-    name: string;
-    environments: INCNativeEnvironment[];
-}
-
-export interface INCNativeEnvironment {
-    name: string;
-    variables: INetConsoleParameter[];
-}
+import { INCNativeEnvironmentFile } from './format';
 
 export class EnvironmentFormat implements IEnvironmentFormat {
     public readonly formatId = 'nc-native-env';

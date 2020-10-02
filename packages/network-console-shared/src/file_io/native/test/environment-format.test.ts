@@ -6,7 +6,8 @@ import chaiAsPromised from 'chai-as-promised';
 import 'mocha';
 chai.use(chaiAsPromised);
 
-import { EnvironmentFormat, INCNativeEnvironmentFile } from '../environment-format';
+import { EnvironmentFormat } from '../environment-format';
+import { INCNativeEnvironmentFile } from '../format';
 
 describe('network-console-shared/src/file_io/native/environment-format', () => {
     it('creates a default environment and serializes it correctly', async () => {

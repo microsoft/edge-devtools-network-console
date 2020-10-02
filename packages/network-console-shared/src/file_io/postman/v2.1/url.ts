@@ -4,7 +4,7 @@
 import {
     URLObject,
     VariableType,
-} from '../../../collections/postman/v2.1/schema-generated';
+} from './format/schema-generated';
 import { INetConsoleParameter } from '../../../net/net-console-http';
 
 /**

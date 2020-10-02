@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Body, Mode, RequestObject } from '../../../collections/postman/v2.1/schema-generated';
+import { Body, Mode, RequestObject } from './format/schema-generated';
 import {
     BodyFormat,
     IFormDataParameter,

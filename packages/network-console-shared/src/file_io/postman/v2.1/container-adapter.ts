@@ -21,7 +21,7 @@ import { mapNCToPostman } from './request';
 import {
     Items as Postman21Entry,
     AuthType,
-} from '../../../collections/postman/v2.1/schema-generated';
+} from './format/schema-generated';
 
 export class ContainerAdapter implements ICollectionContainerAdapter {
     public readonly type = 'container';

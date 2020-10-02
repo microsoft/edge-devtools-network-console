@@ -15,7 +15,7 @@ import { ICollectionFormat, ICollectionAdapter, ICollectionItemAdapter } from '.
 import { RequestAuthorizationAdapter } from './authorization';
 import {
     INCNativeRequest,
-} from '../../collections/native/native-file-format';
+} from './format';
 
 export class RequestAdapter implements ICollectionItemAdapter {
     public readonly type = 'item';

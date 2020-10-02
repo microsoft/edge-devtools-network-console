@@ -7,7 +7,7 @@ import {
 import { ICollectionFormat, ICollectionAdapter, ICollectionItemAdapter } from '../../interfaces';
 import {
     Items,
-} from '../../../collections/postman/v2.1/schema-generated';
+} from './format/schema-generated';
 
 import { RequestWrapper } from './request';
 
