@@ -30,10 +30,11 @@ export const GRID_HEADER_STYLE = css({
 
 export const GRID_HEADER_CELL_STYLE = css({
     padding: '3px',
+    wordBreak: 'break-all',
 });
 
 export const GRID_HEADER_DIVIDER_STYLE = css({
-    backgroundColor: 'transparent',
+    backgroundColor: '#ccc',
     cursor: 'col-resize',
 });
 
@@ -57,7 +58,7 @@ const GRID_CELL_BASE_STYLE = css({
 });
 
 const INTERIOR_GRID_CELL_STYLE = css(GRID_CELL_BASE_STYLE, {
-    // borderRightWidth: '1px',
+    borderRightWidth: '1px',
     borderTopWidth: '1px',
 });
 

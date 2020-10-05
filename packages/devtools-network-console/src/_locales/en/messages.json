@@ -62,6 +62,48 @@
         "description": "Label that describes a URL after applying environment, route, and query variables"
     },
 
+    "EditorGrid.GridFileInput.chooseFileLabel": {
+        "message": "Choose file...",
+        "description": "Button text to choose a file"
+    },
+    "EditorGrid.GridFileInput.replaceFileLabel": {
+        "message": "Replace...",
+        "description": "Button text to replace a file"
+    },
+    "EditorGrid.GridKey.fileLabel": {
+        "message": "File",
+        "description": "Dropdown option label to choose a File option"
+    },
+    "EditorGrid.GridKey.textLabel": {
+        "message": "Text",
+        "description": "Dropdown option label to choose a Text option"
+    },
+    "EditorGrid.GridRow.deleteLabel": {
+        "message": "Delete row",
+        "description": "Button label to delete a row in an editor grid"
+    },
+    "EditorGrid.GridRow.descriptionLabel": {
+        "message": "Description",
+        "description": "Text field label for the Description field in the editor grid"
+    },
+    "EditorGrid.GridRow.enabledLabel": {
+        "message": "Enabled",
+        "description": "Checkbox label for the Enabled field in the editor grid"
+    },
+    "EditorGrid.GridRow.keyLabel": {
+        "message": "Key",
+        "description": "Text field label for the Key field in the editor grid"
+    },
+    "EditorGrid.GridRow.valueLabel": {
+        "message": "Value",
+        "description": "Text field label for the Value field in the editor grid"
+    },
+    "EditorGrid.GridTextInput.previewLabel": {
+        "message": "Preview of the rendered value based on your current environment",
+        "description": "Screen reader label for a computed value of a grid input that has environment variable substitutions"
+    },
+    
+
     "ErrorBoundary.reopen": {
         "message": "You can close and re-open this tool to recover.",
         "description": "Guidance text to recover from an error"
@@ -82,6 +124,35 @@
     "HttpVerbPicker.title": {
         "message": "Choose an HTTP Method or Verb",
         "description": "Title of dropdown for selecting an HTTP verb"
+    },
+
+    "KNOWN_HTTP_VERBS.GET": {
+        "message": "Requests transfer of a currently selected representation for the target resource. GET is the primary mechanism of information retrieval and the focus of almost all performance optimizations.",
+        "description": "Description of the defined behavior of the HTTP GET verb"
+    },
+    "KNOWN_HTTP_VERBS.HEAD": {
+        "message": "The HEAD method is identical to GET except that the server MUST NOT send a message body in the response, i.e., the response terminates at the end of the header section.",
+        "description": "Description of the defined behavior of the HTTP HEAD verb"
+    },
+    "KNOWN_HTTP_VERBS.POST": {
+        "message": "The POST method requests that the target resource process the representation enclosed in the request according to the resource's own specific semantics.",
+        "description": "Description of the defined behavior of the HTTP POST verb"
+    },
+    "KNOWN_HTTP_VERBS.PUT": {
+        "message": "The PUT method requests that the state of the target resource be created or replaced with the state defined by the representation enclosed in the message payload.",
+        "description": "Description of the defined behavior of the HTTP PUT verb"
+    },
+    "KNOWN_HTTP_VERBS.PATCH": {
+        "message": "The PATCH method requests that a set of changes described in the request entity be applied to the resource identified by the Request-URI.",
+        "description": "Description of the defined behavior of the HTTP PATCH verb"
+    },
+    "KNOWN_HTTP_VERBS.DELETE": {
+        "message": "The DELETE method requests that the origin server remove the association between the target resource and its current functionality.",
+        "description": "Description of the defined behavior of the HTTP DELETE verb"
+    },
+    "KNOWN_HTTP_VERBS.OPTIONS": {
+        "message": "The OPTIONS method requests information about the communication options available for the target resource, at either the origin server or an intervening intermediary.",
+        "description": "Description of the defined behavior of the HTTP OPTIONS verb"
     },
 
     "ViewSelect.create": {

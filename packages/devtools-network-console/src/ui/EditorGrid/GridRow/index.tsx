@@ -10,6 +10,7 @@ import * as Styles from '../styles';
 import GridTextOrFileKey from './GridTextOrFileKey';
 import GridFileInput from './GridFileInput';
 import { mergeString } from 'utility/environment-merge';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 interface IGridRowPropsCommon {
     id: string;
@@ -46,7 +47,7 @@ interface IGridRowPropsWithDelete {
 export type IGridRowProps = IGridRowPropsCommon &
     (IGridRowPropsWithoutDelete | IGridRowPropsWithDelete);
 
-export default function GridRow(props: IGridRowProps) {
+function GridRow(props: IGridRowProps & ILocalized) {
     const name = props.initialNameValue;
     const value = props.initialValueValue;
     const desc = props.initialDescriptionValue;
@@ -71,7 +72,7 @@ export default function GridRow(props: IGridRowProps) {
                         const isEnabled = e.currentTarget.checked;
                         props.onUpdate(props.isNew, props.id, name, value, desc, isEnabled);
                     }}
-                    aria-label="Enabled"
+                    aria-label={getText('EditorGrid.GridRow.enabledLabel', props)}
                     aria-hidden={props.isNew}
                     style={{ display: props.isNew ? 'none' : '' }}
                     className="editor-row-enabled-check"
@@ -84,7 +85,7 @@ export default function GridRow(props: IGridRowProps) {
                         canSelectMode={!props.isNew}
                         modeSelection={props.initialTypeForFileTextToggle || 'text'}
                         value={name}
-                        placeholder="Key"
+                        placeholder={getText('EditorGrid.GridRow.keyLabel', props)}
                         readOnly={props.isNameFieldReadonly}
                         onChange={e => {
                             const newName = (e.target as HTMLInputElement).value;
@@ -92,7 +93,7 @@ export default function GridRow(props: IGridRowProps) {
                                 props.onUpdate(props.isNew, props.id, newName, value, desc, enabled);
                             }
                         }}
-                        ariaLabel="Key"
+                        ariaLabel={getText('EditorGrid.GridRow.keyLabel', props)}
                         className="editor-row-key"
                         onModeChanged={newMode => {
                             let contents = props.initialFileContents;
@@ -107,7 +108,7 @@ export default function GridRow(props: IGridRowProps) {
                     :
                     <GridTextInput
                         value={name}
-                        placeholder="Key"
+                        placeholder={getText('EditorGrid.GridRow.keyLabel', props)}
                         readOnly={props.isNameFieldReadonly}
                         onChange={e => {
                             const newName = (e.target as HTMLInputElement).value;
@@ -115,7 +116,7 @@ export default function GridRow(props: IGridRowProps) {
                                 props.onUpdate(props.isNew, props.id, newName, value, desc, enabled);
                             }
                         }}
-                        ariaLabel="Key"
+                        ariaLabel={getText('EditorGrid.GridRow.keyLabel', props)}
                         className="editor-row-key"
                         />
                 }
@@ -134,14 +135,14 @@ export default function GridRow(props: IGridRowProps) {
                     :
                     <GridTextInput
                         value={value}
-                        placeholder="Value"
+                        placeholder={getText('EditorGrid.GridRow.valueLabel', props)}
                         onChange={e => {
                             const newValue = (e.target as HTMLInputElement).value;
                             if (newValue !== props.initialValueValue) {
                                 props.onUpdate(props.isNew, props.id, name, newValue, desc, enabled);
                             }
                         }}
-                        ariaLabel="Value"
+                        ariaLabel={getText('EditorGrid.GridRow.valueLabel', props)}
                         className="editor-row-value"
                         previewText={previewValue}
                         />
@@ -151,14 +152,14 @@ export default function GridRow(props: IGridRowProps) {
             <div {...Styles.DESCRIPTION_CELL_STYLE}>
                 <GridTextInput
                     value={desc}
-                    placeholder="Description"
+                    placeholder={getText('EditorGrid.GridRow.descriptionLabel', props)}
                     onChange={e => {
                         const newDesc = (e.target as HTMLInputElement).value;
                         if (newDesc !== props.initialDescriptionValue) {
                             props.onUpdate(props.isNew, props.id, name, value, newDesc, enabled);
                         }
                     }}
-                    ariaLabel="Description"
+                    ariaLabel={getText('EditorGrid.GridRow.descriptionLabel', props)}
                     className="editor-row-description"
                     />
             </div>
@@ -171,10 +172,18 @@ export default function GridRow(props: IGridRowProps) {
                     }}
                     iconProps={{ iconName: 'Delete' }}
                     style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '' }}
-                    aria-label="Delete row"
+                    aria-label={getText('EditorGrid.GridRow.deleteLabel', props)}
                     className="editor-row-delete-btn"
                     />
             </div>
         </div>
+    );
+}
+
+export default function LocalizedGridRow(props: IGridRowProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => (<GridRow {...props} locale={locale} />)}
+        </LocalizationConsumer>
     );
 }

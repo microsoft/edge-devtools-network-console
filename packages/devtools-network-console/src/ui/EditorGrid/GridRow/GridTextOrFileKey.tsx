@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { TextField, ITextFieldProps, Dropdown } from '@fluentui/react';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 interface IProps extends ITextFieldProps {
     canSelectMode: boolean;
@@ -10,7 +11,9 @@ interface IProps extends ITextFieldProps {
     onModeChanged: (mode: 'text' | 'file') => void;
 }
 
-export default function GridTextOrFileKey(props: IProps) {
+function GridTextOrFileKey(props: IProps & ILocalized) {
+    const textTitle = getText('EditorGrid.GridKey.textLabel', props);
+    const fileTitle = getText('EditorGrid.GridKey.fileLabel', props);
     return (
         <TextField
             {...props}
@@ -29,8 +32,8 @@ export default function GridTextOrFileKey(props: IProps) {
 
                 return (
                     <Dropdown options={[
-                            { key: 'text', title: 'Text', text: 'Text' },
-                            { key: 'file', title: 'File', text: 'File' },
+                            { key: 'text', title: textTitle, text: textTitle },
+                            { key: 'file', title: fileTitle, text: fileTitle },
                         ]}
                         styles={{
                             dropdown: {
@@ -54,5 +57,13 @@ export default function GridTextOrFileKey(props: IProps) {
                 )
             }}
             />
+    );
+}
+
+export default function LocalizedGridTextOrFileKey(props: IProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => (<GridTextOrFileKey {...props} locale={locale} />)}
+        </LocalizationConsumer>
     );
 }

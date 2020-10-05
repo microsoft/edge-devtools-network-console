@@ -27,7 +27,7 @@ function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
             }}
             jssStyleSheet={{
                 select: {
-                    width: '205px',
+                    width: '80px',
                     zIndex: '500',
                     position: 'relative',
                 },
@@ -36,8 +36,10 @@ function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
             {KNOWN_HTTP_VERBS.map(verb => {
                 return (
                     <SelectOption
+                        key={verb.name}
                         id={verb.name}
                         value={verb.name}
+                        aria-label={getText(verb.descriptionKey, props)}
                         translate="no"
                     >
                         {verb.name}
