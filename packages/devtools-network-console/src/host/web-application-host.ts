@@ -36,7 +36,7 @@ export default class WebApplicationHost implements INetConsoleHost {
                 /* transparentAuthorization: */ true,
             ));
             globalDispatch(setHostOptionsAction(true));
-            // globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
+            globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
         }, 1000);
         (window as any).__debug_WAH = this;

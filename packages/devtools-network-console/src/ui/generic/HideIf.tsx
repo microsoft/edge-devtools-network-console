@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT License
+
 import React from 'react';
 
 interface IHideIfProps<T> extends React.HTMLProps<HTMLDivElement> {

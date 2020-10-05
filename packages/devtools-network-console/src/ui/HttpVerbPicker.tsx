@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 import { Select, SelectOption } from '@microsoft/fast-components-react-msft';
-import { HttpVerb, i18n } from 'network-console-shared';
+import { HttpVerb } from 'network-console-shared';
 
 import { KNOWN_HTTP_VERBS } from 'data';
-import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 export interface IHttpVerbPickerProps {
     defaultVerb: HttpVerb;
@@ -16,7 +16,7 @@ export interface IHttpVerbPickerProps {
 function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
     return (
         <Select
-            title={i18n.getMessage('HttpVerbPicker.title', '', { language: props.locale })}
+            title={getText('HttpVerbPicker.title', props)}
             onValueChange={(newValue, _selectedItems) => {
                 props.onVerbPicked(newValue as HttpVerb);
             }}

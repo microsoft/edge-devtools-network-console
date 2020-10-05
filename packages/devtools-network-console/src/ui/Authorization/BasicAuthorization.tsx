@@ -3,8 +3,13 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, TextField, Checkbox, MessageBar, MessageBarType } from '@fluentui/react';
+import { Label, TextField, TextFieldType, Toggle } from '@microsoft/fast-components-react-msft';
+
 import { makeSetBasicAuthAction } from 'actions/request/auth';
+import Stack from 'ui/generic/Stack';
+import LocText from 'ui/LocText';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
+import LocalAlert from 'ui/generic/LocalAlert';
 
 export interface IBasicAuthorizationProps {
     requestId: string;
@@ -14,47 +19,89 @@ export interface IBasicAuthorizationProps {
     showPassword: boolean;
 }
 
-export default function BasicAuthorization(props: IBasicAuthorizationProps) {
+function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
     const dispatch = useDispatch();
 
     return (
-        <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
-            <MessageBar
-                messageBarType={MessageBarType.severeWarning}
-                isMultiline={true}
-                messageBarIconProps={{ iconName: 'Warning' }}
-                styles={{ root: { userSelect: 'none' }}}>
-                These parameters may contain sensitive information. Consider specifying these with environment variables here, and specifying
-                that your environment variables aren't checked in to source control.
-            </MessageBar>
-            <MessageBar
-                messageBarType={MessageBarType.info}
-                messageBarIconProps={{iconName: 'Info'}}
-                styles={{root: { userSelect: 'none'}}}>
-                Environment variable substitutions are not shown here for privacy purposes.
-            </MessageBar>
-            <TextField
-                onChange={e => {
-                    const value = (e.target as HTMLInputElement).value;
-                    dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
-                }}
-                label="User name"
-                value={props.username}
-                underlined
-                />
-            <TextField onChange={e => {
-                    const value = (e.target as HTMLInputElement).value;
-                    dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
-                }}
-                label="Password"
-                value={props.password}
-                underlined
-                type={props.showPassword ? 'text' : 'password'}
-                />
-            <Checkbox label="Show password" checked={props.showPassword} onChange={(_e, checked) => {
-                    dispatch(makeSetBasicAuthAction(props.requestId, props.username, props.password, !!checked));
-                }}
-                />
+        <Stack>
+            <LocalAlert
+                type="severeWarning"
+                textKey="Authorization.Shared.dataSensitiveWarning" />
+            <LocalAlert
+                type="info"
+                textKey="Authorization.Shared.noEnvironmentCalcuations" />
+            <Stack horizontal>
+                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                    <Label htmlFor="basicUsername">
+                        <LocText textKey="AuthorizationBasic.userNameLabel" />
+                    </Label>
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <TextField
+                        id="basicUsername"
+                        value={props.username} 
+                        onChange={e => {
+                            const value = e.target.value;
+                            dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
+                        }}
+                        style={{
+                            width: '96%',
+                            margin: '1% 0% 1% 3.5%',
+                            fontFamily: 'Consolas, monospace',
+                        }}
+                        />
+                </div>
+            </Stack>
+            <Stack horizontal>
+                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                    <Label htmlFor="basicPassword">
+                        <LocText textKey="AuthorizationBasic.passwordLabel" />
+                    </Label>
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <TextField
+                        id="basicPassword"
+                        type={TextFieldType.password}
+                        value={props.password} 
+                        onChange={e => {
+                            const value = e.target.value;
+                            dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
+                        }}
+                        style={{
+                            width: '96%',
+                            margin: '1% 0% 1% 3.5%',
+                            fontFamily: 'Consolas, monospace',
+                        }}
+                        />
+                </div>
+            </Stack>
+
+            <Stack horizontal>
+                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <Toggle 
+                        inputId="basicAuthorizationShowPassword"
+                        selectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}
+                        unselectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}
+                        selected={props.showPassword}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const checked = e.target.checked;
+                            dispatch(makeSetBasicAuthAction(props.requestId, props.username, props.password, !!checked));
+                        }}
+                    />
+                </div>
+            </Stack>
+            
         </Stack>
+    );
+}
+
+export default function LocalizedBasicAuthorization(props: IBasicAuthorizationProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => <BasicAuthorization {...props} locale={locale} />}
+        </LocalizationConsumer>
     );
 }

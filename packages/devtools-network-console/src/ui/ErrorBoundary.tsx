@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { MessageBar, MessageBarType, Text, Link } from '@fluentui/react';
+import { Hypertext, Typography, TypographySize } from '@microsoft/fast-components-react-msft';
+
 import { AppHost } from 'store/host';
 import LocText from './LocText';
-import { i18n } from 'network-console-shared';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
+import LocalAlert from './generic/LocalAlert';
 
 interface IProps {
     children: any;
@@ -18,8 +20,8 @@ interface IState {
     isExpanded: boolean;
 }
 
-export default class ErrorBoundary extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
+class ErrorBoundary extends React.Component<IProps & ILocalized, IState> {
+    constructor(props: IProps & ILocalized) {
         super(props);
         this.state = {
             hasError: false,
@@ -50,19 +52,22 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
         if (this.state.hasError) {
             return (
                 <div>
-                    <MessageBar messageBarType={MessageBarType.error} isMultiline>
-                        <Text variant="xLarge"><LocText textKey="ErrorBoundary.title" /></Text>
+                    <LocalAlert
+                        type="error">
+                        <Typography size={TypographySize._2}>
+                            <LocText textKey="ErrorBoundary.title" />
+                        </Typography>
                         <p>{this.state.errorMessage}</p>
                         <p><LocText textKey="ErrorBoundary.reopen" /></p>
-                    </MessageBar>
+                    </LocalAlert>
                     <div style={{padding: '10px', overflow: 'auto'}}>
                         {this.state.isExpanded && (<pre>
                             {this.state.errorStack}
                         </pre>)}
                         {!this.state.isExpanded && (
-                            <Link href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label={i18n.getMessage('ErrorBoundary.showMoreAriaLabel', '')}>
+                            <Hypertext href="#show-more" onClick={this._expand} style={{fontSize: '10px'}} aria-label={getText('ErrorBoundary.showMoreAriaLabel', this.props)}>
                                 <LocText textKey="ErrorBoundary.showMoreLabel" />
-                            </Link>
+                            </Hypertext>
                         )}
                     </div>
                 </div>
@@ -78,4 +83,12 @@ export default class ErrorBoundary extends React.Component<IProps, IState> {
         });
         e.preventDefault();
     };
+}
+
+export default function LocalizedErrorBoundary(props: IProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => <ErrorBoundary locale={locale} {...props} />}
+        </LocalizationConsumer>
+    );
 }

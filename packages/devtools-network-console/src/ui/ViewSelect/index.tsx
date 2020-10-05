@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Set } from 'immutable';
+import { StealthButton } from '@microsoft/fast-components-react-msft';
 
 import RequestView from 'ui/RequestView';
 import { IView } from 'store';
 import { RequestsState } from 'reducers/request';
-import { Stack } from '@fluentui/react';
-import { StealthButton } from '@microsoft/fast-components-react-msft';
+import Stack from 'ui/generic/Stack';
 import { loadDefaultRequest } from 'actions/common';
 import LocText from 'ui/LocText';
 import { AppHost } from 'store/host';
@@ -26,7 +26,7 @@ export function ViewSelect(props: IViewSelectProps) {
     const dispatch = useDispatch();
     if (props.openViews.size === 0 || !props.currentView) {
         return (
-            <Stack>
+            <Stack center>
                 <StealthButton
                     onClick={e => {
                         dispatch(loadDefaultRequest());

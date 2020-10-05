@@ -5,6 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ProgressIndicator } from '@fluentui/react';
 import { DataGrid, DataGridColumn, DataGridCellRenderConfig, Pivot } from '@microsoft/fast-components-react-msft';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
 import { INetConsoleResponseInternal } from 'model/NetConsoleRequest';
@@ -19,7 +20,6 @@ import { AppHost } from 'store/host';
 import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
-import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;

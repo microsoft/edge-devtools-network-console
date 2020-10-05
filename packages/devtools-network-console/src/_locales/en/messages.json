@@ -1,4 +1,67 @@
 {
+    "AddressBar.placeholder": {
+        "message": "Enter the URL to be requested here.",
+        "description": "Placeholder for the URL prompt in the address bar"
+    },
+    "AddressBar.save": {
+        "message": "Save",
+        "description": "Button label to save a request"
+    },
+    "AddressBar.saveTitle": {
+        "message": "Hold the Ctrl key while activating this button to choose into which collection to save this request.",
+        "description": "Save button title instruction to activate the Save-As function"
+    },
+    "AddressBar.send": {
+        "message": "Send",
+        "description": "Button label to send a request"
+    },
+
+    "Authorization.inherit.label": {
+        "message": "This request uses the authorization defined for its parent or its collection.",
+        "description": "Description label for 'Inherit' style authorization choice"
+    },
+    "Authorization.none.label": {
+        "message": "This request does not use authorization.",
+        "description": "Description label for 'None' style authorization choice"
+    },
+
+    "Authorization.Shared.dataSensitiveWarning": {
+        "message": "These parameters may contain sensitive information. Consider specifying these with environment variables here, and specifying that your environment variables aren't checked in to source control.",
+        "description": "Helper text indicating that users' authorization settings should not be checked into source control."
+    },
+    "Authorization.Shared.noEnvironmentCalcuations": {
+        "message": "Environment variable substitutions are not shown here for privacy purposes.",
+        "description": "Helper text indicating that users' Environment variables are not displayed as calculated in Authorization settings."
+    },
+
+    "AuthorizationBasic.userNameLabel": {
+        "message": "User name",
+        "description": "Label for the 'User name' field for Basic authorization"
+    },
+    "AuthorizationBasic.passwordLabel": {
+        "message": "Password",
+        "description": "Label for the 'Password' field for Basic authorization"
+    },
+
+    "AuthorizationBearerToken.TokenField.label": {
+        "message": "Token",
+        "description": "Label for the Bearer token value text field"
+    },
+
+    "BoolCheck.yesLabel": {
+        "message": "yes",
+        "description": "Screen reader label for affirmative field represented by a check mark"
+    },
+    "BoolCheck.noLabel": {
+        "message": "no",
+        "description": "Screen reader label for negative field which would have been represented by a check mark"
+    },
+
+    "CalculatedAddress.label": {
+        "message": "Computed URL: ",
+        "description": "Label that describes a URL after applying environment, route, and query variables"
+    },
+
     "ErrorBoundary.reopen": {
         "message": "You can close and re-open this tool to recover.",
         "description": "Guidance text to recover from an error"

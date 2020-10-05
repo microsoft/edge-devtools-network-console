@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, MessageBar, MessageBarType } from '@fluentui/react';
 import { INetConsoleAuthorization, NetworkConsoleAuthorizationScheme } from 'network-console-shared';
 
 import BasicAuthorization from './BasicAuthorization';
@@ -12,7 +11,10 @@ import { makeSetAuthorizationSchemeAction } from 'actions/request/auth';
 import { IEnvironmentAuthorizationState } from 'store';
 import { Radio } from '@microsoft/fast-components-react-msft';
 import { HideUnless } from 'ui/generic/HideIf';
+import Stack from 'ui/generic/Stack';
 import CommonStyles from '../common-styles';
+import LocText from 'ui/LocText';
+import LocalAlert from 'ui/generic/LocalAlert';
 
 export interface IAuthorizationProps {
     requestId: string;
@@ -67,13 +69,11 @@ export default function Authorization(props: IAuthorizationProps) {
                     />
             </div>
             <HideUnless test={props.authorization.type} match="inherit">
-                <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
-                    <MessageBar
-                        messageBarType={MessageBarType.info}
-                        styles={{ root: { userSelect: 'none' }}}
-                        >
+                <Stack>
+                    <LocalAlert
+                        type="info">
                         <Stack>
-                            <div>This request should use the authorization defined for its parent or its collection.</div>
+                            <div><LocText textKey="Authorization.inherit.label" /></div>
                             {env && env.values && (
                                 <div>The nearest authorization being inherited from its parent specifies that it
                                     should be using <strong>{schemeToName(env.values.type)} </strong>
@@ -81,13 +81,14 @@ export default function Authorization(props: IAuthorizationProps) {
                                     <strong> {env.from.join('/')}</strong>.</div>
                             )}
                         </Stack>
-
-                    </MessageBar>
+                    </LocalAlert>
                 </Stack>
             </HideUnless>
             <HideUnless test={props.authorization.type} match="none">
-                <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
-                    <MessageBar messageBarType={MessageBarType.info} styles={{ root: { userSelect: 'none' }}}>This request does not use authorization.</MessageBar>
+                <Stack>
+                    <LocalAlert
+                        type="info"
+                        textKey="Authorization.none.label" />
                 </Stack>
             </HideUnless>
             <HideUnless test={props.authorization.type} match="token">

@@ -2,23 +2,16 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { i18n } from 'network-console-shared';
-import { LocalizationConsumer } from 'utility/loc-context';
+import { LocalizationConsumer, getText } from 'utility/loc-context';
 
 interface ITextProps {
     textKey: string;
 }
 
-function LocText({ textKey: key }: ITextProps) {
+function LocText({ textKey }: ITextProps) {
     return (
         <LocalizationConsumer>
-            {locale => {
-                let message = i18n.getMessage(key, '', { language: locale });
-                if (!message) {
-                    message = `[LOC FAILED] (${locale}) ${key}`;
-                }
-                return message;
-            }}
+            {locale => getText(textKey, { locale })}
         </LocalizationConsumer>
     );
 }
