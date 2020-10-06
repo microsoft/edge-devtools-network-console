@@ -33,6 +33,8 @@ import { THEME_TYPE } from 'themes/vscode-theme';
 import { ID_DIV_FORM_DATA, ID_DIV_FORM_URLENCODED } from 'reducers/request/id-manager';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import LocText from 'ui/LocText';
+import { getText, LocalizationContext } from 'utility/loc-context';
 
 export interface IOwnProps {
     requestId: string;
@@ -58,33 +60,27 @@ interface IConnectedProps {
 export type IRequestBodyEditorProps = IOwnProps & IConnectedProps;
 const BODY_CONTENT_TYPES = [{
     key: 'text/plain',
-    text: 'Plain text (text/plain)',
-    iconProps: { iconName: 'TextDocument' },
+    text: 'text/plain',
 },
 {
     key: 'application/json',
-    text: 'JSON (application/json)',
-    iconProps: { iconName: 'Script' },
+    text: 'application/json',
 },
 {
     key: 'text/xml',
-    text: 'XML (text/xml)',
-    iconProps: { iconName: 'ChevronLeftMed' },
+    text: 'text/xml',
 },
 {
     key: 'application/xml',
-    text: 'XML (application/xml)',
-    iconProps: { iconName: 'ChevronRightMed' },
+    text: 'application/xml',
 },
 {
     key: 'text/html',
-    text: 'HTML (text/html)',
-    iconProps: { iconName: 'FileHTML' },
+    text: 'text/html',
 },
 {
     key: 'application/javascript',
-    text: 'JavaScript (application/javascript)',
-    iconProps: { iconName: 'JavaScriptLanguage' },
+    text: 'application/javascript',
 }];
 
 const KeyToMap = new Map<string, string>([
@@ -99,6 +95,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
     const dispatch = useDispatch();
     const knownVerb = getKnownVerbDef(props.selectedVerb);
     const shouldIncludeBody = !knownVerb || knownVerb.canIncludeBody;
+    const locale = React.useContext(LocalizationContext);
 
     const style: StyleAttribute = props.bodySelection === 'raw' ? Styles.BODY_CONTAINER_STYLE : {};
 
@@ -138,7 +135,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         value="none"
                         checked={props.bodySelection === 'none'}
                         title="None"
-                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyNone" className={cn}>None</label>}
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyNone" className={cn}><LocText textKey="RequestEditor.BodyType.none" /></label>}
                         onChange={() => dispatch(setBodyTypeAction(props.requestId, 'none'))}
                         />
                     <Radio
@@ -165,18 +162,18 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         value="Raw text"
                         checked={props.bodySelection === 'raw'}
                         title="raw"
-                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}>Raw text</label>}
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}><LocText textKey="RequestEditor.BodyType.rawText" /></label>}
                         onChange={() => dispatch(setBodyTypeAction(props.requestId, 'raw'))}
                         />
 
                     <HideUnless test={props.bodySelection} match="raw">
                         {/* <CommandBar items={[cmdBarItem]} /> */}
                         <Select
-                            placeholder="Content Type"
+                            placeholder={getText('RequestEditor.BodyType.contentTypeSelectLabel', { locale })}
                             className="content-type-select"
                             jssStyleSheet={{
                                 select: {
-                                    width: '205px',
+                                    width: '155px',
                                     zIndex: '500',
                                     position: 'relative',
                                 },

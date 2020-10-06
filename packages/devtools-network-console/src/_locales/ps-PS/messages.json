@@ -15,6 +15,22 @@
         "message": "Ŝén̂d́",
         "description": "Button label to send a request"
     },
+    "Authorization.choice.basic": {
+        "message": "B̂áŝíĉ",
+        "description": "Authorization selection label for Basic authorization"
+    },
+    "Authorization.choice.inherit": {
+        "message": "Îńĥér̂ít̂",
+        "description": "Authorization selection label for inherited authorization"
+    },
+    "Authorization.choice.none": {
+        "message": "N̂ón̂é",
+        "description": "Authorization selection label for no authorization"
+    },
+    "Authorization.choice.token": {
+        "message": "B̂éâŕêŕ t̂ók̂én̂",
+        "description": "Authorization selection label for Bearer Token authorization"
+    },
     "Authorization.inherit.label": {
         "message": "T̂h́îś r̂éq̂úêśt̂ úŝéŝ t́ĥé âút̂h́ôŕîźât́îón̂ d́êf́îńêd́ f̂ór̂ ít̂ś p̂ár̂én̂t́ ôŕ ît́ŝ ćôĺl̂éĉt́îón̂.",
         "description": "Description label for 'Inherit' style authorization choice"
@@ -178,6 +194,46 @@
     "KNOWN_HTTP_VERBS.OPTIONS": {
         "message": "T̂h́ê ÓP̂T́ÎÓN̂Ś m̂ét̂h́ôd́ r̂éq̂úêśt̂ś îńf̂ór̂ḿât́îón̂ áb̂óût́ t̂h́ê ćôḿm̂ún̂íĉát̂íôń ôṕt̂íôńŝ áv̂áîĺâb́l̂é f̂ór̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé, ât́ êít̂h́êŕ t̂h́ê ór̂íĝín̂ śêŕv̂ér̂ ór̂ án̂ ín̂t́êŕv̂én̂ín̂ǵ îńt̂ér̂ḿêd́îár̂ý.",
         "description": "Description of the defined behavior of the HTTP OPTIONS verb"
+    },
+    "RequestEditor.NoBody.message": {
+        "message": "T̂ó îńĉĺûd́ê á r̂éq̂úêśt̂ b́ôd́ŷ, ćĥóôśê ón̂é ôf́ t̂h́ê ót̂h́êŕ m̂ód̂éŝ áb̂óv̂é.",
+        "description": "Informative label directing the user how to choose a different body mode"
+    },
+    "RequestEditor.BodyType.contentTypeSelectLabel": {
+        "message": "Ĉón̂t́êńt̂ T́ŷṕê",
+        "description": "Title for the Content-Type dropdown"
+    },
+    "RequestEditor.BodyType.none": {
+        "message": "N̂ón̂é",
+        "description": "Label for 'none' Body format selection"
+    },
+    "RequestEditor.BodyType.rawText": {
+        "message": "R̂áŵ t́êx́t̂",
+        "description": "Label for 'Raw text' Body format selection"
+    },
+    "RequestEditor.Pivot.auth": {
+        "message": "Âút̂h́",
+        "description": "Label for 'Auth' (authorization) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.body": {
+        "message": "B̂ód̂ý",
+        "description": "Label for 'Body' pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.fetch": {
+        "message": "F̂ét̂ćĥ",
+        "description": "Label for 'Fetch' (request fetch configuration) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.headers": {
+        "message": "Ĥéâd́êŕŝ",
+        "description": "Label for 'Headers' (request headers) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.query": {
+        "message": "Q̂úêŕŷ",
+        "description": "Label for 'Query' (query string) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.route": {
+        "message": "R̂óût́ê",
+        "description": "Label for 'Route' (route parameters) pivot header of the request editor"
     },
     "RequestEditor.untitledRequestPlaceholder": {
         "message": "Ûńt̂ít̂ĺêd́ R̂éq̂úêśt̂",

@@ -27,6 +27,7 @@ import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { getText, LocalizationContext } from 'utility/loc-context';
+import LocText from 'ui/LocText';
 
 interface IOwnProps {
     requestId: string;
@@ -56,29 +57,29 @@ export type IRequestEditorProps = IOwnProps & IConnectedProps;
 
 type ActivityState = 'query' | 'cookies' | 'auth' | 'body' | 'route' | 'fetch';
 const PIVOT_DEFAULT_ITEMS = [{
-    tab: (cn: string) => <div className={cn}>Query</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.query" /></div>,
     content: () => <></>,
     id: 'query',
 }, {
-    tab: (cn: string) => <div className={cn}>Headers</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.headers" /></div>,
     content: () => <></>,
     id: 'headers',
 }, {
-    tab: (cn: string) => <div className={cn}>Auth</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.auth" /></div>,
     content: () => <></>,
     id: 'auth',
 }, {
-    tab: (cn: string) => <div className={cn}>Body</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.body" /></div>,
     content: () => <></>,
     id: 'body',
 }];
 const PIVOT_ROUTE_ITEM = {
-    tab: (cn: string) => <div className={cn}>Route</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.route" /></div>,
     content: () => <></>,
     id: 'route',
 };
 const PIVOT_CORS_ITEM = {
-    tab: (cn: string) => <div className={cn}>Fetch</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.fetch" /></div>,
     content: () => <></>,
     id: 'fetch',
 };

@@ -15,6 +15,7 @@ import Stack from 'ui/generic/Stack';
 import CommonStyles from '../common-styles';
 import LocText from 'ui/LocText';
 import LocalAlert from 'ui/generic/LocalAlert';
+import { getText, LocalizationContext } from 'utility/loc-context';
 
 export interface IAuthorizationProps {
     requestId: string;
@@ -27,6 +28,7 @@ export default function Authorization(props: IAuthorizationProps) {
     const basic = props.authorization.basic;
     const env = props.environmentAuth;
     const dispatch = useDispatch();
+    const locale = React.useContext(LocalizationContext);
 
     return (
         <>
@@ -36,8 +38,8 @@ export default function Authorization(props: IAuthorizationProps) {
                     name="authType"
                     value="inherit"
                     checked={props.authorization.type === 'inherit'}
-                    title="Inherit"
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authInherit" className={cn}>Inherit</label>}
+                    title={getText('Authorization.choice.inherit', { locale })}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authInherit" className={cn}><LocText textKey="Authorization.choice.inherit" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'inherit'))}
                     />
                 <Radio
@@ -45,8 +47,8 @@ export default function Authorization(props: IAuthorizationProps) {
                     name="authType"
                     value="none"
                     checked={props.authorization.type === 'none'}
-                    title="None"
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authNone" className={cn}>None</label>}
+                    title={getText('Authorization.choice.none', { locale })}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authNone" className={cn}><LocText textKey="Authorization.choice.none" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'none'))}
                     />
                 <Radio
@@ -54,8 +56,8 @@ export default function Authorization(props: IAuthorizationProps) {
                     name="authType"
                     value="token"
                     checked={props.authorization.type === 'token'}
-                    title="Bearer token"
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authToken" className={cn}>Bearer token</label>}
+                    title={getText('Authorization.choice.token', { locale })}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authToken" className={cn}><LocText textKey="Authorization.choice.token" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'token'))}
                     />
                 <Radio
@@ -63,12 +65,13 @@ export default function Authorization(props: IAuthorizationProps) {
                     name="authType"
                     value="basic"
                     checked={props.authorization.type === 'basic'}
-                    title="Basic"
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authBasic" className={cn}>Basic</label>}
+                    title={getText('Authorization.choice.basic', { locale })}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authBasic" className={cn}><LocText textKey="Authorization.choice.basic" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}
                     />
             </div>
-            <HideUnless test={props.authorization.type} match="inherit">
+            {/* TODO: Re-implement this in a way that is localizable */}
+            {/* <HideUnless test={props.authorization.type} match="inherit">
                 <Stack>
                     <LocalAlert
                         type="info">
@@ -83,7 +86,7 @@ export default function Authorization(props: IAuthorizationProps) {
                         </Stack>
                     </LocalAlert>
                 </Stack>
-            </HideUnless>
+            </HideUnless> */}
             <HideUnless test={props.authorization.type} match="none">
                 <Stack>
                     <LocalAlert

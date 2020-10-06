@@ -4,14 +4,15 @@
 import * as React from 'react';
 
 import * as Styles from './styles';
-import { MessageBar } from '@fluentui/react';
+import LocalAlert from 'ui/generic/LocalAlert'
+import LocText from 'ui/LocText';
 
 export default function NoBody() {
     return (
         <div {...Styles.NO_BODY_TEXT}>
-            <MessageBar>
-                To include a request body, choose one of the other modes above.
-            </MessageBar>
+            <LocalAlert type="info">
+                <LocText textKey="RequestEditor.NoBody.message" />
+            </LocalAlert>
         </div>
     );
 }

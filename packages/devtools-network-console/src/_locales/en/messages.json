@@ -16,6 +16,22 @@
         "description": "Button label to send a request"
     },
 
+    "Authorization.choice.basic": {
+        "message": "Basic",
+        "description": "Authorization selection label for Basic authorization"
+    },
+    "Authorization.choice.inherit": {
+        "message": "Inherit",
+        "description": "Authorization selection label for inherited authorization"
+    },
+    "Authorization.choice.none": {
+        "message": "None",
+        "description": "Authorization selection label for no authorization"
+    },
+    "Authorization.choice.token": {
+        "message": "Bearer token",
+        "description": "Authorization selection label for Bearer Token authorization"
+    },
     "Authorization.inherit.label": {
         "message": "This request uses the authorization defined for its parent or its collection.",
         "description": "Description label for 'Inherit' style authorization choice"
@@ -192,6 +208,46 @@
         "description": "Description of the defined behavior of the HTTP OPTIONS verb"
     },
 
+    "RequestEditor.NoBody.message": {
+        "message": "To include a request body, choose one of the other modes above.",
+        "description": "Informative label directing the user how to choose a different body mode"
+    },
+    "RequestEditor.BodyType.contentTypeSelectLabel": {
+        "message": "Content Type",
+        "description": "Title for the Content-Type dropdown"
+    },
+    "RequestEditor.BodyType.none": {
+        "message": "None",
+        "description": "Label for 'none' Body format selection"
+    },
+    "RequestEditor.BodyType.rawText": {
+        "message": "Raw text",
+        "description": "Label for 'Raw text' Body format selection"
+    },
+    "RequestEditor.Pivot.auth": {
+        "message": "Auth",
+        "description": "Label for 'Auth' (authorization) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.body": {
+        "message": "Body",
+        "description": "Label for 'Body' pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.fetch": {
+        "message": "Fetch",
+        "description": "Label for 'Fetch' (request fetch configuration) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.headers": {
+        "message": "Headers",
+        "description": "Label for 'Headers' (request headers) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.query": {
+        "message": "Query",
+        "description": "Label for 'Query' (query string) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.route": {
+        "message": "Route",
+        "description": "Label for 'Route' (route parameters) pivot header of the request editor"
+    },
     "RequestEditor.untitledRequestPlaceholder": {
         "message": "Untitled Request",
         "description": "Title of a request that hasn't had a title assigned yet"
