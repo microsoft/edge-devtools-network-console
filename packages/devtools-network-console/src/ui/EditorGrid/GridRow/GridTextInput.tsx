@@ -2,32 +2,33 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { TextField, ITextFieldProps } from '@fluentui/react';
+import { TextField, TextFieldProps } from '@microsoft/fast-components-react-msft';
 
 import * as Styles from '../styles';
+import { getText, LocalizationConsumer } from 'utility/loc-context';
 
-export interface IGridTextInputProps extends ITextFieldProps {
+export interface IGridTextInputProps extends TextFieldProps {
     previewText?: string;
 }
 
 export default function GridTextInput(props: IGridTextInputProps) {
-    const multiline = !!(props.value && props.value.length > 40);
     return (
-        <div>
-            <TextField
-                {...props}
-                styles={{
-                    fieldGroup: {
-                        borderColor: 'transparent',
-                    },
-                }}
-                autoAdjustHeight={true}
-                multiline={multiline}
-                underlined={multiline && !!props.previewText}
-                />
-            {props.previewText && <div aria-label="Preview of the rendered value based on your current environment" {...Styles.PREVIEW_TEXT_STYLE}>
-                {props.previewText}
-            </div>}
-        </div>
+        <LocalizationConsumer>
+            {locale => (
+                <div>
+                    <TextField
+                        {...props}
+                        style={{
+                            width: '100%',
+                            borderColor: 'transparent',
+                            height: '33px',
+                        }}
+                        />
+                    {props.previewText && <div aria-label={getText('EditorGrid.GridTextInput.previewLabel', { locale })} {...Styles.PREVIEW_TEXT_STYLE}>
+                        {props.previewText}
+                    </div>}
+                </div>
+            )}
+        </LocalizationConsumer>
     );
 }

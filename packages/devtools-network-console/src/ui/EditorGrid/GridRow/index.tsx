@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { IconButton } from '@fluentui/react';
+import { Checkbox } from '@microsoft/fast-components-react-msft';
 import { Base64String, INetConsoleParameter } from 'network-console-shared';
 
 import GridTextInput from './GridTextInput';
@@ -65,16 +66,18 @@ function GridRow(props: IGridRowProps & ILocalized) {
     return (
         <div {...Styles.GRID_ROW_STYLE}>
             <div {...Styles.ENABLED_CELL_STYLE}>
-                <input
-                    type="checkbox"
+                <Checkbox
                     checked={props.initialEnabledValue}
-                    onChange={e => {
-                        const isEnabled = e.currentTarget.checked;
-                        props.onUpdate(props.isNew, props.id, name, value, desc, isEnabled);
+                    inputId={`${props.id}__checkbox_enabled`}
+                    onChange={(e?: any) => {
+                        if (e) {
+                            const isEnabled = e.currentTarget.checked;
+                            props.onUpdate(props.isNew, props.id, name, value, desc, isEnabled);
+                        }
                     }}
                     aria-label={getText('EditorGrid.GridRow.enabledLabel', props)}
                     aria-hidden={props.isNew}
-                    style={{ display: props.isNew ? 'none' : '' }}
+                    style={{ display: props.isNew ? 'none' : '', paddingLeft: '3px' }}
                     className="editor-row-enabled-check"
                     {...Styles.ENABLED_CHECK_STYLE}
                     />
@@ -116,7 +119,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                                 props.onUpdate(props.isNew, props.id, newName, value, desc, enabled);
                             }
                         }}
-                        ariaLabel={getText('EditorGrid.GridRow.keyLabel', props)}
+                        aria-label={getText('EditorGrid.GridRow.keyLabel', props)}
                         className="editor-row-key"
                         />
                 }
@@ -142,7 +145,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                                 props.onUpdate(props.isNew, props.id, name, newValue, desc, enabled);
                             }
                         }}
-                        ariaLabel={getText('EditorGrid.GridRow.valueLabel', props)}
+                        aria-label={getText('EditorGrid.GridRow.valueLabel', props)}
                         className="editor-row-value"
                         previewText={previewValue}
                         />
@@ -159,7 +162,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                             props.onUpdate(props.isNew, props.id, name, value, newDesc, enabled);
                         }
                     }}
-                    ariaLabel={getText('EditorGrid.GridRow.descriptionLabel', props)}
+                    aria-label={getText('EditorGrid.GridRow.descriptionLabel', props)}
                     className="editor-row-description"
                     />
             </div>
