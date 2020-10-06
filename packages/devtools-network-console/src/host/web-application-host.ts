@@ -25,6 +25,7 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { initializeLocaleDictionary } from 'actions/locale-action';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
@@ -38,6 +39,7 @@ export default class WebApplicationHost implements INetConsoleHost {
             globalDispatch(setHostOptionsAction(true));
             globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
+            loadPseudoloc();
         }, 1000);
         (window as any).__debug_WAH = this;
     }
@@ -104,6 +106,11 @@ export default class WebApplicationHost implements INetConsoleHost {
             ...message,
         });
     }
+}
+
+async function loadPseudoloc() {
+    const messages = await fetch('./_locales/ps-PS/messages.json');
+    globalDispatch(initializeLocaleDictionary(await messages.json(), 'ps'));
 }
 
 function constructHeaders(request: IHttpRequest): Headers {

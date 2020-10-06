@@ -1,0 +1,282 @@
+{
+    "AddressBar.placeholder": {
+        "message": "Êńt̂ér̂ t́ĥé ÛŔL̂ t́ô b́ê ŕêq́ûéŝt́êd́ ĥér̂é.",
+        "description": "Placeholder for the URL prompt in the address bar"
+    },
+    "AddressBar.save": {
+        "message": "Ŝáv̂é",
+        "description": "Button label to save a request"
+    },
+    "AddressBar.saveTitle": {
+        "message": "Ĥól̂d́ t̂h́ê Ćt̂ŕl̂ ḱêý ŵh́îĺê áĉt́îv́ât́îńĝ t́ĥíŝ b́ût́t̂ón̂ t́ô ćĥóôśê ín̂t́ô ẃĥíĉh́ ĉól̂ĺêćt̂íôń t̂ó ŝáv̂é t̂h́îś r̂éq̂úêśt̂.",
+        "description": "Save button title instruction to activate the Save-As function"
+    },
+    "AddressBar.send": {
+        "message": "Ŝén̂d́",
+        "description": "Button label to send a request"
+    },
+    "Authorization.inherit.label": {
+        "message": "T̂h́îś r̂éq̂úêśt̂ úŝéŝ t́ĥé âút̂h́ôŕîźât́îón̂ d́êf́îńêd́ f̂ór̂ ít̂ś p̂ár̂én̂t́ ôŕ ît́ŝ ćôĺl̂éĉt́îón̂.",
+        "description": "Description label for 'Inherit' style authorization choice"
+    },
+    "Authorization.none.label": {
+        "message": "T̂h́îś r̂éq̂úêśt̂ d́ôéŝ ńôt́ ûśê áût́ĥór̂íẑát̂íôń.",
+        "description": "Description label for 'None' style authorization choice"
+    },
+    "Authorization.Shared.dataSensitiveWarning": {
+        "message": "T̂h́êśê ṕâŕâḿêt́êŕŝ ḿâý ĉón̂t́âín̂ śêńŝít̂ív̂é îńf̂ór̂ḿât́îón̂. Ćôńŝíd̂ér̂ śp̂éĉíf̂ýîńĝ t́ĥéŝé ŵít̂h́ êńv̂ír̂ón̂ḿêńt̂ v́âŕîáb̂ĺêś ĥér̂é, âńd̂ śp̂éĉíf̂ýîńĝ t́ĥát̂ ýôúr̂ én̂v́îŕôńm̂én̂t́ v̂ár̂íâb́l̂éŝ ár̂én̂'t́ ĉh́êćk̂éd̂ ín̂ t́ô śôúr̂ćê ćôńt̂ŕôĺ.",
+        "description": "Helper text indicating that users' authorization settings should not be checked into source control."
+    },
+    "Authorization.Shared.noEnvironmentCalcuations": {
+        "message": "Êńv̂ír̂ón̂ḿêńt̂ v́âŕîáb̂ĺê śûb́ŝt́ît́ût́îón̂ś âŕê ńôt́ ŝh́ôẃn̂ h́êŕê f́ôŕ p̂ŕîv́âćŷ ṕûŕp̂óŝéŝ.",
+        "description": "Helper text indicating that users' Environment variables are not displayed as calculated in Authorization settings."
+    },
+    "AuthorizationBasic.userNameLabel": {
+        "message": "Ûśêŕ n̂ám̂é",
+        "description": "Label for the 'User name' field for Basic authorization"
+    },
+    "AuthorizationBasic.passwordLabel": {
+        "message": "P̂áŝśŵór̂d́",
+        "description": "Label for the 'Password' field for Basic authorization"
+    },
+    "AuthorizationBasic.showPasswordLabel": {
+        "message": "Ŝh́ôẃ p̂áŝśŵór̂d́",
+        "description": "Label for the 'Show Password' toggle field for Basic authorization"
+    },
+    "AuthorizationBearerToken.TokenField.label": {
+        "message": "T̂ók̂én̂",
+        "description": "Label for the Bearer token value text field"
+    },
+    "BoolCheck.yesLabel": {
+        "message": "ŷéŝ",
+        "description": "Screen reader label for affirmative field represented by a check mark"
+    },
+    "BoolCheck.noLabel": {
+        "message": "n̂ó",
+        "description": "Screen reader label for negative field which would have been represented by a check mark"
+    },
+    "CalculatedAddress.label": {
+        "message": "Ĉóm̂ṕût́êd́ ÛŔL̂: ",
+        "description": "Label that describes a URL after applying environment, route, and query variables"
+    },
+    "CookiesTable.Header.Domain": {
+        "message": "D̂óm̂áîń",
+        "description": "Header for cookies table 'Domain' column"
+    },
+    "CookiesTable.Header.Expires": {
+        "message": "Êx́p̂ír̂éŝ",
+        "description": "Header for cookies table 'Expires' column"
+    },
+    "CookiesTable.Header.Name": {
+        "message": "N̂ám̂é",
+        "description": "Header for cookies table 'Name' column"
+    },
+    "CookiesTable.Header.Path": {
+        "message": "P̂át̂h́",
+        "description": "Header for cookies table 'Path' column"
+    },
+    "CookiesTable.Header.Secure": {
+        "message": "Ŝéĉúr̂é",
+        "description": "Header for cookies table 'Secure' column"
+    },
+    "CookiesTable.Header.Value": {
+        "message": "V̂ál̂úê",
+        "description": "Header for cookies table 'Value' column"
+    },
+    "EditorGrid.GridFileInput.chooseFileLabel": {
+        "message": "Ĉh́ôóŝé f̂íl̂é...",
+        "description": "Button text to choose a file"
+    },
+    "EditorGrid.GridFileInput.replaceFileLabel": {
+        "message": "R̂ép̂ĺâćê...",
+        "description": "Button text to replace a file"
+    },
+    "EditorGrid.GridKey.fileLabel": {
+        "message": "F̂íl̂é",
+        "description": "Dropdown option label to choose a File option"
+    },
+    "EditorGrid.GridKey.textLabel": {
+        "message": "T̂éx̂t́",
+        "description": "Dropdown option label to choose a Text option"
+    },
+    "EditorGrid.GridRow.deleteLabel": {
+        "message": "D̂él̂ét̂é r̂óŵ",
+        "description": "Button label to delete a row in an editor grid"
+    },
+    "EditorGrid.GridRow.descriptionLabel": {
+        "message": "D̂éŝćr̂íp̂t́îón̂",
+        "description": "Text field label for the Description field in the editor grid"
+    },
+    "EditorGrid.GridRow.enabledLabel": {
+        "message": "Êńâb́l̂éd̂",
+        "description": "Checkbox label for the Enabled field in the editor grid"
+    },
+    "EditorGrid.GridRow.keyLabel": {
+        "message": "K̂éŷ",
+        "description": "Text field label for the Key field in the editor grid"
+    },
+    "EditorGrid.GridRow.valueLabel": {
+        "message": "V̂ál̂úê",
+        "description": "Text field label for the Value field in the editor grid"
+    },
+    "EditorGrid.GridTextInput.previewLabel": {
+        "message": "P̂ŕêv́îéŵ óf̂ t́ĥé r̂én̂d́êŕêd́ v̂ál̂úê b́âśêd́ ôń ŷóûŕ ĉúr̂ŕêńt̂ én̂v́îŕôńm̂én̂t́",
+        "description": "Screen reader label for a computed value of a grid input that has environment variable substitutions"
+    },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.file": {
+        "message": "F̂íl̂é",
+        "description": ""
+    },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.text": {
+        "message": "T̂éx̂t́",
+        "description": ""
+    },
+    "ErrorBoundary.reopen": {
+        "message": "Ŷóû ćâń ĉĺôśê án̂d́ r̂é-ôṕêń t̂h́îś t̂óôĺ t̂ó r̂éĉóv̂ér̂.",
+        "description": "Guidance text to recover from an error"
+    },
+    "ErrorBoundary.title": {
+        "message": "Ŝóm̂ét̂h́îńĝ ẃêńt̂ ẃr̂ón̂ǵ.",
+        "description": "Title text when an unhandled error occurs"
+    },
+    "ErrorBoundary.showMoreLabel": {
+        "message": "Êŕr̂ór̂ d́êt́âíl̂ś",
+        "description": "Label for link that displays the call stack"
+    },
+    "ErrorBoundary.showMoreAriaLabel": {
+        "message": "Êx́p̂án̂d́ t̂h́ê ćâĺl̂ śt̂áĉḱ t̂ó ŝéê ér̂ŕôŕ d̂ét̂áîĺŝ",
+        "description": "Accessible label for link that displays the call stack"
+    },
+    "HttpVerbPicker.title": {
+        "message": "Ĉh́ôóŝé âń ĤT́T̂Ṕ M̂ét̂h́ôd́ ôŕ V̂ér̂b́",
+        "description": "Title of dropdown for selecting an HTTP verb"
+    },
+    "KNOWN_HTTP_VERBS.GET": {
+        "message": "R̂éq̂úêśt̂ś t̂ŕâńŝf́êŕ ôf́ â ćûŕr̂én̂t́l̂ý ŝél̂éĉt́êd́ r̂ép̂ŕêśêńt̂át̂íôń f̂ór̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé. ĜÉT̂ íŝ t́ĥé p̂ŕîḿâŕŷ ḿêćĥán̂íŝḿ ôf́ îńf̂ór̂ḿât́îón̂ ŕêt́r̂íêv́âĺ âńd̂ t́ĥé f̂óĉúŝ óf̂ ál̂ḿôśt̂ ál̂ĺ p̂ér̂f́ôŕm̂án̂ćê óp̂t́îḿîźât́îón̂ś.",
+        "description": "Description of the defined behavior of the HTTP GET verb"
+    },
+    "KNOWN_HTTP_VERBS.HEAD": {
+        "message": "T̂h́ê H́ÊÁD̂ ḿêt́ĥód̂ íŝ íd̂én̂t́îćâĺ t̂ó ĜÉT̂ éx̂ćêṕt̂ t́ĥát̂ t́ĥé ŝér̂v́êŕ M̂ÚŜT́ N̂ÓT̂ śêńd̂ á m̂éŝśâǵê b́ôd́ŷ ín̂ t́ĥé r̂éŝṕôńŝé, î.é., t̂h́ê ŕêśp̂ón̂śê t́êŕm̂ín̂át̂éŝ át̂ t́ĥé êńd̂ óf̂ t́ĥé ĥéâd́êŕ ŝéĉt́îón̂.",
+        "description": "Description of the defined behavior of the HTTP HEAD verb"
+    },
+    "KNOWN_HTTP_VERBS.POST": {
+        "message": "T̂h́ê ṔÔŚT̂ ḿêt́ĥód̂ ŕêq́ûéŝt́ŝ t́ĥát̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé p̂ŕôćêśŝ t́ĥé r̂ép̂ŕêśêńt̂át̂íôń êńĉĺôśêd́ îń t̂h́ê ŕêq́ûéŝt́ âćĉór̂d́îńĝ t́ô t́ĥé r̂éŝóûŕĉé'ŝ óŵń ŝṕêćîf́îć ŝém̂án̂t́îćŝ.",
+        "description": "Description of the defined behavior of the HTTP POST verb"
+    },
+    "KNOWN_HTTP_VERBS.PUT": {
+        "message": "T̂h́ê ṔÛT́ m̂ét̂h́ôd́ r̂éq̂úêśt̂ś t̂h́ât́ t̂h́ê śt̂át̂é ôf́ t̂h́ê t́âŕĝét̂ ŕêśôúr̂ćê b́ê ćr̂éât́êd́ ôŕ r̂ép̂ĺâćêd́ ŵít̂h́ t̂h́ê śt̂át̂é d̂éf̂ín̂éd̂ b́ŷ t́ĥé r̂ép̂ŕêśêńt̂át̂íôń êńĉĺôśêd́ îń t̂h́ê ḿêśŝáĝé p̂áŷĺôád̂.",
+        "description": "Description of the defined behavior of the HTTP PUT verb"
+    },
+    "KNOWN_HTTP_VERBS.PATCH": {
+        "message": "T̂h́ê ṔÂT́ĈH́ m̂ét̂h́ôd́ r̂éq̂úêśt̂ś t̂h́ât́ â śêt́ ôf́ ĉh́âńĝéŝ d́êśĉŕîb́êd́ îń t̂h́ê ŕêq́ûéŝt́ êńt̂ít̂ý b̂é âṕp̂ĺîéd̂ t́ô t́ĥé r̂éŝóûŕĉé îd́êńt̂íf̂íêd́ b̂ý t̂h́ê Ŕêq́ûéŝt́-ÛŔÎ.",
+        "description": "Description of the defined behavior of the HTTP PATCH verb"
+    },
+    "KNOWN_HTTP_VERBS.DELETE": {
+        "message": "T̂h́ê D́ÊĹÊT́Ê ḿêt́ĥód̂ ŕêq́ûéŝt́ŝ t́ĥát̂ t́ĥé ôŕîǵîń ŝér̂v́êŕ r̂ém̂óv̂é t̂h́ê áŝśôćîát̂íôń b̂ét̂ẃêén̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé âńd̂ ít̂ś ĉúr̂ŕêńt̂ f́ûńĉt́îón̂ál̂ít̂ý.",
+        "description": "Description of the defined behavior of the HTTP DELETE verb"
+    },
+    "KNOWN_HTTP_VERBS.OPTIONS": {
+        "message": "T̂h́ê ÓP̂T́ÎÓN̂Ś m̂ét̂h́ôd́ r̂éq̂úêśt̂ś îńf̂ór̂ḿât́îón̂ áb̂óût́ t̂h́ê ćôḿm̂ún̂íĉát̂íôń ôṕt̂íôńŝ áv̂áîĺâb́l̂é f̂ór̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé, ât́ êít̂h́êŕ t̂h́ê ór̂íĝín̂ śêŕv̂ér̂ ór̂ án̂ ín̂t́êŕv̂én̂ín̂ǵ îńt̂ér̂ḿêd́îár̂ý.",
+        "description": "Description of the defined behavior of the HTTP OPTIONS verb"
+    },
+    "RequestEditor.untitledRequestPlaceholder": {
+        "message": "Ûńt̂ít̂ĺêd́ R̂éq̂úêśt̂",
+        "description": "Title of a request that hasn't had a title assigned yet"
+    },
+    "Response.Pivot.bodyLabel": {
+        "message": "B̂ód̂ý",
+        "description": "Pivot title label for 'Body' view"
+    },
+    "Response.Pivot.cookiesLabel": {
+        "message": "Ĉóôḱîéŝ",
+        "description": "Pivot title label for 'Cookies' view"
+    },
+    "Response.Pivot.headersLabel": {
+        "message": "Ĥéâd́êŕŝ",
+        "description": "Pivot title label for 'Headers' view"
+    },
+    "Response.Pivot.previewLabel": {
+        "message": "P̂ŕêv́îéŵ",
+        "description": "Pivot title label for 'Preview' view"
+    },
+    "Response.pivotAriaLabel": {
+        "message": "Ĉh́ôóŝé v̂íêẃŝ óf̂ t́ĥé r̂éŝṕôńŝé d̂át̂á",
+        "description": "aria-label of the Pivot for the main response viewer root element"
+    },
+    "Response.requestNotIssuedLabel": {
+        "message": "Ĥít̂ \"Śêńd̂\" t́ô íŝśûé t̂h́ê ŕêq́ûéŝt́.",
+        "description": "Text label prompting the user to issue the request."
+    },
+    "Response.requestPendingLabel": {
+        "message": "P̂ĺêáŝé ŵáît́ f̂ór̂ t́ĥé r̂éq̂úêśt̂ t́ô ćôḿp̂ĺêt́ê...",
+        "description": "Text label informing the user that a request is in flight."
+    },
+    "Response.requestFailedTitleLabel": {
+        "message": "Êŕr̂ór̂ íŝśûín̂ǵ t̂h́îś r̂éq̂úêśt̂.",
+        "description": "Title label indicating that a request failed."
+    },
+    "Response.requestFailedDescriptionLabel": {
+        "message": "Âń êŕr̂ór̂ óĉćûŕr̂éd̂ b́êńêát̂h́ ĤT́T̂Ṕ, ŝúĉh́ âś â D́N̂Ś êŕr̂ór̂, á p̂h́ŷśîćâĺ n̂ét̂ẃôŕk̂ ér̂ŕôŕ, ôŕ ŝóm̂ét̂h́îńĝ śîḿîĺâŕ.",
+        "description": "Text label outlining additional details about a failed request."
+    },
+    "ResponseHeaders.Header.Name": {
+        "message": "N̂ám̂é",
+        "description": "Header for response headers 'Name' column"
+    },
+    "ResponseHeaders.Header.Value": {
+        "message": "V̂ál̂úê",
+        "description": "Header for response headers 'Value' column"
+    },
+    "ResponsePreview.htmlPreview": {
+        "message": "Ŝán̂d́b̂óx̂éd̂ ṕr̂év̂íêẃ ôf́ t̂h́ê d́ôćûḿêńt̂ ẃĥíĉh́ ŵáŝ ŕêćêív̂éd̂",
+        "description": "Title attribute applied to the HTML preview"
+    },
+    "ResponsePreview.htmlPreviewTitle": {
+        "message": "ĤT́M̂Ĺ P̂ŕêv́îéŵ",
+        "description": "Title of the HTML preview pivot"
+    },
+    "ResponsePreview.imageAlt": {
+        "message": "P̂ŕêv́îéŵ óf̂ t́ĥé îḿâǵê t́ĥát̂ ẃâś r̂éĉéîv́êd́",
+        "description": "Alt attribute applied to the image preview"
+    },
+    "ResponsePreview.imagePreviewTitle": {
+        "message": "Îḿâǵê Ṕr̂év̂íêẃ",
+        "description": "Title of the Image preview pivot"
+    },
+    "ResponsePreview.jsonPreviewTitle": {
+        "message": "ĴŚÔŃ P̂ŕêv́îéŵ",
+        "description": "Title of the JSON preview pivot"
+    },
+    "ResponseStats.download": {
+        "message": "D̂óŵńl̂óâd́",
+        "description": "Text label for the Response download button"
+    },
+    "ResponseStats.downloadUnavailable": {
+        "message": "D̂óŵńl̂óâd́ ûńâv́âíl̂áb̂ĺê",
+        "description": "Text label for when a response cannot be downloaded"
+    },
+    "ResponseStats.size": {
+        "message": "Ŝíẑé",
+        "description": "Label of the size of the response"
+    },
+    "ResponseStats.status": {
+        "message": "Ŝt́ât́ûś",
+        "description": "Label of the status code and text"
+    },
+    "ResponseStats.time": {
+        "message": "T̂ím̂é",
+        "description": "Label of the round-trip time"
+    },
+    "ViewSelect.create": {
+        "message": "Ĉŕêát̂é â ŕêq́ûéŝt́",
+        "description": "Action title to create a new default request"
+    },
+    "ViewSelect.import": {
+        "message": "Îḿp̂ór̂t́ â ćôĺl̂éĉt́îón̂",
+        "description": "Action title to import a collection"
+    },
+    "ViewSelect.learnMore": {
+        "message": "L̂éâŕn̂ ḿôŕê áb̂óût́ N̂ét̂ẃôŕk̂ Ćôńŝól̂é",
+        "description": "Link text to learn more about Network Console"
+    }
+}

@@ -192,6 +192,11 @@
         "description": "Description of the defined behavior of the HTTP OPTIONS verb"
     },
 
+    "RequestEditor.untitledRequestPlaceholder": {
+        "message": "Untitled Request",
+        "description": "Title of a request that hasn't had a title assigned yet"
+    },
+
     "Response.Pivot.bodyLabel": {
         "message": "Body",
         "description": "Pivot title label for 'Body' view"

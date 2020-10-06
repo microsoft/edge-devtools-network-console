@@ -22,6 +22,7 @@ import reduceModals from 'reducers/modals';
 import reduceEnvironment from 'reducers/environment';
 import reduceCollections from 'reducers/collections';
 import reduceSaveAsRequests from 'reducers/saveAsRequests';
+import reduceLocale from 'reducers/locale';
 import { ICollection } from 'model/collections';
 import { THEME_TYPE } from 'themes/vscode-theme';
 
@@ -110,7 +111,8 @@ export interface IView {
 
     theme: IThemeInfo;
     hostCapabilities: IHostCapabilities;
-    saveAsRequests: ISet<string>,
+    saveAsRequests: ISet<string>;
+    locale: string;
 }
 
 export interface ICollectionArea {
@@ -130,6 +132,7 @@ const reducers = combineReducers({
     theme: reduceTheme,
     hostCapabilities: reduceHostCaps,
     saveAsRequests: reduceSaveAsRequests,
+    locale: reduceLocale,
 });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));

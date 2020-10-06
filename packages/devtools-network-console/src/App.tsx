@@ -22,11 +22,18 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <Provider store={store}>
-                <LocalizationProvider value="en">
-                    <StyledApp />
-                </LocalizationProvider>
+                <LocalizedApp />
             </Provider>
         </div>
+    );
+}
+
+function LocalizedApp() {
+    const locale = useSelector<IView, string>(v => v.locale);
+    return (
+        <LocalizationProvider value={locale}>
+            <StyledApp />
+        </LocalizationProvider>
     );
 }
 

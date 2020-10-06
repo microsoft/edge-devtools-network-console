@@ -26,6 +26,7 @@ import { ID_DIV_QUERY, ID_DIV_HEADER, ID_DIV_ROUTE } from 'reducers/request/id-m
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import { getText, LocalizationContext } from 'utility/loc-context';
 
 interface IOwnProps {
     requestId: string;
@@ -84,6 +85,7 @@ const PIVOT_CORS_ITEM = {
 
 export default function RequestEditor(props: IRequestEditorProps) {
     const dispatch = useDispatch();
+    const locale = React.useContext(LocalizationContext);
     const [currentTab, setCurrentTab] = React.useState<ActivityState>(props.request.routeParameters.count() > 0 ? 'route' : 'query');
 
     let bodyPivotStyle: StyleAttribute;
@@ -123,7 +125,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         }}
                         className="request-title-editor"
                         value={props.request.name}
-                        placeholder={`${props.request.verb} ${props.request.url}`}
+                        placeholder={getText('RequestEditor.untitledRequestPlaceholder', { locale })}
                         autoFocus={true}
                         ariaLabel="Specify a name for this request"
                         />

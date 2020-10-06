@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Anything under the symlink in public
+public/_locales/**
+
 # dependencies
 /.pnp
 .pnp.js

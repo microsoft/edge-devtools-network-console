@@ -27,7 +27,7 @@ function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
             }}
             jssStyleSheet={{
                 select: {
-                    width: '80px',
+                    width: '92px',
                     zIndex: '500',
                     position: 'relative',
                 },

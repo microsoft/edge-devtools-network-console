@@ -32,6 +32,7 @@ import { AppHost } from 'store/host';
 import { THEME_TYPE } from 'themes/vscode-theme';
 import { ID_DIV_FORM_DATA, ID_DIV_FORM_URLENCODED } from 'reducers/request/id-manager';
 import { HideUnless } from 'ui/generic/HideIf';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 export interface IOwnProps {
     requestId: string;
@@ -130,6 +131,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                    </MessageBar>}
             <div className="ht100 flxcol">
                 <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}}>
+                    <DesignSystemProvider designSystem={{density: -3}}>
                     <Radio
                         inputId="bodyNone"
                         name="bodyType"
@@ -190,6 +192,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                             })}
                         </Select>
                     </HideUnless>
+                    </DesignSystemProvider>
                 </div>
                 <HideUnless test={props.bodySelection} match="none">
                     <NoBody />
