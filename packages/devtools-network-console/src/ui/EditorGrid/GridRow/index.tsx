@@ -96,7 +96,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                                 props.onUpdate(props.isNew, props.id, newName, value, desc, enabled);
                             }
                         }}
-                        ariaLabel={getText('EditorGrid.GridRow.keyLabel', props)}
+                        aria-label={getText('EditorGrid.GridRow.keyLabel', props)}
                         className="editor-row-key"
                         onModeChanged={newMode => {
                             let contents = props.initialFileContents;
@@ -107,6 +107,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                             }
                             props.onUpdateFile && props.onUpdateFile(newMode, fileName, contents);
                         }}
+                        rowId={props.id}
                         />
                     :
                     <GridTextInput

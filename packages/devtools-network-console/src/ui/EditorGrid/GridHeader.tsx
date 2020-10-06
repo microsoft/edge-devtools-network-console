@@ -108,7 +108,7 @@ export default function GridHeader(props: IGridHeaderProps) {
             {...Styles.GRID_HEADER_STYLE}
             >
             <div>&nbsp;</div>
-            <div {...Styles.GRID_HEADER_DIVIDER_STYLE}></div>
+            <div {...Styles.GRID_NOT_DRAGGABLE_HEADER_STYLE}></div>
             <div ref={keyRef} {...Styles.GRID_HEADER_CELL_STYLE}>
                 <LocText textKey="EditorGrid.GridRow.keyLabel" />
             </div>

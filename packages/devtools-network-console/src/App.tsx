@@ -38,7 +38,7 @@ function StyledApp() {
         );
     const accent = parseColor(palette.themePrimary);
     const designSystem: DesignSystem = Object.assign({}, DesignSystemDefaults, {
-        density: -2,
+        density: -1,
         accentBaseColor: palette.themePrimary,
         accentPalette: createColorPalette(accent!),
         backgroundColor: palette.white,

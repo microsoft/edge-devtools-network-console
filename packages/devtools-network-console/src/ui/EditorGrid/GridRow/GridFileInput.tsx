@@ -104,6 +104,7 @@ export default function GridFileInput(props: IProps) {
                     onClick={_e => {
                         fileRef.current?.click();
                     }}
+                    style={{ margin: '4px' }}
                     >
                         <LocText textKey="EditorGrid.GridFileInput.chooseFileLabel" />
                     </AccentButton>

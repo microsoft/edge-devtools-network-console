@@ -5,6 +5,9 @@ import { css } from 'glamor';
 
 export const NO_REQ_STYLE = css({
     display: 'flex',
+    width: '100%',
+    height: '100%',
+    flexFlow: 'column nowrap',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '24px',

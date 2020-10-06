@@ -50,6 +50,7 @@
   "devDependencies": {
     "@types/debounce": "^1.2.0",
     "@types/form-urlencoded": "^2.0.1",
+    "@types/lodash-es": "^4.17.3",
     "@types/react": "^16.9.2",
     "@types/react-data-grid": "^4.0.3",
     "@types/react-dom": "^16.9.0",

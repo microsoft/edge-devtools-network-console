@@ -49,6 +49,7 @@ export default class WebApplicationHost implements INetConsoleHost {
         const response = await fetch(toFetch);
         const stop = Date.now();
 
+        await new Promise(r => setTimeout(r, 50000));
         const body = await bodyFromResponse(response);
         return {
             duration: stop - start,

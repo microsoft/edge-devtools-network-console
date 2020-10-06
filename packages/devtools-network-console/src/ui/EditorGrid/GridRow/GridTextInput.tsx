@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
+import { omit } from 'lodash-es';
 import { TextField, TextFieldProps } from '@microsoft/fast-components-react-msft';
 
 import * as Styles from '../styles';
@@ -12,16 +13,17 @@ export interface IGridTextInputProps extends TextFieldProps {
 }
 
 export default function GridTextInput(props: IGridTextInputProps) {
+    const textFieldProps = React.useMemo(() => omit(props, 'previewText'), [props]);
     return (
         <LocalizationConsumer>
             {locale => (
                 <div>
                     <TextField
-                        {...props}
+                        {...textFieldProps}
                         style={{
-                            width: '100%',
+                            width: 'calc(100% - 8px)',
                             borderColor: 'transparent',
-                            height: '33px',
+                            margin: '4px',
                         }}
                         />
                     {props.previewText && <div aria-label={getText('EditorGrid.GridTextInput.previewLabel', { locale })} {...Styles.PREVIEW_TEXT_STYLE}>

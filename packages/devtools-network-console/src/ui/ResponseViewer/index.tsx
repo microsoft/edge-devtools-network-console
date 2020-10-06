@@ -238,19 +238,21 @@ function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
 function NotIssued() {
     return (
         <div {...Styles.NO_REQ_STYLE}>
-            <LocText textKey="Response.requestNotIssuedLabel" />
+            <div>
+                <LocText textKey="Response.requestNotIssuedLabel" />
+            </div>
         </div>
     );
 }
 
 function Pending() {
     return (
-        <div {...Styles.NO_REQ_STYLE} style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'stretch', margin: '20px'}}>
+        <div {...Styles.NO_REQ_STYLE}>
             <div>
-                <LocText textKey="Response.requestPendingLabel" />
+                <Progress circular style={{ transform: 'scale(2.0) translateY(-12px)' }} />
             </div>
             <div>
-                <Progress circular />
+                <LocText textKey="Response.requestPendingLabel" />
             </div>
         </div>
     );

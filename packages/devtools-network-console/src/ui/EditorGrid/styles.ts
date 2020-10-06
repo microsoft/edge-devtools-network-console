@@ -22,7 +22,7 @@ export const ENABLED_COLUMN_STYLE = css({
 export const GRID_HEADER_STYLE = css({
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 31px',
     userSelect: 'none',
     fontWeight: '600',
     fontSize: '13px',
@@ -38,10 +38,14 @@ export const GRID_HEADER_DIVIDER_STYLE = css({
     cursor: 'col-resize',
 });
 
+export const GRID_NOT_DRAGGABLE_HEADER_STYLE = css(GRID_HEADER_DIVIDER_STYLE, {
+    cursor: 'unset',
+});
+
 export const GRID_ROW_STYLE = css({
     display: 'grid',
     width: '100%',
-    gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 31px',
     fontSize: '12px',
 });
 
@@ -94,6 +98,7 @@ export const DELETE_CELL_STYLE = css(GRID_CELL_LAST_STYLE, {
     gridColumnStart: 8,
     gridColumnEnd: 9,
     paddingLeft: 0,
+    borderLeft: '1px solid #ccc',
 });
 
 export const DELETE_BUTTON_STYLE = css({

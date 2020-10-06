@@ -131,6 +131,14 @@
         "message": "Preview of the rendered value based on your current environment",
         "description": "Screen reader label for a computed value of a grid input that has environment variable substitutions"
     },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.file": {
+        "message": "File",
+        "description": ""
+    },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.text": {
+        "message": "Text",
+        "description": ""
+    },
     
 
     "ErrorBoundary.reopen": {
@@ -205,7 +213,7 @@
         "description": "aria-label of the Pivot for the main response viewer root element"
     },
     "Response.requestNotIssuedLabel": {
-        "message": "Press 'Send' to issue the request.",
+        "message": "Hit \"Send\" to issue the request.",
         "description": "Text label prompting the user to issue the request."
     },
     "Response.requestPendingLabel": {
