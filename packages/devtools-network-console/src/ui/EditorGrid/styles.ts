@@ -49,7 +49,7 @@ export const GRID_TEXT_INPUT_STYLE = css({
     display: 'inline-flex',
     width: 'calc(100% - 4px)',
     height: '100%',
-    borderColor: 'transparent',
+    borderColor: '#ccc',
 });
 
 const GRID_CELL_BASE_STYLE = css({

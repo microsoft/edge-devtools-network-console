@@ -45,6 +45,7 @@ function AddressBar(props: IAddressBarProps & ILocalized) {
                         const url = newValue || '';
                         dispatch(setUrlAction(props.requestId, url));
                     }}
+                    style={{ width: '100%' }}
                     autoFocus
                     value={props.url}
                     placeholder={getText('AddressBar.placeholder', props)}

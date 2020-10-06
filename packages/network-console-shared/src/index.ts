@@ -104,10 +104,15 @@ export namespace FileFormats {
     export const convertEnvironmentFormat = convertEnvironment;
 }
 
-import { format as loc_format, getMessage as loc_getMessage } from './util/loc';
+import { 
+    format as loc_format, 
+    getMessage as loc_getMessage, 
+    loadLocalization as loc_loadLocalization,
+} from './util/loc';
 export namespace i18n {
     export const format = loc_format;
     export const getMessage = loc_getMessage;
+    export const loadLocalization = loc_loadLocalization;
 }
 
 export { Lazy, default as lazy } from './util/lazy';

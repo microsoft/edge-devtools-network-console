@@ -11,12 +11,12 @@ export const ADDRESS_BAR_CONTAINER_STYLE = css({
 });
 
 export const VERB_PICKER_CONTAINER_STYLE = css({
-    flex: '25',
+    flex: '10',
     padding: '0 10px 0 0',
 });
 
 export const URL_CONTAINER_STYLE = css({
-    flex: '75',
+    flex: '90',
     padding: '0 10px 0 0',
 });
 
