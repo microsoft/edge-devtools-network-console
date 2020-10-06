@@ -3,8 +3,13 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ProgressIndicator } from '@fluentui/react';
-import { DataGrid, DataGridColumn, DataGridCellRenderConfig, Pivot } from '@microsoft/fast-components-react-msft';
+import { 
+    DataGrid, 
+    DataGridColumn, 
+    DataGridCellRenderConfig, 
+    Pivot,
+    Progress, 
+} from '@microsoft/fast-components-react-msft';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
@@ -20,6 +25,9 @@ import { AppHost } from 'store/host';
 import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
+import { DataGridHeaderRenderConfig } from '@microsoft/fast-components-react-base';
+import LocText from 'ui/LocText';
+import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -42,35 +50,65 @@ const headersColumns: DataGridColumn[] = [
                 </div>
             );
         },
+        header: (config: DataGridHeaderRenderConfig) => {
+            return (
+                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '1 / auto', textAlign: 'center'}}>
+                    <LocText textKey={`ResponseHeaders.Header.${config.title}`} />
+                </div>
+            );
+        },
     },
     {
         columnDataKey: 'value',
         title: 'Value',
         columnWidth: '75%',
+        header: (config: DataGridHeaderRenderConfig) => {
+            return (
+                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '2 / auto', textAlign: 'center'}}>
+                    <LocText textKey={`ResponseHeaders.Header.${config.title}`} />
+                </div>
+            );
+        },
     },
 ];
 
 type ActivityState = 'preview' | 'body' | 'headers' | 'cookies';
 const PIVOT_DEFAULT_ITEMS = [{
-    tab: (cn: string) => <div className={cn}>Body</div>,
+    tab: (cn: string) => <div className={cn}>
+                            <LocText textKey="Response.Pivot.bodyLabel" />
+                         </div>,
     content: () => <></>,
     id: 'body',
 }, {
-    tab: (cn: string) => <div className={cn}>Headers</div>,
+    tab: (cn: string) => <div className={cn}>
+                            <LocText textKey="Response.Pivot.headersLabel" />
+                         </div>,
     content: () => <></>,
     id: 'headers',
 }, {
-    tab: (cn: string) => <div className={cn}>Cookies</div>,
+    tab: (cn: string) => <div className={cn}>
+                            <LocText textKey="Response.Pivot.cookiesLabel" />
+                         </div>,
     content: () => <></>,
     id: 'cookies',
 }];
 const PIVOT_PREVIEW_ITEM = {
-    tab: (cn: string) => <div className={cn}>Preview</div>,
+    tab: (cn: string) => <div className={cn}>
+                            <LocText textKey="Response.Pivot.previewLabel" />
+                         </div>,
     content: () => <></>,
     id: 'preview',
 };
 
 export function ResponseViewer(props: IResponseViewerProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => <ResponseViewerWithLocale {...props} locale={locale} />}
+        </LocalizationConsumer>
+    );
+}
+
+function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
     // TODO: Promote to per-request state in the Store
     const [currentTab, setCurrentTab] = React.useState<ActivityState>('body');
     const headerData = React.useMemo(() => {
@@ -138,7 +176,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
         return <NotIssued />;
     }
 
-    const renderedPreview = preview(props.response.response.body.content, contentType, props.theme);
+    const renderedPreview = preview(props.response.response.body.content, contentType, props.locale, props.theme);
     const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
     if (!!renderedPreview) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
@@ -200,7 +238,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
 function NotIssued() {
     return (
         <div {...Styles.NO_REQ_STYLE}>
-            Press 'Send' to issue the request.
+            <LocText textKey="Response.requestNotIssuedLabel" />
         </div>
     );
 }
@@ -209,10 +247,10 @@ function Pending() {
     return (
         <div {...Styles.NO_REQ_STYLE} style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'stretch', margin: '20px'}}>
             <div>
-                Please wait for the request to complete...
+                <LocText textKey="Response.requestPendingLabel" />
             </div>
             <div>
-                <ProgressIndicator />
+                <Progress circular />
             </div>
         </div>
     );
@@ -221,8 +259,12 @@ function Pending() {
 function ErrorBelowApplication() {
     return (
         <div {...Styles.NO_REQ_STYLE} style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'stretch', margin: '20px'}}>
-            <h2>Error issuing this request.</h2>
-            <p>An error occurred beneath HTTP, such as a DNS error, a physical network error, or something similar.</p>
+            <h2>
+                <LocText textKey="Response.requestFailedTitleLabel" />
+            </h2>
+            <p>
+                <LocText textKey="Response.requestFailedDescriptionLabel" />
+            </p>
         </div>
     );
 }

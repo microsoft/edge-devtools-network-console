@@ -23,3 +23,8 @@ export const RESPONSE_PIVOT_STYLE = css(HEIGHT_100, {
 });
 
 export const LINK_NO_LEADING_STYLE = css({ paddingLeft: 0 });
+
+export const VERTICALLY_CENTERED = css({
+    display: 'flex',
+    alignItems: 'center',
+});

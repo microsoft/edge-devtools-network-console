@@ -47,7 +47,6 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                         style={{
                             width: '96%',
                             margin: '1% 0% 1% 3.5%',
-                            fontFamily: 'Consolas, monospace',
                         }}
                         />
                 </div>
@@ -61,16 +60,15 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                 <div style={{ flexGrow: 1 }}>
                     <TextField
                         id="basicPassword"
-                        type={TextFieldType.password}
+                        type={props.showPassword ? TextFieldType.text : TextFieldType.password}
                         value={props.password} 
                         onChange={e => {
                             const value = e.target.value;
-                            dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
+                            dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
                         }}
                         style={{
                             width: '96%',
                             margin: '1% 0% 1% 3.5%',
-                            fontFamily: 'Consolas, monospace',
                         }}
                         />
                 </div>

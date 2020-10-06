@@ -3,11 +3,17 @@
 
 import * as React from 'react';
 import { ms } from 'network-console-shared';
+import { 
+    Typography, 
+    TypographySize, 
+    LightweightButton,
+} from '@microsoft/fast-components-react-msft';
 
 import Size from 'ui/generic/Size';
 import { useDispatch } from 'react-redux';
 import { downloadResponse } from 'actions/combined';
-import { Text, Link } from '@fluentui/react';
+import LocText from 'ui/LocText';
+import * as Styles from './styles';
 
 export interface IStatsProps {
     statusCode: number;
@@ -22,46 +28,50 @@ export default function Stats(props: IStatsProps) {
     return (
         <dl className="response-stats">
             <Definition
-                term="Status:"
+                termKey="ResponseStats.status"
                 value={`${props.statusCode} ${props.statusText}`}
                 />
             <Definition
-                term="Time:"
+                termKey="ResponseStats.time"
                 value={`${props.duration}ms`}
                 />
             <Definition
-                term="Size:"
+                termKey="ResponseStats.size"
                 value={<Size size={props.size} />}
                 />
-            <Definition
-                term="Download:"
-                value={(props.statusCode === 200 ? (
-                    <Link href="#download"
+            <dd>
+                {(props.statusCode === 200 ? (
+                    <LightweightButton
                         onClick={e => {
                             e.preventDefault();
                             dispatch(downloadResponse(props.requestId));
                         }}
-                    >Click here</Link>) : (
-                        <span>Not available</span>
-                    ))}
-                />
+                        >
+                        <LocText textKey="ResponseStats.download" />
+                    </LightweightButton>) 
+                    : 
+                    (<span><LocText textKey="ResponseStats.downloadUnavailable" /></span>)
+                )}
+            </dd>
         </dl>
     );
 }
 
 interface IDefinitionProps {
-    term: string;
+    termKey: string;
     value: React.ReactNode | string;
 }
 
-function Definition({ term, value }: IDefinitionProps) {
+function Definition({ termKey, value }: IDefinitionProps) {
     return (
         <>
-            <dt>
-                <Text variant="smallPlus">{term}</Text>
+            <dt {...Styles.VERTICALLY_CENTERED}>
+                <Typography size={TypographySize._7}>
+                    <LocText textKey={termKey} />:
+                </Typography>
             </dt>
-            <dd>
-                <Text variant="smallPlus">{value}</Text>
+            <dd {...Styles.VERTICALLY_CENTERED}>
+                <Typography size={TypographySize._7}>{value}</Typography>
             </dd>
         </>
     );

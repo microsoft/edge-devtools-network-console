@@ -45,7 +45,6 @@ export default class WebApplicationHost implements INetConsoleHost {
     async makeRequest(request: INetConsoleRequestInternal, environmentalAuthorization: INetConsoleAuthorization | null, environmentVariables: INetConsoleParameter[]): Promise<INetConsoleResponse> {
         const start = Date.now();
         let mergedRequest = await synthesizeHttpRequest(request, environmentalAuthorization, environmentVariables);
-
         const toFetch = constructRequest(mergedRequest);
         const response = await fetch(toFetch);
         const stop = Date.now();
