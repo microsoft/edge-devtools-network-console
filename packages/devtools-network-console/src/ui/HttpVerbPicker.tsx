@@ -29,6 +29,10 @@ function HttpVerbPicker(props: IHttpVerbPickerProps & ILocalized) {
                 select: {
                     width: '92px',
                 },
+                select_menu__open: {
+                    zIndex: '500',
+                    position: 'relative',
+                },
             }}
             >
             {KNOWN_HTTP_VERBS.map(verb => {

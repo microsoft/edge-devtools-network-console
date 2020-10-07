@@ -135,7 +135,7 @@ export function ModalManager(props: IConnectedProps) {
                 <div style={{ margin: '5px' }}>
                     {header}
                 </div>
-                <div style={{ width: '100%', height: '100%', overflowY: 'auto' }}>
+                <div style={{ width: '100%', height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
                     {ui}
                 </div>
                 <Stack horizontal style={{ justifyContent: 'flex-end' }}>

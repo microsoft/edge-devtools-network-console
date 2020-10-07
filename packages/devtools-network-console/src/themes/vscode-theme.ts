@@ -1,43 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createTheme, loadTheme, IStyle } from '@fluentui/react';
 import { globalDispatch } from 'store';
-import { createFontStyle, REDUCED_FONT_SIZES } from './fonts';
-import { NarrowSpacing } from './spacing';
-
-/**
- * Contains custom styles that should be applied to particular controls in certain environments.
- */
-export interface IThemeOverride {
-    mainPivotButtons?: IStyle;
-    smallPivotButtons?: IStyle;
-    mainPivotRoot?: IStyle;
-    smallPivotRoot?: IStyle;
-}
-
-export let THEME_OVERRIDE: IThemeOverride = { };
-
-const DEVTOOLS_THEME_OVERRIDES: IThemeOverride = {
-    mainPivotButtons: {
-        height: '32px',
-        paddingLeft: '4px',
-        paddingRight: '4px',
-    },
-    smallPivotButtons: {
-        height: '24px',
-        paddingLeft: '2px',
-        paddingRight: '2px',
-    },
-    mainPivotRoot: {
-        paddingBottom: '5px',
-        paddingLeft: '8px',
-    },
-    smallPivotRoot: {
-        paddingBottom: '2px',
-        paddingLeft: '8px',
-    },
-};
 
 export const DARK_THEME_PALETTE = {
     black: "#ffffff",
@@ -142,15 +106,6 @@ export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYP
         }
     }
 
-    const theme = createTheme({
-        palette,
-        fonts: createFontStyle(REDUCED_FONT_SIZES),
-        isInverted: themeType !== 'light',
-        spacing: NarrowSpacing,
-    });
-
-    loadTheme(theme);
-
     document.body.setAttribute('style',`
         --nc-theme-fore: ${palette.black};
         --nc-theme-back: ${palette.white};
@@ -159,8 +114,4 @@ export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYP
         background-color: ${themeType === 'light' ? 'white' : 'rgb(30,30,30)'};`
     );
     globalDispatch({ type: 'SET_THEME_TYPE', themeType, });
-}
-
-export function enableDevtoolsThemeOverrides() {
-    THEME_OVERRIDE = DEVTOOLS_THEME_OVERRIDES;
 }

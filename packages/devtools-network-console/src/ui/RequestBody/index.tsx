@@ -166,6 +166,10 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                 select: {
                                     width: '155px',
                                 },
+                                select_menu__open: {
+                                    zIndex: '500',
+                                    position: 'relative',
+                                },
                             }}
                             selectedItems={[props.rawTextBody.contentType]}
                             onMenuSelectionChange={items => {

@@ -36,7 +36,6 @@ function CorsRadioButtonList(props: ICorsRadioButtonListProps) {
                                 name={props.i18nTitleKey}
                                 checked={props.selectedKey === o.optionValue}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    const checked = e.target.checked;
                                     props.onChange?.(e, o);
                                 }}
                                 style={{ alignItems: 'flex-start', paddingTop: '12px' }}

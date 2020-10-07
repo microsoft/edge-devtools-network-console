@@ -4,7 +4,6 @@
 import VsCodeProtocolHost from './vscode-protocol-host';
 import { globalDispatch, getStore } from 'store';
 import { setHostCapabilitiesAction } from 'actions/host-capabilities';
-import { enableDevtoolsThemeOverrides } from 'themes/vscode-theme';
 
 export default class EdgeApplicationHost extends VsCodeProtocolHost {
     protected onInitHost(message: any) {
@@ -15,7 +14,6 @@ export default class EdgeApplicationHost extends VsCodeProtocolHost {
             /* transparentAuthorization: */ true,
         ));
 
-        enableDevtoolsThemeOverrides();
         super.onInitHost(message);
 
         this.initializeStoreMonitoring();

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { IconButton } from '@fluentui/react';
-import { Checkbox } from '@microsoft/fast-components-react-msft';
+import { Checkbox, ActionTrigger, ActionTriggerProps } from '@microsoft/fast-components-react-msft';
+import { DesignSystem } from '@microsoft/fast-components-styles-msft';
 import { Base64String, INetConsoleParameter } from 'network-console-shared';
 
 import GridTextInput from './GridTextInput';
@@ -12,6 +12,7 @@ import GridTextOrFileKey from './GridTextOrFileKey';
 import GridFileInput from './GridFileInput';
 import { mergeString } from 'utility/environment-merge';
 import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
+import { DesignSystemConsumer } from '@microsoft/fast-jss-manager-react';
 
 interface IGridRowPropsCommon {
     id: string;
@@ -47,6 +48,8 @@ interface IGridRowPropsWithDelete {
 
 export type IGridRowProps = IGridRowPropsCommon &
     (IGridRowPropsWithoutDelete | IGridRowPropsWithDelete);
+
+const DeleteIcon = ({ color }: { color: string; }) => <svg width="16" height="16" viewBox="90 4 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M103 8.33L101.67 7 98 10.67 94.33 7 93 8.33 96.67 12 93 15.67 94.33 17 98 13.33l3.67 3.67 1.33-1.33L99.33 12z" fill={color} /></svg>;
 
 function GridRow(props: IGridRowProps & ILocalized) {
     const name = props.initialNameValue;
@@ -169,13 +172,21 @@ function GridRow(props: IGridRowProps & ILocalized) {
             </div>
             }
             <div {...Styles.DELETE_CELL_STYLE}>
-                <IconButton
+                {/* <IconButton
                     {...Styles.DELETE_BUTTON_STYLE}
                     onClick={_e => {
                         props.isDeleteAllowed && props.onDelete(props.id);
                     }}
                     iconProps={{ iconName: 'Delete' }}
                     style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '' }}
+                    aria-label={getText('EditorGrid.GridRow.deleteLabel', props)}
+                    className="editor-row-delete-btn"
+                    /> */}
+                <DeleteButton 
+                    onClick={_e => {
+                        props.isDeleteAllowed && props.onDelete(props.id);
+                    }}
+                    style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '', padding: '4px', margin: '4px' }}
                     aria-label={getText('EditorGrid.GridRow.deleteLabel', props)}
                     className="editor-row-delete-btn"
                     />
@@ -190,4 +201,33 @@ export default function LocalizedGridRow(props: IGridRowProps) {
             {locale => (<GridRow {...props} locale={locale} />)}
         </LocalizationConsumer>
     );
+}
+
+function DeleteButton(props: Omit<ActionTriggerProps, 'glyph'>) {
+    const darkFill = 'rgb(80, 173, 235)';
+    const darkFillHover = 'rgb(17, 119, 187)';
+    const lightFill = 'rgb(80, 173, 235)';
+    const lightFillHover = 'rgb(17, 119, 187)';
+    const [hover, setHoverState] = React.useState(false);
+
+    return (
+        <DesignSystemConsumer>
+            {system => {
+                const designSystem: DesignSystem = system as any as DesignSystem;
+                const isLight = designSystem.backgroundColor === '#FFFFFF';
+
+                const hoverFill = isLight ? lightFillHover : darkFillHover;
+                const nonHoverFill = isLight ? lightFill : darkFill;
+
+                return (
+                    <ActionTrigger 
+                        {...props}
+                        onMouseEnter={() => setHoverState(true)}
+                        onMouseLeave={() => setHoverState(false)}
+                        glyph={() => <DeleteIcon color={hover ? hoverFill : nonHoverFill} />}
+                        />
+                )
+            }}
+        </DesignSystemConsumer>
+    )
 }

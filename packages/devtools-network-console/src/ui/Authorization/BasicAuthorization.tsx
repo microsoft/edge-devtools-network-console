@@ -78,7 +78,7 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                 <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
 
                 </div>
-                <div style={{ flexGrow: 1 }}>
+                <div style={{ flexGrow: 1, margin: '10px' }}>
                     <Toggle 
                         inputId="basicAuthorizationShowPassword"
                         selectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}

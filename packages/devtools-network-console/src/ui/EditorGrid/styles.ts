@@ -22,7 +22,7 @@ export const ENABLED_COLUMN_STYLE = css({
 export const GRID_HEADER_STYLE = css({
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 31px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 35px',
     userSelect: 'none',
     fontWeight: '600',
     fontSize: '13px',
@@ -45,7 +45,7 @@ export const GRID_NOT_DRAGGABLE_HEADER_STYLE = css(GRID_HEADER_DIVIDER_STYLE, {
 export const GRID_ROW_STYLE = css({
     display: 'grid',
     width: '100%',
-    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 31px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 35px',
     fontSize: '12px',
 });
 
