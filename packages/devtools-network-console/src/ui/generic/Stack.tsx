@@ -8,11 +8,13 @@ export interface IStackProps {
     center?: boolean;
     horizontal?: boolean;
     children?: React.ReactNode;
+    style?: React.CSSProperties;
 }
 
 const BASE_STYLE = css({ 
     display: 'flex',
     flexFlow: 'column nowrap',
+    
 });
 
 const CENTERED_STYLE = css(BASE_STYLE, {
@@ -25,10 +27,10 @@ const HORIZONTAL_STYLE = css({
 });
 
 export default function Stack(props: IStackProps) {
-    const style = props.center ? CENTERED_STYLE : BASE_STYLE;
+    const baseStyle = props.center ? CENTERED_STYLE : BASE_STYLE;
 
     return (
-        <div {...style} {...(props.horizontal ? HORIZONTAL_STYLE : {})}>
+        <div {...baseStyle} {...(props.horizontal ? HORIZONTAL_STYLE : {})} style={props.style || {}}>
             {props.children}
         </div>
     );

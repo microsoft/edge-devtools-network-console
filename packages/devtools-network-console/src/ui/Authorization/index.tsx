@@ -18,6 +18,7 @@ import LocalAlert from 'ui/generic/LocalAlert';
 import { getText, LocalizationContext } from 'utility/loc-context';
 
 export interface IAuthorizationProps {
+    controlIdPrefix: string;
     requestId: string;
     authorization: INetConsoleAuthorization;
     environmentAuth?: IEnvironmentAuthorizationState;
@@ -30,43 +31,48 @@ export default function Authorization(props: IAuthorizationProps) {
     const dispatch = useDispatch();
     const locale = React.useContext(LocalizationContext);
 
+    const inheritId = `${props.controlIdPrefix}_authInherit`;
+    const noneId = `${props.controlIdPrefix}_authNone`;
+    const tokenId = `${props.controlIdPrefix}_authToken`;
+    const basicId = `${props.controlIdPrefix}_authBasic`;
+
     return (
         <>
             <div {...CommonStyles.RBL_HORIZONTAL}>
                 <Radio
-                    inputId="authInherit"
+                    inputId={inheritId}
                     name="authType"
                     value="inherit"
                     checked={props.authorization.type === 'inherit'}
                     title={getText('Authorization.choice.inherit', { locale })}
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authInherit" className={cn}><LocText textKey="Authorization.choice.inherit" /></label>}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={inheritId} className={cn}><LocText textKey="Authorization.choice.inherit" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'inherit'))}
                     />
                 <Radio
-                    inputId="authNone"
+                    inputId={noneId}
                     name="authType"
                     value="none"
                     checked={props.authorization.type === 'none'}
                     title={getText('Authorization.choice.none', { locale })}
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authNone" className={cn}><LocText textKey="Authorization.choice.none" /></label>}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={noneId} className={cn}><LocText textKey="Authorization.choice.none" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'none'))}
                     />
                 <Radio
-                    inputId="authToken"
+                    inputId={tokenId}
                     name="authType"
                     value="token"
                     checked={props.authorization.type === 'token'}
                     title={getText('Authorization.choice.token', { locale })}
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authToken" className={cn}><LocText textKey="Authorization.choice.token" /></label>}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={tokenId} className={cn}><LocText textKey="Authorization.choice.token" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'token'))}
                     />
                 <Radio
-                    inputId="authBasic"
+                    inputId={basicId}
                     name="authType"
                     value="basic"
                     checked={props.authorization.type === 'basic'}
                     title={getText('Authorization.choice.basic', { locale })}
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authBasic" className={cn}><LocText textKey="Authorization.choice.basic" /></label>}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={basicId} className={cn}><LocText textKey="Authorization.choice.basic" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}
                     />
             </div>

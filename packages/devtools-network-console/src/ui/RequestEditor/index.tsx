@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { INetConsoleParameter } from 'network-console-shared';
-import { Pivot } from '@microsoft/fast-components-react-msft';
-import { TextField } from '@fluentui/react';
+import { Pivot, TextField } from '@microsoft/fast-components-react-msft';
 import { Map } from 'immutable';
 import { connect, useDispatch } from 'react-redux';
 import { StyleAttribute, css } from 'glamor';
@@ -116,19 +115,15 @@ export default function RequestEditor(props: IRequestEditorProps) {
                 <div>
                     <TextField
                         onChange={e => dispatch(setNameAction(props.requestId, (e.target as HTMLInputElement).value))}
-                        styles={{
-                            fieldGroup: {
-                                borderColor: 'transparent',
-                            },
-                            field: {
-                                fontSize: '16px',
-                            },
-                        }}
                         className="request-title-editor"
                         value={props.request.name}
                         placeholder={getText('RequestEditor.untitledRequestPlaceholder', { locale })}
                         autoFocus={true}
-                        ariaLabel="Specify a name for this request"
+                        aria-label={getText('RequestEditor.requestTitleLabel', { locale })}
+                        style={{
+                            width: '100%',
+                            borderColor: 'transparent',
+                        }}
                         />
                 </div>
                 <div>
@@ -145,7 +140,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                     <DesignSystemProvider designSystem={{ density: 2}}>
                         <Pivot
                             activeId={currentTab}
-                            label="Choose views of the request"
+                            label={getText('RequestEditor.pivotTitleLabel', { locale })}
                             onUpdate={activeTab => setCurrentTab(activeTab as ActivityState)}
                             items={pivotTabs} />
                     </DesignSystemProvider>
@@ -221,7 +216,12 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         </HideUnless>
                         <HideUnless test={currentTab} match="auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
-                                <Authorization authorization={props.request.authorization} requestId={props.requestId} environmentAuth={props.environmentAuth} />
+                                <Authorization 
+                                    authorization={props.request.authorization} 
+                                    requestId={props.requestId} 
+                                    environmentAuth={props.environmentAuth} 
+                                    controlIdPrefix="requestEditor"
+                                    />
                             </div>
                         </HideUnless>
                         <HideUnless test={currentTab} match="body" {...bodyPivotStyle}>

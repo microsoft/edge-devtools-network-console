@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import {
-    MessageBar,
-    MessageBarType,
-    Link,
-} from '@fluentui/react';
-import { Radio, Select, SelectOption } from '@microsoft/fast-components-react-msft';
+import { Hypertext, Radio, Select, SelectOption } from '@microsoft/fast-components-react-msft';
 import { useDispatch, connect } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import { Map as ImmutableMap } from 'immutable';
@@ -35,6 +30,7 @@ import { HideUnless } from 'ui/generic/HideIf';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import LocText from 'ui/LocText';
 import { getText, LocalizationContext } from 'utility/loc-context';
+import LocalAlert from 'ui/generic/LocalAlert';
 
 export interface IOwnProps {
     requestId: string;
@@ -101,31 +97,26 @@ export function RequestBody(props: IRequestBodyEditorProps) {
 
     return (
         <div {...style}>
-            {!shouldIncludeBody && <MessageBar
-                                        messageBarType={MessageBarType.severeWarning}
-                                        isMultiline
-                                        messageBarIconProps={{ iconName: 'Warning' }}
-                                        styles={{root: { userSelect: 'none', overflowY: 'auto' }, text: { userSelect: 'none'}}}
-                                   >
-                                       Sending a body entity as part of a {props.selectedVerb} request is
-                                       not part of the standard and may result in undefined behavior. Consider
-                                       choosing a verb such as POST or PUT for this endpoint.
-                                       {knownVerb && <>(For more information,
-                                       see <Link href={knownVerb.link}
-                                              target="_blank"
-                                              rel="noopener noreferrer"
-                                              onClick={e => {
-                                                  if (AppHost.mustAskToOpenLink()) {
-                                                      AppHost.openLink?.(knownVerb.link);
-                                                      e.preventDefault();
-                                                      e.stopPropagation();
-                                                  }
-                                              }}
-                                              style={{paddingLeft: 0}}
-                                              >
-                                           the relevant standards information
-                                       </Link>.)</>}
-                                   </MessageBar>}
+            {!shouldIncludeBody && (
+                <LocalAlert type="severeWarning">
+                    <LocText textKey="RequestBody.bodyWithUnsupportedVerb" />
+                    {knownVerb && (<Hypertext 
+                                        href={knownVerb.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={e => {
+                                            if (AppHost.mustAskToOpenLink() && AppHost.openLink) {
+                                                AppHost.openLink(knownVerb.link);
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }
+                                        }}
+                                    >
+                                        <LocText textKey="RequestBody.bodyWithUnsupportedVerb.learnMore" />
+                                    </Hypertext>)}
+                </LocalAlert>
+            )}
+
             <div className="ht100 flxcol">
                 <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}}>
                     <DesignSystemProvider designSystem={{density: -3}}>
@@ -174,8 +165,6 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                             jssStyleSheet={{
                                 select: {
                                     width: '155px',
-                                    zIndex: '500',
-                                    position: 'relative',
                                 },
                             }}
                             selectedItems={[props.rawTextBody.contentType]}

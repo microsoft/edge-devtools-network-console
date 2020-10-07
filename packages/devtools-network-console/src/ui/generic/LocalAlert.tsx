@@ -38,9 +38,11 @@ export default function LocalAlert(props: ILocalAlertProps) {
 
     if (props.children) {
         return (
-            <MessageBar {...choiceProps} isMultiline style={{ userSelect: 'none' }}>
-                {props.children}
-            </MessageBar>
+            <div style={{ display: 'flex', margin: '5px' }}>
+                <MessageBar {...choiceProps} isMultiline style={{ userSelect: 'none' }}>
+                    {props.children}
+                </MessageBar>
+            </div>
         );
     }
 
@@ -49,8 +51,10 @@ export default function LocalAlert(props: ILocalAlertProps) {
     }
 
     return (
-        <MessageBar {...choiceProps} isMultiline style={{ userSelect: 'none' }}>
-            <LocText textKey={props.textKey} />
-        </MessageBar>
+        <div style={{ display: 'flex', margin: '5px' }}>
+            <MessageBar {...choiceProps} isMultiline style={{ userSelect: 'none' }}>
+                <LocText textKey={props.textKey} />
+            </MessageBar>
+        </div>
     );
 }

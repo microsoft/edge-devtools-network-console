@@ -107,6 +107,135 @@
         "description": "Header for cookies table 'Value' column"
     },
 
+    "Cors.Mode.cors.label": {
+        "message": "Cross-origin enabled with CORS protocol",
+        "description": "Label for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.cors.description": {
+        "message": "Allows cross-origin requests, for example to access various APIs offered by 3rd party vendors. These are expected to adhere to the CORS protocol. Only a limited set of headers are exposed in the Response, but the body is readable.",
+        "description": "Description for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.no-cors.label": {
+        "message": "CORS protocol disabled",
+        "description": "Label for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.no-cors.description": {
+        "message": "Prevents the method from being anything other than HEAD, GET or POST, and the headers from being anything other than simple headers. In addition, JavaScript may not access any properties of the resulting Response. This ensures that ServiceWorkers do not affect the semantics of the Web and prevents security and privacy issues arising from leaking data across domains.",
+        "description": "Description for the CORS mode 'no-cors' option."
+    },
+    "Cors.Mode.same-origin.label": {
+        "message": "Cross-origin requests disallowed",
+        "description": "Label for the CORS mode 'same-origin' option."
+    },
+    "Cors.Mode.same-origin.description": {
+        "message": "If a request is made to another origin with this mode set, the result is simply an error. You could use this to ensure that a request is always being made to your origin.",
+        "description": "Description for the CORS mode 'same-origin' option."
+    },
+    "Cors.Credentials.same-origin.label": {
+        "message": "Include for requests to the same origin",
+        "description": "Label for the credentials mode 'same-origin' option."
+    },
+    "Cors.Credentials.same-origin.description": {
+        "message": "Send user credentials (cookies, basic http auth, etc..) if the URL is on the same origin as the page being inspected.",
+        "description": "Description for the credentials mode 'same-origin' option."
+    },
+    "Cors.Credentials.include.label": {
+        "message": "Include for all requests",
+        "description": "Label for the credentials mode 'include' option."
+    },
+    "Cors.Credentials.include.description": {
+        "message": "Always send user credentials (cookies, basic http auth, etc..), even for cross-origin calls. Requests will be blocked if the cross-origin header negotiation for CORS omits the Access-Control-Allow-Credentials header.",
+        "description": "Description for the credentials mode 'include' option."
+    },
+    "Cors.Credentials.omit.label": {
+        "message": "Do not include for any requests",
+        "description": "Label for the credentials mode 'omit' option."
+    },
+    "Cors.Credentials.omit.description": {
+        "message": "Never send or receive cookies or basic HTTP authorization except what is specifically configured by the Authorization tab or for the collection to which this request belongs.",
+        "description": "Description for the credentials mode 'omit' option."
+    },
+    "Cors.Cache.no-store.label": {
+        "message": "Unconditionally make the request and do not cache the result",
+        "description": "Label for the cache mode 'no-store' option."
+    },
+    "Cors.Cache.no-store.description": {
+        "message": "The browser fetches the resource from the remote server without first looking in the cache, and will not update the cache with the downloaded resource.",
+        "description": "Description for the cache mode 'no-store' option."
+    },
+    "Cors.Cache.default.label": {
+        "message": "Standard HTTP request behavior",
+        "description": "Label for the cache mode 'default' option."
+    },
+    "Cors.Cache.default.description": {
+        "message": "The browser looks for a matching request in its HTTP cache. Behavior depends on whether the match is fresh or stale, and an updated result will cause the browser cache to be updated.",
+        "description": "Description for the cache mode 'default' option."
+    },
+    "Cors.Cache.reload.label": {
+        "message": "Unconditionally request and update the cache",
+        "description": "Label for the cache mode 'reload' option."
+    },
+    "Cors.Cache.reload.description": {
+        "message": "The browser fetches the resource from the remote server without first looking in the cache, but then will update the cache with the downloaded resource.",
+        "description": "Description for the Cache mode 'reload' option."
+    },
+    "Cors.Cache.no-cache.label": {
+        "message": "Always make at least a conditional request",
+        "description": "Label for the cache mode 'no-cache' option."
+    },
+    "Cors.Cache.no-cache.description": {
+        "message": "The browser looks for a matching request in its HTTP cache. If there is a match, the browser will issue a conditional request, and return the cached content if the server indicates that the content is unchanged; otherwise the resource will be retrieved.",
+        "description": "Description for the cache mode 'no-cache' option."
+    },
+    "Cors.Cache.force-cache.label": {
+        "message": "Always return cached content if available",
+        "description": "Label for the cache mode 'force-cache' option."
+    },
+    "Cors.Cache.force-cache.description": {
+        "message": "If the resource has been cached, the cached content is returned. Otherwise, the browser will make a normal request, and update the cache.",
+        "description": "Description for the cache mode 'force-cache' option."
+    },
+    "Cors.Cache.only-if-cached.label": {
+        "message": "Only return content if the content exists in the cache",
+        "description": "Label for the cache mode 'only-if-cached' option."
+    },
+    "Cors.Cache.only-if-cached.description": {
+        "message": "If the resource has been cached, the cached content is returned. Otherwise, the browser will respond with a 504 Gateway Timeout status.",
+        "description": "Description for the cache mode 'only-if-cached' option."
+    },
+    "Cors.Redirect.follow.label": {
+        "message": "Transparently follow 301/302 redirect responses",
+        "description": "Label for the redirect mode 'follow' option."
+    },
+    "Cors.Redirect.follow.description": {
+        "message": "Follow all redirects incurred when fetching a resource.",
+        "description": "Description for the redirect mode 'follow' option."
+    },
+    "Cors.Redirect.error.label": {
+        "message": "Return a network error when a request is met with a redirect",
+        "description": "Label for the redirect mode 'error' option."
+    },
+    "Cors.Redirect.error.description": {
+        "message": "If a response results in a redirect response, the result will appear to be a network error.",
+        "description": "Description for the redirect mode 'error' option."
+    },
+    "Cors.groupTitle.corsMode": {
+        "message": "CORS mode",
+        "description": "Group title for the 'CORS mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.credentialsMode": {
+        "message": "Credentials mode",
+        "description": "Group title for the 'Credentials mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.cacheMode": {
+        "message": "Cache mode",
+        "description": "Group title for the 'Cache mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.redirectMode": {
+        "message": "Redirect mode",
+        "description": "Group title for the 'Redirect mode' section of options for CORS requests"
+    },
+
     "EditorGrid.GridFileInput.chooseFileLabel": {
         "message": "Choose file...",
         "description": "Button text to choose a file"
@@ -208,6 +337,36 @@
         "description": "Description of the defined behavior of the HTTP OPTIONS verb"
     },
 
+    "ModalManager.authorization.title": {
+        "message": "Edit Collection Authorization",
+        "description": "Title text for editing the authorization settings for a Collection folder"
+    },
+    "ModalManager.editEnvironment.title": {
+        "message": "Edit Environment",
+        "description": "Title text for editing the variables in an environment"
+    },
+    "ModalManager.saveAs.title": {
+        "message": "Save to Collection",
+        "description": "Title text for saving a Request into a specific Collection folder"
+    },
+    "ModalManager.save": {
+        "message": "Save",
+        "description": "Button text to save something"
+    },
+    "ModalManager.cancel": {
+        "message": "Cancel",
+        "description": "Button text to dismiss a dialog"
+    },    
+
+    "RequestBody.bodyWithUnsupportedVerb": {
+        "message": "A body entity is not supported with for this HTTP verb.",
+        "description": "Error message indicating a request with a particular HTTP verb should not be made with body content."
+    },
+    "RequestBody.bodyWithUnsupportedVerb.learnMore": {
+        "message": "Learn more",
+        "description": "Link label to learn more about an error."
+    },
+
     "RequestEditor.NoBody.message": {
         "message": "To include a request body, choose one of the other modes above.",
         "description": "Informative label directing the user how to choose a different body mode"
@@ -252,6 +411,15 @@
         "message": "Untitled Request",
         "description": "Title of a request that hasn't had a title assigned yet"
     },
+    "RequestEditor.requestTitleLabel": {
+        "message": "Specify a name for this request",
+        "description": "Label of request title input box"
+    },
+    "RequestEditor.pivotTitleLabel": {
+        "message": "Choose views of the request",
+        "description": "ARIA title of the top-level pivot for the Request Editor"
+    },
+    
 
     "Response.Pivot.bodyLabel": {
         "message": "Body",
@@ -289,6 +457,20 @@
         "message": "An error occurred beneath HTTP, such as a DNS error, a physical network error, or something similar.",
         "description": "Text label outlining additional details about a failed request."
     },
+
+    "ResponseBody.largeResponseBody": {
+        "message": "The response message body size exceeded 64KiB. To avoid potentially slowing down, particularly if the content is binary, it isn't shown by default.",
+        "description": "Informational label that is displayed when a response > 64kb is displayed."
+    },
+    "ResponseBody.largeResponseBody.show": {
+        "message": "Show it anyway",
+        "description": "Action button label to show the large response"
+    },
+    "ResponseBody.largeResponseBody.download": {
+        "message": "Download the response",
+        "description": "Action button label to download the large response"
+    },
+    
     
     "ResponseHeaders.Header.Name": {
         "message": "Name",
