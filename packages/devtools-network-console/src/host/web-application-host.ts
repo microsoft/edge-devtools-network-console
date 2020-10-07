@@ -31,8 +31,8 @@ import { makeEditAuthorizationInModalAction, makeEditEnvironmentAction } from 'a
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
-        const showEnvironmentModalAtStartup = true;
-        const showAuthorizationModalAtStartup = true;
+        const showEnvironmentModalAtStartup = false;
+        const showAuthorizationModalAtStartup = false;
 
         setTimeout(() => {
             globalDispatch(setHostCapabilitiesAction(

@@ -41,7 +41,7 @@ export default function Authorization(props: IAuthorizationProps) {
             <div {...CommonStyles.RBL_HORIZONTAL}>
                 <Radio
                     inputId={inheritId}
-                    name="authType"
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="inherit"
                     checked={props.authorization.type === 'inherit'}
                     title={getText('Authorization.choice.inherit', { locale })}
@@ -50,7 +50,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     />
                 <Radio
                     inputId={noneId}
-                    name="authType"
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="none"
                     checked={props.authorization.type === 'none'}
                     title={getText('Authorization.choice.none', { locale })}
@@ -59,7 +59,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     />
                 <Radio
                     inputId={tokenId}
-                    name="authType"
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="token"
                     checked={props.authorization.type === 'token'}
                     title={getText('Authorization.choice.token', { locale })}
@@ -68,7 +68,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     />
                 <Radio
                     inputId={basicId}
-                    name="authType"
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="basic"
                     checked={props.authorization.type === 'basic'}
                     title={getText('Authorization.choice.basic', { locale })}
