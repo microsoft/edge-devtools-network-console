@@ -270,7 +270,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         const deserialized = deserializeFromHost(message.requestId, message.request);
         globalDispatch(loadRequestAction(message.requestId, deserialized, message.requiresSaveAs));
 
-        // Environment set via `LOAD_REQUEST` deprecated in v0.10.0-preview
+        // Environment set via `LOAD_REQUEST` deprecated in v0.11.0-preview
         // Remove in the future.
         // const environmentAuth: INetConsoleAuthorization | null = message.environmentAuth || null;
         // if (environmentAuth) {
@@ -280,7 +280,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         if ('environmentAuth' in message && (message as any).environmentAuth) {
             this.log({
                 level: 'WARNING',
-                message: '"environmentAuth" and "environmentAuthPath" are deprecated on LOAD_REQUEST in v0.10.0-preview and newer. These settings will not be respected.',
+                message: '"environmentAuth" and "environmentAuthPath" are deprecated on LOAD_REQUEST in v0.11.0-preview and newer. These settings will not be respected.',
             });
         }
     }

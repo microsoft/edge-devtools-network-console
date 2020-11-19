@@ -15,7 +15,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
         const name = 'Empty test environment';
         const expected: INCNativeEnvironmentFile = {
             meta: {
-                networkConsoleEnvironmentVersion: '0.10.0-preview',
+                networkConsoleEnvironmentVersion: '0.11.0-preview',
             },
             name,
             environments: [],
@@ -58,7 +58,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
                 const format = new EnvironmentFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        version: '0.10.0-preview',
+                        version: '0.11.0-preview',
                     },
                     environments: [],
                 }, null, 4);
@@ -73,7 +73,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
                 const format = new EnvironmentFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        version: '0.10.0-preview',
+                        version: '0.11.0-preview',
                     },
                     name: 'Known bad',
                     environments: 'This should have been an array.',
@@ -118,7 +118,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
                 const format = new EnvironmentFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        version: '0.10.0-preview',
+                        version: '0.11.0-preview',
                     },
                     environments: [],
                 }, null, 4);
@@ -133,7 +133,7 @@ describe('network-console-shared/src/file_io/native/environment-format', () => {
                 const format = new EnvironmentFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        version: '0.10.0-preview',
+                        version: '0.11.0-preview',
                     },
                     name: 'Known bad',
                     environments: 'This should have been an array.',

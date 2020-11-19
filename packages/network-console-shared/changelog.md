@@ -27,7 +27,7 @@ Finally, this change introduces a refactor that produces a new, updated
 ES Modules export shape because of changes to Chromium and Edge for how
 the ESM engineering systems changes have occurred.
 
-## v0.10.0-preview
+## v0.11.0-preview
 
 This change introduces a new File I/O module. This module is intended
 to support both reading and writing of supported file formats. This is

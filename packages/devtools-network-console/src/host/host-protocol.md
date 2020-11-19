@@ -199,9 +199,9 @@ Loads a request from a collection.
     type: 'LOAD_REQUEST';
     request: INetConsoleRequest;
     requiresSaveAs: boolean;
-    /** Deprecated in 0.10.0-preview **/
+    /** Deprecated in 0.11.0-preview **/
     environmentAuth?: INetConsoleAuthorization;
-    /** Deprecated in 0.10.0-preview **/
+    /** Deprecated in 0.11.0-preview **/
     environmentAuthPath?: string[];
 }
 ```
@@ -211,7 +211,7 @@ property to be included with the `SAVE_REQUEST` message.
 
 `environmentAuth` and `environmentAuthPath` are optional parameters, but if one is included, both
 must be included. This enables the frontend to view and modify the environment authorization. The
-`environmentAuthPath` is an array of strings. These parameters are deprecated in 0.10.0-preview
+`environmentAuthPath` is an array of strings. These parameters are deprecated in 0.11.0-preview
 and will no longer be respected, and will be removed entirely in the future.
 
 ### `REQUEST_COMPLETE`
@@ -241,12 +241,12 @@ interface IHostCollection {
     id: string;
     name: string;
     children: IHostCollection[];
-    /** New in 0.10.0-preview **/
+    /** New in 0.11.0-preview **/
     authorization: INetConsoleAuthorization | undefined;
 }
 ```
 
-The `authorization` parameter is introduced in 0.10.0-preview. This allows the host to keep the
+The `authorization` parameter is introduced in 0.11.0-preview. This allows the host to keep the
 front-end's view of the entire collections tree up-to-date, and does not require the corresponding 
 environment to be passed as part of the `LOAD_REQUEST` message.
 
