@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { 
     DataGrid, 
     DataGridColumn, 
     DataGridCellRenderConfig, 
+    LightweightButton,
     Pivot,
     Progress, 
 } from '@microsoft/fast-components-react-msft';
@@ -29,6 +30,7 @@ import { HideUnless } from 'ui/generic/HideIf';
 import LocText from 'ui/LocText';
 import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
 import TableHeader from './table/TableHeader';
+import { cancelRequestAction } from 'actions/response';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -156,7 +158,7 @@ function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
     }
 
     if (props.response.status === 'PENDING') {
-        return <Pending />;
+        return <Pending requestId={props.requestId} />;
     }
     else if (props.response.status === 'ERROR_BELOW_APPLICATION_LAYER') {
         return <ErrorBelowApplication />;
@@ -234,7 +236,9 @@ function NotIssued() {
     );
 }
 
-function Pending() {
+function Pending({ requestId }: { requestId: string; }) {
+    const dispatch = useDispatch();
+    const cookie = useSelector<IView, number | undefined>(state => state.response.get(requestId)?.cookie);
     return (
         <div {...Styles.NO_REQ_STYLE}>
             <div>
@@ -243,6 +247,11 @@ function Pending() {
             <div>
                 <LocText textKey="Response.requestPendingLabel" />
             </div>
+            {requestId && cookie && (<div>
+                <LightweightButton onClick={_e => dispatch(cancelRequestAction(requestId, cookie))}>
+                    <LocText textKey="Response.cancel" />
+                </LightweightButton>
+            </div>)}
         </div>
     );
 }

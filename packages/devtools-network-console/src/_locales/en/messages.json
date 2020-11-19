@@ -427,6 +427,10 @@
         "description": "ARIA title of the top-level pivot for the Request Editor"
     },    
 
+    "Response.cancel": {
+        "message": "Cancel",
+        "description": "Button text to cancel a request that is in flight"
+    },    
     "Response.Pivot.bodyLabel": {
         "message": "Body",
         "description": "Pivot title label for 'Body' view"

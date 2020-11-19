@@ -35,6 +35,14 @@
         "message": "T̂h́îś r̂éq̂úêśt̂ úŝéŝ t́ĥé âút̂h́ôŕîźât́îón̂ d́êf́îńêd́ f̂ór̂ ít̂ś p̂ár̂én̂t́ ôŕ ît́ŝ ćôĺl̂éĉt́îón̂.",
         "description": "Description label for 'Inherit' style authorization choice"
     },
+    "Authorization.ancestorAuthTypeLabel.label": {
+        "message": "Îńĥér̂ít̂éd̂ áût́ĥór̂íẑát̂íôń t̂ýp̂é",
+        "description": "Definition term for when a request inherits its authorization settings from its environment"
+    },
+    "Authorization.ancestorAuthorizationLabel.label": {
+        "message": "Îńĥér̂ít̂éd̂ f́r̂óm̂",
+        "description": "Definition term indicating the path of inherited authorization settings"
+    },
     "Authorization.none.label": {
         "message": "T̂h́îś r̂éq̂úêśt̂ d́ôéŝ ńôt́ ûśê áût́ĥór̂íẑát̂íôń.",
         "description": "Description label for 'None' style authorization choice"
@@ -402,6 +410,10 @@
     "RequestEditor.pivotTitleLabel": {
         "message": "Ĉh́ôóŝé v̂íêẃŝ óf̂ t́ĥé r̂éq̂úêśt̂",
         "description": "ARIA title of the top-level pivot for the Request Editor"
+    },
+    "Response.cancel": {
+        "message": "Ĉán̂ćêĺ",
+        "description": "Button text to cancel a request that is in flight"
     },
     "Response.Pivot.bodyLabel": {
         "message": "B̂ód̂ý",
