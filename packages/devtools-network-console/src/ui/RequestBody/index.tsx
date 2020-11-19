@@ -31,6 +31,7 @@ import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import LocText from 'ui/LocText';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocalAlert from 'ui/generic/LocalAlert';
+import { Typography, TypographySize } from '@microsoft/fast-components-react-msft';
 
 export interface IOwnProps {
     requestId: string;
@@ -99,21 +100,23 @@ export function RequestBody(props: IRequestBodyEditorProps) {
         <div {...style}>
             {!shouldIncludeBody && (
                 <LocalAlert type="severeWarning">
-                    <LocText textKey="RequestBody.bodyWithUnsupportedVerb" />
-                    {knownVerb && (<Hypertext 
-                                        href={knownVerb.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={e => {
-                                            if (AppHost.mustAskToOpenLink() && AppHost.openLink) {
-                                                AppHost.openLink(knownVerb.link);
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }
-                                        }}
-                                    >
-                                        <LocText textKey="RequestBody.bodyWithUnsupportedVerb.learnMore" />
-                                    </Hypertext>)}
+                    <Typography size={TypographySize._8} style={{ color: 'black' }}>
+                        <LocText textKey="RequestBody.bodyWithUnsupportedVerb" />
+                        {knownVerb && (<>{ " " }<Hypertext 
+                                            href={knownVerb.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={e => {
+                                                if (AppHost.mustAskToOpenLink() && AppHost.openLink) {
+                                                    AppHost.openLink(knownVerb.link);
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                }
+                                            }}
+                                        >
+                                            <LocText textKey="RequestBody.bodyWithUnsupportedVerb.learnMore" />
+                                        </Hypertext></>)}
+                    </Typography>
                 </LocalAlert>
             )}
 

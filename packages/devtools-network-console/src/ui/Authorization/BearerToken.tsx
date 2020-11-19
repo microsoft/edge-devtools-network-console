@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Label, TextArea } from '@microsoft/fast-components-react-msft';
 
+import * as Styles from './styles';
 import Stack from 'ui/generic/Stack';
 import { makeSetBearerTokenAction } from 'actions/request/auth';
 import LocText from 'ui/LocText';
@@ -29,12 +30,12 @@ export default function BearerToken(props: IBearerTokenProps) {
                 textKey="Authorization.Shared.noEnvironmentCalcuations" />
 
             <Stack horizontal>
-                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                <div {...Styles.AUTHORIZATION_LABEL_CONTAINER_STYLE}>
                     <Label htmlFor="bearerTokenValue">
                         <LocText textKey="AuthorizationBearerToken.TokenField.label" />
                     </Label>
                 </div>
-                <div style={{ flexGrow: 1 }}>
+                <div {...Styles.LABELED_AREA}>
                     <TextArea
                         id="bearerTokenValue"
                         value={props.token} 
@@ -42,12 +43,7 @@ export default function BearerToken(props: IBearerTokenProps) {
                             const value = e.target.value;
                             dispatch(makeSetBearerTokenAction(props.requestId, value));
                         }}
-                        style={{
-                            width: '96%',
-                            margin: '1% 0% 1% 3.5%',
-                            minHeight: '85px',
-                            fontFamily: 'Consolas, monospace',
-                        }}
+                        {...Styles.BEARER_TOKEN_TEXT_AREA}
                         />
                 </div>
             </Stack>

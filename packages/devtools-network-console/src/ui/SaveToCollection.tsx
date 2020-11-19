@@ -4,19 +4,19 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { TreeView, TreeViewItem } from '@microsoft/fast-components-react-msft';
+import { IHostCollection } from 'network-console-shared';
 
-import { ICollection } from 'model/collections';
 import { Dispatch } from 'redux';
 import { makeChooseCollectionForSaveAction } from 'actions/modal';
 
 export interface ISaveToCollectionProps {
-    rootCollections: ICollection[];
+    rootCollections: IHostCollection[];
 }
 
 export default function SaveToCollection(props: ISaveToCollectionProps) {
     const dispatch = useDispatch();
 
-    function renderItem(this: Dispatch<any>, item: ICollection) {
+    function renderItem(this: Dispatch<any>, item: IHostCollection) {
         return (
             <TreeViewItem
                 titleContent={item.name}

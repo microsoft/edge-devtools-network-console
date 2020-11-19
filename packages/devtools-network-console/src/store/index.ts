@@ -5,6 +5,7 @@ import { Map as IMap, Set as ISet } from 'immutable';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {
+    IHostCollection,
     INetConsoleAuthorization,
     INetConsoleParameter,
 } from 'network-console-shared';
@@ -20,10 +21,9 @@ import reduceHostCaps from '../reducers/host-capabilities';
 import reduceViewManager, { IViewManagerState } from 'reducers/view-manager';
 import reduceModals from 'reducers/modals';
 import reduceEnvironment from 'reducers/environment';
-import reduceCollections from 'reducers/collections';
+import reduceCollections, { IFrontendCollectionsState } from 'reducers/collections';
 import reduceSaveAsRequests from 'reducers/saveAsRequests';
 import reduceLocale from 'reducers/locale';
-import { ICollection } from 'model/collections';
 import { THEME_TYPE } from 'themes/vscode-theme';
 
 declare var __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
@@ -102,7 +102,7 @@ export interface IThemeInfo {
 }
 
 export interface IView {
-    collections: ICollection[];
+    collections: IFrontendCollectionsState;
     request: RequestsState;
     response: ResponsesState;
     viewManager: IViewManagerState;

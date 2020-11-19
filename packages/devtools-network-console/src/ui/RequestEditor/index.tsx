@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { INetConsoleParameter } from 'network-console-shared';
 import { Pivot, TextField } from '@microsoft/fast-components-react-msft';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { Map } from 'immutable';
 import { connect, useDispatch } from 'react-redux';
 import { StyleAttribute, css } from 'glamor';
@@ -24,9 +25,9 @@ import CorsConfiguration from './CorsConfiguration';
 import { ID_DIV_QUERY, ID_DIV_HEADER, ID_DIV_ROUTE } from 'reducers/request/id-manager';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
-import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
+import { findNearestInheritedAuthorization } from 'reducers/collections';
 
 interface IOwnProps {
     requestId: string;
@@ -254,6 +255,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         throw new RangeError('Invalid requestId');
     }
 
+
     return {
         canSave: state.hostCapabilities.canSave,
         canEditCORS: state.hostCapabilities.canEditCORS,
@@ -264,7 +266,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         queryParameters: request.current.queryParameters,
         routeParameters: request.current.routeParameters,
         request: request.current,
-        environmentAuth: state.environment.authorization.get(ownProps.requestId),
+        environmentAuth: findInheritedAuthorization(state, ownProps.requestId),
 
         options: {
             showDescriptionFields: state.hostCapabilities.shouldShowDescription,
@@ -275,3 +277,37 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
 }
 
 export const ConnectedRequestEditor = connect(mapStateToProps)(RequestEditor);
+
+function findInheritedAuthorization(state: IView, requestId: string): IEnvironmentAuthorizationState | undefined {
+    const nearestAncestor = findNearestInheritedAuthorization(state.collections, requestId);
+    if (nearestAncestor) {
+        return {
+            from: gatherAncestralCollectionNames(state, nearestAncestor.id),
+            values: nearestAncestor.authorization!,
+        };
+    }
+
+    return undefined;
+}
+
+function gatherAncestralCollectionNames(state: IView, bottomCollectionId: string): string[] {
+    const results: string[] = [];
+    let idToCheck = bottomCollectionId;
+    while (idToCheck) {
+        const collectionWithId = state.collections.allCollections.get(idToCheck);
+        if (!collectionWithId) {
+            return results;
+        }
+
+        results.unshift(collectionWithId.name);
+        const indexOfLastDivider = idToCheck.lastIndexOf('/');
+        if (indexOfLastDivider > -1) {
+            idToCheck = idToCheck.substr(0, indexOfLastDivider);
+        }
+        else {
+            idToCheck = '';
+        }
+    }
+
+    return results;
+}

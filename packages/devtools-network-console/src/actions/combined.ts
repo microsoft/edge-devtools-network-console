@@ -14,6 +14,7 @@ import { beginResponseAction, endResponseAction } from './response/basics';
 import downloadFile from 'utility/download';
 import { IView } from 'store';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { findNearestInheritedAuthorization } from 'reducers/collections';
 
 type Thaction = ThunkAction<void, IView, void, any>;
 export function executeRequest(requestId: string, request: INetConsoleRequestInternal, isDownloadForResponse: boolean, environmentalAuthorization: INetConsoleAuthorization | null = null): Thaction {
@@ -76,7 +77,7 @@ export function executeRequestWithId(requestId: string, isDownloadForResponse: b
             throw new RangeError(`Request "${requestId}" could not be found.`);
         }
         let environmentalAuthorization: INetConsoleAuthorization | null =
-            state.environment.authorization.get(requestId)?.values || null;
+            findNearestInheritedAuthorization(state.collections, requestId)?.authorization || null;
 
 
         dispatch(executeRequest(requestId, request.current, isDownloadForResponse, environmentalAuthorization));

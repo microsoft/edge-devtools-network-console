@@ -11,6 +11,7 @@ import {
     Progress, 
 } from '@microsoft/fast-components-react-msft';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import { DataGridHeaderRenderConfig } from '@microsoft/fast-components-react-base';
 
 import CanonicalHeaderName from '../CanonicalHeaderName';
 import { INetConsoleResponseInternal } from 'model/NetConsoleRequest';
@@ -25,9 +26,9 @@ import { AppHost } from 'store/host';
 import ResponseBody from './ResponseBody';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
-import { DataGridHeaderRenderConfig } from '@microsoft/fast-components-react-base';
 import LocText from 'ui/LocText';
 import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
+import TableHeader from './table/TableHeader';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -50,25 +51,13 @@ const headersColumns: DataGridColumn[] = [
                 </div>
             );
         },
-        header: (config: DataGridHeaderRenderConfig) => {
-            return (
-                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '1 / auto', textAlign: 'center'}}>
-                    <LocText textKey={`ResponseHeaders.Header.${config.title}`} />
-                </div>
-            );
-        },
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="ResponseHeaders.Header" />,
     },
     {
         columnDataKey: 'value',
         title: 'Value',
         columnWidth: '75%',
-        header: (config: DataGridHeaderRenderConfig) => {
-            return (
-                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '2 / auto', textAlign: 'center'}}>
-                    <LocText textKey={`ResponseHeaders.Header.${config.title}`} />
-                </div>
-            );
-        },
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="ResponseHeaders.Header" />,
     },
 ];
 

@@ -42,7 +42,7 @@ export default class WebApplicationHost implements INetConsoleHost {
                 /* transparentAuthorization: */ true,
             ));
             globalDispatch(setHostOptionsAction(true));
-            globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
+            globalDispatch(loadRequestAction('coll1/coll2/0', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
             globalDispatch(makeSetCollectionTreeAction([
                 {
@@ -52,7 +52,16 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll1/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: {
+                            type: 'basic',
+                            basic: {
+                                username: 'test',
+                                password: 'test',
+                                showPassword: false,
+                            }
+                        },
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll2',
@@ -61,7 +70,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll2/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll3',
@@ -70,7 +81,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll3/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll4',
@@ -79,7 +92,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll4/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll5',
@@ -88,7 +103,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll5/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll6',
@@ -97,7 +114,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll6/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll7',
@@ -106,7 +125,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll7/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll8',
@@ -115,7 +136,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll8/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll9',
@@ -124,7 +147,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll9/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll10',
@@ -133,7 +158,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll10/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll11',
@@ -142,7 +169,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll11/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll12',
@@ -151,7 +180,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll12/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll13',
@@ -160,7 +191,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll13/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll14',
@@ -169,7 +202,9 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll14/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll15',
@@ -178,12 +213,15 @@ export default class WebApplicationHost implements INetConsoleHost {
                         id: 'coll15/coll2',
                         name: 'Child 1',
                         children: [],
+                        authorization: undefined,
                     }],
+                    authorization: undefined,
                 },
                 {
                     id: 'coll16',
                     name: 'Collection 16',
                     children: [],
+                    authorization: undefined,
                 },
             ]));
             loadPseudoloc();
@@ -212,7 +250,6 @@ export default class WebApplicationHost implements INetConsoleHost {
         const response = await fetch(toFetch);
         const stop = Date.now();
 
-        await new Promise(r => setTimeout(r, 50000));
         const body = await bodyFromResponse(response);
         return {
             duration: stop - start,

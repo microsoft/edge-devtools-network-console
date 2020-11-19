@@ -5,14 +5,11 @@ import * as React from 'react';
 
 import * as Styles from './styles';
 import LocalAlert from 'ui/generic/LocalAlert'
-import LocText from 'ui/LocText';
 
 export default function NoBody() {
     return (
         <div {...Styles.NO_BODY_TEXT}>
-            <LocalAlert type="info">
-                <LocText textKey="RequestEditor.NoBody.message" />
-            </LocalAlert>
+            <LocalAlert type="info" textKey="RequestEditor.NoBody.message" />
         </div>
     );
 }

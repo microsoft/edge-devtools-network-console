@@ -11,12 +11,12 @@ import {
     Typography,
     TypographySize,
 } from '@microsoft/fast-components-react-msft';
+import { IHostCollection } from 'network-console-shared';
 
 import { IModalState, IView, MODAL_AUTHORIZATION_REQUEST_ID } from 'store';
 import { makeDismissAuthorizationModalAction, doSaveCollectionAuthorizationToHost, makeSelectCollectionForSaveAction, makeRemoveEnvVarAction, makeAddEnvVarAction, makeEditEnvVarAction, makeDismissEditEnvironmentAction } from 'actions/modal';
 import AuthorizationUI from '../Authorization';
 import SaveToCollection from 'ui/SaveToCollection';
-import { ICollection } from 'model/collections';
 import { saveRequestToHostAction } from 'actions/request/host';
 import EditorGrid from 'ui/EditorGrid';
 import { saveEnvironmentToHost } from 'actions/environment';
@@ -26,7 +26,7 @@ import LocText from 'ui/LocText';
 
 interface IConnectedProps {
     modals: IModalState;
-    collections: ICollection[];
+    collections: IHostCollection[];
     currentRequestId: string;
 }
 
@@ -150,7 +150,7 @@ export function ModalManager(props: IConnectedProps) {
 function mapStateToProps(state: IView): IConnectedProps {
     return {
         modals: state.modals,
-        collections: state.collections,
+        collections: state.collections.rootCollections.map(id => state.collections.allCollections.get(id)!),
         currentRequestId: state.viewManager.currentView as string,
     };
 }

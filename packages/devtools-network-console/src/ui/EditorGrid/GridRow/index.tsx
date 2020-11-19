@@ -172,16 +172,6 @@ function GridRow(props: IGridRowProps & ILocalized) {
             </div>
             }
             <div {...Styles.DELETE_CELL_STYLE}>
-                {/* <IconButton
-                    {...Styles.DELETE_BUTTON_STYLE}
-                    onClick={_e => {
-                        props.isDeleteAllowed && props.onDelete(props.id);
-                    }}
-                    iconProps={{ iconName: 'Delete' }}
-                    style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '' }}
-                    aria-label={getText('EditorGrid.GridRow.deleteLabel', props)}
-                    className="editor-row-delete-btn"
-                    /> */}
                 <DeleteButton 
                     onClick={_e => {
                         props.isDeleteAllowed && props.onDelete(props.id);

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Label, TextField, TextFieldType, Toggle } from '@microsoft/fast-components-react-msft';
 
+import * as Styles from './styles';
 import { makeSetBasicAuthAction } from 'actions/request/auth';
 import Stack from 'ui/generic/Stack';
 import LocText from 'ui/LocText';
@@ -31,12 +32,12 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                 type="info"
                 textKey="Authorization.Shared.noEnvironmentCalcuations" />
             <Stack horizontal>
-                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                <div {...Styles.AUTHORIZATION_LABEL_CONTAINER_STYLE}>
                     <Label htmlFor="basicUsername">
                         <LocText textKey="AuthorizationBasic.userNameLabel" />
                     </Label>
                 </div>
-                <div style={{ flexGrow: 1 }}>
+                <div {...Styles.LABELED_AREA}>
                     <TextField
                         id="basicUsername"
                         value={props.username} 
@@ -44,20 +45,17 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                             const value = e.target.value;
                             dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
                         }}
-                        style={{
-                            width: '96%',
-                            margin: '1% 0% 1% 3.5%',
-                        }}
+                        {...Styles.AUTHORIZATION_TEXT_FIELD_STYLE}
                         />
                 </div>
             </Stack>
             <Stack horizontal>
-                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                <div {...Styles.AUTHORIZATION_LABEL_CONTAINER_STYLE}>
                     <Label htmlFor="basicPassword">
                         <LocText textKey="AuthorizationBasic.passwordLabel" />
                     </Label>
                 </div>
-                <div style={{ flexGrow: 1 }}>
+                <div {...Styles.LABELED_AREA}>
                     <TextField
                         id="basicPassword"
                         type={props.showPassword ? TextFieldType.text : TextFieldType.password}
@@ -66,19 +64,16 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                             const value = e.target.value;
                             dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
                         }}
-                        style={{
-                            width: '96%',
-                            margin: '1% 0% 1% 3.5%',
-                        }}
+                        {...Styles.AUTHORIZATION_TEXT_FIELD_STYLE}
                         />
                 </div>
             </Stack>
 
             <Stack horizontal>
-                <div style={{ flexGrow: 0, flexShrink: 0, width: '75px', padding: '15px 0 0 10px', fontWeight: 'bold' }}>
+                <div {...Styles.AUTHORIZATION_LABEL_CONTAINER_STYLE}>
 
                 </div>
-                <div style={{ flexGrow: 1, margin: '10px' }}>
+                <div {...Styles.BASIC_AUTH_SHOW_PASSWORD_CHECKBOX_AREA}>
                     <Toggle 
                         inputId="basicAuthorizationShowPassword"
                         selectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}

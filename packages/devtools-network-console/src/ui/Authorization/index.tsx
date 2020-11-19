@@ -3,8 +3,9 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { INetConsoleAuthorization, NetworkConsoleAuthorizationScheme } from 'network-console-shared';
+import { INetConsoleAuthorization } from 'network-console-shared';
 
+import * as Styles from './styles';
 import BasicAuthorization from './BasicAuthorization';
 import BearerToken from './BearerToken';
 import { makeSetAuthorizationSchemeAction } from 'actions/request/auth';
@@ -16,6 +17,7 @@ import CommonStyles from '../common-styles';
 import LocText from 'ui/LocText';
 import LocalAlert from 'ui/generic/LocalAlert';
 import { getText, LocalizationContext } from 'utility/loc-context';
+import { Typography, TypographySize } from '@microsoft/fast-components-react-msft';
 
 export interface IAuthorizationProps {
     controlIdPrefix: string;
@@ -76,23 +78,24 @@ export default function Authorization(props: IAuthorizationProps) {
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}
                     />
             </div>
-            {/* TODO: Re-implement this in a way that is localizable */}
-            {/* <HideUnless test={props.authorization.type} match="inherit">
+            <HideUnless test={props.authorization.type} match="inherit">
                 <Stack>
                     <LocalAlert
                         type="info">
                         <Stack>
-                            <div><LocText textKey="Authorization.inherit.label" /></div>
+                            <div><Typography size={TypographySize._8} style={{ color: 'black' }} ><LocText textKey="Authorization.inherit.label" /></Typography></div>
                             {env && env.values && (
-                                <div>The nearest authorization being inherited from its parent specifies that it
-                                    should be using <strong>{schemeToName(env.values.type)} </strong>
-                                    to authorize. It is coming from the collection path
-                                    <strong> {env.from.join('/')}</strong>.</div>
+                                <dl {...Styles.INHERITED_INFORMATION}>
+                                    <dt {...Styles.INHERITED_TERM}><LocText textKey="Authorization.ancestorAuthTypeLabel.label" /></dt>
+                                    <dd {...Styles.INHERITED_DEFINITION}><LocText textKey={`Authorization.choice.${env.values.type}`} /></dd>
+                                    <dt {...Styles.INHERITED_TERM}><LocText textKey="Authorization.ancestorAuthorizationLabel.label" /></dt>
+                                    <dd {...Styles.INHERITED_DEFINITION}>{env.from.join('/')}</dd>
+                                </dl>
                             )}
                         </Stack>
                     </LocalAlert>
                 </Stack>
-            </HideUnless> */}
+            </HideUnless>
             <HideUnless test={props.authorization.type} match="none">
                 <Stack>
                     <LocalAlert
@@ -108,14 +111,4 @@ export default function Authorization(props: IAuthorizationProps) {
             </HideUnless>
         </>
     );
-}
-
-const AUTH_SCHEME_NAME_MAP = new Map<NetworkConsoleAuthorizationScheme, string>([
-    ['none', 'No authorization (anonymous)'],
-    ['inherit', 'No authorization (anonymous)'],
-    ['basic', 'Basic authorization'],
-    ['token', 'Bearer Token']
-]);
-function schemeToName(scheme: NetworkConsoleAuthorizationScheme): string {
-    return AUTH_SCHEME_NAME_MAP.get(scheme) || `an unknown authorization scheme ("${scheme}")`;
 }

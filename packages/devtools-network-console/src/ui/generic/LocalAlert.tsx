@@ -44,10 +44,12 @@ function LocalAlert(props: ILocalAlertProps) {
                     <div style={{ margin: '10px' }}>
                         {props.type === 'info' ? <InfoIcon /> : <WarningIcon />}
                     </div>
-                    <div style={{ padding: '5px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <Typography size={TypographySize._8} style={{ color: designSystem.neutralPalette[designSystem.neutralPalette.length - 1] }}>
-                            {props.children ? props.children : <LocText textKey={props.textKey!} />}
-                        </Typography>
+                    <div style={{ padding: '5px', display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'black' }}>
+                        {props.children ? props.children : (
+                            <Typography size={TypographySize._8} style={{ color: 'black' }}>
+                                <LocText textKey={props.textKey!} />
+                            </Typography>
+                        )}
                     </div>
                 </Stack>
             );
