@@ -14,14 +14,18 @@ import { beginResponseAction, endResponseAction } from './response/basics';
 import downloadFile from 'utility/download';
 import { IView } from 'store';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { findNearestInheritedAuthorization } from 'reducers/collections';
 
+let cookieAccumulator = 1;
 type Thaction = ThunkAction<void, IView, void, any>;
 export function executeRequest(requestId: string, request: INetConsoleRequestInternal, isDownloadForResponse: boolean, environmentalAuthorization: INetConsoleAuthorization | null = null): Thaction {
     return async (dispatch, getState) => {
         const state = getState();
 
+        const cookie = cookieAccumulator++;
+
         dispatch(startRequestAction(requestId));
-        dispatch(beginResponseAction(requestId));
+        dispatch(beginResponseAction(requestId, cookie));
 
         try {
             const response = await AppHost.makeRequest(request, environmentalAuthorization, state.environment.environment.variables);
@@ -36,19 +40,19 @@ export function executeRequest(requestId: string, request: INetConsoleRequestInt
                     },
                 };
                 dispatch(stopRequestAction(requestId, outcomeResponse));
-                dispatch(endResponseAction(requestId, true, 'COMPLETE', outcomeResponse.response));
+                dispatch(endResponseAction(requestId, true, 'COMPLETE', outcomeResponse.response, cookie));
 
                 const buffer = binFromB64(response.response.body.content);
                 downloadFile(buffer, computeFilenameFromRequestAndResponse(request, outcomeResponse));
             }
             else {
                 dispatch(stopRequestAction(requestId, response));
-                dispatch(endResponseAction(requestId, true, 'COMPLETE', response.response));
+                dispatch(endResponseAction(requestId, true, 'COMPLETE', response.response, cookie));
             }
         }
         catch {
             dispatch(stopRequestAction(requestId, null));
-            dispatch(endResponseAction(requestId, false, 'ERROR_BELOW_APPLICATION_LAYER', null));
+            dispatch(endResponseAction(requestId, false, 'ERROR_BELOW_APPLICATION_LAYER', null, cookie));
         }
     }
 }
@@ -76,7 +80,7 @@ export function executeRequestWithId(requestId: string, isDownloadForResponse: b
             throw new RangeError(`Request "${requestId}" could not be found.`);
         }
         let environmentalAuthorization: INetConsoleAuthorization | null =
-            state.environment.authorization.get(requestId)?.values || null;
+            findNearestInheritedAuthorization(state.collections, requestId)?.authorization || null;
 
 
         dispatch(executeRequest(requestId, request.current, isDownloadForResponse, environmentalAuthorization));

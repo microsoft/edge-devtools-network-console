@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import React from 'react';
-import { Link, MessageBar, MessageBarType } from '@fluentui/react';
 import { useDispatch } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 
@@ -10,7 +9,10 @@ import { THEME_TYPE } from 'themes/vscode-theme';
 import { downloadResponse } from 'actions/combined';
 import { ISerializableHttpBody } from 'network-console-shared';
 import { strFromB64 } from 'utility/b64';
-import * as Styles from './styles';
+import Stack from 'ui/generic/Stack';
+import LocalAlert from 'ui/generic/LocalAlert';
+import LocText from 'ui/LocText';
+import { AccentButton, NeutralButton } from '@microsoft/fast-components-react-msft';
 
 interface IResponseBodyProps {
     languageChoice: string;
@@ -27,28 +29,17 @@ export default function ResponseBody(props: IResponseBodyProps) {
     if (hiddenBody) {
         return (
             <div>
-                <MessageBar
-                    messageBarType={MessageBarType.info}
-                    isMultiline
-                    messageBarIconProps={{ iconName: 'Warning' }}
-                    styles={{ root: { userSelect: 'none' } }}>
-                    The response message body size exceeded 64KiB. To avoid potentially slowing down
-                    (particularly if the content is binary), it isn't shown by default. If you want
-                    to still see it, <Link
-                                        href="#show"
-                                        {...Styles.LINK_NO_LEADING_STYLE}
-                                        onClick={e => {
-                                            e.preventDefault();
-                                            setHiddenBody(false);
-                                        }}>click here</Link>.
-                    Alternatively, you can simply <Link
-                                                    href="#download"
-                                                    {...Styles.LINK_NO_LEADING_STYLE}
-                                                    onClick={e => {
-                                                        e.preventDefault();
-                                                        dispatch(downloadResponse(props.requestId));
-                                                    }}>download the response</Link>.
-                </MessageBar>
+                <Stack>
+                    <LocalAlert type="info">
+                        <LocText textKey="ResponseBody.largeResponseBody" />
+                        <AccentButton onClick={e => setHiddenBody(false)}>
+                            <LocText textKey="ResponseBody.largeResponseBody.show" />
+                        </AccentButton>
+                        <NeutralButton onClick={e => dispatch(downloadResponse(props.requestId))}>
+                            <LocText textKey="ResponseBody.largeResponseBody.download" />
+                        </NeutralButton>
+                    </LocalAlert>
+                </Stack>
             </div>
         );
     }

@@ -3,7 +3,7 @@
 
 import { uuid } from 'uuidv4';
 import { ICollectionFormat, ICollectionAdapter } from '../../interfaces';
-import { Postman21Schema } from '../../../collections/postman/v2.1/schema-generated';
+import { Postman21Schema } from './format/schema-generated';
 import { CollectionAdapter } from './collection-adapter';
 
 export class CollectionFormat implements ICollectionFormat {

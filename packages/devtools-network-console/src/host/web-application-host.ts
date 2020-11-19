@@ -25,28 +25,229 @@ import { DEFAULT_NET_CONSOLE_REQUEST } from 'reducers/request';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { recalculateAndApplyTheme } from 'themes/vscode-theme';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
+import { initializeLocaleDictionary } from 'actions/locale-action';
+import { makeSetCollectionTreeAction } from 'actions/collections';
+import { makeEditAuthorizationInModalAction, makeEditEnvironmentAction } from 'actions/modal';
 
 export default class WebApplicationHost implements INetConsoleHost {
     constructor() {
+        const showEnvironmentModalAtStartup = false;
+        const showAuthorizationModalAtStartup = false;
+
         setTimeout(() => {
             globalDispatch(setHostCapabilitiesAction(
                 /* hasNativeTabs: */ false,
-                /* canSave: */ false,
+                /* canSave: */ true,
                 /* canEditCORS: */ true,
                 /* transparentAuthorization: */ true,
             ));
             globalDispatch(setHostOptionsAction(true));
-            globalDispatch(loadRequestAction('DEFAULT_REQUEST', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
+            globalDispatch(loadRequestAction('coll1/coll2/0', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
+            globalDispatch(makeSetCollectionTreeAction([
+                {
+                    id: 'coll1',
+                    name: 'Collection 1',
+                    children: [{
+                        id: 'coll1/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: {
+                            type: 'basic',
+                            basic: {
+                                username: 'test',
+                                password: 'test',
+                                showPassword: false,
+                            }
+                        },
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll2',
+                    name: 'Collection 2',
+                    children: [{
+                        id: 'coll2/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll3',
+                    name: 'Collection 3',
+                    children: [{
+                        id: 'coll3/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll4',
+                    name: 'Collection 4',
+                    children: [{
+                        id: 'coll4/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll5',
+                    name: 'Collection 5',
+                    children: [{
+                        id: 'coll5/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll6',
+                    name: 'Collection 6',
+                    children: [{
+                        id: 'coll6/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll7',
+                    name: 'Collection 7',
+                    children: [{
+                        id: 'coll7/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll8',
+                    name: 'Collection 8',
+                    children: [{
+                        id: 'coll8/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll9',
+                    name: 'Collection 9',
+                    children: [{
+                        id: 'coll9/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll10',
+                    name: 'Collection 10',
+                    children: [{
+                        id: 'coll10/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll11',
+                    name: 'Collection 11',
+                    children: [{
+                        id: 'coll11/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll12',
+                    name: 'Collection 12',
+                    children: [{
+                        id: 'coll12/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll13',
+                    name: 'Collection 13',
+                    children: [{
+                        id: 'coll13/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll14',
+                    name: 'Collection 14',
+                    children: [{
+                        id: 'coll14/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll15',
+                    name: 'Collection 15',
+                    children: [{
+                        id: 'coll15/coll2',
+                        name: 'Child 1',
+                        children: [],
+                        authorization: undefined,
+                    }],
+                    authorization: undefined,
+                },
+                {
+                    id: 'coll16',
+                    name: 'Collection 16',
+                    children: [],
+                    authorization: undefined,
+                },
+            ]));
+            loadPseudoloc();
         }, 1000);
+
+        setTimeout(() => {
+            if (showEnvironmentModalAtStartup) {
+                globalDispatch(makeEditEnvironmentAction('env1', 'env1.nc.json', 'Environment Container 1', 'Environment 1', [
+                    { key: 'foo', value: 'bar', description: '', isActive: true },
+                    { key: 'bar', value: 'baz', description: '', isActive: true },
+                    { key: 'frob', value: 'florbo', description: '', isActive: true },
+                    { key: 'widget', value: 'contoso', description: '', isActive: true },
+                ]));
+            }
+            else if (showAuthorizationModalAtStartup) {
+                globalDispatch(makeEditAuthorizationInModalAction('coll1', [], { type: 'none' }));
+            }
+        }, 5000);
         (window as any).__debug_WAH = this;
     }
 
     async makeRequest(request: INetConsoleRequestInternal, environmentalAuthorization: INetConsoleAuthorization | null, environmentVariables: INetConsoleParameter[]): Promise<INetConsoleResponse> {
         const start = Date.now();
         let mergedRequest = await synthesizeHttpRequest(request, environmentalAuthorization, environmentVariables);
-
         const toFetch = constructRequest(mergedRequest);
+        // await new Promise(r => setTimeout(r, 10000));
         const response = await fetch(toFetch);
         const stop = Date.now();
 
@@ -104,6 +305,11 @@ export default class WebApplicationHost implements INetConsoleHost {
             ...message,
         });
     }
+}
+
+async function loadPseudoloc() {
+    const messages = await fetch('./_locales/ps-PS/messages.json');
+    globalDispatch(initializeLocaleDictionary(await messages.json(), 'ps'));
 }
 
 function constructHeaders(request: IHttpRequest): Headers {

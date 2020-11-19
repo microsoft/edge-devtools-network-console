@@ -104,39 +104,15 @@ export namespace FileFormats {
     export const convertEnvironmentFormat = convertEnvironment;
 }
 
+import { 
+    format as loc_format, 
+    getMessage as loc_getMessage, 
+    loadLocalization as loc_loadLocalization,
+} from './util/loc';
+export namespace i18n {
+    export const format = loc_format;
+    export const getMessage = loc_getMessage;
+    export const loadLocalization = loc_loadLocalization;
+}
+
 export { Lazy, default as lazy } from './util/lazy';
-
-import { Postman21NativeReader as P21NativeReader } from './collections/postman/v2.1/postman-2.1-file-format';
-import { NCNativeReader as NCReader } from './collections/native/native-file-format';
-import { default as SwaggerReader } from './collections/openapi/openapi-file-format';
-import { tryReadCollection } from './collections/shared/reader';
-
-import { tryReadEnvironment } from './environments';
-import { serializeNativeEnvironment } from './environments/native/native-env-format';
-
-export namespace Collections {
-    export const Postman21NativeReader = P21NativeReader;
-    export const NCNativeReader = NCReader;
-    export const SwaggerFileFormatReader = SwaggerReader;
-    export const tryReadCollectionAsync = tryReadCollection;
-}
-
-export namespace Environments {
-    export const tryReadEnvironmentAsync = tryReadEnvironment;
-    export const serializeNativeEnvironmentFormat = serializeNativeEnvironment;
-}
-
-export {
-    CollectionItemType,
-    ICollectionEntryReader,
-    ICollectionFolderReader,
-    ICollectionItemBase,
-    ICollectionRootReader,
-    ICollectionsReader,
-} from './collections/shared/reader';
-
-export {
-    EnvironmentItemType,
-    IEnvironment,
-    IEnvironmentRoot,
-} from './environments';

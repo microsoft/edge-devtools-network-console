@@ -7,6 +7,7 @@ import { DataGrid, DataGridColumn, DataGridCellRenderConfig } from '@microsoft/f
 import { IHttpHeader } from 'network-console-shared';
 
 import BoolCheck from 'ui/generic/BoolCheck';
+import TableHeader from './table/TableHeader';
 
 export interface ICookiesTableProps {
     headers: IHttpHeader[];
@@ -27,26 +28,31 @@ const dataCols: DataGridColumn[] = [
         columnDataKey: 'name',
         title: 'Name',
         columnWidth: '20%',
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
     },
     {
         columnDataKey: 'value',
         title: 'Value',
         columnWidth: '20%',
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
     },
     {
         columnDataKey: 'domain',
         title: 'Domain',
         columnWidth: '14%',
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
     },
     {
         columnDataKey: 'path',
         title: 'Path',
         columnWidth: '10%',
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
     },
     {
         columnDataKey: 'expires',
         title: 'Expires',
         columnWidth: '20%',
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
     },
     {
         columnDataKey: 'httpOnly',
@@ -58,13 +64,7 @@ const dataCols: DataGridColumn[] = [
                 </div>
             );
         },
-        header: (config: DataGridHeaderRenderConfig) => {
-            return (
-                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '6 / auto', textAlign: 'center'}}>
-                    {config.title}
-                </div>
-            )
-        },
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} bypassLoc />,
         columnWidth: '8%',
     },
     {
@@ -77,13 +77,7 @@ const dataCols: DataGridColumn[] = [
                 </div>
             );
         },
-        header: (config: DataGridHeaderRenderConfig) => {
-            return (
-                <div className={config.classNames} role="columnheader" key={config.key} style={{gridColumn: '7 / auto', textAlign: 'center'}}>
-                    {config.title}
-                </div>
-            )
-        },
+        header: (config: DataGridHeaderRenderConfig) => <TableHeader key={config.key} config={config} locBase="CookiesTable.Header" />,
         columnWidth: '8%',
     },
 ];

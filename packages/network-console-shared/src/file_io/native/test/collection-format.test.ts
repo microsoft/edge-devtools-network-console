@@ -15,7 +15,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
         const name = 'Empty test collection';
         const expected = JSON.stringify({
             meta: {
-                networkConsoleCollectionVersion: '0.10.0-preview',
+                networkConsoleCollectionVersion: '0.11.0-preview',
             },
             name,
             entries: [],
@@ -56,7 +56,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
                 const format = new CollectionFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        networkConsoleCollectionVersion: '0.10.0-preview',
+                        networkConsoleCollectionVersion: '0.11.0-preview',
                     },
                     entries: [],
                 }, null, 4);
@@ -70,7 +70,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
                 const format = new CollectionFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        networkConsoleCollectionVersion: '0.10.0-preview',
+                        networkConsoleCollectionVersion: '0.11.0-preview',
                     },
                     name: 'Known bad',
                 }, null, 4);
@@ -84,7 +84,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
                 const format = new CollectionFormat();
                 const expected = JSON.stringify({
                     meta: {
-                        networkConsoleCollectionVersion: '0.10.0-preview',
+                        networkConsoleCollectionVersion: '0.11.0-preview',
                     },
                     name: 'Known bad',
                     entries: 'hello world',
@@ -121,7 +121,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
             const format = new CollectionFormat();
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.10.0-preview',
+                    networkConsoleCollectionVersion: '0.11.0-preview',
                 },
                 entries: [],
             }, null, 4);
@@ -133,7 +133,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
             const format = new CollectionFormat();
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.10.0-preview',
+                    networkConsoleCollectionVersion: '0.11.0-preview',
                 },
                 name: 'Known bad',
             }, null, 4);
@@ -145,7 +145,7 @@ describe('network-console-shared/src/file_io/native/collection-format', () => {
             const format = new CollectionFormat();
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.10.0-preview',
+                    networkConsoleCollectionVersion: '0.11.0-preview',
                 },
                 name: 'Known bad',
                 entries: 'hello world',

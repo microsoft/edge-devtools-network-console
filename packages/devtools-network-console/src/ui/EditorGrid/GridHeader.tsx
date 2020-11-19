@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import React, { useRef, useState } from 'react';
+import LocText from 'ui/LocText';
 import * as Styles from './styles';
 
 export interface IGridHeaderProps {
@@ -107,8 +108,10 @@ export default function GridHeader(props: IGridHeaderProps) {
             {...Styles.GRID_HEADER_STYLE}
             >
             <div>&nbsp;</div>
-            <div {...Styles.GRID_HEADER_DIVIDER_STYLE}></div>
-            <div ref={keyRef} {...Styles.GRID_HEADER_CELL_STYLE}>Key</div>
+            <div {...Styles.GRID_NOT_DRAGGABLE_HEADER_STYLE}></div>
+            <div ref={keyRef} {...Styles.GRID_HEADER_CELL_STYLE}>
+                <LocText textKey="EditorGrid.GridRow.keyLabel" />
+            </div>
             <div
                 onMouseDown={e => {
                     setIsDragging(DraggingMode.DRAGGING_KEY_RESIZER);
@@ -131,7 +134,9 @@ export default function GridHeader(props: IGridHeaderProps) {
                 >
                     &nbsp;
             </div>
-            <div ref={valueRef} {...Styles.GRID_HEADER_CELL_STYLE}>Value</div>
+            <div ref={valueRef} {...Styles.GRID_HEADER_CELL_STYLE}>
+                <LocText textKey="EditorGrid.GridRow.valueLabel" />
+            </div>
             {props.hideDescriptionField ? <></> : <>
             <div
                 onMouseDown={e => {
@@ -155,7 +160,9 @@ export default function GridHeader(props: IGridHeaderProps) {
                 >
                     &nbsp;
             </div>
-            <div ref={descRef} {...Styles.GRID_HEADER_CELL_STYLE}>Description</div>
+            <div ref={descRef} {...Styles.GRID_HEADER_CELL_STYLE}>
+                <LocText textKey="EditorGrid.GridRow.descriptionLabel" />
+            </div>
             </>
             }
         </div>

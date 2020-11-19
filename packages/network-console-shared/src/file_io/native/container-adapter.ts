@@ -21,7 +21,7 @@ import {
     NCChild,
     INCNativeFolder,
     INCNativeRequest,
-} from '../../collections/native/native-file-format';
+} from './format';
 
 export class ContainerAdapter implements ICollectionContainerAdapter {
     public readonly type = 'container';

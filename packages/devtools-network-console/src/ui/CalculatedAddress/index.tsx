@@ -8,7 +8,8 @@ import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
 import * as Styles from './styles';
 import { mergeString } from 'utility/environment-merge';
 import { substituteRouteParameters, concatenateQuery } from 'utility/http-compose';
-import { Text } from '@fluentui/react';
+import { Typography, TypographySize } from '@microsoft/fast-components-react-msft';
+import LocText from 'ui/LocText';
 
 export interface ICalculatedAddressProps {
     request: INetConsoleRequestInternal;
@@ -24,9 +25,12 @@ export default function CalculatedAddress(props: ICalculatedAddressProps) {
     return (
         <div {...Styles.CALC_ADDRESS_DIV_STYLE}>
 
-            <Text variant="smallPlus">
-                <span {...Styles.NOSELECT}>Computed URL: </span>{calculated}
-            </Text>
+            <Typography size={TypographySize._7}>
+                <span {...Styles.NOSELECT}>
+                    <LocText textKey="CalculatedAddress.label" /> 
+                </span>
+                {calculated}
+            </Typography>
         </div>
     );
 }

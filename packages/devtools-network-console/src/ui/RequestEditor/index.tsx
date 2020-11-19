@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { INetConsoleParameter } from 'network-console-shared';
-import { Pivot } from '@microsoft/fast-components-react-msft';
-import { TextField } from '@fluentui/react';
+import { Pivot, TextField } from '@microsoft/fast-components-react-msft';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { Map } from 'immutable';
 import { connect, useDispatch } from 'react-redux';
 import { StyleAttribute, css } from 'glamor';
@@ -25,7 +25,9 @@ import CorsConfiguration from './CorsConfiguration';
 import { ID_DIV_QUERY, ID_DIV_HEADER, ID_DIV_ROUTE } from 'reducers/request/id-manager';
 import ContainerWithStatusBar from 'ui/generic/ContainerWithStatusBar';
 import { HideUnless } from 'ui/generic/HideIf';
-import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import { getText, LocalizationContext } from 'utility/loc-context';
+import LocText from 'ui/LocText';
+import { findNearestInheritedAuthorization } from 'reducers/collections';
 
 interface IOwnProps {
     requestId: string;
@@ -55,35 +57,36 @@ export type IRequestEditorProps = IOwnProps & IConnectedProps;
 
 type ActivityState = 'query' | 'cookies' | 'auth' | 'body' | 'route' | 'fetch';
 const PIVOT_DEFAULT_ITEMS = [{
-    tab: (cn: string) => <div className={cn}>Query</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.query" /></div>,
     content: () => <></>,
     id: 'query',
 }, {
-    tab: (cn: string) => <div className={cn}>Headers</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.headers" /></div>,
     content: () => <></>,
     id: 'headers',
 }, {
-    tab: (cn: string) => <div className={cn}>Auth</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.auth" /></div>,
     content: () => <></>,
     id: 'auth',
 }, {
-    tab: (cn: string) => <div className={cn}>Body</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.body" /></div>,
     content: () => <></>,
     id: 'body',
 }];
 const PIVOT_ROUTE_ITEM = {
-    tab: (cn: string) => <div className={cn}>Route</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.route" /></div>,
     content: () => <></>,
     id: 'route',
 };
 const PIVOT_CORS_ITEM = {
-    tab: (cn: string) => <div className={cn}>Fetch</div>,
+    tab: (cn: string) => <div className={cn}><LocText textKey="RequestEditor.Pivot.fetch" /></div>,
     content: () => <></>,
     id: 'fetch',
 };
 
 export default function RequestEditor(props: IRequestEditorProps) {
     const dispatch = useDispatch();
+    const locale = React.useContext(LocalizationContext);
     const [currentTab, setCurrentTab] = React.useState<ActivityState>(props.request.routeParameters.count() > 0 ? 'route' : 'query');
 
     let bodyPivotStyle: StyleAttribute;
@@ -113,19 +116,15 @@ export default function RequestEditor(props: IRequestEditorProps) {
                 <div>
                     <TextField
                         onChange={e => dispatch(setNameAction(props.requestId, (e.target as HTMLInputElement).value))}
-                        styles={{
-                            fieldGroup: {
-                                borderColor: 'transparent',
-                            },
-                            field: {
-                                fontSize: '16px',
-                            },
-                        }}
                         className="request-title-editor"
                         value={props.request.name}
-                        placeholder={`${props.request.verb} ${props.request.url}`}
+                        placeholder={getText('RequestEditor.untitledRequestPlaceholder', { locale })}
                         autoFocus={true}
-                        ariaLabel="Specify a name for this request"
+                        aria-label={getText('RequestEditor.requestTitleLabel', { locale })}
+                        style={{
+                            width: '100%',
+                            borderColor: 'transparent',
+                        }}
                         />
                 </div>
                 <div>
@@ -142,7 +141,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                     <DesignSystemProvider designSystem={{ density: 2}}>
                         <Pivot
                             activeId={currentTab}
-                            label="Choose views of the request"
+                            label={getText('RequestEditor.pivotTitleLabel', { locale })}
                             onUpdate={activeTab => setCurrentTab(activeTab as ActivityState)}
                             items={pivotTabs} />
                     </DesignSystemProvider>
@@ -218,7 +217,12 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         </HideUnless>
                         <HideUnless test={currentTab} match="auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
-                                <Authorization authorization={props.request.authorization} requestId={props.requestId} environmentAuth={props.environmentAuth} />
+                                <Authorization 
+                                    authorization={props.request.authorization} 
+                                    requestId={props.requestId} 
+                                    environmentAuth={props.environmentAuth} 
+                                    controlIdPrefix="requestEditor"
+                                    />
                             </div>
                         </HideUnless>
                         <HideUnless test={currentTab} match="body" {...bodyPivotStyle}>
@@ -251,6 +255,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         throw new RangeError('Invalid requestId');
     }
 
+
     return {
         canSave: state.hostCapabilities.canSave,
         canEditCORS: state.hostCapabilities.canEditCORS,
@@ -261,7 +266,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         queryParameters: request.current.queryParameters,
         routeParameters: request.current.routeParameters,
         request: request.current,
-        environmentAuth: state.environment.authorization.get(ownProps.requestId),
+        environmentAuth: findInheritedAuthorization(state, ownProps.requestId),
 
         options: {
             showDescriptionFields: state.hostCapabilities.shouldShowDescription,
@@ -272,3 +277,37 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
 }
 
 export const ConnectedRequestEditor = connect(mapStateToProps)(RequestEditor);
+
+function findInheritedAuthorization(state: IView, requestId: string): IEnvironmentAuthorizationState | undefined {
+    const nearestAncestor = findNearestInheritedAuthorization(state.collections, requestId);
+    if (nearestAncestor) {
+        return {
+            from: gatherAncestralCollectionNames(state, nearestAncestor.id),
+            values: nearestAncestor.authorization!,
+        };
+    }
+
+    return undefined;
+}
+
+function gatherAncestralCollectionNames(state: IView, bottomCollectionId: string): string[] {
+    const results: string[] = [];
+    let idToCheck = bottomCollectionId;
+    while (idToCheck) {
+        const collectionWithId = state.collections.allCollections.get(idToCheck);
+        if (!collectionWithId) {
+            return results;
+        }
+
+        results.unshift(collectionWithId.name);
+        const indexOfLastDivider = idToCheck.lastIndexOf('/');
+        if (indexOfLastDivider > -1) {
+            idToCheck = idToCheck.substr(0, indexOfLastDivider);
+        }
+        else {
+            idToCheck = '';
+        }
+    }
+
+    return results;
+}

@@ -3,18 +3,24 @@
 
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, MessageBar, MessageBarType } from '@fluentui/react';
-import { INetConsoleAuthorization, NetworkConsoleAuthorizationScheme } from 'network-console-shared';
+import { INetConsoleAuthorization } from 'network-console-shared';
 
+import * as Styles from './styles';
 import BasicAuthorization from './BasicAuthorization';
 import BearerToken from './BearerToken';
 import { makeSetAuthorizationSchemeAction } from 'actions/request/auth';
 import { IEnvironmentAuthorizationState } from 'store';
 import { Radio } from '@microsoft/fast-components-react-msft';
 import { HideUnless } from 'ui/generic/HideIf';
+import Stack from 'ui/generic/Stack';
 import CommonStyles from '../common-styles';
+import LocText from 'ui/LocText';
+import LocalAlert from 'ui/generic/LocalAlert';
+import { getText, LocalizationContext } from 'utility/loc-context';
+import { Typography, TypographySize } from '@microsoft/fast-components-react-msft';
 
 export interface IAuthorizationProps {
+    controlIdPrefix: string;
     requestId: string;
     authorization: INetConsoleAuthorization;
     environmentAuth?: IEnvironmentAuthorizationState;
@@ -25,69 +31,76 @@ export default function Authorization(props: IAuthorizationProps) {
     const basic = props.authorization.basic;
     const env = props.environmentAuth;
     const dispatch = useDispatch();
+    const locale = React.useContext(LocalizationContext);
+
+    const inheritId = `${props.controlIdPrefix}_authInherit`;
+    const noneId = `${props.controlIdPrefix}_authNone`;
+    const tokenId = `${props.controlIdPrefix}_authToken`;
+    const basicId = `${props.controlIdPrefix}_authBasic`;
 
     return (
         <>
             <div {...CommonStyles.RBL_HORIZONTAL}>
                 <Radio
-                    inputId="authInherit"
-                    name="authType"
+                    inputId={inheritId}
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="inherit"
                     checked={props.authorization.type === 'inherit'}
-                    title="Inherit"
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authInherit" className={cn}>Inherit</label>}
+                    title={getText('Authorization.choice.inherit', { locale })}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={inheritId} className={cn}><LocText textKey="Authorization.choice.inherit" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'inherit'))}
                     />
                 <Radio
-                    inputId="authNone"
-                    name="authType"
+                    inputId={noneId}
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="none"
                     checked={props.authorization.type === 'none'}
-                    title="None"
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authNone" className={cn}>None</label>}
+                    title={getText('Authorization.choice.none', { locale })}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={noneId} className={cn}><LocText textKey="Authorization.choice.none" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'none'))}
                     />
                 <Radio
-                    inputId="authToken"
-                    name="authType"
+                    inputId={tokenId}
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="token"
                     checked={props.authorization.type === 'token'}
-                    title="Bearer token"
-                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authToken" className={cn}>Bearer token</label>}
+                    title={getText('Authorization.choice.token', { locale })}
+                    label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={tokenId} className={cn}><LocText textKey="Authorization.choice.token" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'token'))}
                     />
                 <Radio
-                    inputId="authBasic"
-                    name="authType"
+                    inputId={basicId}
+                    name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="basic"
                     checked={props.authorization.type === 'basic'}
-                    title="Basic"
-                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor="authBasic" className={cn}>Basic</label>}
+                    title={getText('Authorization.choice.basic', { locale })}
+                    label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={basicId} className={cn}><LocText textKey="Authorization.choice.basic" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}
                     />
             </div>
             <HideUnless test={props.authorization.type} match="inherit">
-                <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
-                    <MessageBar
-                        messageBarType={MessageBarType.info}
-                        styles={{ root: { userSelect: 'none' }}}
-                        >
+                <Stack>
+                    <LocalAlert
+                        type="info">
                         <Stack>
-                            <div>This request should use the authorization defined for its parent or its collection.</div>
+                            <div><Typography size={TypographySize._8} style={{ color: 'black' }} ><LocText textKey="Authorization.inherit.label" /></Typography></div>
                             {env && env.values && (
-                                <div>The nearest authorization being inherited from its parent specifies that it
-                                    should be using <strong>{schemeToName(env.values.type)} </strong>
-                                    to authorize. It is coming from the collection path
-                                    <strong> {env.from.join('/')}</strong>.</div>
+                                <dl {...Styles.INHERITED_INFORMATION}>
+                                    <dt {...Styles.INHERITED_TERM}><LocText textKey="Authorization.ancestorAuthTypeLabel.label" /></dt>
+                                    <dd {...Styles.INHERITED_DEFINITION}><LocText textKey={`Authorization.choice.${env.values.type}`} /></dd>
+                                    <dt {...Styles.INHERITED_TERM}><LocText textKey="Authorization.ancestorAuthorizationLabel.label" /></dt>
+                                    <dd {...Styles.INHERITED_DEFINITION}>{env.from.join('/')}</dd>
+                                </dl>
                             )}
                         </Stack>
-
-                    </MessageBar>
+                    </LocalAlert>
                 </Stack>
             </HideUnless>
             <HideUnless test={props.authorization.type} match="none">
-                <Stack tokens={{ childrenGap: 'm', padding: 'm' }}>
-                    <MessageBar messageBarType={MessageBarType.info} styles={{ root: { userSelect: 'none' }}}>This request does not use authorization.</MessageBar>
+                <Stack>
+                    <LocalAlert
+                        type="info"
+                        textKey="Authorization.none.label" />
                 </Stack>
             </HideUnless>
             <HideUnless test={props.authorization.type} match="token">
@@ -98,14 +111,4 @@ export default function Authorization(props: IAuthorizationProps) {
             </HideUnless>
         </>
     );
-}
-
-const AUTH_SCHEME_NAME_MAP = new Map<NetworkConsoleAuthorizationScheme, string>([
-    ['none', 'No authorization (anonymous)'],
-    ['inherit', 'No authorization (anonymous)'],
-    ['basic', 'Basic authorization'],
-    ['token', 'Bearer Token']
-]);
-function schemeToName(scheme: NetworkConsoleAuthorizationScheme): string {
-    return AUTH_SCHEME_NAME_MAP.get(scheme) || `an unknown authorization scheme ("${scheme}")`;
 }

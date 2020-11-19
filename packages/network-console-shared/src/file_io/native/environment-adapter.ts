@@ -6,7 +6,7 @@ import {
     IEnvironmentContainerAdapter,
     IEnvironmentAdapter,
 } from '../interfaces';
-import { INCNativeEnvironment } from './environment-format';
+import { INCNativeEnvironment } from './format';
 import { INetConsoleParameter } from '../../net/net-console-http';
 
 export class EnvironmentAdapter implements IEnvironmentAdapter {

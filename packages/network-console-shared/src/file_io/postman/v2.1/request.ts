@@ -13,7 +13,7 @@ import {
     RequestObject,
     Items,
     URLObject,
-} from '../../../collections/postman/v2.1/schema-generated';
+} from './format/schema-generated';
 import { constructURLObject, formatURLObjectWithoutVariables } from './url';
 
 import { BodyAdapter } from './body';

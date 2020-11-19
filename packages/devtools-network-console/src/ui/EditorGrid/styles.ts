@@ -22,7 +22,7 @@ export const ENABLED_COLUMN_STYLE = css({
 export const GRID_HEADER_STYLE = css({
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 35px',
     userSelect: 'none',
     fontWeight: '600',
     fontSize: '13px',
@@ -30,17 +30,22 @@ export const GRID_HEADER_STYLE = css({
 
 export const GRID_HEADER_CELL_STYLE = css({
     padding: '3px',
+    wordBreak: 'break-all',
 });
 
 export const GRID_HEADER_DIVIDER_STYLE = css({
-    backgroundColor: 'transparent',
+    backgroundColor: '#ccc',
     cursor: 'col-resize',
+});
+
+export const GRID_NOT_DRAGGABLE_HEADER_STYLE = css(GRID_HEADER_DIVIDER_STYLE, {
+    cursor: 'unset',
 });
 
 export const GRID_ROW_STYLE = css({
     display: 'grid',
     width: '100%',
-    gridTemplateColumns: '25px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 30px',
+    gridTemplateColumns: '28px 1px var(--grid-key-column-width, 35fr) 1px var(--grid-value-column-width, 35fr) 1px var(--grid-description-column-width, 30fr) 35px',
     fontSize: '12px',
 });
 
@@ -48,7 +53,7 @@ export const GRID_TEXT_INPUT_STYLE = css({
     display: 'inline-flex',
     width: 'calc(100% - 4px)',
     height: '100%',
-    borderColor: 'transparent',
+    borderColor: '#ccc',
 });
 
 const GRID_CELL_BASE_STYLE = css({
@@ -57,7 +62,7 @@ const GRID_CELL_BASE_STYLE = css({
 });
 
 const INTERIOR_GRID_CELL_STYLE = css(GRID_CELL_BASE_STYLE, {
-    // borderRightWidth: '1px',
+    borderRightWidth: '1px',
     borderTopWidth: '1px',
 });
 
@@ -93,6 +98,7 @@ export const DELETE_CELL_STYLE = css(GRID_CELL_LAST_STYLE, {
     gridColumnStart: 8,
     gridColumnEnd: 9,
     paddingLeft: 0,
+    borderLeft: '1px solid #ccc',
 });
 
 export const DELETE_BUTTON_STYLE = css({

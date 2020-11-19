@@ -44,16 +44,11 @@ interface ILoadRequestMessageBase extends IMessage<'LOAD_REQUEST'> {
     requestId: string;
     requiresSaveAs: boolean;
 
-    environmentAuth?: INetConsoleAuthorization;
-    environmentAuthPath?: string[];
+    _environmentAuth?: INetConsoleAuthorization;
+    _environmentAuthPath?: string[];
 }
 
-interface ILoadRequestMessageEnvironment {
-    environmentAuth: INetConsoleAuthorization;
-    environmentAuthPath: string;
-}
-
-export type ILoadRequestMessage = ILoadRequestMessageBase | (ILoadRequestMessageBase & ILoadRequestMessageEnvironment);
+export type ILoadRequestMessage = ILoadRequestMessageBase;
 
 export type IRequestCompleteMessage = IMessage<'REQUEST_COMPLETE'> & IResponseMessage<INetConsoleResponse>;
 
@@ -67,6 +62,10 @@ export interface IHostCollection {
     id: string;
     name: string;
     children: IHostCollection[];
+    /**
+     * Introduced in v0.11.0-preview. If this is `undefined`, it is assumed to be an "inherit".
+     */
+    authorization: INetConsoleAuthorization | undefined;
 }
 
 export interface IUpdateCollectionsTreeMessage extends IMessage<'UPDATE_COLLECTIONS_TREE'> {

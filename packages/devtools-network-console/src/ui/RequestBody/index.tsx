@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import {
-    MessageBar,
-    MessageBarType,
-    Link,
-} from '@fluentui/react';
-import { Radio, Select, SelectOption } from '@microsoft/fast-components-react-msft';
+import { Hypertext, Radio, Select, SelectOption } from '@microsoft/fast-components-react-msft';
 import { useDispatch, connect } from 'react-redux';
 import { ControlledEditor as MonacoEditor } from '@monaco-editor/react';
 import { Map as ImmutableMap } from 'immutable';
@@ -32,6 +27,11 @@ import { AppHost } from 'store/host';
 import { THEME_TYPE } from 'themes/vscode-theme';
 import { ID_DIV_FORM_DATA, ID_DIV_FORM_URLENCODED } from 'reducers/request/id-manager';
 import { HideUnless } from 'ui/generic/HideIf';
+import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
+import LocText from 'ui/LocText';
+import { getText, LocalizationContext } from 'utility/loc-context';
+import LocalAlert from 'ui/generic/LocalAlert';
+import { Typography, TypographySize } from '@microsoft/fast-components-react-msft';
 
 export interface IOwnProps {
     requestId: string;
@@ -57,33 +57,27 @@ interface IConnectedProps {
 export type IRequestBodyEditorProps = IOwnProps & IConnectedProps;
 const BODY_CONTENT_TYPES = [{
     key: 'text/plain',
-    text: 'Plain text (text/plain)',
-    iconProps: { iconName: 'TextDocument' },
+    text: 'text/plain',
 },
 {
     key: 'application/json',
-    text: 'JSON (application/json)',
-    iconProps: { iconName: 'Script' },
+    text: 'application/json',
 },
 {
     key: 'text/xml',
-    text: 'XML (text/xml)',
-    iconProps: { iconName: 'ChevronLeftMed' },
+    text: 'text/xml',
 },
 {
     key: 'application/xml',
-    text: 'XML (application/xml)',
-    iconProps: { iconName: 'ChevronRightMed' },
+    text: 'application/xml',
 },
 {
     key: 'text/html',
-    text: 'HTML (text/html)',
-    iconProps: { iconName: 'FileHTML' },
+    text: 'text/html',
 },
 {
     key: 'application/javascript',
-    text: 'JavaScript (application/javascript)',
-    iconProps: { iconName: 'JavaScriptLanguage' },
+    text: 'application/javascript',
 }];
 
 const KeyToMap = new Map<string, string>([
@@ -98,45 +92,44 @@ export function RequestBody(props: IRequestBodyEditorProps) {
     const dispatch = useDispatch();
     const knownVerb = getKnownVerbDef(props.selectedVerb);
     const shouldIncludeBody = !knownVerb || knownVerb.canIncludeBody;
+    const locale = React.useContext(LocalizationContext);
 
     const style: StyleAttribute = props.bodySelection === 'raw' ? Styles.BODY_CONTAINER_STYLE : {};
 
     return (
         <div {...style}>
-            {!shouldIncludeBody && <MessageBar
-                                        messageBarType={MessageBarType.severeWarning}
-                                        isMultiline
-                                        messageBarIconProps={{ iconName: 'Warning' }}
-                                        styles={{root: { userSelect: 'none', overflowY: 'auto' }, text: { userSelect: 'none'}}}
-                                   >
-                                       Sending a body entity as part of a {props.selectedVerb} request is
-                                       not part of the standard and may result in undefined behavior. Consider
-                                       choosing a verb such as POST or PUT for this endpoint.
-                                       {knownVerb && <>(For more information,
-                                       see <Link href={knownVerb.link}
-                                              target="_blank"
-                                              rel="noopener noreferrer"
-                                              onClick={e => {
-                                                  if (AppHost.mustAskToOpenLink()) {
-                                                      AppHost.openLink?.(knownVerb.link);
-                                                      e.preventDefault();
-                                                      e.stopPropagation();
-                                                  }
-                                              }}
-                                              style={{paddingLeft: 0}}
-                                              >
-                                           the relevant standards information
-                                       </Link>.)</>}
-                                   </MessageBar>}
+            {!shouldIncludeBody && (
+                <LocalAlert type="severeWarning">
+                    <Typography size={TypographySize._8} style={{ color: 'black' }}>
+                        <LocText textKey="RequestBody.bodyWithUnsupportedVerb" />
+                        {knownVerb && (<>{ " " }<Hypertext 
+                                            href={knownVerb.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={e => {
+                                                if (AppHost.mustAskToOpenLink() && AppHost.openLink) {
+                                                    AppHost.openLink(knownVerb.link);
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                }
+                                            }}
+                                        >
+                                            <LocText textKey="RequestBody.bodyWithUnsupportedVerb.learnMore" />
+                                        </Hypertext></>)}
+                    </Typography>
+                </LocalAlert>
+            )}
+
             <div className="ht100 flxcol">
                 <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}}>
+                    <DesignSystemProvider designSystem={{density: -3}}>
                     <Radio
                         inputId="bodyNone"
                         name="bodyType"
                         value="none"
                         checked={props.bodySelection === 'none'}
                         title="None"
-                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyNone" className={cn}>None</label>}
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyNone" className={cn}><LocText textKey="RequestEditor.BodyType.none" /></label>}
                         onChange={() => dispatch(setBodyTypeAction(props.requestId, 'none'))}
                         />
                     <Radio
@@ -163,18 +156,20 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         value="Raw text"
                         checked={props.bodySelection === 'raw'}
                         title="raw"
-                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}>Raw text</label>}
+                        label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}><LocText textKey="RequestEditor.BodyType.rawText" /></label>}
                         onChange={() => dispatch(setBodyTypeAction(props.requestId, 'raw'))}
                         />
 
                     <HideUnless test={props.bodySelection} match="raw">
                         {/* <CommandBar items={[cmdBarItem]} /> */}
                         <Select
-                            placeholder="Content Type"
+                            placeholder={getText('RequestEditor.BodyType.contentTypeSelectLabel', { locale })}
                             className="content-type-select"
                             jssStyleSheet={{
                                 select: {
-                                    width: '205px',
+                                    width: '155px',
+                                },
+                                select_menu__open: {
                                     zIndex: '500',
                                     position: 'relative',
                                 },
@@ -190,6 +185,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                             })}
                         </Select>
                     </HideUnless>
+                    </DesignSystemProvider>
                 </div>
                 <HideUnless test={props.bodySelection} match="none">
                     <NoBody />

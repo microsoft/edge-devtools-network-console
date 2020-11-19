@@ -6,7 +6,7 @@
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "version": "0.10.0-preview",
+  "version": "0.11.0-preview",
   "private": true,
   "devDependencies": {
     "recursive-copy": "^2.0.10",
@@ -20,6 +20,7 @@
     "install-and-build": "node ./scripts/install-and-build",
     "deploy": "node ./scripts/deploy",
     "start": "node ./scripts/run-frontend",
-    "run-tests:shared": "node ./scripts/run-package-task -- --package-name network-console-shared --task-name test"
+    "run-tests:shared": "node ./scripts/run-package-task -- --package-name network-console-shared --task-name test",
+    "ps": "node ./scripts/generate-pseudoloc"
   }
 }

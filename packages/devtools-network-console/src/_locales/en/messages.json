@@ -1,0 +1,547 @@
+{
+    "AddressBar.placeholder": {
+        "message": "Enter the URL to be requested here.",
+        "description": "Placeholder for the URL prompt in the address bar"
+    },
+    "AddressBar.save": {
+        "message": "Save",
+        "description": "Button label to save a request"
+    },
+    "AddressBar.saveTitle": {
+        "message": "Hold the Ctrl key while activating this button to choose into which collection to save this request.",
+        "description": "Save button title instruction to activate the Save-As function"
+    },
+    "AddressBar.send": {
+        "message": "Send",
+        "description": "Button label to send a request"
+    },
+
+    "Authorization.choice.basic": {
+        "message": "Basic",
+        "description": "Authorization selection label for Basic authorization"
+    },
+    "Authorization.choice.inherit": {
+        "message": "Inherit",
+        "description": "Authorization selection label for inherited authorization"
+    },
+    "Authorization.choice.none": {
+        "message": "None",
+        "description": "Authorization selection label for no authorization"
+    },
+    "Authorization.choice.token": {
+        "message": "Bearer token",
+        "description": "Authorization selection label for Bearer Token authorization"
+    },
+    "Authorization.inherit.label": {
+        "message": "This request uses the authorization defined for its parent or its collection.",
+        "description": "Description label for 'Inherit' style authorization choice"
+    },
+    "Authorization.ancestorAuthTypeLabel.label": {
+        "message": "Inherited authorization type",
+        "description": "Definition term for when a request inherits its authorization settings from its environment"
+    },
+    "Authorization.ancestorAuthorizationLabel.label": {
+        "message": "Inherited from",
+        "description": "Definition term indicating the path of inherited authorization settings"
+    },
+    "Authorization.none.label": {
+        "message": "This request does not use authorization.",
+        "description": "Description label for 'None' style authorization choice"
+    },
+
+    "Authorization.Shared.dataSensitiveWarning": {
+        "message": "These parameters may contain sensitive information. Consider specifying these with environment variables here, and specifying that your environment variables aren't checked in to source control.",
+        "description": "Helper text indicating that users' authorization settings should not be checked into source control."
+    },
+    "Authorization.Shared.noEnvironmentCalcuations": {
+        "message": "Environment variable substitutions are not shown here for privacy purposes.",
+        "description": "Helper text indicating that users' Environment variables are not displayed as calculated in Authorization settings."
+    },
+
+    "AuthorizationBasic.userNameLabel": {
+        "message": "User name",
+        "description": "Label for the 'User name' field for Basic authorization"
+    },
+    "AuthorizationBasic.passwordLabel": {
+        "message": "Password",
+        "description": "Label for the 'Password' field for Basic authorization"
+    },
+    "AuthorizationBasic.showPasswordLabel": {
+        "message": "Show password",
+        "description": "Label for the 'Show Password' toggle field for Basic authorization"
+    },
+
+    "AuthorizationBearerToken.TokenField.label": {
+        "message": "Token",
+        "description": "Label for the Bearer token value text field"
+    },
+
+    "BoolCheck.yesLabel": {
+        "message": "yes",
+        "description": "Screen reader label for affirmative field represented by a check mark"
+    },
+    "BoolCheck.noLabel": {
+        "message": "no",
+        "description": "Screen reader label for negative field which would have been represented by a check mark"
+    },
+
+    "CalculatedAddress.label": {
+        "message": "Computed URL: ",
+        "description": "Label that describes a URL after applying environment, route, and query variables"
+    },
+
+    "CookiesTable.Header.Domain": {
+        "message": "Domain",
+        "description": "Header for cookies table 'Domain' column"
+    },
+    "CookiesTable.Header.Expires": {
+        "message": "Expires",
+        "description": "Header for cookies table 'Expires' column"
+    },
+    "CookiesTable.Header.Name": {
+        "message": "Name",
+        "description": "Header for cookies table 'Name' column"
+    },
+    "CookiesTable.Header.Path": {
+        "message": "Path",
+        "description": "Header for cookies table 'Path' column"
+    },
+    "CookiesTable.Header.Secure": {
+        "message": "Secure",
+        "description": "Header for cookies table 'Secure' column"
+    },
+    "CookiesTable.Header.Value": {
+        "message": "Value",
+        "description": "Header for cookies table 'Value' column"
+    },
+
+    "Cors.Mode.cors.label": {
+        "message": "Cross-origin enabled with CORS protocol",
+        "description": "Label for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.cors.description": {
+        "message": "Allows cross-origin requests, for example to access various APIs offered by 3rd party vendors. These are expected to adhere to the CORS protocol. Only a limited set of headers are exposed in the Response, but the body is readable.",
+        "description": "Description for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.no-cors.label": {
+        "message": "CORS protocol disabled",
+        "description": "Label for the CORS mode 'CORS' option."
+    },
+    "Cors.Mode.no-cors.description": {
+        "message": "Prevents the method from being anything other than HEAD, GET or POST, and the headers from being anything other than simple headers. In addition, JavaScript may not access any properties of the resulting Response. This ensures that ServiceWorkers do not affect the semantics of the Web and prevents security and privacy issues arising from leaking data across domains.",
+        "description": "Description for the CORS mode 'no-cors' option."
+    },
+    "Cors.Mode.same-origin.label": {
+        "message": "Cross-origin requests disallowed",
+        "description": "Label for the CORS mode 'same-origin' option."
+    },
+    "Cors.Mode.same-origin.description": {
+        "message": "If a request is made to another origin with this mode set, the result is simply an error. You could use this to ensure that a request is always being made to your origin.",
+        "description": "Description for the CORS mode 'same-origin' option."
+    },
+    "Cors.Credentials.same-origin.label": {
+        "message": "Include for requests to the same origin",
+        "description": "Label for the credentials mode 'same-origin' option."
+    },
+    "Cors.Credentials.same-origin.description": {
+        "message": "Send user credentials (cookies, basic http auth, etc..) if the URL is on the same origin as the page being inspected.",
+        "description": "Description for the credentials mode 'same-origin' option."
+    },
+    "Cors.Credentials.include.label": {
+        "message": "Include for all requests",
+        "description": "Label for the credentials mode 'include' option."
+    },
+    "Cors.Credentials.include.description": {
+        "message": "Always send user credentials (cookies, basic http auth, etc..), even for cross-origin calls. Requests will be blocked if the cross-origin header negotiation for CORS omits the Access-Control-Allow-Credentials header.",
+        "description": "Description for the credentials mode 'include' option."
+    },
+    "Cors.Credentials.omit.label": {
+        "message": "Do not include for any requests",
+        "description": "Label for the credentials mode 'omit' option."
+    },
+    "Cors.Credentials.omit.description": {
+        "message": "Never send or receive cookies or basic HTTP authorization except what is specifically configured by the Authorization tab or for the collection to which this request belongs.",
+        "description": "Description for the credentials mode 'omit' option."
+    },
+    "Cors.Cache.no-store.label": {
+        "message": "Unconditionally make the request and do not cache the result",
+        "description": "Label for the cache mode 'no-store' option."
+    },
+    "Cors.Cache.no-store.description": {
+        "message": "The browser fetches the resource from the remote server without first looking in the cache, and will not update the cache with the downloaded resource.",
+        "description": "Description for the cache mode 'no-store' option."
+    },
+    "Cors.Cache.default.label": {
+        "message": "Standard HTTP request behavior",
+        "description": "Label for the cache mode 'default' option."
+    },
+    "Cors.Cache.default.description": {
+        "message": "The browser looks for a matching request in its HTTP cache. Behavior depends on whether the match is fresh or stale, and an updated result will cause the browser cache to be updated.",
+        "description": "Description for the cache mode 'default' option."
+    },
+    "Cors.Cache.reload.label": {
+        "message": "Unconditionally request and update the cache",
+        "description": "Label for the cache mode 'reload' option."
+    },
+    "Cors.Cache.reload.description": {
+        "message": "The browser fetches the resource from the remote server without first looking in the cache, but then will update the cache with the downloaded resource.",
+        "description": "Description for the Cache mode 'reload' option."
+    },
+    "Cors.Cache.no-cache.label": {
+        "message": "Always make at least a conditional request",
+        "description": "Label for the cache mode 'no-cache' option."
+    },
+    "Cors.Cache.no-cache.description": {
+        "message": "The browser looks for a matching request in its HTTP cache. If there is a match, the browser will issue a conditional request, and return the cached content if the server indicates that the content is unchanged; otherwise the resource will be retrieved.",
+        "description": "Description for the cache mode 'no-cache' option."
+    },
+    "Cors.Cache.force-cache.label": {
+        "message": "Always return cached content if available",
+        "description": "Label for the cache mode 'force-cache' option."
+    },
+    "Cors.Cache.force-cache.description": {
+        "message": "If the resource has been cached, the cached content is returned. Otherwise, the browser will make a normal request, and update the cache.",
+        "description": "Description for the cache mode 'force-cache' option."
+    },
+    "Cors.Cache.only-if-cached.label": {
+        "message": "Only return content if the content exists in the cache",
+        "description": "Label for the cache mode 'only-if-cached' option."
+    },
+    "Cors.Cache.only-if-cached.description": {
+        "message": "If the resource has been cached, the cached content is returned. Otherwise, the browser will respond with a 504 Gateway Timeout status.",
+        "description": "Description for the cache mode 'only-if-cached' option."
+    },
+    "Cors.Redirect.follow.label": {
+        "message": "Transparently follow 301/302 redirect responses",
+        "description": "Label for the redirect mode 'follow' option."
+    },
+    "Cors.Redirect.follow.description": {
+        "message": "Follow all redirects incurred when fetching a resource.",
+        "description": "Description for the redirect mode 'follow' option."
+    },
+    "Cors.Redirect.error.label": {
+        "message": "Return a network error when a request is met with a redirect",
+        "description": "Label for the redirect mode 'error' option."
+    },
+    "Cors.Redirect.error.description": {
+        "message": "If a response results in a redirect response, the result will appear to be a network error.",
+        "description": "Description for the redirect mode 'error' option."
+    },
+    "Cors.groupTitle.corsMode": {
+        "message": "CORS mode",
+        "description": "Group title for the 'CORS mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.credentialsMode": {
+        "message": "Credentials mode",
+        "description": "Group title for the 'Credentials mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.cacheMode": {
+        "message": "Cache mode",
+        "description": "Group title for the 'Cache mode' section of options for CORS requests"
+    },
+    "Cors.groupTitle.redirectMode": {
+        "message": "Redirect mode",
+        "description": "Group title for the 'Redirect mode' section of options for CORS requests"
+    },
+
+    "EditorGrid.GridFileInput.chooseFileLabel": {
+        "message": "Choose file...",
+        "description": "Button text to choose a file"
+    },
+    "EditorGrid.GridFileInput.replaceFileLabel": {
+        "message": "Replace...",
+        "description": "Button text to replace a file"
+    },
+    "EditorGrid.GridKey.fileLabel": {
+        "message": "File",
+        "description": "Dropdown option label to choose a File option"
+    },
+    "EditorGrid.GridKey.textLabel": {
+        "message": "Text",
+        "description": "Dropdown option label to choose a Text option"
+    },
+    "EditorGrid.GridRow.deleteLabel": {
+        "message": "Delete row",
+        "description": "Button label to delete a row in an editor grid"
+    },
+    "EditorGrid.GridRow.descriptionLabel": {
+        "message": "Description",
+        "description": "Text field label for the Description field in the editor grid"
+    },
+    "EditorGrid.GridRow.enabledLabel": {
+        "message": "Enabled",
+        "description": "Checkbox label for the Enabled field in the editor grid"
+    },
+    "EditorGrid.GridRow.keyLabel": {
+        "message": "Key",
+        "description": "Text field label for the Key field in the editor grid"
+    },
+    "EditorGrid.GridRow.valueLabel": {
+        "message": "Value",
+        "description": "Text field label for the Value field in the editor grid"
+    },
+    "EditorGrid.GridTextInput.previewLabel": {
+        "message": "Preview of the rendered value based on your current environment",
+        "description": "Screen reader label for a computed value of a grid input that has environment variable substitutions"
+    },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.file": {
+        "message": "File",
+        "description": ""
+    },
+    "EditorGrid.GridTextOrFileKey.TypeSelectorType.text": {
+        "message": "Text",
+        "description": ""
+    },    
+
+    "ErrorBoundary.reopen": {
+        "message": "You can close and re-open this tool to recover.",
+        "description": "Guidance text to recover from an error"
+    },
+    "ErrorBoundary.title": {
+        "message": "Something went wrong.",
+        "description": "Title text when an unhandled error occurs"
+    },
+    "ErrorBoundary.showMoreLabel": {
+        "message": "Error details",
+        "description": "Label for link that displays the call stack"
+    },
+    "ErrorBoundary.showMoreAriaLabel": {
+        "message": "Expand the call stack to see error details",
+        "description": "Accessible label for link that displays the call stack"
+    },
+
+    "HttpVerbPicker.title": {
+        "message": "Choose an HTTP Method or Verb",
+        "description": "Title of dropdown for selecting an HTTP verb"
+    },
+
+    "KNOWN_HTTP_VERBS.GET": {
+        "message": "Requests transfer of a currently selected representation for the target resource. GET is the primary mechanism of information retrieval and the focus of almost all performance optimizations.",
+        "description": "Description of the defined behavior of the HTTP GET verb"
+    },
+    "KNOWN_HTTP_VERBS.HEAD": {
+        "message": "The HEAD method is identical to GET except that the server MUST NOT send a message body in the response, i.e., the response terminates at the end of the header section.",
+        "description": "Description of the defined behavior of the HTTP HEAD verb"
+    },
+    "KNOWN_HTTP_VERBS.POST": {
+        "message": "The POST method requests that the target resource process the representation enclosed in the request according to the resource's own specific semantics.",
+        "description": "Description of the defined behavior of the HTTP POST verb"
+    },
+    "KNOWN_HTTP_VERBS.PUT": {
+        "message": "The PUT method requests that the state of the target resource be created or replaced with the state defined by the representation enclosed in the message payload.",
+        "description": "Description of the defined behavior of the HTTP PUT verb"
+    },
+    "KNOWN_HTTP_VERBS.PATCH": {
+        "message": "The PATCH method requests that a set of changes described in the request entity be applied to the resource identified by the Request-URI.",
+        "description": "Description of the defined behavior of the HTTP PATCH verb"
+    },
+    "KNOWN_HTTP_VERBS.DELETE": {
+        "message": "The DELETE method requests that the origin server remove the association between the target resource and its current functionality.",
+        "description": "Description of the defined behavior of the HTTP DELETE verb"
+    },
+    "KNOWN_HTTP_VERBS.OPTIONS": {
+        "message": "The OPTIONS method requests information about the communication options available for the target resource, at either the origin server or an intervening intermediary.",
+        "description": "Description of the defined behavior of the HTTP OPTIONS verb"
+    },
+
+    "ModalManager.authorization.title": {
+        "message": "Edit Collection Authorization",
+        "description": "Title text for editing the authorization settings for a Collection folder"
+    },
+    "ModalManager.editEnvironment.title": {
+        "message": "Edit Environment",
+        "description": "Title text for editing the variables in an environment"
+    },
+    "ModalManager.saveAs.title": {
+        "message": "Save to Collection",
+        "description": "Title text for saving a Request into a specific Collection folder"
+    },
+    "ModalManager.save": {
+        "message": "Save",
+        "description": "Button text to save something"
+    },
+    "ModalManager.cancel": {
+        "message": "Cancel",
+        "description": "Button text to dismiss a dialog"
+    },    
+
+    "RequestBody.bodyWithUnsupportedVerb": {
+        "message": "A body entity is not supported with for this HTTP verb.",
+        "description": "Error message indicating a request with a particular HTTP verb should not be made with body content."
+    },
+    "RequestBody.bodyWithUnsupportedVerb.learnMore": {
+        "message": "Learn more",
+        "description": "Link label to learn more about an error."
+    },
+
+    "RequestEditor.NoBody.message": {
+        "message": "To include a request body, choose one of the other modes above.",
+        "description": "Informative label directing the user how to choose a different body mode"
+    },
+    "RequestEditor.BodyType.contentTypeSelectLabel": {
+        "message": "Content Type",
+        "description": "Title for the Content-Type dropdown"
+    },
+    "RequestEditor.BodyType.none": {
+        "message": "None",
+        "description": "Label for 'none' Body format selection"
+    },
+    "RequestEditor.BodyType.rawText": {
+        "message": "Raw text",
+        "description": "Label for 'Raw text' Body format selection"
+    },
+    "RequestEditor.Pivot.auth": {
+        "message": "Auth",
+        "description": "Label for 'Auth' (authorization) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.body": {
+        "message": "Body",
+        "description": "Label for 'Body' pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.fetch": {
+        "message": "Fetch",
+        "description": "Label for 'Fetch' (request fetch configuration) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.headers": {
+        "message": "Headers",
+        "description": "Label for 'Headers' (request headers) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.query": {
+        "message": "Query",
+        "description": "Label for 'Query' (query string) pivot header of the request editor"
+    },
+    "RequestEditor.Pivot.route": {
+        "message": "Route",
+        "description": "Label for 'Route' (route parameters) pivot header of the request editor"
+    },
+    "RequestEditor.untitledRequestPlaceholder": {
+        "message": "Untitled Request",
+        "description": "Title of a request that hasn't had a title assigned yet"
+    },
+    "RequestEditor.requestTitleLabel": {
+        "message": "Specify a name for this request",
+        "description": "Label of request title input box"
+    },
+    "RequestEditor.pivotTitleLabel": {
+        "message": "Choose views of the request",
+        "description": "ARIA title of the top-level pivot for the Request Editor"
+    },    
+
+    "Response.cancel": {
+        "message": "Cancel",
+        "description": "Button text to cancel a request that is in flight"
+    },    
+    "Response.Pivot.bodyLabel": {
+        "message": "Body",
+        "description": "Pivot title label for 'Body' view"
+    },
+    "Response.Pivot.cookiesLabel": {
+        "message": "Cookies",
+        "description": "Pivot title label for 'Cookies' view"
+    },
+    "Response.Pivot.headersLabel": {
+        "message": "Headers",
+        "description": "Pivot title label for 'Headers' view"
+    },
+    "Response.Pivot.previewLabel": {
+        "message": "Preview",
+        "description": "Pivot title label for 'Preview' view"
+    },
+    "Response.pivotAriaLabel": {
+        "message": "Choose views of the response data",
+        "description": "aria-label of the Pivot for the main response viewer root element"
+    },
+    "Response.requestNotIssuedLabel": {
+        "message": "Hit \"Send\" to issue the request.",
+        "description": "Text label prompting the user to issue the request."
+    },
+    "Response.requestPendingLabel": {
+        "message": "Please wait for the request to complete...",
+        "description": "Text label informing the user that a request is in flight."
+    },
+    "Response.requestFailedTitleLabel": {
+        "message": "Error issuing this request.",
+        "description": "Title label indicating that a request failed."
+    },
+    "Response.requestFailedDescriptionLabel": {
+        "message": "An error occurred beneath HTTP, such as a DNS error, a physical network error, or something similar.",
+        "description": "Text label outlining additional details about a failed request."
+    },
+
+    "ResponseBody.largeResponseBody": {
+        "message": "The response message body size exceeded 64KiB. To avoid potentially slowing down, particularly if the content is binary, it isn't shown by default.",
+        "description": "Informational label that is displayed when a response > 64kb is displayed."
+    },
+    "ResponseBody.largeResponseBody.show": {
+        "message": "Show it anyway",
+        "description": "Action button label to show the large response"
+    },
+    "ResponseBody.largeResponseBody.download": {
+        "message": "Download the response",
+        "description": "Action button label to download the large response"
+    },
+        
+    "ResponseHeaders.Header.Name": {
+        "message": "Name",
+        "description": "Header for response headers 'Name' column"
+    },
+    "ResponseHeaders.Header.Value": {
+        "message": "Value",
+        "description": "Header for response headers 'Value' column"
+    },
+
+    "ResponsePreview.htmlPreview": {
+        "message": "Sandboxed preview of the document which was received",
+        "description": "Title attribute applied to the HTML preview"
+    },
+    "ResponsePreview.htmlPreviewTitle": {
+        "message": "HTML Preview",
+        "description": "Title of the HTML preview pivot"
+    },
+    "ResponsePreview.imageAlt": {
+        "message": "Preview of the image that was received",
+        "description": "Alt attribute applied to the image preview"
+    },
+    "ResponsePreview.imagePreviewTitle": {
+        "message": "Image Preview",
+        "description": "Title of the Image preview pivot"
+    },
+    "ResponsePreview.jsonPreviewTitle": {
+        "message": "JSON Preview",
+        "description": "Title of the JSON preview pivot"
+    },
+
+    "ResponseStats.download": {
+        "message": "Download",
+        "description": "Text label for the Response download button"
+    },
+    "ResponseStats.downloadUnavailable": {
+        "message": "Download unavailable",
+        "description": "Text label for when a response cannot be downloaded"
+    },
+    "ResponseStats.size": {
+        "message": "Size",
+        "description": "Label of the size of the response"
+    },
+    "ResponseStats.status": {
+        "message": "Status",
+        "description": "Label of the status code and text"
+    },
+    "ResponseStats.time": {
+        "message": "Time",
+        "description": "Label of the round-trip time"
+    },
+
+    "ViewSelect.create": {
+        "message": "Create a request",
+        "description": "Action title to create a new default request"
+    },
+    "ViewSelect.import": {
+        "message": "Import a collection",
+        "description": "Action title to import a collection"
+    },
+    "ViewSelect.learnMore": {
+        "message": "Learn more about Network Console",
+        "description": "Link text to learn more about Network Console"
+    }
+}

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ICollectionFormat, ICollectionAdapter } from '../interfaces';
-import { INCNativeRoot } from '../../collections/native/native-file-format';
+import { INCNativeRoot } from './format';
 import { CollectionAdapter } from './collection-adapter';
 
 export class CollectionFormat implements ICollectionFormat {
@@ -16,7 +16,7 @@ export class CollectionFormat implements ICollectionFormat {
     async createCollection(name: string): Promise<ICollectionAdapter> {
         const DEFAULT_COLLECTION: INCNativeRoot = {
             meta: {
-                networkConsoleCollectionVersion: '0.10.0-preview',
+                networkConsoleCollectionVersion: '0.11.0-preview',
             },
             name,
             entries: [],

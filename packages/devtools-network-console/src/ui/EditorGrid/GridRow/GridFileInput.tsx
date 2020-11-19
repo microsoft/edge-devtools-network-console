@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
+import { AccentButton, Typography, TypographySize, TypographyTag } from '@microsoft/fast-components-react-msft';
+
 import { Base64String, binToB64 } from 'utility/b64';
 import Size from 'ui/generic/Size';
-import { ActionButton, Text } from '@fluentui/react';
+import LocText from 'ui/LocText';
 
 interface IProps {
     fileName: string;
@@ -27,18 +29,20 @@ export default function GridFileInput(props: IProps) {
                     position: 'relative',
                     paddingTop: '8px',
                 }}>
-                    <Text
-                        block={true}
-                        nowrap={true}
-                        variant="small"
+                    <Typography
+                        tag={TypographyTag.p}
+                        size={TypographySize._7}
                         style={{
+                            whiteSpace: 'nowrap',
                             position: 'absolute',
                             width: '90%',
                             overflow: 'hidden',
                             paddingLeft: '5%',
                         }}
                         title={props.fileName}
-                        >{props.fileName}</Text>
+                        >
+                        {props.fileName}
+                    </Typography>
                 </div>
 
                 <div style={{
@@ -66,15 +70,15 @@ export default function GridFileInput(props: IProps) {
                         }
                     }}
                     />
-                <ActionButton styles={{
-                    root: {
-                        height: '32px',
-                        flexShrink: 0,
-                        flexGrow: 0,
-                    }
+                <AccentButton style={{
+                    height: '32px',
+                    flexShrink: 0,
+                    flexGrow: 0,
                 }} onClick={_e => {
                     fileRef.current?.click();
-                }}>Replace</ActionButton>
+                }}>
+                    <LocText textKey="EditorGrid.GridFileInput.replaceFileLabel" />
+                </AccentButton>
             </div>)
             :
             (<div style={{textAlign: 'center'}}>
@@ -96,13 +100,14 @@ export default function GridFileInput(props: IProps) {
                         }
                     }}
                     />
-                <ActionButton styles={{
-                    root: {
-                        height: '32px',
-                    }
-                }} onClick={_e => {
-                    fileRef.current?.click();
-                }}>Choose file...</ActionButton>
+                <AccentButton
+                    onClick={_e => {
+                        fileRef.current?.click();
+                    }}
+                    style={{ margin: '4px' }}
+                    >
+                        <LocText textKey="EditorGrid.GridFileInput.chooseFileLabel" />
+                    </AccentButton>
                 </div>)
             }
         </div>

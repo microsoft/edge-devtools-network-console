@@ -11,6 +11,7 @@ const DEFAULT_RESPONSE_STATE: INetConsoleResponseInternal = {
     started: 0,
     status: 'NOT_SENT',
     response: null,
+    cookie: -1,
 };
 
 /**
@@ -41,15 +42,22 @@ export default function reduceResponse(collection: ResponsesState = DEFAULT_RESP
                 response: null,
                 started: Date.now(),
                 status: 'PENDING',
+                cookie: action.cookie,
             };
             break;
 
         case 'RESPONSE_END_REQUEST':
+            if (state.status !== 'PENDING' || action.cookie !== state.cookie) {
+                // Only allow pending requests to be fulfilled.
+                // Ignore "end" notifications is we've moved on (i.e., previously this was canceled)
+                break;
+            }
             result = {
                 duration: Date.now() - state.started,
                 started: 0,
                 response: action.response,
                 status: action.status,
+                cookie: -1,
             };
             break;
 
@@ -60,6 +68,20 @@ export default function reduceResponse(collection: ResponsesState = DEFAULT_RESP
             reqId = action.resultRequestId;
             result = {
                 ...DEFAULT_RESPONSE_STATE,
+            };
+            break;
+        case 'RESPONSE_CANCEL_REQUEST':
+            if (state.status !== 'PENDING' || action.cookie !== state.cookie) {
+                // Only allow cancellation of pending requests.
+                // Ignore "cancel" notifications is we've moved on (i.e., previously this was completed)
+                break;
+            }
+            result = {
+                duration: 0,
+                response: null,
+                started: Date.now(),
+                status: 'NOT_SENT',
+                cookie: -1,
             };
             break;
     }

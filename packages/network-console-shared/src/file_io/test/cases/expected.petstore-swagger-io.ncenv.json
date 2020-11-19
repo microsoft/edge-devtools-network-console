@@ -1,6 +1,6 @@
 {
     "meta": {
-        "networkConsoleEnvironmentVersion": "0.10.0-preview"
+        "networkConsoleEnvironmentVersion": "0.11.0-preview"
     },
     "name": "Swagger Petstore (OpenAPI)",
     "environments": [

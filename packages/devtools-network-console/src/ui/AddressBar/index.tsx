@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import { PrimaryButton, TextField, Button } from '@fluentui/react';
+import { TextField, AccentButton, NeutralButton } from '@microsoft/fast-components-react-msft';
 import { useDispatch } from 'react-redux';
 import { HttpVerb } from 'network-console-shared';
 
@@ -12,6 +12,8 @@ import { setVerbAction, setUrlAction } from 'actions/request/basics';
 import { saveRequestToHostAction } from 'actions/request/host';
 import { executeRequestWithId } from 'actions/combined';
 import { makeSelectCollectionForSaveAction } from 'actions/modal';
+import LocText from 'ui/LocText';
+import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
 
 export interface IAddressBarProps {
     requestId: string;
@@ -23,7 +25,7 @@ export interface IAddressBarProps {
     isRequestDirty: boolean;
 }
 
-export default function AddressBar(props: IAddressBarProps) {
+function AddressBar(props: IAddressBarProps & ILocalized) {
     const dispatch = useDispatch();
 
     return (
@@ -38,30 +40,31 @@ export default function AddressBar(props: IAddressBarProps) {
             </div>
             <div {...Styles.URL_CONTAINER_STYLE}>
                 <TextField
-                    onChange={(_e, newValue) => {
+                    onChange={e => {
+                        const newValue = e.target.value;
                         const url = newValue || '';
                         dispatch(setUrlAction(props.requestId, url));
                     }}
-                    onBlur={(_e) => {
-                        
-                    }}
+                    style={{ width: '100%' }}
                     autoFocus
                     value={props.url}
-                    placeholder="Enter the URL to be requested here."
+                    placeholder={getText('AddressBar.placeholder', props)}
                     />
             </div>
             <div {...Styles.BUTTONS_CONTAINER_STYLE}>
-                <PrimaryButton
-                    text="Send"
+                <AccentButton
                     onClick={e => {
                         dispatch(executeRequestWithId(props.requestId, /* isDownload: */ false));
                         e.stopPropagation();
                         e.preventDefault();
                     }}
-                    />
-                {props.canSave && <Button
-                    text="Save"
-                    primaryDisabled={!props.isRequestDirty && !props.requiresSaveAs}
+                >
+                    <LocText textKey="AddressBar.send" />
+                </AccentButton>
+                {props.canSave && (
+                <NeutralButton
+                    disabled={!props.isRequestDirty && !props.requiresSaveAs}
+                    title={getText('AddressBar.saveTitle', props)}
                     onClick={e => {
                         if (props.requiresSaveAs || e.ctrlKey) {
                             let parentRequest: string | null = null;
@@ -77,8 +80,18 @@ export default function AddressBar(props: IAddressBarProps) {
                         e.stopPropagation();
                         e.preventDefault();
                     }}
-                    />}
+                >
+                    <LocText textKey="AddressBar.save" />
+                </NeutralButton>)}
             </div>
         </div>
+    );
+}
+
+export default function LocalizedAddressBar(props: IAddressBarProps) {
+    return (
+        <LocalizationConsumer>
+            {locale => <AddressBar {...props} locale={locale} />}        
+        </LocalizationConsumer>
     );
 }

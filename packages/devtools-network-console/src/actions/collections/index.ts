@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ICollection } from 'model/collections';
+import { IHostCollection } from 'network-console-shared';
 import { AnyAction } from 'redux';
 
 export interface ISetCollectionTreeAction {
     type: 'COLLECTIONS_TREE_SET_ALL';
-    rootCollections: ICollection[];
+    rootCollections: IHostCollection[];
 }
 
 
@@ -21,7 +21,7 @@ export function isCollectionAction(action: AnyAction): action is CollectionsActi
     return KNOWN_COLLECTION_ACTIONS.has(action.type);
 }
 
-export function makeSetCollectionTreeAction(rootCollections: ICollection[]): ISetCollectionTreeAction {
+export function makeSetCollectionTreeAction(rootCollections: IHostCollection[]): ISetCollectionTreeAction {
     return {
         type: 'COLLECTIONS_TREE_SET_ALL',
         rootCollections,

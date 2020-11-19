@@ -3,25 +3,36 @@
 
 import * as React from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { Modal, Stack, PrimaryButton, ActionButton, Breadcrumb, Text } from '@fluentui/react';
+import { 
+    AccentButton, 
+    Breadcrumb,
+    Dialog,
+    NeutralButton,
+    Typography,
+    TypographySize,
+} from '@microsoft/fast-components-react-msft';
+import { IHostCollection } from 'network-console-shared';
 
 import { IModalState, IView, MODAL_AUTHORIZATION_REQUEST_ID } from 'store';
 import { makeDismissAuthorizationModalAction, doSaveCollectionAuthorizationToHost, makeSelectCollectionForSaveAction, makeRemoveEnvVarAction, makeAddEnvVarAction, makeEditEnvVarAction, makeDismissEditEnvironmentAction } from 'actions/modal';
 import AuthorizationUI from '../Authorization';
 import SaveToCollection from 'ui/SaveToCollection';
-import { ICollection } from 'model/collections';
 import { saveRequestToHostAction } from 'actions/request/host';
 import EditorGrid from 'ui/EditorGrid';
 import { saveEnvironmentToHost } from 'actions/environment';
+import Stack from 'ui/generic/Stack';
+import { getText, LocalizationContext } from 'utility/loc-context';
+import LocText from 'ui/LocText';
 
 interface IConnectedProps {
     modals: IModalState;
-    collections: ICollection[];
+    collections: IHostCollection[];
     currentRequestId: string;
 }
 
 export function ModalManager(props: IConnectedProps) {
     const dispatch = useDispatch();
+    const locale = React.useContext(LocalizationContext);
 
     const { authorization, authorizationCollectionId, authorizationPaths, collections, environment } = props.modals;
     const isOpen = !!(authorization && authorizationCollectionId) ||
@@ -38,18 +49,12 @@ export function ModalManager(props: IConnectedProps) {
         ui = <AuthorizationUI
                 authorization={authorization}
                 requestId={MODAL_AUTHORIZATION_REQUEST_ID}
+                controlIdPrefix="modalEditor"
                 />;
-        header = <Breadcrumb
-                    styles={{ root: { userSelect: 'none' } }}
-
-                    items={authorizationPaths.map((p, i) => {
-                        return {
-                            text: p,
-                            key: String(i),
-                        };
-                     })}
-                    />;
-        title = 'Edit Collection Authorization';
+        header = <Breadcrumb separator={() => '/'}>
+                    {authorizationPaths.map((p, i) => <span key={i}>{p}</span>)}
+                 </Breadcrumb>
+        title = getText('ModalManager.authorization.title', { locale });
         onSave = () => {
             dispatch(doSaveCollectionAuthorizationToHost(authorizationCollectionId, authorization));
         };
@@ -59,7 +64,7 @@ export function ModalManager(props: IConnectedProps) {
     }
     else if (collections.open) {
         ui = <SaveToCollection rootCollections={props.collections} />;
-        title = 'Save to Collection';
+        title = getText('ModalManager.saveAs.title', { locale });
         onCancel = () => {
             dispatch(makeSelectCollectionForSaveAction(null, false));
         };
@@ -89,15 +94,11 @@ export function ModalManager(props: IConnectedProps) {
                 hideAddRow={false}
                 previewEnvironmentMerge={false}
                 />;
-        title = 'Edit Environment';
-        header = <Breadcrumb
-                    styles={{ root: { userSelect: 'none' } }}
-
-                    items={[
-                        { text: `${environment.collectionName} (${environment.fileName})`, key: 'coll' },
-                        { text: environment.name, key: 'env' },
-                    ]}
-                    />;
+        title = getText('ModalManager.editEnvironment.title', { locale });
+        header = <Breadcrumb separator={() => <span> / </span>}>
+                    <span>{environment.collectionName} ({environment.fileName})</span>
+                    <span>{environment.name}</span>
+                 </Breadcrumb>
         onCancel = () => dispatch(makeDismissEditEnvironmentAction());
         onSave = () => {
             const vars = environment.values;
@@ -108,45 +109,48 @@ export function ModalManager(props: IConnectedProps) {
     // else -- other modals
 
     return (
-        <Modal
-            styles={{
-                main: { width: '75%', maxWidth: '900px', maxHeight: '80%' },
-                scrollableContent: { width: '100%', height: '100%' },
-            }}
-            isOpen={isOpen}
-            onDismiss={_e => {
+        <Dialog
+            modal
+            visible={isOpen}
+            onDismiss={() => {
                 dispatch(makeDismissAuthorizationModalAction());
             }}
+            onKeyDown={e => {
+                if (e.key === 'Enter') {
+                    onSave();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                else if (e.key === 'Escape') {
+                    onCancel();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }}
         >
-            <Stack
-                styles={{ root: { width: '100%' }}}
-                tokens={{ padding: 'm' }}
-                onKeyDown={e => {
-                    if (e.key === 'Enter') {
-                        onSave();
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                }}
-                >
-                <Text variant="xLarge" styles={{root: { userSelect: 'none' }}}>{title}</Text>
-                {header}
-                {ui}
-                <Stack
-                    horizontal
-                    horizontalAlign="end">
-                    <PrimaryButton onClick={onSave}>Save</PrimaryButton>
-                    <ActionButton onClick={onCancel}>Cancel</ActionButton>
+            <Stack style={{ height: '100%' }}>
+                <div style={{ margin: '5px' }}>
+                    <Typography size={TypographySize._4}>{title}</Typography>
+                </div>
+                <div style={{ margin: '5px' }}>
+                    {header}
+                </div>
+                <div style={{ width: '100%', height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+                    {ui}
+                </div>
+                <Stack horizontal style={{ justifyContent: 'flex-end' }}>
+                    <AccentButton onClick={onSave} style={{ marginTop: '5px' }}><LocText textKey="ModalManager.save" /></AccentButton>
+                    <NeutralButton onClick={onCancel} style={{ margin: '5px' }}><LocText textKey="ModalManager.cancel" /></NeutralButton>
                 </Stack>
             </Stack>
-        </Modal>
-    )
+        </Dialog>
+    );
 }
 
 function mapStateToProps(state: IView): IConnectedProps {
     return {
         modals: state.modals,
-        collections: state.collections,
+        collections: state.collections.rootCollections.map(id => state.collections.allCollections.get(id)!),
         currentRequestId: state.viewManager.currentView as string,
     };
 }
