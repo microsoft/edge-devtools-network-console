@@ -72,4 +72,11 @@ export interface INetConsoleHost {
     openUnattachedRequest: (requestId: string) => void;
 
     log: (message: object) => void;
+
+    /**
+     * When the host sends focus to the frontend (for example, when choosing to "Edit authorization settings")
+     * for a given activity, and then the frontend component dismisses a dialog, the frontend should send this
+     * message to the host to restore the previously-focused component.
+     */
+    restoreFocusToHost: () => void;
 }

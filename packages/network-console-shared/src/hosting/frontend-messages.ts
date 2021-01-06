@@ -14,6 +14,13 @@ interface IMessageWithResponse<T extends string> extends IMessage<T> {
 
 export type IConsoleReadyMessage = IMessage<'CONSOLE_READY'>;
 
+/**
+ * When the host sends focus to the frontend (for example, when choosing to "Edit authorization settings")
+ * for a given activity, and then the frontend component dismisses a dialog, the frontend should send this
+ * message to the host to restore the previously-focused component.
+ */
+export type IRestoreFocusMessage = IMessage<'RESTORE_FOCUS'>;
+
 export interface IExecuteRequestMessage extends IMessageWithResponse<'EXECUTE_REQUEST'> {
     configuration: IHttpRequest;
     /**

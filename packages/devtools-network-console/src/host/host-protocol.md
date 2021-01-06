@@ -134,6 +134,17 @@ Logs some message via the message port. No response is expected to this.
 }
 ```
 
+### `RESTORE_FOCUS`
+
+Instructs the frontend to restore focus to the previously-focused element.
+
+```ts
+{
+    type: 'RESTORE_FOCUS';
+}
+```
+
+
 ## Host-to-Frontend
 
 ### `INIT_HOST`
@@ -206,7 +217,7 @@ Loads a request from a collection.
 }
 ```
 
-`requiresSaveAs` dictates whether the request may not be saved directly, but needs a `toCollectionId` 
+`requiresSaveAs` dictates whether the request may not be saved directly, but needs a `toCollectionId`
 property to be included with the `SAVE_REQUEST` message.
 
 `environmentAuth` and `environmentAuthPath` are optional parameters, but if one is included, both
@@ -247,7 +258,7 @@ interface IHostCollection {
 ```
 
 The `authorization` parameter is introduced in 0.11.0-preview. This allows the host to keep the
-front-end's view of the entire collections tree up-to-date, and does not require the corresponding 
+front-end's view of the entire collections tree up-to-date, and does not require the corresponding
 environment to be passed as part of the `LOAD_REQUEST` message.
 
 ### `EDIT_ENVIRONMENT_VARIABLES`

@@ -20,6 +20,7 @@ export interface IAddressBarProps {
     url: string;
     verb: HttpVerb;
     requiresSaveAs: boolean;
+    isRequestInFlight: boolean;
 
     canSave: boolean;
     isRequestDirty: boolean;
@@ -58,6 +59,7 @@ function AddressBar(props: IAddressBarProps & ILocalized) {
                         e.stopPropagation();
                         e.preventDefault();
                     }}
+                    disabled={props.isRequestInFlight || !props.url}
                 >
                     <LocText textKey="AddressBar.send" />
                 </AccentButton>
@@ -91,7 +93,7 @@ function AddressBar(props: IAddressBarProps & ILocalized) {
 export default function LocalizedAddressBar(props: IAddressBarProps) {
     return (
         <LocalizationConsumer>
-            {locale => <AddressBar {...props} locale={locale} />}        
+            {locale => <AddressBar {...props} locale={locale} />}
         </LocalizationConsumer>
     );
 }

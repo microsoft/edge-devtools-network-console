@@ -40,6 +40,7 @@ interface IConnectedProps {
     requiresSaveAs: boolean;
 
     request: INetConsoleRequestInternal;
+    isRequestInFlight: boolean;
 
     routeParameters: Map<string, INetConsoleParameter>;
     headers: Map<string, INetConsoleParameter>;
@@ -130,6 +131,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                 <div>
                     <AddressBar
                         isRequestDirty={props.isRequestDirty}
+                        isRequestInFlight={props.isRequestInFlight}
                         canSave={props.canSave}
                         requiresSaveAs={props.requiresSaveAs}
                         url={props.request.url}
@@ -217,10 +219,10 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         </HideUnless>
                         <HideUnless test={currentTab} match="auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
-                                <Authorization 
-                                    authorization={props.request.authorization} 
-                                    requestId={props.requestId} 
-                                    environmentAuth={props.environmentAuth} 
+                                <Authorization
+                                    authorization={props.request.authorization}
+                                    requestId={props.requestId}
+                                    environmentAuth={props.environmentAuth}
                                     controlIdPrefix="requestEditor"
                                     />
                             </div>
@@ -266,6 +268,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         queryParameters: request.current.queryParameters,
         routeParameters: request.current.routeParameters,
         request: request.current,
+        isRequestInFlight: state.response.get(ownProps.requestId)?.status === 'PENDING',
         environmentAuth: findInheritedAuthorization(state, ownProps.requestId),
 
         options: {

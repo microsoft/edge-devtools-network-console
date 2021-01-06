@@ -305,6 +305,8 @@ export default class WebApplicationHost implements INetConsoleHost {
             ...message,
         });
     }
+
+    public restoreFocusToHost() { }
 }
 
 async function loadPseudoloc() {

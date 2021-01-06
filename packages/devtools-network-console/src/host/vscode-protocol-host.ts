@@ -352,6 +352,13 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
             ...message,
         });
     }
+
+    public restoreFocusToHost() {
+        this.sendMessage({
+            // @ts-ignore TODO Remove this comment when the shared project is rebuilt
+            type: 'RESTORE_FOCUS',
+        });
+    }
 }
 
 export function deserializeFromHost(requestId: string, src: INetConsoleRequest): INetConsoleRequestInternal {

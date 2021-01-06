@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { 
-    AccentButton, 
+import {
+    AccentButton,
     Breadcrumb,
     Dialog,
     NeutralButton,
@@ -23,6 +23,10 @@ import { saveEnvironmentToHost } from 'actions/environment';
 import Stack from 'ui/generic/Stack';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
+import { FocusRestorer } from 'utility/dom';
+
+// Class name for the modal root (belongs to the <Dialog>).
+const MODAL_CLASS_NAME = 'modalManager_modal_root';
 
 interface IConnectedProps {
     modals: IModalState;
@@ -44,6 +48,17 @@ export function ModalManager(props: IConnectedProps) {
     let title = '';
     let onCancel: () => void = () => { };
     let onSave: () => void = () => { };
+    let wasOpen = React.useRef(false);
+    React.useEffect(() => {
+        if (!wasOpen.current && isOpen) {
+            FocusRestorer.focusInModal(`.${MODAL_CLASS_NAME}`);
+            wasOpen.current = true;
+        }
+        else if (wasOpen.current && !isOpen) {
+            FocusRestorer.restoreNext();
+            wasOpen.current = false;
+        }
+    }, [wasOpen, isOpen]);
 
     if (authorization && authorizationCollectionId) {
         ui = <AuthorizationUI
@@ -111,6 +126,7 @@ export function ModalManager(props: IConnectedProps) {
     return (
         <Dialog
             modal
+            className={MODAL_CLASS_NAME}
             visible={isOpen}
             onDismiss={() => {
                 dispatch(makeDismissAuthorizationModalAction());
