@@ -49,6 +49,10 @@
         "description": "Description label for 'None' style authorization choice"
     },
 
+    "Authorization.groupLabel": {
+        "message": "Authorization selection",
+        "description": "ARIA label for the radio button list for choosing an authorization mechanism"
+    },
     "Authorization.Shared.dataSensitiveWarning": {
         "message": "These parameters may contain sensitive information. Consider specifying these with environment variables here, and specifying that your environment variables aren't checked in to source control.",
         "description": "Helper text indicating that users' authorization settings should not be checked into source control."
@@ -291,7 +295,7 @@
     "EditorGrid.GridTextOrFileKey.TypeSelectorType.text": {
         "message": "Text",
         "description": ""
-    },    
+    },
 
     "ErrorBoundary.reopen": {
         "message": "You can close and re-open this tool to recover.",
@@ -363,7 +367,7 @@
     "ModalManager.cancel": {
         "message": "Cancel",
         "description": "Button text to dismiss a dialog"
-    },    
+    },
 
     "RequestBody.bodyWithUnsupportedVerb": {
         "message": "A body entity is not supported with for this HTTP verb.",
@@ -372,6 +376,10 @@
     "RequestBody.bodyWithUnsupportedVerb.learnMore": {
         "message": "Learn more",
         "description": "Link label to learn more about an error."
+    },
+    "RequestBody.groupLabel": {
+        "message": "Request body mode selection",
+        "description": "ARIA label for the radio button list for choosing a body mode"
     },
 
     "RequestEditor.NoBody.message": {
@@ -425,12 +433,12 @@
     "RequestEditor.pivotTitleLabel": {
         "message": "Choose views of the request",
         "description": "ARIA title of the top-level pivot for the Request Editor"
-    },    
+    },
 
     "Response.cancel": {
         "message": "Cancel",
         "description": "Button text to cancel a request that is in flight"
-    },    
+    },
     "Response.Pivot.bodyLabel": {
         "message": "Body",
         "description": "Pivot title label for 'Body' view"
@@ -480,7 +488,7 @@
         "message": "Download the response",
         "description": "Action button label to download the large response"
     },
-        
+
     "ResponseHeaders.Header.Name": {
         "message": "Name",
         "description": "Header for response headers 'Name' column"

@@ -102,7 +102,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                 <LocalAlert type="severeWarning">
                     <Typography size={TypographySize._8} style={{ color: 'black' }}>
                         <LocText textKey="RequestBody.bodyWithUnsupportedVerb" />
-                        {knownVerb && (<>{ " " }<Hypertext 
+                        {knownVerb && (<>{ " " }<Hypertext
                                             href={knownVerb.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -121,7 +121,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
             )}
 
             <div className="ht100 flxcol">
-                <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}}>
+                <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}} role="radiogroup" aria-label={getText('RequestBody.groupLabel', { locale })}>
                     <DesignSystemProvider designSystem={{density: -3}}>
                     <Radio
                         inputId="bodyNone"
