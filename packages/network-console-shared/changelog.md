@@ -5,6 +5,13 @@ Network Console hosts and clients. Because this is a shared component,
 version changes might be breaking. This changelog will attempt to
 document when breaking changes occur.
 
+## v0.11.1-preview
+
+This change introduces new frontend-to-host messages:
+
+ - `RESTORE_FOCUS`
+ - `PROMPT_FOR_NEW_COLLECTION`
+
 ## v0.11.0-preview
 
 This change removes the deprecated Collections and Environments APIs:
@@ -14,8 +21,8 @@ This change removes the deprecated Collections and Environments APIs:
  - `Collections.SwaggerFileFormatReader`
  - `Collections.tryReadCollectionAsync`
  - `Environments.tryReadEnvironmentAsync`
- - `Environments.serializeNativeEnvironmentFormat` 
- - `CollectionItemType`, `ICollectionEntryReader`, `ICollectionFolderReader`, 
+ - `Environments.serializeNativeEnvironmentFormat`
+ - `CollectionItemType`, `ICollectionEntryReader`, `ICollectionFolderReader`,
    `ICollectionItemBase`, `ICollectionRootReader`, `ICollectionsReader`
  - `EnvironmentItemType`, `IEnvironment`, `IEnvironmentRoot`
 

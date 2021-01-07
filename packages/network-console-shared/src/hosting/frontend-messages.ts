@@ -21,6 +21,8 @@ export type IConsoleReadyMessage = IMessage<'CONSOLE_READY'>;
  */
 export type IRestoreFocusMessage = IMessage<'RESTORE_FOCUS'>;
 
+export type IPromptForNewCollectionMessage = IMessage<'PROMPT_FOR_NEW_COLLECTION'>;
+
 export interface IExecuteRequestMessage extends IMessageWithResponse<'EXECUTE_REQUEST'> {
     configuration: IHttpRequest;
     /**
@@ -72,5 +74,7 @@ export type FrontendMessage =
     IOpenWebLinkMessage |
     IOpenUnattachedRequestMessage |
     IUpdateDirtyFlagMessage |
-    ILogMessage
+    ILogMessage |
+    IRestoreFocusMessage |
+    IPromptForNewCollectionMessage
     ;

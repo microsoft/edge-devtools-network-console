@@ -78,7 +78,10 @@ export function ModalManager(props: IConnectedProps) {
         };
     }
     else if (collections.open) {
-        ui = <SaveToCollection rootCollections={props.collections} />;
+        ui = <SaveToCollection
+                rootCollections={props.collections}
+                selectedCollectionId={props.modals.collections.selectedCollectionId}
+                />;
         title = getText('ModalManager.saveAs.title', { locale });
         onCancel = () => {
             dispatch(makeSelectCollectionForSaveAction(null, false));

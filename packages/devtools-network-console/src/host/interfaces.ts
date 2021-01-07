@@ -79,4 +79,10 @@ export interface INetConsoleHost {
      * message to the host to restore the previously-focused component.
      */
     restoreFocusToHost: () => void;
+
+    /**
+     * Prompts the host to interrogate the user about creating a new Collection. If one or more new collections
+     * are created as a result of this, the host should dispatch a `UPDATE_COLLECTIONS_TREE` message.
+     */
+    requestCreateNewCollection: () => void;
 }

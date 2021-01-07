@@ -540,6 +540,15 @@
         "description": "Label of the round-trip time"
     },
 
+    "SaveToCollection.createNewCollectionLabel": {
+        "message": "Create a new Collection",
+        "description": "Button label to create a new Collection when one does not exist"
+    },
+    "SaveToCollection.noCollections": {
+        "message": "You don't have any collections defined for saving this request.",
+        "description": "Message informing the user that there are no collections to save a request into"
+    },
+
     "ViewSelect.create": {
         "message": "Create a request",
         "description": "Action title to create a new default request"

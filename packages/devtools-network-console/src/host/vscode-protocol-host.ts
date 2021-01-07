@@ -355,8 +355,13 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
 
     public restoreFocusToHost() {
         this.sendMessage({
-            // @ts-ignore TODO Remove this comment when the shared project is rebuilt
             type: 'RESTORE_FOCUS',
+        });
+    }
+
+    public requestCreateNewCollection() {
+        this.sendMessage({
+            type: 'PROMPT_FOR_NEW_COLLECTION',
         });
     }
 }

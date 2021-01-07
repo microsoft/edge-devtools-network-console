@@ -136,7 +136,7 @@ Logs some message via the message port. No response is expected to this.
 
 ### `RESTORE_FOCUS`
 
-Instructs the frontend to restore focus to the previously-focused element.
+Instructs the host to restore focus to the previously-focused element.
 
 ```ts
 {
@@ -144,6 +144,19 @@ Instructs the frontend to restore focus to the previously-focused element.
 }
 ```
 
+### `PROMPT_FOR_NEW_COLLECTION`
+
+Instructs the host to prompt to create a new collection. No response is required from
+this message, but if a user does in fact create a new collection, the Host should issue
+an `UPDATE_COLLECTIONS_TREE` message (which it can do at any time, regardless of user
+input). This allows for "Save to Collection" dialogs to save even when there are no
+collections open within the host.
+
+```ts
+{
+    type: 'PROMPT_FOR_NEW_COLLECTION';
+}
+```
 
 ## Host-to-Frontend
 
