@@ -48,7 +48,7 @@ const headersColumns: DataGridColumn[] = [
         columnWidth: '20%',
         cell: (config: DataGridCellRenderConfig) => {
             return (
-                <div className={config.classNames}>
+                <div role="gridcell" className={config.classNames}>
                     <CanonicalHeaderName header={(config.rowData as any)[config.columnDataKey]} />
                 </div>
             );
