@@ -155,7 +155,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         name="bodyType"
                         value="Raw text"
                         checked={props.bodySelection === 'raw'}
-                        title="Raw text"
+                        title={getText('RequestEditor.BodyType.rawText', { locale })}
                         label={(cn) => <label {...Styles.BODY_SELECT_LABEL} htmlFor="bodyRaw" className={cn}><LocText textKey="RequestEditor.BodyType.rawText" /></label>}
                         onChange={() => dispatch(setBodyTypeAction(props.requestId, 'raw'))}
                         />
