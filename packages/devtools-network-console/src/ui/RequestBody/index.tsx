@@ -121,7 +121,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
             )}
 
             <div className="ht100 flxcol">
-                <div {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}} role="radiogroup" aria-label={getText('RequestBody.groupLabel', { locale })}>
+                <div className="req-body-mode-select-rblist" {...Styles.BODY_SELECT_RBLIST} style={{paddingBottom: '4px'}} role="radiogroup" aria-label={getText('RequestBody.groupLabel', { locale })}>
                     <DesignSystemProvider designSystem={{density: -3}}>
                     <Radio
                         inputId="bodyNone"
@@ -164,6 +164,8 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         {/* <CommandBar items={[cmdBarItem]} /> */}
                         <Select
                             placeholder={getText('RequestEditor.BodyType.contentTypeSelectLabel', { locale })}
+                            title={getText('RequestEditor.BodyType.contentTypeSelectLabel', { locale })}
+                            labelledBy="contentTypeSelectLabel"
                             className="content-type-select"
                             jssStyleSheet={{
                                 select: {
@@ -184,6 +186,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                 );
                             })}
                         </Select>
+                        <span id="contentTypeSelectLabel" style={{ display: 'none' }}>Content-Type:</span>
                     </HideUnless>
                     </DesignSystemProvider>
                 </div>
@@ -196,6 +199,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         updateRowFileInfo={(id, type, fileName, contents) => {
                             dispatch(editBodyFormDataFileParams(props.requestId, id, fileName, contents, type));
                         }}
+                        fallbackFocusTargetSelector="#bodyFD"
                         rows={ImmutableMap(props.formData)}
                         updateRow={(isNew, id, key, value, description, enabled) => {
                             if (isNew) {
@@ -227,6 +231,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         isDeleteAllowed={true}
                         deleteRow={id => {
                             dispatch(removeBodyDataItemAction(props.requestId, 'form-data', id));
+                            AppHost.ariaAlert?.('Deleted');
                         }}
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}
@@ -236,6 +241,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                     <EditorGrid
                         canHaveFiles={false}
                         rows={props.xWwwFormUrlencoded}
+                        fallbackFocusTargetSelector="#bodyXWFU"
                         updateRow={(isNew, id, key, value, description, enabled) => {
                             if (isNew) {
                                 dispatch(addBodyDataItemAction(
@@ -266,6 +272,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         isDeleteAllowed={true}
                         deleteRow={id => {
                             dispatch(removeBodyDataItemAction(props.requestId, 'x-www-form-urlencoded', id));
+                            AppHost.ariaAlert?.('Deleted');
                         }}
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}

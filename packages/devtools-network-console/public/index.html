@@ -112,10 +112,11 @@ div.described-choices label {
   font-size: 14px !important;
 }
 
-/** Fabric TextField doesn't allow modifying placeholder styles */
-.request-title-editor > .ms-TextField-wrapper > .ms-TextField-fieldGroup > input.ms-TextField-field::placeholder {
-  font-size: 16px !important;
+/* Radios appear to hover over dialogs and don't seem to need to be z-indexed. */
+input[type="radio"] {
+  z-index: auto !important;
 }
+
     </style>
   </head>
   <body>

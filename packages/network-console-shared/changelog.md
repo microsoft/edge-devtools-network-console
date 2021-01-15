@@ -9,8 +9,8 @@ document when breaking changes occur.
 
 This change introduces new frontend-to-host messages:
 
- - `RESTORE_FOCUS`
  - `PROMPT_FOR_NEW_COLLECTION`
+ - `ARIA_ALERT`
 
 ## v0.11.0-preview
 

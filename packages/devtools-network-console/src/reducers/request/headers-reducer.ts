@@ -67,8 +67,9 @@ export default function reduceRequestHeaders(action: HeaderAction, collection: R
             const headerToRemove = state.current.headers.get(action.id);
             assert(!!headerToRemove, 'Could not find header to remove.');
 
-            let newHeaders = state.current.headers.remove(action.id);
-            newHeaders = resetIDs(action.requestId, ID_DIV_HEADER, newHeaders.values());
+            const newHeaderList = state.current.headers.toArray().filter(pair => pair[0] !== action.id)
+                .map(pair => pair[1]);
+            const newHeaders = resetIDs(action.requestId, ID_DIV_HEADER, newHeaderList);
 
             result = {
                 ...state,

@@ -22,6 +22,12 @@ export interface IBasicAuthorizationProps {
 
 function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
     const dispatch = useDispatch();
+    React.useEffect(() => {
+        const showPasswordInput = document.querySelector('#basicAuthorizationShowPassword');
+        if (showPasswordInput) {
+            showPasswordInput.setAttribute('aria-labelledby', 'basicAuthorizationShowPasswordLabel');
+        }
+    });
 
     return (
         <Stack>
@@ -40,7 +46,7 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                 <div {...Styles.LABELED_AREA}>
                     <TextField
                         id="basicUsername"
-                        value={props.username} 
+                        value={props.username}
                         onChange={e => {
                             const value = e.target.value;
                             dispatch(makeSetBasicAuthAction(props.requestId, value, props.password, props.showPassword));
@@ -59,7 +65,7 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                     <TextField
                         id="basicPassword"
                         type={props.showPassword ? TextFieldType.text : TextFieldType.password}
-                        value={props.password} 
+                        value={props.password}
                         onChange={e => {
                             const value = e.target.value;
                             dispatch(makeSetBasicAuthAction(props.requestId, props.username, value, props.showPassword));
@@ -74,7 +80,7 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
 
                 </div>
                 <div {...Styles.BASIC_AUTH_SHOW_PASSWORD_CHECKBOX_AREA}>
-                    <Toggle 
+                    <Toggle
                         inputId="basicAuthorizationShowPassword"
                         selectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}
                         unselectedMessage={getText('AuthorizationBasic.showPasswordLabel', props)}
@@ -84,9 +90,12 @@ function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
                             dispatch(makeSetBasicAuthAction(props.requestId, props.username, props.password, !!checked));
                         }}
                     />
+                    <span id="basicAuthorizationShowPasswordLabel" style={{display: 'none'}}>
+                        <LocText textKey="AuthorizationBasic.showPasswordLabel" />
+                    </span>
                 </div>
             </Stack>
-            
+
         </Stack>
     );
 }

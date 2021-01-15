@@ -14,14 +14,17 @@ interface IMessageWithResponse<T extends string> extends IMessage<T> {
 
 export type IConsoleReadyMessage = IMessage<'CONSOLE_READY'>;
 
-/**
- * When the host sends focus to the frontend (for example, when choosing to "Edit authorization settings")
- * for a given activity, and then the frontend component dismisses a dialog, the frontend should send this
- * message to the host to restore the previously-focused component.
- */
-export type IRestoreFocusMessage = IMessage<'RESTORE_FOCUS'>;
-
 export type IPromptForNewCollectionMessage = IMessage<'PROMPT_FOR_NEW_COLLECTION'>;
+
+/**
+ * Requests that the host makes an ARIA announcement on behalf of the frontend.
+ */
+export interface IAriaAlertMessage extends IMessage<'ARIA_ALERT'> {
+    /**
+     * The message to announce. This message should be localized.
+     */
+    message: string;
+}
 
 export interface IExecuteRequestMessage extends IMessageWithResponse<'EXECUTE_REQUEST'> {
     configuration: IHttpRequest;
@@ -75,6 +78,6 @@ export type FrontendMessage =
     IOpenUnattachedRequestMessage |
     IUpdateDirtyFlagMessage |
     ILogMessage |
-    IRestoreFocusMessage |
-    IPromptForNewCollectionMessage
+    IPromptForNewCollectionMessage |
+    IAriaAlertMessage
     ;

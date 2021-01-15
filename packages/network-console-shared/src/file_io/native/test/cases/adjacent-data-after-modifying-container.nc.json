@@ -1,6 +1,6 @@
 {
     "meta": {
-        "networkConsoleCollectionVersion": "0.11.0-preview"
+        "networkConsoleCollectionVersion": "0.11.1-preview"
     },
     "name": "Sample test case",
     "entries": [

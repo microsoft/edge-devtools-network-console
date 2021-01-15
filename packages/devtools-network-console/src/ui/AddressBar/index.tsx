@@ -49,6 +49,7 @@ function AddressBar(props: IAddressBarProps & ILocalized) {
                     style={{ width: '100%' }}
                     autoFocus
                     value={props.url}
+                    id="addressBarAddressTextField"
                     placeholder={getText('AddressBar.placeholder', props)}
                     />
             </div>

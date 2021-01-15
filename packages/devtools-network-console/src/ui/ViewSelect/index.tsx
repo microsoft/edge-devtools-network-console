@@ -31,6 +31,7 @@ export function ViewSelect(props: IViewSelectProps) {
                     onClick={e => {
                         dispatch(loadDefaultRequest());
                     }}
+                    id="viewSelectCreateNewButton"
                 >
                     <LocText textKey='ViewSelect.create' />
                 </StealthButton>

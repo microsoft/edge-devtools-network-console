@@ -24,6 +24,7 @@ import Stack from 'ui/generic/Stack';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
 import { FocusRestorer } from 'utility/dom';
+import { AppHost } from 'store/host';
 
 // Class name for the modal root (belongs to the <Dialog>).
 const MODAL_CLASS_NAME = 'modalManager_modal_root';
@@ -95,7 +96,9 @@ export function ModalManager(props: IConnectedProps) {
                 canHaveFiles={false}
                 deleteRow={e => {
                     dispatch(makeRemoveEnvVarAction(e));
+                    AppHost.ariaAlert?.('Deleted');
                 }}
+                fallbackFocusTargetSelector="#modalBtnSave"
                 hideDescriptionField={false}
                 idStart="ENV"
                 isDeleteAllowed={true}
@@ -129,6 +132,7 @@ export function ModalManager(props: IConnectedProps) {
     return (
         <Dialog
             modal
+
             className={MODAL_CLASS_NAME}
             visible={isOpen}
             onDismiss={() => {
@@ -158,8 +162,12 @@ export function ModalManager(props: IConnectedProps) {
                     {ui}
                 </div>
                 <Stack horizontal style={{ justifyContent: 'flex-end' }}>
-                    <AccentButton onClick={onSave} style={{ marginTop: '5px' }}><LocText textKey="ModalManager.save" /></AccentButton>
-                    <NeutralButton onClick={onCancel} style={{ margin: '5px' }}><LocText textKey="ModalManager.cancel" /></NeutralButton>
+                    <AccentButton onClick={onSave} style={{ marginTop: '5px' }} id="modalBtnSave">
+                        <LocText textKey="ModalManager.save" />
+                    </AccentButton>
+                    <NeutralButton onClick={onCancel} style={{ margin: '5px' }} id="modalBtnCancel">
+                        <LocText textKey="ModalManager.cancel" />
+                    </NeutralButton>
                 </Stack>
             </Stack>
         </Dialog>

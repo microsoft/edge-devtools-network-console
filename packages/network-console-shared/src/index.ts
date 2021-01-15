@@ -65,6 +65,7 @@ export {
     IInitHostMessage,
     ILoadRequestMessage,
     IRequestCompleteMessage,
+    IResponseMessage,
     ISetPreferencesMessage,
     IShowViewMessage,
     IUpdateCollectionsTreeMessage,
@@ -84,9 +85,11 @@ export {
 } from './file_io/interfaces';
 export { NetworkConsoleNativeFileFormat } from './file_io/native';
 
-export { 
+export {
     serializeRequest,
     serializeAuthorization,
+    serializeParameter,
+    serializeEnvironment,
 } from './file_io/serialize';
 import CollectionFormats, { environmentFormats } from './file_io';
 
@@ -104,9 +107,9 @@ export namespace FileFormats {
     export const convertEnvironmentFormat = convertEnvironment;
 }
 
-import { 
-    format as loc_format, 
-    getMessage as loc_getMessage, 
+import {
+    format as loc_format,
+    getMessage as loc_getMessage,
     loadLocalization as loc_loadLocalization,
 } from './util/loc';
 export namespace i18n {

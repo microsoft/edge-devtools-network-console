@@ -8,6 +8,7 @@ import {
     INetConsoleParameter,
     INetConsoleRequest,
 } from '../net/net-console-http';
+import { IEnvironmentAdapter } from './interfaces';
 
 /**
  * Serializes an INetConsoleParameter from a source. Because the source interface might
@@ -126,4 +127,13 @@ function serializeFormParameter(param: IFormDataParameter): IFormDataParameter {
     }
 
     return result;
+}
+
+export function serializeEnvironment(env: IEnvironmentAdapter): IEnvironmentAdapter {
+    const { id, name, variables } = env;
+    return {
+        id,
+        name,
+        variables: variables.map(serializeParameter),
+    };
 }

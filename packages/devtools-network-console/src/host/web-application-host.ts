@@ -126,7 +126,7 @@ export default class WebApplicationHost implements INetConsoleHost {
         });
     }
 
-    public restoreFocusToHost() { }
+    public reassociateFocus() { }
 
     public async requestCreateNewCollection() {
         await timeout(1500);

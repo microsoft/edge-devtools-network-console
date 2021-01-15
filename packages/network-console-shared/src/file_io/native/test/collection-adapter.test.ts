@@ -18,7 +18,7 @@ import { CollectionFormat } from '../collection-format';
  */
 const TEST_DATA = JSON.stringify({
     meta: {
-        networkConsoleCollectionVersion: '0.11.0-preview',
+        networkConsoleCollectionVersion: '0.11.1-preview',
     },
     name: 'Test collection',
     entries: [{
@@ -121,7 +121,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         it('renames the root successfully', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.11.0-preview',
+                    networkConsoleCollectionVersion: '0.11.1-preview',
                 },
                 name: 'Renamed collection',
                 entries: [],
@@ -137,7 +137,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         it('adds a new collection folder to the root successfully', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.11.0-preview',
+                    networkConsoleCollectionVersion: '0.11.1-preview',
                 },
                 name: 'Test collection',
                 entries: [{
@@ -269,7 +269,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         it('deletes the 2nd entry', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.11.0-preview',
+                    networkConsoleCollectionVersion: '0.11.1-preview',
                 },
                 name: 'Test collection',
                 entries: [{
@@ -354,7 +354,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         it('appends correctly after deletion', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.11.0-preview',
+                    networkConsoleCollectionVersion: '0.11.1-preview',
                 },
                 name: 'Test collection',
                 entries: [{
@@ -436,7 +436,7 @@ describe('network-console-shared/src/file_io/native/collection-adapter', () => {
         it('appends correctly after deleting all of the top-level items', async () => {
             const expected = JSON.stringify({
                 meta: {
-                    networkConsoleCollectionVersion: '0.11.0-preview',
+                    networkConsoleCollectionVersion: '0.11.1-preview',
                 },
                 name: 'Test collection',
                 entries: [{

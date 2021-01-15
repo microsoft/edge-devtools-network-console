@@ -14,6 +14,8 @@ interface IEditorGridPropsCommon {
     hideAddRow?: boolean;
     isNameFieldReadonly: boolean;
 
+    fallbackFocusTargetSelector: string;
+
     updateRow: (isNewRow: boolean, id: string, key: string, value: string, description: string, enabled: boolean) => void;
 
     canHaveFiles: boolean;
@@ -64,6 +66,7 @@ export default function EditorGrid(props: IEditorGridProps) {
                     initialTypeForFileTextToggle={fileType}
                     id={id}
                     key={id}
+                    fallbackFocusTargetSelector={props.fallbackFocusTargetSelector}
                     hideDescriptionField={props.hideDescriptionField}
                     isNameFieldReadonly={props.isNameFieldReadonly}
                     initialDescriptionValue={row.description}
@@ -91,6 +94,7 @@ export default function EditorGrid(props: IEditorGridProps) {
                     initialTypeForFileTextToggle="text"
                     id={newRowId}
                     key={newRowId}
+                    fallbackFocusTargetSelector={props.fallbackFocusTargetSelector}
                     hideDescriptionField={props.hideDescriptionField}
                     isNameFieldReadonly={props.isNameFieldReadonly}
                     initialDescriptionValue=""
@@ -122,7 +126,7 @@ export default function EditorGrid(props: IEditorGridProps) {
         '--grid-description-column-width': `${descriptionColumnWidth}fr`,
     };
     return (
-        <div style={outerStyle as any}>
+        <div style={outerStyle as any} className="nc-editor-grid">
             <GridHeader
                 hideDescriptionField={props.hideDescriptionField}
                 onResize={(key, value, desc) => {

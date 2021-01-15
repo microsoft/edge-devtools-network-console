@@ -62,8 +62,9 @@ export default function reduceQuery(action: QueryAction, collection: RequestsSta
             const itemToRemove = state.current.queryParameters.get(action.id);
             assert(!!itemToRemove, 'Could not find query to remove.');
 
-            let newQueries = state.current.queryParameters.remove(action.id);
-            newQueries = resetIDs(action.requestId, ID_DIV_QUERY, newQueries.values());
+            const newQueriesList = state.current.queryParameters.toArray().filter(pair => pair[0] !== action.id)
+                .map(pair => pair[1]);
+            const newQueries = resetIDs(action.requestId, ID_DIV_QUERY, newQueriesList);
 
             result = {
                 ...state,

@@ -55,7 +55,7 @@ export class FocusRestorer {
         const next = this._focusStack.pop();
         if (next) {
             if (next === 'host') {
-                AppHost.restoreFocusToHost();
+                AppHost.reassociateFocus();
             }
             else {
                 next.focus();
@@ -67,3 +67,4 @@ export class FocusRestorer {
         this._focusStack.splice(0, this._focusStack.length);
     }
 }
+

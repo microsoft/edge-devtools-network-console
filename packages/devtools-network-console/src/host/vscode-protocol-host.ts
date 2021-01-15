@@ -31,7 +31,7 @@ import { globalDispatch } from 'store';
 import { setHostOptionsAction } from 'actions/host-capabilities';
 import { loadRequestAction, loadDefaultRequest } from 'actions/common';
 import { makeEditAuthorizationInModalAction, makeEditEnvironmentAction } from 'actions/modal';
-import { makeSetEnvironmentAuthorizationAction, makeClearEnvironmentVariablesAction, makeSetEnvironmentVariablesAction } from 'actions/environment';
+import { makeClearEnvironmentVariablesAction, makeSetEnvironmentVariablesAction } from 'actions/environment';
 import { makeSetCollectionTreeAction } from 'actions/collections';
 import { synthesizeHttpRequest } from 'utility/http-compose';
 import { INetConsoleRequestInternal } from 'model/NetConsoleRequest';
@@ -270,7 +270,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         const deserialized = deserializeFromHost(message.requestId, message.request);
         globalDispatch(loadRequestAction(message.requestId, deserialized, message.requiresSaveAs));
 
-        // Environment set via `LOAD_REQUEST` deprecated in v0.11.0-preview
+        // Environment set via `LOAD_REQUEST` deprecated in v0.11.1-preview
         // Remove in the future.
         // const environmentAuth: INetConsoleAuthorization | null = message.environmentAuth || null;
         // if (environmentAuth) {
@@ -280,7 +280,7 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         if ('environmentAuth' in message && (message as any).environmentAuth) {
             this.log({
                 level: 'WARNING',
-                message: '"environmentAuth" and "environmentAuthPath" are deprecated on LOAD_REQUEST in v0.11.0-preview and newer. These settings will not be respected.',
+                message: '"environmentAuth" and "environmentAuthPath" are deprecated on LOAD_REQUEST in v0.11.1-preview and newer. These settings will not be respected.',
             });
         }
     }
@@ -353,15 +353,31 @@ export default class VsCodeProtocolHost implements INetConsoleHost {
         });
     }
 
-    public restoreFocusToHost() {
-        this.sendMessage({
-            type: 'RESTORE_FOCUS',
-        });
+    public reassociateFocus() {
+        const addressBarInput = document.querySelector('#addressBarAddressTextField');
+        if (addressBarInput) {
+            (addressBarInput as HTMLInputElement).focus();
+        }
+        else {
+            const defaultButton = document.querySelector('#viewSelectCreateNewButton');
+            if (!defaultButton) {
+                throw new Error('Violated invariant: Expected either address bar or view select to be visible.');
+            }
+
+            (defaultButton as HTMLElement).focus();
+        }
     }
 
     public requestCreateNewCollection() {
         this.sendMessage({
             type: 'PROMPT_FOR_NEW_COLLECTION',
+        });
+    }
+
+    public ariaAlert(message: string): void {
+        this.sendMessage({
+            type: 'ARIA_ALERT',
+            message,
         });
     }
 }

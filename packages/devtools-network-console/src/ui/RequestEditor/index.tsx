@@ -28,6 +28,7 @@ import { HideUnless } from 'ui/generic/HideIf';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
 import { findNearestInheritedAuthorization } from 'reducers/collections';
+import { AppHost } from 'store/host';
 
 interface IOwnProps {
     requestId: string;
@@ -139,7 +140,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         requestId={props.requestId}
                         />
                 </div>
-                <div className="ht100 flxcol">
+                <div className="ht100 flxcol reqedit-editor-choice">
                     <DesignSystemProvider designSystem={{ density: 2}}>
                         <Pivot
                             activeId={currentTab}
@@ -154,6 +155,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                 canHaveFiles={false}
                                 isDeleteAllowed={false}
                                 deleteRow={undefined}
+                                fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                 idStart={props.requestId + ID_DIV_ROUTE}
                                 rows={props.routeParameters}
                                 isNameFieldReadonly={true}
@@ -174,7 +176,9 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     isDeleteAllowed={true}
                                     deleteRow={id => {
                                         dispatch(removeQueryAction(props.requestId, id));
+                                        AppHost.ariaAlert?.('Deleted');
                                     }}
+                                    fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                     idStart={props.requestId + ID_DIV_QUERY}
                                     isNameFieldReadonly={false}
                                     hideDescriptionField={!props.options.showDescriptionFields}
@@ -199,7 +203,9 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     isDeleteAllowed={true}
                                     deleteRow={id => {
                                         dispatch(removeHeaderAction(props.requestId, id));
+                                        AppHost.ariaAlert?.('Deleted');
                                     }}
+                                    fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                     idStart={props.requestId + ID_DIV_HEADER}
                                     isNameFieldReadonly={false}
                                     hideDescriptionField={!props.options.showDescriptionFields}

@@ -134,16 +134,6 @@ Logs some message via the message port. No response is expected to this.
 }
 ```
 
-### `RESTORE_FOCUS`
-
-Instructs the host to restore focus to the previously-focused element.
-
-```ts
-{
-    type: 'RESTORE_FOCUS';
-}
-```
-
 ### `PROMPT_FOR_NEW_COLLECTION`
 
 Instructs the host to prompt to create a new collection. No response is required from
@@ -155,6 +145,19 @@ collections open within the host.
 ```ts
 {
     type: 'PROMPT_FOR_NEW_COLLECTION';
+}
+```
+
+### `ARIA_ALERT`
+
+Instructs the host to make an ARIA announcement. This is to satisfy WCAG 2.1
+requirements of interaction status messages. The message to announce should
+already be localized.
+
+```ts
+{
+    type: 'ARIA_ALERT';
+    message: string;
 }
 ```
 
@@ -223,9 +226,9 @@ Loads a request from a collection.
     type: 'LOAD_REQUEST';
     request: INetConsoleRequest;
     requiresSaveAs: boolean;
-    /** Deprecated in 0.11.0-preview **/
+    /** Deprecated in 0.11.1-preview **/
     environmentAuth?: INetConsoleAuthorization;
-    /** Deprecated in 0.11.0-preview **/
+    /** Deprecated in 0.11.1-preview **/
     environmentAuthPath?: string[];
 }
 ```
@@ -235,7 +238,7 @@ property to be included with the `SAVE_REQUEST` message.
 
 `environmentAuth` and `environmentAuthPath` are optional parameters, but if one is included, both
 must be included. This enables the frontend to view and modify the environment authorization. The
-`environmentAuthPath` is an array of strings. These parameters are deprecated in 0.11.0-preview
+`environmentAuthPath` is an array of strings. These parameters are deprecated in 0.11.1-preview
 and will no longer be respected, and will be removed entirely in the future.
 
 ### `REQUEST_COMPLETE`
@@ -265,12 +268,12 @@ interface IHostCollection {
     id: string;
     name: string;
     children: IHostCollection[];
-    /** New in 0.11.0-preview **/
+    /** New in 0.11.1-preview **/
     authorization: INetConsoleAuthorization | undefined;
 }
 ```
 
-The `authorization` parameter is introduced in 0.11.0-preview. This allows the host to keep the
+The `authorization` parameter is introduced in 0.11.1-preview. This allows the host to keep the
 front-end's view of the entire collections tree up-to-date, and does not require the corresponding
 environment to be passed as part of the `LOAD_REQUEST` message.
 
