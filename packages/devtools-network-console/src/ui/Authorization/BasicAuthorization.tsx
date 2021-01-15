@@ -23,6 +23,8 @@ export interface IBasicAuthorizationProps {
 function BasicAuthorization(props: IBasicAuthorizationProps & ILocalized) {
     const dispatch = useDispatch();
     React.useEffect(() => {
+        // FAST-React <Toggle> element does not set ARIA label correctly. This effect allows us
+        // to reach in via the DOM to associate the label appropriately.
         const showPasswordInput = document.querySelector('#basicAuthorizationShowPassword');
         if (showPasswordInput) {
             showPasswordInput.setAttribute('aria-labelledby', 'basicAuthorizationShowPasswordLabel');

@@ -63,7 +63,7 @@ export interface IHostCollection {
     name: string;
     children: IHostCollection[];
     /**
-     * Introduced in v0.11.1-preview. If this is `undefined`, it is assumed to be an "inherit".
+     * Introduced in v0.11.0-preview. If this is `undefined`, it is assumed to be an "inherit".
      */
     authorization: INetConsoleAuthorization | undefined;
 }

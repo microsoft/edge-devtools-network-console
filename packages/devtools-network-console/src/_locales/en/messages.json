@@ -314,6 +314,11 @@
         "description": "Accessible label for link that displays the call stack"
     },
 
+    "Generic.deletedEntryAnnouncement": {
+        "message": "Deleted",
+        "description": "Screen reader announcement for when a grid row is deleted."
+    },
+
     "HttpVerbPicker.title": {
         "message": "Choose an HTTP Method or Verb",
         "description": "Title of dropdown for selecting an HTTP verb"

@@ -12,6 +12,12 @@ This change introduces new frontend-to-host messages:
  - `PROMPT_FOR_NEW_COLLECTION`
  - `ARIA_ALERT`
 
+Additionally this adds new exports to the main module:
+
+ - `IResponseMessage<TMessage>`
+ - `serializeParameter`
+ - `serializeEnvironment`
+
 ## v0.11.0-preview
 
 This change removes the deprecated Collections and Environments APIs:

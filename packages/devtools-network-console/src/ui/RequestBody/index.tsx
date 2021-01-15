@@ -95,6 +95,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
     const locale = React.useContext(LocalizationContext);
 
     const style: StyleAttribute = props.bodySelection === 'raw' ? Styles.BODY_CONTAINER_STYLE : {};
+    const deletedAnnouncementText = getText('Generic.deletedEntryAnnouncement', { locale });
 
     return (
         <div {...style}>
@@ -186,7 +187,9 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                                 );
                             })}
                         </Select>
-                        <span id="contentTypeSelectLabel" style={{ display: 'none' }}>Content-Type:</span>
+                        <span id="contentTypeSelectLabel" style={{ display: 'none' }}>
+                            <LocText textKey="RequestEditor.BodyType.contentTypeSelectLabel" />
+                        </span>
                     </HideUnless>
                     </DesignSystemProvider>
                 </div>
@@ -231,7 +234,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         isDeleteAllowed={true}
                         deleteRow={id => {
                             dispatch(removeBodyDataItemAction(props.requestId, 'form-data', id));
-                            AppHost.ariaAlert?.('Deleted');
+                            AppHost.ariaAlert?.(deletedAnnouncementText);
                         }}
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}
@@ -272,7 +275,7 @@ export function RequestBody(props: IRequestBodyEditorProps) {
                         isDeleteAllowed={true}
                         deleteRow={id => {
                             dispatch(removeBodyDataItemAction(props.requestId, 'x-www-form-urlencoded', id));
-                            AppHost.ariaAlert?.('Deleted');
+                            AppHost.ariaAlert?.(deletedAnnouncementText);
                         }}
                         previewEnvironmentMerge={true}
                         environmentVariables={props.environment.variables}

@@ -183,11 +183,8 @@ function GridRow(props: IGridRowProps & ILocalized) {
                 <DeleteButton
                     onClick={e => {
                         if (props.isDeleteAllowed) {
-                            // TODO: Fix the 'null' pass here
                             focusNextGridElement(e.target as HTMLButtonElement, props.fallbackFocusTargetSelector);
-                            requestAnimationFrame(() => {
-                                props.onDelete(props.id);
-                            });
+                            props.onDelete(props.id);
                         }
                     }}
                     style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '', padding: '4px', margin: '4px' }}
