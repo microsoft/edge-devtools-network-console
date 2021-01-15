@@ -15,7 +15,11 @@ export type IRequestViewProps = IOwnProps;
 
 export default function RequestView(props: IRequestViewProps) {
     return (
-        <ResizableSplitter>
+        <ResizableSplitter
+            secondPaneProps={{
+                'aria-live': 'polite',
+            }}
+            >
             <ConnectedRequestEditor requestId={props.requestId} />
             <ResponseViewer requestId={props.requestId} />
         </ResizableSplitter>
