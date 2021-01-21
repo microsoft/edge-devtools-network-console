@@ -72,4 +72,22 @@ export interface INetConsoleHost {
     openUnattachedRequest: (requestId: string) => void;
 
     log: (message: object) => void;
+
+    /**
+     * When the host sends focus to the frontend (for example, when choosing to "Edit authorization settings")
+     * for a given activity, and then the activity loses focus, this allows the frontend application to re-assign
+     * where focus should go (either to another frontend component or back to the host).
+     */
+    reassociateFocus: () => void;
+
+    /**
+     * Prompts the host to interrogate the user about creating a new Collection. If one or more new collections
+     * are created as a result of this, the host should dispatch a `UPDATE_COLLECTIONS_TREE` message.
+     */
+    requestCreateNewCollection: () => void;
+
+    /**
+     * Prompts the host to make an ARIA-alert on its behalf.
+     */
+    ariaAlert?: (message: string) => void;
 }

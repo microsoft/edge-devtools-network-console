@@ -14,6 +14,18 @@ interface IMessageWithResponse<T extends string> extends IMessage<T> {
 
 export type IConsoleReadyMessage = IMessage<'CONSOLE_READY'>;
 
+export type IPromptForNewCollectionMessage = IMessage<'PROMPT_FOR_NEW_COLLECTION'>;
+
+/**
+ * Requests that the host makes an ARIA announcement on behalf of the frontend.
+ */
+export interface IAriaAlertMessage extends IMessage<'ARIA_ALERT'> {
+    /**
+     * The message to announce. This message should be localized.
+     */
+    message: string;
+}
+
 export interface IExecuteRequestMessage extends IMessageWithResponse<'EXECUTE_REQUEST'> {
     configuration: IHttpRequest;
     /**
@@ -65,5 +77,7 @@ export type FrontendMessage =
     IOpenWebLinkMessage |
     IOpenUnattachedRequestMessage |
     IUpdateDirtyFlagMessage |
-    ILogMessage
+    ILogMessage |
+    IPromptForNewCollectionMessage |
+    IAriaAlertMessage
     ;

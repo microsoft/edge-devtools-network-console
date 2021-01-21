@@ -44,186 +44,6 @@ export default class WebApplicationHost implements INetConsoleHost {
             globalDispatch(setHostOptionsAction(true));
             globalDispatch(loadRequestAction('coll1/coll2/0', DEFAULT_NET_CONSOLE_REQUEST, /* requiresSaveAs: */ true));
             recalculateAndApplyTheme('', 'light');
-            globalDispatch(makeSetCollectionTreeAction([
-                {
-                    id: 'coll1',
-                    name: 'Collection 1',
-                    children: [{
-                        id: 'coll1/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: {
-                            type: 'basic',
-                            basic: {
-                                username: 'test',
-                                password: 'test',
-                                showPassword: false,
-                            }
-                        },
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll2',
-                    name: 'Collection 2',
-                    children: [{
-                        id: 'coll2/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll3',
-                    name: 'Collection 3',
-                    children: [{
-                        id: 'coll3/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll4',
-                    name: 'Collection 4',
-                    children: [{
-                        id: 'coll4/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll5',
-                    name: 'Collection 5',
-                    children: [{
-                        id: 'coll5/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll6',
-                    name: 'Collection 6',
-                    children: [{
-                        id: 'coll6/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll7',
-                    name: 'Collection 7',
-                    children: [{
-                        id: 'coll7/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll8',
-                    name: 'Collection 8',
-                    children: [{
-                        id: 'coll8/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll9',
-                    name: 'Collection 9',
-                    children: [{
-                        id: 'coll9/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll10',
-                    name: 'Collection 10',
-                    children: [{
-                        id: 'coll10/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll11',
-                    name: 'Collection 11',
-                    children: [{
-                        id: 'coll11/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll12',
-                    name: 'Collection 12',
-                    children: [{
-                        id: 'coll12/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll13',
-                    name: 'Collection 13',
-                    children: [{
-                        id: 'coll13/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll14',
-                    name: 'Collection 14',
-                    children: [{
-                        id: 'coll14/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll15',
-                    name: 'Collection 15',
-                    children: [{
-                        id: 'coll15/coll2',
-                        name: 'Child 1',
-                        children: [],
-                        authorization: undefined,
-                    }],
-                    authorization: undefined,
-                },
-                {
-                    id: 'coll16',
-                    name: 'Collection 16',
-                    children: [],
-                    authorization: undefined,
-                },
-            ]));
             loadPseudoloc();
         }, 1000);
 
@@ -304,6 +124,193 @@ export default class WebApplicationHost implements INetConsoleHost {
             type: 'LOG',
             ...message,
         });
+    }
+
+    public reassociateFocus() { }
+
+    public async requestCreateNewCollection() {
+        await timeout(1500);
+
+        globalDispatch(makeSetCollectionTreeAction([
+            {
+                id: 'coll1',
+                name: 'Collection 1',
+                children: [{
+                    id: 'coll1/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: {
+                        type: 'basic',
+                        basic: {
+                            username: 'test',
+                            password: 'test',
+                            showPassword: false,
+                        }
+                    },
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll2',
+                name: 'Collection 2',
+                children: [{
+                    id: 'coll2/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll3',
+                name: 'Collection 3',
+                children: [{
+                    id: 'coll3/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll4',
+                name: 'Collection 4',
+                children: [{
+                    id: 'coll4/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll5',
+                name: 'Collection 5',
+                children: [{
+                    id: 'coll5/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll6',
+                name: 'Collection 6',
+                children: [{
+                    id: 'coll6/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll7',
+                name: 'Collection 7',
+                children: [{
+                    id: 'coll7/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll8',
+                name: 'Collection 8',
+                children: [{
+                    id: 'coll8/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll9',
+                name: 'Collection 9',
+                children: [{
+                    id: 'coll9/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll10',
+                name: 'Collection 10',
+                children: [{
+                    id: 'coll10/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll11',
+                name: 'Collection 11',
+                children: [{
+                    id: 'coll11/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll12',
+                name: 'Collection 12',
+                children: [{
+                    id: 'coll12/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll13',
+                name: 'Collection 13',
+                children: [{
+                    id: 'coll13/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll14',
+                name: 'Collection 14',
+                children: [{
+                    id: 'coll14/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll15',
+                name: 'Collection 15',
+                children: [{
+                    id: 'coll15/coll2',
+                    name: 'Child 1',
+                    children: [],
+                    authorization: undefined,
+                }],
+                authorization: undefined,
+            },
+            {
+                id: 'coll16',
+                name: 'Collection 16',
+                children: [],
+                authorization: undefined,
+            },
+        ]));
     }
 }
 

@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { 
-    AccentButton, 
+import {
+    AccentButton,
     Breadcrumb,
     Dialog,
     NeutralButton,
@@ -23,6 +23,11 @@ import { saveEnvironmentToHost } from 'actions/environment';
 import Stack from 'ui/generic/Stack';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
+import { FocusRestorer } from 'utility/dom';
+import { AppHost } from 'store/host';
+
+// Class name for the modal root (belongs to the <Dialog>).
+const MODAL_CLASS_NAME = 'modalManager_modal_root';
 
 interface IConnectedProps {
     modals: IModalState;
@@ -44,6 +49,17 @@ export function ModalManager(props: IConnectedProps) {
     let title = '';
     let onCancel: () => void = () => { };
     let onSave: () => void = () => { };
+    let wasOpen = React.useRef(false);
+    React.useEffect(() => {
+        if (!wasOpen.current && isOpen) {
+            FocusRestorer.focusInModal(`.${MODAL_CLASS_NAME}`);
+            wasOpen.current = true;
+        }
+        else if (wasOpen.current && !isOpen) {
+            FocusRestorer.restoreNext();
+            wasOpen.current = false;
+        }
+    }, [wasOpen, isOpen]);
 
     if (authorization && authorizationCollectionId) {
         ui = <AuthorizationUI
@@ -63,7 +79,10 @@ export function ModalManager(props: IConnectedProps) {
         };
     }
     else if (collections.open) {
-        ui = <SaveToCollection rootCollections={props.collections} />;
+        ui = <SaveToCollection
+                rootCollections={props.collections}
+                selectedCollectionId={props.modals.collections.selectedCollectionId}
+                />;
         title = getText('ModalManager.saveAs.title', { locale });
         onCancel = () => {
             dispatch(makeSelectCollectionForSaveAction(null, false));
@@ -77,7 +96,9 @@ export function ModalManager(props: IConnectedProps) {
                 canHaveFiles={false}
                 deleteRow={e => {
                     dispatch(makeRemoveEnvVarAction(e));
+                    AppHost.ariaAlert?.('Deleted');
                 }}
+                fallbackFocusTargetSelector="#modalBtnSave"
                 hideDescriptionField={false}
                 idStart="ENV"
                 isDeleteAllowed={true}
@@ -111,6 +132,8 @@ export function ModalManager(props: IConnectedProps) {
     return (
         <Dialog
             modal
+
+            className={MODAL_CLASS_NAME}
             visible={isOpen}
             onDismiss={() => {
                 dispatch(makeDismissAuthorizationModalAction());
@@ -139,8 +162,12 @@ export function ModalManager(props: IConnectedProps) {
                     {ui}
                 </div>
                 <Stack horizontal style={{ justifyContent: 'flex-end' }}>
-                    <AccentButton onClick={onSave} style={{ marginTop: '5px' }}><LocText textKey="ModalManager.save" /></AccentButton>
-                    <NeutralButton onClick={onCancel} style={{ margin: '5px' }}><LocText textKey="ModalManager.cancel" /></NeutralButton>
+                    <AccentButton onClick={onSave} style={{ marginTop: '5px' }} id="modalBtnSave">
+                        <LocText textKey="ModalManager.save" />
+                    </AccentButton>
+                    <NeutralButton onClick={onCancel} style={{ margin: '5px' }} id="modalBtnCancel">
+                        <LocText textKey="ModalManager.cancel" />
+                    </NeutralButton>
                 </Stack>
             </Stack>
         </Dialog>

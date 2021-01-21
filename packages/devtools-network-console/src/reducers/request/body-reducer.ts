@@ -186,8 +186,9 @@ export default function reduceBody(action: BodyAction, collection: RequestsState
             const itemToRemove = state.current.bodyComponents[components].get(action.id);
             assert(!!itemToRemove, 'Could not find item to remove.');
 
-            let newMap = state.current.bodyComponents[components].remove(action.id);
-            newMap = resetIDs(action.requestId, bodyIdSeparator, newMap.values());
+            const newItemsList = state.current.bodyComponents[components].toArray().filter(pair => pair[0] !== action.id)
+                .map(pair => pair[1]);
+            const newMap = resetIDs(action.requestId, bodyIdSeparator, newItemsList);
 
             const result = {
                 ...state,

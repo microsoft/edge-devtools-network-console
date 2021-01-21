@@ -40,12 +40,13 @@ export default function Authorization(props: IAuthorizationProps) {
 
     return (
         <>
-            <div {...CommonStyles.RBL_HORIZONTAL}>
+            <div {...CommonStyles.RBL_HORIZONTAL} role="radiogroup" aria-label={getText('Authorization.groupLabel', { locale })}>
                 <Radio
                     inputId={inheritId}
                     name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="inherit"
                     checked={props.authorization.type === 'inherit'}
+                    aria-checked={props.authorization.type === 'inherit' ? 'true' : 'false'}
                     title={getText('Authorization.choice.inherit', { locale })}
                     label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={inheritId} className={cn}><LocText textKey="Authorization.choice.inherit" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'inherit'))}
@@ -55,6 +56,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="none"
                     checked={props.authorization.type === 'none'}
+                    aria-checked={props.authorization.type === 'none' ? 'true' : 'false'}
                     title={getText('Authorization.choice.none', { locale })}
                     label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={noneId} className={cn}><LocText textKey="Authorization.choice.none" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'none'))}
@@ -64,6 +66,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="token"
                     checked={props.authorization.type === 'token'}
+                    aria-checked={props.authorization.type === 'token' ? 'true' : 'false'}
                     title={getText('Authorization.choice.token', { locale })}
                     label={cn => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={tokenId} className={cn}><LocText textKey="Authorization.choice.token" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'token'))}
@@ -73,6 +76,7 @@ export default function Authorization(props: IAuthorizationProps) {
                     name={`${props.controlIdPrefix}_authTypeRadio`}
                     value="basic"
                     checked={props.authorization.type === 'basic'}
+                    aria-checked={props.authorization.type === 'basic' ? 'true' : 'false'}
                     title={getText('Authorization.choice.basic', { locale })}
                     label={(cn) => <label {...CommonStyles.RBL_HORIZ_LABEL} htmlFor={basicId} className={cn}><LocText textKey="Authorization.choice.basic" /></label>}
                     onChange={() => dispatch(makeSetAuthorizationSchemeAction(props.requestId, 'basic'))}

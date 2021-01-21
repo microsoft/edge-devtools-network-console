@@ -141,11 +141,13 @@ function substituteAuthorizationWithVariables(auth: INetConsoleAuthorization, en
         }
 
         case 'token': {
+            let token: string;
             if (!auth.token) {
-                throw new Error('Assertion failed: type = bearer token but no bearer token data was found.');
+                token = '';
             }
-
-            let { token } = auth.token;
+            else {
+                token = auth.token.token;
+            }
             token = mergeStringWithDurableMap(token, map).value;
 
             return {

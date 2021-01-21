@@ -139,7 +139,9 @@ export default function reduceModalState(state: IModalState = DEFAULT_MODAL_STAT
             const itemToRemove = state.environment.values.get(action.id);
             assert(!!itemToRemove, 'Could not find variable to remove.');
 
-            const newEnv = resetIDs('', ID_DIV_ENVIRONMENT, state.environment.values.remove(action.id).valueSeq());
+            const newEnvList = state.environment.values.toArray().filter(pair => pair[0] !== action.id)
+                .map(pair => pair[1]);
+            const newEnv = resetIDs('', ID_DIV_ENVIRONMENT, newEnvList);
 
             return {
                 ...state,

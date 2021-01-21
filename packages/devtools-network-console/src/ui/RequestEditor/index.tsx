@@ -28,6 +28,7 @@ import { HideUnless } from 'ui/generic/HideIf';
 import { getText, LocalizationContext } from 'utility/loc-context';
 import LocText from 'ui/LocText';
 import { findNearestInheritedAuthorization } from 'reducers/collections';
+import { AppHost } from 'store/host';
 
 interface IOwnProps {
     requestId: string;
@@ -40,6 +41,7 @@ interface IConnectedProps {
     requiresSaveAs: boolean;
 
     request: INetConsoleRequestInternal;
+    isRequestInFlight: boolean;
 
     routeParameters: Map<string, INetConsoleParameter>;
     headers: Map<string, INetConsoleParameter>;
@@ -130,6 +132,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                 <div>
                     <AddressBar
                         isRequestDirty={props.isRequestDirty}
+                        isRequestInFlight={props.isRequestInFlight}
                         canSave={props.canSave}
                         requiresSaveAs={props.requiresSaveAs}
                         url={props.request.url}
@@ -137,7 +140,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         requestId={props.requestId}
                         />
                 </div>
-                <div className="ht100 flxcol">
+                <div className="ht100 flxcol reqedit-editor-choice">
                     <DesignSystemProvider designSystem={{ density: 2}}>
                         <Pivot
                             activeId={currentTab}
@@ -152,6 +155,7 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                 canHaveFiles={false}
                                 isDeleteAllowed={false}
                                 deleteRow={undefined}
+                                fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                 idStart={props.requestId + ID_DIV_ROUTE}
                                 rows={props.routeParameters}
                                 isNameFieldReadonly={true}
@@ -172,7 +176,9 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     isDeleteAllowed={true}
                                     deleteRow={id => {
                                         dispatch(removeQueryAction(props.requestId, id));
+                                        AppHost.ariaAlert?.('Deleted');
                                     }}
+                                    fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                     idStart={props.requestId + ID_DIV_QUERY}
                                     isNameFieldReadonly={false}
                                     hideDescriptionField={!props.options.showDescriptionFields}
@@ -197,7 +203,9 @@ export default function RequestEditor(props: IRequestEditorProps) {
                                     isDeleteAllowed={true}
                                     deleteRow={id => {
                                         dispatch(removeHeaderAction(props.requestId, id));
+                                        AppHost.ariaAlert?.('Deleted');
                                     }}
+                                    fallbackFocusTargetSelector=".reqedit-editor-choice > div[role='tablist'] > div[role='tab'][aria-selected='true']"
                                     idStart={props.requestId + ID_DIV_HEADER}
                                     isNameFieldReadonly={false}
                                     hideDescriptionField={!props.options.showDescriptionFields}
@@ -217,10 +225,10 @@ export default function RequestEditor(props: IRequestEditorProps) {
                         </HideUnless>
                         <HideUnless test={currentTab} match="auth" {...CommonStyles.SCROLL_CONTAINER_STYLE}>
                             <div {...CommonStyles.SCROLLABLE_STYLE}>
-                                <Authorization 
-                                    authorization={props.request.authorization} 
-                                    requestId={props.requestId} 
-                                    environmentAuth={props.environmentAuth} 
+                                <Authorization
+                                    authorization={props.request.authorization}
+                                    requestId={props.requestId}
+                                    environmentAuth={props.environmentAuth}
                                     controlIdPrefix="requestEditor"
                                     />
                             </div>
@@ -266,6 +274,7 @@ function mapStateToProps(state: IView, ownProps: IOwnProps): IConnectedProps {
         queryParameters: request.current.queryParameters,
         routeParameters: request.current.routeParameters,
         request: request.current,
+        isRequestInFlight: state.response.get(ownProps.requestId)?.status === 'PENDING',
         environmentAuth: findInheritedAuthorization(state, ownProps.requestId),
 
         options: {

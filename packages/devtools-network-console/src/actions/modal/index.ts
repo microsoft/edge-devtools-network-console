@@ -166,3 +166,9 @@ export function makeDismissEditEnvironmentAction() : IDismissEditEnvironmentActi
         type: 'MODAL_EDIT_ENVIRONMENT_DISMISS',
     };
 }
+
+export function requestHostCreateNewCollection(): ThunkAction<void, IView, void, AnyAction> {
+    return async _dispatch => {
+        AppHost.requestCreateNewCollection();
+    };
+}

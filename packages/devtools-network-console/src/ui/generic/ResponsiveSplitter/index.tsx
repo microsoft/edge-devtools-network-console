@@ -7,6 +7,8 @@ import * as SplitPaneStyle from './resize-styles';
 
 export interface IResponsiveSplitterProps {
     children: React.ReactNode[];
+    firstPaneProps?: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+    secondPaneProps?: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 }
 
 export default function ResponsiveSplitter(props: IResponsiveSplitterProps) {
@@ -15,12 +17,12 @@ export default function ResponsiveSplitter(props: IResponsiveSplitterProps) {
     }
 
     return (
-        <div {...Styles.SPLITTER_CONTAINER_STYLE}>
+        <div {...Styles.SPLITTER_CONTAINER_STYLE} {...(props.firstPaneProps || { })}>
             <div {...Styles.LEFT_SIDE_STYLE}>
                 {props.children[0]}
             </div>
             <div {...Styles.MIDDLE_STYLE}>&nbsp;</div>
-            <div {...Styles.RIGHT_SIDE_STYLE}>
+            <div {...Styles.RIGHT_SIDE_STYLE} {...(props.secondPaneProps || { })}>
                 {props.children[1]}
             </div>
         </div>

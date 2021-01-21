@@ -13,6 +13,7 @@ import GridFileInput from './GridFileInput';
 import { mergeString } from 'utility/environment-merge';
 import { getText, ILocalized, LocalizationConsumer } from 'utility/loc-context';
 import { DesignSystemConsumer } from '@microsoft/fast-jss-manager-react';
+import { focusNextGridElement } from 'utility/editor-grid-dom-utils';
 
 interface IGridRowPropsCommon {
     id: string;
@@ -20,6 +21,8 @@ interface IGridRowPropsCommon {
     isNameFieldReadonly: boolean;
     hideDescriptionField: boolean;
     canBeFile: boolean;
+
+    fallbackFocusTargetSelector: string;
 
     previewEnvironmentMerge: boolean;
     environmentVariables?: INetConsoleParameter[];
@@ -66,8 +69,13 @@ function GridRow(props: IGridRowProps & ILocalized) {
         }
     }
 
+    let classNames = 'nc-editor-row';
+    if (props.isNew) {
+        classNames += ' nc-editor-row-uncommitted';
+    }
+
     return (
-        <div {...Styles.GRID_ROW_STYLE}>
+        <div {...Styles.GRID_ROW_STYLE} className={classNames}>
             <div {...Styles.ENABLED_CELL_STYLE}>
                 <Checkbox
                     checked={props.initialEnabledValue}
@@ -85,7 +93,7 @@ function GridRow(props: IGridRowProps & ILocalized) {
                     {...Styles.ENABLED_CHECK_STYLE}
                     />
             </div>
-            <div {...Styles.KEY_CELL_STYLE}>
+            <div {...Styles.KEY_CELL_STYLE} className="nc-editor-cell-key">
                 {canBeFile ?
                     <GridTextOrFileKey
                         canSelectMode={!props.isNew}
@@ -172,9 +180,12 @@ function GridRow(props: IGridRowProps & ILocalized) {
             </div>
             }
             <div {...Styles.DELETE_CELL_STYLE}>
-                <DeleteButton 
-                    onClick={_e => {
-                        props.isDeleteAllowed && props.onDelete(props.id);
+                <DeleteButton
+                    onClick={e => {
+                        if (props.isDeleteAllowed) {
+                            focusNextGridElement(e.target as HTMLButtonElement, props.fallbackFocusTargetSelector);
+                            props.onDelete(props.id);
+                        }
                     }}
                     style={{ display: (props.isNew || !props.isDeleteAllowed) ? 'none' : '', padding: '4px', margin: '4px' }}
                     aria-label={getText('EditorGrid.GridRow.deleteLabel', props)}
@@ -210,7 +221,7 @@ function DeleteButton(props: Omit<ActionTriggerProps, 'glyph'>) {
                 const nonHoverFill = isLight ? lightFill : darkFill;
 
                 return (
-                    <ActionTrigger 
+                    <ActionTrigger
                         {...props}
                         onMouseEnter={() => setHoverState(true)}
                         onMouseLeave={() => setHoverState(false)}

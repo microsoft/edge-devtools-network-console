@@ -26,11 +26,12 @@ export function ViewSelect(props: IViewSelectProps) {
     const dispatch = useDispatch();
     if (props.openViews.size === 0 || !props.currentView) {
         return (
-            <Stack center>
+            <Stack center style={{ paddingTop: '40px' }}>
                 <StealthButton
                     onClick={e => {
                         dispatch(loadDefaultRequest());
                     }}
+                    id="viewSelectCreateNewButton"
                 >
                     <LocText textKey='ViewSelect.create' />
                 </StealthButton>

@@ -61,6 +61,11 @@ body {
   overflow-y: hidden;
 }
 
+.editor-container.json-preview-container {
+  height: calc(100% - 5px - 40px);
+  overflow-y: auto;
+}
+
 .json-preview > div[role="tabpanel"] {
   flex-grow: unset !important;
   height: calc(100% - 24px) !important;
@@ -107,10 +112,11 @@ div.described-choices label {
   font-size: 14px !important;
 }
 
-/** Fabric TextField doesn't allow modifying placeholder styles */
-.request-title-editor > .ms-TextField-wrapper > .ms-TextField-fieldGroup > input.ms-TextField-field::placeholder {
-  font-size: 16px !important;
+/* Radios appear to hover over dialogs and don't seem to need to be z-indexed. */
+input[type="radio"] {
+  z-index: auto !important;
 }
+
     </style>
   </head>
   <body>

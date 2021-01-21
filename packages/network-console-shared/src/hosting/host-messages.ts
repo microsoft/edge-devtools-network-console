@@ -7,7 +7,7 @@ interface IMessage<T extends string> {
     type: T;
 }
 
-interface IResponseMessage<TResult> {
+export interface IResponseMessage<TResult> {
     /** ID of the request message */
     id: number;
 
