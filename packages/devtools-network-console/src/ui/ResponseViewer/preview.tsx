@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import * as React from 'react';
-import ReactJsonView from 'react-json-view';
+// import ReactJsonView from 'react-json-view';
+import JSONView from 'ui/JSONView';
 import { strFromB64 } from 'utility/b64';
 import { THEME_TYPE } from 'themes/vscode-theme';
 import { getText, ILocalized } from 'utility/loc-context';
@@ -27,13 +28,14 @@ function JsonPreview({ body, theme, locale }: { body: string; theme: THEME_TYPE 
         rjsTheme = "bright";
     }
     const child = (
-        <ReactJsonView
-            src={jsonObjPreview}
-            displayDataTypes={false}
-            enableClipboard={false}
-            iconStyle="triangle"
-            theme={rjsTheme as any}
-            />
+        // <ReactJsonView
+        //     src={jsonObjPreview}
+        //     displayDataTypes={false}
+        //     enableClipboard={false}
+        //     iconStyle="triangle"
+        //     theme={rjsTheme as any}
+        //     />
+        <JSONView value={jsonObjPreview} />
     );
     return child;
 }

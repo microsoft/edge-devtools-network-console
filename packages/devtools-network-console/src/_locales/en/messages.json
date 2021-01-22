@@ -324,6 +324,27 @@
         "description": "Title of dropdown for selecting an HTTP verb"
     },
 
+    "JSONView.rootElement.title": {
+        "message": "(root)",
+        "description": "Label for the root 'property' of a JSON value being previewed"
+    },
+    "JSONView.property.emptyArray": {
+        "message": "Empty array",
+        "description": "Label for property values of arrays that are empty"
+    },
+    "JSONView.property.arrayValue": {
+        "message": "Array",
+        "description": "Label for property values of arrays with contents"
+    },
+    "JSONView.property.emptyObject": {
+        "message": "Empty object",
+        "description": "Label for property values of objects that are empty"
+    },
+    "JSONView.property.objectValue": {
+        "message": "Object",
+        "description": "Label for property values of objects with contents"
+    },
+
     "KNOWN_HTTP_VERBS.GET": {
         "message": "Requests transfer of a currently selected representation for the target resource. GET is the primary mechanism of information retrieval and the focus of almost all performance optimizations.",
         "description": "Description of the defined behavior of the HTTP GET verb"

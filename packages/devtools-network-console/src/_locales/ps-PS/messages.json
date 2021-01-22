@@ -47,6 +47,10 @@
         "message": "T̂h́îś r̂éq̂úêśt̂ d́ôéŝ ńôt́ ûśê áût́ĥór̂íẑát̂íôń.",
         "description": "Description label for 'None' style authorization choice"
     },
+    "Authorization.groupLabel": {
+        "message": "Âút̂h́ôŕîźât́îón̂ śêĺêćt̂íôń",
+        "description": "ARIA label for the radio button list for choosing an authorization mechanism"
+    },
     "Authorization.Shared.dataSensitiveWarning": {
         "message": "T̂h́êśê ṕâŕâḿêt́êŕŝ ḿâý ĉón̂t́âín̂ śêńŝít̂ív̂é îńf̂ór̂ḿât́îón̂. Ćôńŝíd̂ér̂ śp̂éĉíf̂ýîńĝ t́ĥéŝé ŵít̂h́ êńv̂ír̂ón̂ḿêńt̂ v́âŕîáb̂ĺêś ĥér̂é, âńd̂ śp̂éĉíf̂ýîńĝ t́ĥát̂ ýôúr̂ én̂v́îŕôńm̂én̂t́ v̂ár̂íâb́l̂éŝ ár̂én̂'t́ ĉh́êćk̂éd̂ ín̂ t́ô śôúr̂ćê ćôńt̂ŕôĺ.",
         "description": "Helper text indicating that users' authorization settings should not be checked into source control."
@@ -299,9 +303,33 @@
         "message": "Êx́p̂án̂d́ t̂h́ê ćâĺl̂ śt̂áĉḱ t̂ó ŝéê ér̂ŕôŕ d̂ét̂áîĺŝ",
         "description": "Accessible label for link that displays the call stack"
     },
+    "Generic.deletedEntryAnnouncement": {
+        "message": "D̂él̂ét̂éd̂",
+        "description": "Screen reader announcement for when a grid row is deleted."
+    },
     "HttpVerbPicker.title": {
         "message": "Ĉh́ôóŝé âń ĤT́T̂Ṕ M̂ét̂h́ôd́ ôŕ V̂ér̂b́",
         "description": "Title of dropdown for selecting an HTTP verb"
+    },
+    "JSONView.rootElement.title": {
+        "message": "(r̂óôt́)",
+        "description": "Label for the root 'property' of a JSON value being previewed"
+    },
+    "JSONView.property.emptyArray": {
+        "message": "Êḿp̂t́ŷ ár̂ŕâý",
+        "description": "Label for property values of arrays that are empty"
+    },
+    "JSONView.property.arrayValue": {
+        "message": "Âŕr̂áŷ",
+        "description": "Label for property values of arrays with contents"
+    },
+    "JSONView.property.emptyObject": {
+        "message": "Êḿp̂t́ŷ ób̂j́êćt̂",
+        "description": "Label for property values of objects that are empty"
+    },
+    "JSONView.property.objectValue": {
+        "message": "Ôb́ĵéĉt́",
+        "description": "Label for property values of objects with contents"
     },
     "KNOWN_HTTP_VERBS.GET": {
         "message": "R̂éq̂úêśt̂ś t̂ŕâńŝf́êŕ ôf́ â ćûŕr̂én̂t́l̂ý ŝél̂éĉt́êd́ r̂ép̂ŕêśêńt̂át̂íôń f̂ór̂ t́ĥé t̂ár̂ǵêt́ r̂éŝóûŕĉé. ĜÉT̂ íŝ t́ĥé p̂ŕîḿâŕŷ ḿêćĥán̂íŝḿ ôf́ îńf̂ór̂ḿât́îón̂ ŕêt́r̂íêv́âĺ âńd̂ t́ĥé f̂óĉúŝ óf̂ ál̂ḿôśt̂ ál̂ĺ p̂ér̂f́ôŕm̂án̂ćê óp̂t́îḿîźât́îón̂ś.",
@@ -358,6 +386,10 @@
     "RequestBody.bodyWithUnsupportedVerb.learnMore": {
         "message": "L̂éâŕn̂ ḿôŕê",
         "description": "Link label to learn more about an error."
+    },
+    "RequestBody.groupLabel": {
+        "message": "R̂éq̂úêśt̂ b́ôd́ŷ ḿôd́ê śêĺêćt̂íôń",
+        "description": "ARIA label for the radio button list for choosing a body mode"
     },
     "RequestEditor.NoBody.message": {
         "message": "T̂ó îńĉĺûd́ê á r̂éq̂úêśt̂ b́ôd́ŷ, ćĥóôśê ón̂é ôf́ t̂h́ê ót̂h́êŕ m̂ód̂éŝ áb̂óv̂é.",
@@ -510,6 +542,14 @@
     "ResponseStats.time": {
         "message": "T̂ím̂é",
         "description": "Label of the round-trip time"
+    },
+    "SaveToCollection.createNewCollectionLabel": {
+        "message": "Ĉŕêát̂é â ńêẃ Ĉól̂ĺêćt̂íôń",
+        "description": "Button label to create a new Collection when one does not exist"
+    },
+    "SaveToCollection.noCollections": {
+        "message": "Ŷóû d́ôń't̂ h́âv́ê án̂ý ĉól̂ĺêćt̂íôńŝ d́êf́îńêd́ f̂ór̂ śâv́îńĝ t́ĥíŝ ŕêq́ûéŝt́.",
+        "description": "Message informing the user that there are no collections to save a request into"
     },
     "ViewSelect.create": {
         "message": "Ĉŕêát̂é â ŕêq́ûéŝt́",
