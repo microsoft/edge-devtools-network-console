@@ -3,13 +3,13 @@
 
 import * as React from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { 
-    DataGrid, 
-    DataGridColumn, 
-    DataGridCellRenderConfig, 
+import {
+    DataGrid,
+    DataGridColumn,
+    DataGridCellRenderConfig,
     LightweightButton,
     Pivot,
-    Progress, 
+    Progress,
 } from '@microsoft/fast-components-react-msft';
 import { DesignSystemProvider } from '@microsoft/fast-jss-manager-react';
 import { DataGridHeaderRenderConfig } from '@microsoft/fast-components-react-base';
@@ -167,7 +167,7 @@ function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
         return <NotIssued />;
     }
 
-    const renderedPreview = preview(props.response.response.body.content, contentType, props.locale, props.theme);
+    const renderedPreview = preview(props.response.response.body.content, contentType, props.locale);
     const tabsToDisplay = PIVOT_DEFAULT_ITEMS.slice();
     if (!!renderedPreview) {
         tabsToDisplay.unshift(PIVOT_PREVIEW_ITEM);
