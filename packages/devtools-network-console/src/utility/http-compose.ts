@@ -182,5 +182,7 @@ export function substituteRouteParameters(baseUrl: string, routes: IMap<string, 
 export function concatenateQuery(query: INetConsoleParameter[], environmentVariables: INetConsoleParameter[]): string {
     const merged = mergeEnvironments(query, environmentVariables);
     const enc = encodeURIComponent;
-    return merged.map(q => `${enc(q.key)}=${enc(q.value)}`).join('&');
+    return merged
+            .filter(q => q.isActive)
+            .map(q => `${enc(q.key)}=${enc(q.value)}`).join('&');
 }

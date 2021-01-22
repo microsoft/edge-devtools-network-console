@@ -9,20 +9,22 @@ export function mergeEnvironments(params: INetConsoleParameter[], environment: I
     const active = environment.filter(e => e.isActive);
     const map = toESMap(active, e => e.key);
 
-    return params.map(p => {
-        if (isFormDataParameter(p) && p.type === 'file') {
-            return p;
-        }
+    return params
+            .filter(p => p.isActive)
+            .map(p => {
+                if (isFormDataParameter(p) && p.type === 'file') {
+                    return p;
+                }
 
-        const { value } = mergeStringWithDurableMap(p.value, map);
-        const { description, isActive, key } = p;
-        return {
-            description,
-            isActive,
-            key,
-            value,
-        };
-    });
+                const { value } = mergeStringWithDurableMap(p.value, map);
+                const { description, isActive, key } = p;
+                return {
+                    description,
+                    isActive,
+                    key,
+                    value,
+                };
+            });
 }
 
 export function mergeString(s: string, environment: INetConsoleParameter[]): { value: string; hasSubstitutions: boolean; } {
