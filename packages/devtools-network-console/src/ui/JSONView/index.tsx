@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import React from 'react';
 import { TreeView, TreeViewItem } from '@microsoft/fast-components-react-msft';
 import { LocalizationConsumer, getText } from 'utility/loc-context';
@@ -30,18 +33,20 @@ function* produceObjectChildren(value: object, depth: number): IterableIterator<
         const childValue = (value as Record<string, unknown>)[key];
         if (typeof childValue === 'object' && childValue !== null && Object.keys(childValue).length > 0) {
             yield <TreeViewItem
+                        key={key}
                         className="json-tree-view-item-can-wrap"
                         titleContent={<Property keyKind="string" name={key} value={childValue} />}
                         children={produceChildren(childValue, depth + 1)}
                         aria-level={depth}
-                        />
+                        />;
         }
         else {
             yield <TreeViewItem
+                        key={key}
                         className="json-tree-view-item-can-wrap"
                         titleContent={<Property keyKind="string" name={key} value={childValue} />}
                         aria-level={depth}
-                        />
+                        />;
         }
     }
 }
@@ -51,18 +56,20 @@ function* produceArrayChildren(value: Array<unknown>, depth: number): IterableIt
         const childValue = value[i];
         if (typeof childValue === 'object' && childValue !== null && Object.keys(childValue).length > 0) {
             yield <TreeViewItem
+                        key={i}
                         className="json-tree-view-item-can-wrap"
                         titleContent={<Property keyKind="number" name={i} value={childValue} />}
                         children={produceChildren(childValue, depth + 1)}
                         aria-level={depth}
-                        />
+                        />;
         }
         else {
             yield <TreeViewItem
+                        key={i}
                         className="json-tree-view-item-can-wrap"
                         titleContent={<Property keyKind="number" name={i} value={childValue} />}
                         aria-level={depth}
-                        />
+                        />;
         }
     }
 }
@@ -83,9 +90,8 @@ function JSONViewComposed(props: IJSONViewProps) {
                     </TreeView>
                 );
             }}
-
         </LocalizationConsumer>
-    )
+    );
 }
 
 const JSONViewComposedMemoized = React.memo(JSONViewComposed);
