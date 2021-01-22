@@ -13,7 +13,7 @@
         default-src 'self' blob:;
         style-src 'self' 'unsafe-inline' https://devtools.azureedge.net;
         font-src 'self' https://static2.sharepointonline.com https://spoprod-a.akamaihd.net https://devtools.azureedge.net;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://devtools.azureedge.net;
+        script-src 'self' 'unsafe-inline' https://devtools.azureedge.net;
         img-src 'self' data:;
         worker-src 'self' https://devtools.azureedge.net data:;
       "
@@ -115,6 +115,81 @@ div.described-choices label {
 /* Radios appear to hover over dialogs and don't seem to need to be z-indexed. */
 input[type="radio"] {
   z-index: auto !important;
+}
+
+.json-view-item {
+  font-family: Consolas, 'Open Sans', 'Courier New', monospace;
+  font-size: 12px;
+}
+
+span.json-view-string {
+  color: #0451a5;
+}
+
+span.json-view-string.json-view-key {
+  color: #a31515;
+}
+
+span.json-view-key::after {
+  content: ': ';
+  color: #555;
+  white-space: pre;
+}
+
+span.json-view-string::before, span.json-view-string::after {
+  content: '"';
+  color: #555;
+}
+
+span.json-view-string.json-view-key::after {
+  content: '": ';
+}
+
+span.json-view-number {
+  color: #09885a;
+}
+
+.light span.json-view-number.json-view-key {
+  color: #0451a5
+}
+
+span.json-view-boolean {
+  color: #00f;
+}
+
+span.json-view-undefined-or-null {
+  color: #666;
+  font-style: italic;
+}
+
+.dark span.json-view-string, .dark span.json-view-boolean {
+  color: #ce9178;
+}
+
+.dark span.json-view-string.json-view-key {
+  color: #9cdcfe;
+}
+
+.dark span.json-view-key::after, .dark span.json-view-string::before, .dark span.json-view-string::after {
+  color: #aaa;
+}
+
+.dark span.json-view-number {
+  color: #b5cea8;
+}
+
+.dark span.json-view-undefined-or-null {
+  color: #bbb;
+}
+
+/* Unset the height of treeview items to allow the values to word-wrap without looking funky */
+.json-tree-view-item-can-wrap > div {
+  height: unset !important;
+}
+
+.json-view-string:not(.json-view-key) {
+  word-break:break-all;
+  white-space: break-spaces;
 }
 
     </style>

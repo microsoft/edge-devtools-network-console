@@ -113,5 +113,7 @@ export function recalculateAndApplyTheme(sourceCss: string, themeType: THEME_TYP
         --nc-theme-dividers: ${palette.splitterColor};
         background-color: ${themeType === 'light' ? 'white' : 'rgb(30,30,30)'};`
     );
+    document.body.classList.toggle(themeType, true);
+    document.body.classList.toggle(themeType === 'light' ? 'dark' : 'light', false);
     globalDispatch({ type: 'SET_THEME_TYPE', themeType, });
 }
