@@ -22,5 +22,6 @@
     "start": "node ./scripts/run-frontend",
     "run-tests:shared": "node ./scripts/run-package-task -- --package-name network-console-shared --task-name test",
     "ps": "node ./scripts/generate-pseudoloc"
-  }
+  },
+  "dependencies": {}
 }
