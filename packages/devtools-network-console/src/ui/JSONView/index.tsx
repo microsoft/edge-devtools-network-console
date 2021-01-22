@@ -31,22 +31,21 @@ function* produceObjectChildren(value: object, depth: number): IterableIterator<
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         const childValue = (value as Record<string, unknown>)[key];
+        const itemProps = {
+            key,
+            className: 'json-tree-view-item-can-wrap',
+            titleContent: (<Property keyKind="string" name={key} value={childValue} />),
+            'aria-level': depth,
+        };
+
         if (typeof childValue === 'object' && childValue !== null && Object.keys(childValue).length > 0) {
             yield <TreeViewItem
-                        key={key}
-                        className="json-tree-view-item-can-wrap"
-                        titleContent={<Property keyKind="string" name={key} value={childValue} />}
+                        {...itemProps}
                         children={produceChildren(childValue, depth + 1)}
-                        aria-level={depth}
                         />;
         }
         else {
-            yield <TreeViewItem
-                        key={key}
-                        className="json-tree-view-item-can-wrap"
-                        titleContent={<Property keyKind="string" name={key} value={childValue} />}
-                        aria-level={depth}
-                        />;
+            yield <TreeViewItem {...itemProps} />;
         }
     }
 }
@@ -54,22 +53,21 @@ function* produceObjectChildren(value: object, depth: number): IterableIterator<
 function* produceArrayChildren(value: Array<unknown>, depth: number): IterableIterator<React.ReactNode> {
     for (let i = 0; i < value.length; i++) {
         const childValue = value[i];
+        const itemProps = {
+            key: i,
+            className: 'json-tree-view-item-can-wrap',
+            titleContent: (<Property keyKind="number" name={i} value={childValue} />),
+            'aria-level': depth,
+        };
+
         if (typeof childValue === 'object' && childValue !== null && Object.keys(childValue).length > 0) {
             yield <TreeViewItem
-                        key={i}
-                        className="json-tree-view-item-can-wrap"
-                        titleContent={<Property keyKind="number" name={i} value={childValue} />}
+                        {...itemProps}
                         children={produceChildren(childValue, depth + 1)}
-                        aria-level={depth}
                         />;
         }
         else {
-            yield <TreeViewItem
-                        key={i}
-                        className="json-tree-view-item-can-wrap"
-                        titleContent={<Property keyKind="number" name={i} value={childValue} />}
-                        aria-level={depth}
-                        />;
+            yield <TreeViewItem {...itemProps} />;
         }
     }
 }
