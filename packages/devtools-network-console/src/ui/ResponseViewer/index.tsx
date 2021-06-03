@@ -31,6 +31,7 @@ import LocText from 'ui/LocText';
 import { ILocalized, LocalizationConsumer } from 'utility/loc-context';
 import TableHeader from './table/TableHeader';
 import { cancelRequestAction } from 'actions/response';
+import { getText, LocalizationContext } from 'utility/loc-context';
 
 interface IConnectedProps {
     response: INetConsoleResponseInternal;
@@ -100,6 +101,7 @@ export function ResponseViewer(props: IResponseViewerProps) {
 }
 
 function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
+    const locale = React.useContext(LocalizationContext);
     // TODO: Promote to per-request state in the Store
     const [currentTab, setCurrentTab] = React.useState<ActivityState>('body');
     const headerData = React.useMemo(() => {
@@ -175,7 +177,9 @@ function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
 
     return (
         <ContainerWithStatusBar>
-            <div className="response-tabs" {...Styles.HEIGHT_100}>
+            <div className="response-tabs" {...Styles.HEIGHT_100}
+                aria-live='polite' role='status'  
+                aria-label={ getText("RequestEditor.pivotTitleLabel", { locale })}>
                 <DesignSystemProvider designSystem={{ density: 2 }}>
                 <Pivot
                     activeId={currentTab}
@@ -229,7 +233,7 @@ function ResponseViewerWithLocale(props: IResponseViewerProps & ILocalized) {
 function NotIssued() {
     return (
         <div {...Styles.NO_REQ_STYLE}>
-            <div>
+            <div aria-live='assertive'>
                 <LocText textKey="Response.requestNotIssuedLabel" />
             </div>
         </div>
@@ -244,7 +248,7 @@ function Pending({ requestId }: { requestId: string; }) {
             <div>
                 <Progress circular style={{ transform: 'scale(2.0) translateY(-12px)' }} />
             </div>
-            <div>
+            <div aria-live='assertive'>
                 <LocText textKey="Response.requestPendingLabel" />
             </div>
             {requestId && cookie && (<div>
@@ -262,7 +266,7 @@ function ErrorBelowApplication() {
             <h2>
                 <LocText textKey="Response.requestFailedTitleLabel" />
             </h2>
-            <p>
+            <p aria-live='assertive'>
                 <LocText textKey="Response.requestFailedDescriptionLabel" />
             </p>
         </div>
