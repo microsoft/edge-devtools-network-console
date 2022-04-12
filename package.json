@@ -11,7 +11,7 @@
   "devDependencies": {
     "recursive-copy": "^2.0.10",
     "rimraf": "^3.0.2",
-    "simple-git": "^2.5.0"
+    "simple-git": "^3.5.0"
   },
   "scripts": {
     "clean": "node ./scripts/clean",
