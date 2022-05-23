@@ -9,6 +9,11 @@
   "version": "0.11.1-preview",
   "private": true,
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "ethers": "^5.6.7",
+    "hardhat": "^2.9.6",
+    "node-fetch": "^2.6.7",
     "recursive-copy": "^2.0.10",
     "rimraf": "^3.0.2",
     "simple-git": "^2.5.0"
@@ -23,5 +28,8 @@
     "run-tests:shared": "node ./scripts/run-package-task -- --package-name network-console-shared --task-name test",
     "ps": "node ./scripts/generate-pseudoloc"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
+    "dotenv": "^16.0.1"
+  }
 }
