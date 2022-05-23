@@ -21,7 +21,7 @@ module.exports = {
     networks: {
         hardhat: {},
         rinkeby: {
-            url: `https://eth-rinkeby.alchemyapi.io/v2/${INFURA_KEY}`,
+            url: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
             accounts: [`0x${ACCOUNT_PRIVATE_KEY}`]
         },
         ethereum: {
