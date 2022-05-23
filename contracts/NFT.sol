@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8 .14;
+pragma solidity 0.8 .4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -20,7 +20,7 @@ contract NFT is ERC721, PullPayment, Ownable {
     /// @dev Base token URI used as a prefix by tokenURI().
     string public baseTokenURI;
 
-    constructor() ERC721("dewed", "ETH") {
+    constructor() ERC721("CyberPunk", "PUNK") {
         baseTokenURI = "https://metadata-url.com/my-metadata";
     }
 
@@ -31,7 +31,7 @@ contract NFT is ERC721, PullPayment, Ownable {
 
         currentTokenId.increment();
         uint256 newItemId = currentTokenId.current();
-        _safeMint(recipient, newItemId)
+        _safeMint(recipient, newItemId);
         return newItemId;
     }
 
