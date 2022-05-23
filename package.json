@@ -2,7 +2,7 @@
   "name": "edge-devtools-network-console",
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/edge-devtools-network-console.git"
+    "url": "git+https://github.com/microsoft/edge-devtools-network-console.git"
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -30,6 +30,13 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
-    "dotenv": "^16.0.1"
-  }
+    "dotenv": "^16.0.1",
+    "npm": "^8.10.0"
+  },
+  "description": "Network Console (working title) is an experimental component for Chromium-based DevTools for making synthetic\r network requests over HTTP. It can be used during the dev-test loop for web APIs.",
+  "bugs": {
+    "url": "https://github.com/microsoft/edge-devtools-network-console/issues"
+  },
+  "homepage": "https://github.com/microsoft/edge-devtools-network-console#readme",
+  "main": "hardhat.config.js"
 }
