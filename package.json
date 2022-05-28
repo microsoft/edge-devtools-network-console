@@ -38,5 +38,16 @@
     "url": "https://github.com/microsoft/edge-devtools-network-console/issues"
   },
   "homepage": "https://github.com/microsoft/edge-devtools-network-console#readme",
-  "main": "hardhat.config.js"
+  "main": "hardhat.config.js",
+  "keywords": [
+    "npx",
+    "hardhat",
+    "verify",
+    "truffle",
+    "yarn",
+    "npm",
+    "node",
+    "nodejs",
+    "json"
+  ]
 }
