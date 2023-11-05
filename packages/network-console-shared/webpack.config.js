@@ -14,7 +14,7 @@ const config = {
 
   entry: './src/index.ts',
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
+    // The bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     libraryTarget: 'commonjs2',
@@ -22,7 +22,7 @@ const config = {
   },
   devtool: 'source-map',
   resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
+    // Support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: ['.ts', '.js']
   },
   plugins: [
@@ -52,4 +52,5 @@ const config = {
     ]
   }
 };
+
 module.exports = config;
